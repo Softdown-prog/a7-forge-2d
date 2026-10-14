@@ -1,3 +1,6 @@
+import {mountCloudControls} from "./ui/cloudControls.js";
+import {buyDiscCopier,quoteDiscCopier,discMediaCost,discCopiesToday,setDiscCopyPrice,DISC_COPIER_YEAR,DISC_COPIES_PER_DAY,MAX_DISC_PRICE} from "./sim/discCopy.js";
+import {drawDiscCopier} from "./render/discCopierArt.js";
 import {installGameViewport} from "./ui/gameViewport.js";
 import {createLayoutEditor} from "./ui/layoutEditor.js";
 import {editableObjects} from "./sim/editableObjects.js";
@@ -14,6 +17,7 @@ import {hourlyPriceInsight,hourlyPriceScenarios,energyYearOutlook} from "./sim/p
 import {annualHourlyCeiling,allowableHourlyPrice,priceIndex,yearFromMinutes,
  SESSION_PACKAGES,sessionPrice,clampPriceToEra,ipcaLastYear,MIN_HOURLY_PRICE} from "./sim/historicalEconomy.js";
 import { GAME_SAVE_KEY, type GameState, type Item } from "./sim/types.js";
+import {GAME_LAST_MINUTE} from "./sim/mailCalendar.js";
 import { SceneRenderer } from "./render/scene.js";
 import {SceneMotion} from "./render/motion.js";
 import { promotionCost, launchPromotion, isPromotionActive, promotionMinutesRemaining } from "./sim/promotion.js";
@@ -26,7 +30,10 @@ import {reviewNotices,readNotice,unreadNotices,hireContentProgrammer,missingWind
 import {decisionOptions,chooseDecision} from "./sim/decisions.js";
 import {gameYear,INTERNET_ERAS,WINDOWS_ERAS,installedWindows,licenseWindows} from "./sim/era.js";
 import {GPU_CATALOG,buyGpu,installedGpu,gpuSpec,type GpuId} from "./sim/gpu.js";
-import {requestCleaning,pcUnderRepair} from "./sim/services.js";
+import {GPU_GAME_CATALOG,quoteGpuGame,licenseGpuGame,gpuGameHourlyRate} from "./sim/gpuGames.js";
+import {ERA_GAME_CATALOG,quoteEraGame,licenseEraGame,eraGameVisitorMultiplier} from "./sim/eraGames.js";
+import {requestCleaning,pcUnderRepair,binStatus} from "./sim/services.js";
+import {serviceVisitCost} from "./sim/historicalEconomy.js";
 import {LCD_CATALOG,buyLcdKit,installedLcd,lcdSpec,stationModelName,stationOccupied,type LcdId} from "./sim/computerModels.js";
 import {drawRetroComputer} from "./render/retroComputer.js";
 import {buyPart,buyPlatform,windowsHardwareIssues,hardwareFor,buildParts,requiredPsuWatts,type HardwareKind,HARDWARE_LABELS} from "./sim/hardware.js";
@@ -68,15 +75,28 @@ menuPreview.customers=[0,1].map(i=>{
 });
 menuRenderer?.draw(menuPreview,0);
 
+/** O correio ganha um sorteio novo por partida; o RNG da simulação continua independente. */
+function newGameForPlayer(seed=72421,mode:"classic"|"historical"="historical"):GameState{
+ const fresh=createGame(seed,mode);
+ if(typeof crypto!=="undefined"&&typeof crypto.getRandomValues==="function"){
+  fresh.mailScheduleSeed=crypto.getRandomValues(new Uint32Array(1))[0]??(seed>>>0);
+ }else{
+  fresh.mailScheduleSeed=(Date.now()^Math.floor(Math.random()*0x100000000))>>>0;
+ }
+ return fresh;
+}
 function readSave(): GameState {
   try {
     const data = localStorage.getItem(GAME_SAVE_KEY);
     if (data) {
       const decoded: unknown = JSON.parse(data);
-      if(isValidSave(decoded)){clampPriceToEra(decoded);return decoded;}
+      if(isValidSave(decoded)){
+        if(decoded.totalMinutes>GAME_LAST_MINUTE){decoded.totalMinutes=GAME_LAST_MINUTE;decoded.leftoverMinutes=0;}
+        clampPriceToEra(decoded);return decoded;
+      }
     }
   } catch { /* Navegação privada, save antigo ou JSON inválido. */ }
-  return createGame(72421,"historical");
+  return newGameForPlayer(72421,"historical");
 }
 let game = readSave();
 const startScreen=document.querySelector<HTMLElement>("#start-screen");
@@ -144,6 +164,14 @@ importFile.addEventListener("change",async()=>{
   announceSave("Partida importada com sucesso. Clique em Continuar.");
  }catch(e){announceSave(e instanceof Error?e.message:"Não foi possível importar o arquivo.");}
 });
+mountCloudControls(saveMessage,()=>game,(state)=>{
+ localStorage.setItem(GAME_SAVE_KEY,JSON.stringify(state));
+ game=state;hasSavedGame=true;game.keyboardEffects?.splice(0);sceneMotion.reset();soundscape.stopKeyboard();
+ previousServed=game.served;previousPurchases=game.purchases;
+ paymentPopups.length=0;salePopups.length=0;speechPopups.length=0;
+ continueButton!.disabled=false;exportButton!.disabled=false;
+ announceSave("Partida da nuvem restaurada. Clique em Continuar.");
+});
 function showMenu():void{
  if(layoutEditor.active)layoutEditor.close();
  sceneMotion.reset();
@@ -161,7 +189,7 @@ function beginPlay():void{
 }
 document.getElementById("menu-new")?.addEventListener("click",()=>{
  if(hasSavedGame&&!window.confirm("Criar uma nova partida e substituir o progresso salvo?"))return;
- game=createGame(72421,"historical");paymentPopups.length=0;salePopups.length=0;speechPopups.length=0;
+ game=newGameForPlayer(72421,"historical");paymentPopups.length=0;salePopups.length=0;speechPopups.length=0;
  previousServed=0;previousPurchases=0;save();beginPlay();
 });
 continueButton.addEventListener("click",()=>{if(hasSavedGame)beginPlay();});
@@ -186,7 +214,6 @@ let purchaseRotation:0|1|2|3=0;
 let pendingWall:WallSegment|null=null;
 const layoutEditor=createLayoutEditor(canvas,()=>game,()=>{stopPlacement();shopOpen=false;adminOpen=false;noticesOpen=false;soundscape.stopKeyboard();renderUI();},()=>{save();renderUI();});
 installGameViewport(canvas);
-document.getElementById("organize-layout")?.addEventListener("click",()=>layoutEditor.open());
 
 let adminOpen = false;
 let noticesOpen=false;
@@ -198,12 +225,13 @@ let lastEventSignature="";
 const paymentPopups:Array<{amount:number;x:number;y:number;age:number}>=[];
 const salePopups:Array<{amount:number;x:number;y:number;age:number}>=[];
 const speechPopups:Array<{text:string;x:number;y:number;kind:"complaint"|"praise";age:number}>=[];
-function paintPayments(dt:number):void {
+function paintPayments(dt:number,visible=true):void {
   const camera=cameraForGame(game);
   for(let i=paymentPopups.length-1;i>=0;i--){
     const effect=paymentPopups[i]!;
     effect.age+=dt;
     if(effect.age>=1.35){paymentPopups.splice(i,1);continue;}
+    if(!visible)continue;
     const at=iso({x:effect.x,y:effect.y},camera,94);
     const alpha=Math.min(1,(1.35-effect.age)/0.4);
     view!.save();view!.globalAlpha=alpha;
@@ -218,12 +246,13 @@ function paintPayments(dt:number):void {
   }
 }
 
-function paintSales(dt:number):void {
+function paintSales(dt:number,visible=true):void {
  const camera=cameraForGame(game);
  for(let i=salePopups.length-1;i>=0;i--){
   const effect=salePopups[i]!;
   effect.age+=dt;
   if(effect.age>=1.35){salePopups.splice(i,1);continue;}
+  if(!visible)continue;
   const at=iso({x:effect.x,y:effect.y},camera,110);
   view!.save();
   view!.globalAlpha=Math.min(1,(1.35-effect.age)/0.4);
@@ -236,11 +265,12 @@ function paintSales(dt:number):void {
  }
 }
 
-function paintSpeech(dt:number):void {
+function paintSpeech(dt:number,visible=true):void {
  const camera=cameraForGame(game);
  for(let i=speechPopups.length-1;i>=0;i--){
   const b=speechPopups[i]!;
   b.age+=dt;if(b.age>=2.6){speechPopups.splice(i,1);continue;}
+  if(!visible)continue;
   const p=iso({x:b.x,y:b.y},camera,146);
   const alpha=Math.min(1,(2.6-b.age)/0.4);
   view!.save();view!.globalAlpha=alpha;view!.font="bold 13px system-ui,sans-serif";
@@ -288,8 +318,7 @@ button("open-shop",()=>{if(layoutEditor.active)layoutEditor.close();shopOpen=!sh
 button("close-shop",()=>{shopOpen=false;renderUI();});
 button("demolish-walls",()=>{
  if(!((game.interiorWalls?.length??0)+(game.interiorDoors?.length??0)))return;
- wallMode="remove";placingKind=null;relocating=false;hoveredWall=null;pendingWall=null;placementNotice="";
- shopOpen=false;adminOpen=false;renderUI();canvas.parentElement?.scrollIntoView({block:"nearest",behavior:"instant"});
+ layoutEditor.open(true);
 });
 button("rotate-furniture",()=>{
  if(placingKind&&placingKind!=="poster"){purchaseRotation=((purchaseRotation+1)%4) as 0|1|2|3;renderUI();return;}
@@ -322,6 +351,7 @@ shopCatalog?.addEventListener("click",event=>{
    return;
  }
  const result=id==="expand"?expandShop(game):id==="computer"?buyComputer(game):
+   id==="disc-copier"?buyDiscCopier(game):
    id.startsWith("extend-")?expandDirection(game,id.slice(7) as ExtensionDirection):{ok:false,message:"Compra desconhecida."};
  applyResult(game,result);renderUI();save();
 });
@@ -360,6 +390,22 @@ gpuList?.addEventListener("click",event=>{
  applyResult(game,buyGpu(game,selectedGpuPc,id as GpuId));renderUI();save();
 });
 const licensePanel=document.getElementById("windows-license-list");
+const gpuGamePanel=document.getElementById("gpu-game-catalog");
+const eraGamePanel=document.getElementById("era-game-catalog");
+eraGamePanel?.addEventListener("click",event=>{
+ const action=event.target instanceof Element?event.target.closest("button[data-era-game-buy]"):null;
+ if(!(action instanceof HTMLButtonElement)||action.disabled)return;
+ const id=action.dataset.eraGameBuy;
+ if(!id||!ERA_GAME_CATALOG.some(title=>title.id===id))return;
+ applyResult(game,licenseEraGame(game,id));renderUI();save();
+});
+gpuGamePanel?.addEventListener("click",event=>{
+ const button=event.target instanceof Element?event.target.closest("button[data-gpu-game-buy]"):null;
+ if(!(button instanceof HTMLButtonElement)||button.disabled)return;
+ const id=button.dataset.gpuGameBuy;
+ if(!id||!GPU_GAME_CATALOG.some(x=>x.id===id))return;
+ applyResult(game,licenseGpuGame(game,id));renderUI();save();
+});
 licensePanel?.addEventListener("click",event=>{
  const node=event.target instanceof Element?event.target.closest("button"):null;
  if(!(node instanceof HTMLButtonElement)||node.disabled)return;
@@ -417,6 +463,14 @@ function activateAdminTab(tab:string):void{
 }
 for(const tab of tabs)tab.addEventListener("click",()=>{activateAdminTab(tab.dataset.adminTab??"prices");renderUI();});
 const retailControls=document.getElementById("retail-price-controls");
+const discControls=document.getElementById("disc-copy-price-controls");
+discControls?.addEventListener("click",event=>{
+ const button=event.target instanceof Element?event.target.closest("button[data-disc-kind]"):null;
+ if(!(button instanceof HTMLButtonElement)||button.disabled||!game.discCopier)return;
+ const kind=button.dataset.discKind,delta=Number(button.dataset.delta);
+ if((kind!=="cd"&&kind!=="dvd")||![-1,1].includes(delta))return;
+ applyResult(game,setDiscCopyPrice(game,kind,game.discCopier.prices[kind]+delta));renderUI();save();
+});
 retailControls?.addEventListener("click",event=>{
  const target=event.target instanceof Element?event.target.closest("button"):null;
  if(!(target instanceof HTMLButtonElement))return;
@@ -430,7 +484,7 @@ retailControls?.addEventListener("click",event=>{
 activateAdminTab(activeAdminTab);
 button("reset-game",()=>{
   if(!window.confirm("Recomeçar o sonho da lan house? O progresso salvo será apagado.")) return;
-  game=createGame();previousServed=0;previousPurchases=0;paymentPopups.length=0;salePopups.length=0;speechPopups.length=0;save();renderUI();
+  game=newGameForPlayer(72421,"classic");previousServed=0;previousPurchases=0;paymentPopups.length=0;salePopups.length=0;speechPopups.length=0;save();renderUI();
 });
 const placementToolbar=document.getElementById("placement-toolbar");
 const placementHelp=document.getElementById("placement-help");
@@ -515,7 +569,7 @@ canvas.addEventListener("click",e=>{
   }
   if(wallMode){
     const wall=pickWall(x,y);
-    if(!wall){placementNotice="Toque na borda de um tile para selecionar o segmento.";renderUI();return;}
+    if(!wall){placementNotice="Toque em uma das linhas do chão para escolher o trecho da divisória.";renderUI();return;}
     pendingWall=wall;hoveredWall=wall;placementNotice="Segmento selecionado. Confira a prévia e toque em Confirmar segmento.";
     renderUI();return;
   }
@@ -548,9 +602,15 @@ canvas.addEventListener("click",e=>{
   }
   if(renderer.hitOwner(x,y)){soundscape.click();adminOpen=!adminOpen;if(adminOpen)shopOpen=false;renderUI();}
 });
-function renderShop():void{
+const panelRevisions=new Map<string,string>();
+function panelChanged(name:string,revision:unknown,force:boolean):boolean{
+ const key=JSON.stringify(revision);if(!force&&panelRevisions.get(name)===key)return false;
+ panelRevisions.set(name,key);return true;
+}
+function renderShop(force=true):void{
  if(!shopOpen)return;
  if(!shopCatalog)return;
+ if(!panelChanged("shop",[game.cash,game.discCopier,gameYear(game),game.expansionLevel,game.installedPcs,game.annexPcs,game.roomExtensions,game.furniture,game.furniturePlacements,game.objectPlacements,game.removedBuiltPosters,game.interiorWalls,game.interiorDoors],force))return;
  const organize=document.querySelector<HTMLButtonElement>("#organize-furniture");
  if(organize){const count=editableObjects(game).length;organize.disabled=false;organize.textContent="Organizar salão: "+count+" objetos";}
  const demolish=document.querySelector<HTMLButtonElement>("#demolish-walls");
@@ -560,12 +620,16 @@ function renderShop():void{
  if(cash){
    const b=roomBounds(game),e=game.roomExtensions??{west:0,east:0,south:0};
    cash.textContent="Caixa R$ "+game.cash+" · PCs "+pcCount(game)+"/"+(3+game.expansionLevel*2+annexComputerSlots(game).length)+
-     " · Piso "+(b.maxX-b.minX)+"×"+(b.maxY-b.minY)+" tiles · Oeste "+e.west+"/5 · Leste "+e.east+"/5 · Norte "+(e.north??0)+"/5 · Salas "+wallZoneCount(game);
+     " · Tamanho do salão "+(b.maxX-b.minX)+"×"+(b.maxY-b.minY)+" · Ampliações: esquerda "+e.west+"/5 · direita "+e.east+"/5 · fundos "+(e.north??0)+"/5 · Salas "+wallZoneCount(game);
  }
  shopCatalog.replaceChildren();
  for(const item of SHOP_CATALOG){
   const card=document.createElement("article");card.className="shop-card";
   const art=document.createElement("div");art.className="shop-art";art.dataset.item=item.id;art.setAttribute("aria-hidden","true");art.innerHTML=iconMarkup(catalogueIcon(item.id));
+  if(item.id==="disc-copier"){
+   art.replaceChildren();const preview=document.createElement("canvas");preview.width=640;preview.height=360;
+   const ctx=preview.getContext("2d");if(ctx)drawDiscCopier(ctx,640,360);art.append(preview);
+  }
   const title=document.createElement("h3");title.textContent=item.label;
   const category=document.createElement("small");category.textContent=item.category;
   const description=document.createElement("p");description.textContent=item.description;
@@ -582,12 +646,16 @@ function renderShop():void{
   const price=shopPrice(game,item.id);
   button.disabled=full||game.cash<price;
   button.textContent=full?(max>0?"Sem espaço livre":"Limite atingido"):game.cash<price?"Caixa insuficiente · R$ "+price:"Comprar · R$ "+price;
+  if(item.id==="disc-copier"){
+   const quote=quoteDiscCopier(game);button.disabled=!quote.ok;button.title=quote.message;
+   button.textContent=game.discCopier?"Adquirida · serviço ativo":gameYear(game)<DISC_COPIER_YEAR?"🔒 Disponível em 2001":game.cash<price?"Caixa insuficiente · R$ "+price:"Comprar · R$ "+price;
+  }
   card.append(art,category,title,description,button);
   if(max>0){const owned=document.createElement("span");owned.textContent="Instalados: "+count+" · posições livres: "+availablePlacementSlots(game,item.id as FurnitureKind).length;card.append(owned);}
   shopCatalog.append(card);
  }
 }
-function renderUI():void {
+function renderUI(liveOnly=false):void {
   // TypeScript não propaga a checagem inicial de nulidade para callbacks posteriores.
   if (!status || !admin || !events || !controls) return;
   admin.hidden=!adminOpen;
@@ -595,7 +663,7 @@ function renderUI():void {
   const unread=unreadNotices(game),badge=document.getElementById("notices-count");
   if(badge){badge.hidden=unread===0;badge.textContent=String(unread);}
   document.getElementById("open-notices")?.setAttribute("aria-expanded",String(noticesOpen));
-  if(noticesList&&noticesOpen){
+  if(noticesList&&noticesOpen&&panelChanged("notices",[game.cash,game.notices,game.contentFilterInstalled,game.pcWindowsLicenses,game.licensedGames,game.electricalDeadlineDay,game.electricalInspectionFineApplied],!liveOnly)){
     noticesList.replaceChildren();
     if(!(game.notices?.length)){const empty=document.createElement("p");empty.textContent="Nenhuma mensagem recebida por enquanto.";noticesList.append(empty);}
     for(const n of game.notices??[]){
@@ -609,6 +677,15 @@ function renderUI():void {
       if(n.id==="safety"&&!game.contentFilterInstalled){action.dataset.noticeAction="programmer";action.textContent="Contratar programador · R$ 320";action.disabled=game.cash<320;actions.append(action);}
       if((n.id==="windows"||n.id==="windows-fine")&&missingWindowsLicenses(game)>0){action.dataset.noticeAction="windows";action.textContent="Regularizar Windows";actions.append(action);}
       if((n.id==="games"||n.id==="copyright")&&!game.licensedGames){action.dataset.noticeAction="games";action.textContent="Licenciar jogos · R$ 450";actions.append(action);}
+      const record=game.storyRecords?.find(r=>n.id===r.id||n.id===r.id+":followup");
+      if(record&&(record.stage==="pending"||record.stage==="ending")){
+        const progress=document.createElement("small");
+        progress.className="notice-followup-hint";
+        progress.textContent=record.stage==="pending"
+          ?"Consequências em acompanhamento: nova carta a partir do dia "+record.dueDay+"."
+          :"O resultado será registrado na correspondência a partir do dia "+record.dueDay+".";
+        actions.append(progress);
+      }
       const options=decisionOptions(n.id,game);
       if(n.id==="electrical-inspection"&&game.electricalDeadlineDay!==undefined&&!n.resolved){
         const pending=document.createElement("strong");
@@ -621,7 +698,7 @@ function renderUI():void {
         if(n.resolved){const done=document.createElement("strong");done.textContent="✓ Decisão tomada: "+(options.find(o=>o.id===n.resolved)?.label??n.resolved);actions.append(done);}
         else for(const option of options){
           if(n.id==="electrical-inspection"&&option.id==="electrical-defer"&&(game.electricalExtensionUsed||game.electricalInspectionFineApplied))continue;
-          const choice=document.createElement("button");choice.className="slice";choice.type="button";choice.dataset.decision=n.id;choice.dataset.choice=option.id;choice.textContent=option.label+" — "+option.description;choice.title=option.description;choice.disabled=game.cash<option.cost;actions.append(choice);}
+          const choice=document.createElement("button");choice.className="slice";choice.type="button";choice.dataset.decision=n.id;choice.dataset.choice=option.id;choice.textContent=option.label+" — "+option.description;choice.title=option.description;choice.disabled=option.cost>0&&game.cash<option.cost;actions.append(choice);}
       }
       card.append(title,date,body,actions);noticesList.append(card);
     }
@@ -644,17 +721,18 @@ function renderUI():void {
   if(shop)shop.hidden=!shopOpen;
   const shopButton=document.querySelector<HTMLButtonElement>("#open-shop");
   if(shopButton)shopButton.setAttribute("aria-expanded",String(shopOpen));
-  renderShop();
+  renderShop(!liveOnly);
   activateAdminTab(activeAdminTab);
   const days=dayNumber(game)-1;
   const year=gameYear(game);
   const month=Math.floor((days%360)/30)+1;
   const monthDay=days%30+1;
   const calendar=document.getElementById("calendar-hud");
-  if(calendar)calendar.textContent="Dia "+dayNumber(game)+" · "+String(monthDay).padStart(2,"0")+"/"+String(month).padStart(2,"0")+"/"+year+" · "+displayTime(game);
+  if(calendar){const html=iconMarkup("calendar")+(game.totalMinutes>=GAME_LAST_MINUTE?"Fim do calendário · ":"")+"Dia "+dayNumber(game)+" · "+String(monthDay).padStart(2,"0")+"/"+String(month).padStart(2,"0")+"/"+year+" · "+displayTime(game);if(calendar.innerHTML!==html)calendar.innerHTML=html;}
   const weather=document.getElementById("weather-hud");
-  if(weather)weather.textContent=game.weather==="rain"?"Chuva":"Tempo firme";
-  const setText=(id:string,value:string):void=>{const node=document.getElementById(id);if(node) node.textContent=value;};
+  if(weather){const html=iconMarkup(game.weather==="rain"?"rain":"sun")+(game.weather==="rain"?"Chuva":"Tempo firme");if(weather.innerHTML!==html)weather.innerHTML=html;}
+  const setText=(id:string,value:string):void=>{const node=document.getElementById(id);if(node&&node.textContent!==value)node.textContent=value;};
+  if(adminOpen&&panelChanged("admin",[activeAdminTab,year,game.cash,game.revenue,game.expenses,game.served,game.inventory,game.internetTier,online(game),game.pricePerHour,game.economyVersion,game.supplierTier,game.expansionLevel,game.roomExtensions,game.pcTiers,game.pcWindows,game.pcWindowsLicenses,game.pcGpus,game.pcLcdModels,game.pcComponents,game.licensedGames,game.licensedEraGames,game.licensedGpuGames,game.discCopier,discCopiesToday(game),Array.from({length:pcCount(game)},(_,i)=>stationOccupied(game,i)),game.pcWear?.map(w=>Math.ceil(w)),game.repairJobs?.map(j=>[j.pc,j.phase,Math.floor(j.progress/j.duration*4)]),game.binFill?.map(Math.round),game.overflowWaste??0,!!game.cleaningJob,game.promotionDay,selectedLcdPc,selectedGpuPc,selectedHardwareTab,activeAdminTab==="finance"?Math.floor(game.totalMinutes/4):null],!liveOnly)){
   const money=(n:number):string=>"R$ "+n.toLocaleString("pt-BR");
   const monetaryIndex=priceIndex(year);
   const historical=game.economyVersion===2;
@@ -741,6 +819,28 @@ function renderUI():void {
     }
     line.append(name,actions);retailControls.append(line);
    }
+  }
+  const discPanel=document.getElementById("disc-copy-panel");
+  if(discPanel)discPanel.hidden=!game.discCopier;
+  if(discControls&&game.discCopier&&activeAdminTab==="prices"){
+   discControls.replaceChildren();
+   for(const kind of ["cd","dvd"] as const){
+    const row=document.createElement("div");row.className="price-control";
+    const name=document.createElement("span");name.innerHTML=iconMarkup("disc");name.append("Cópia de "+kind.toUpperCase());
+    const actions=document.createElement("div");actions.className="price-actions";
+    for(const delta of [-1,1]){
+     if(delta===1){const amount=document.createElement("strong");amount.textContent=inReais(game.discCopier.prices[kind]);actions.append(amount);}
+     const b=document.createElement("button");b.type="button";b.className="slice";b.dataset.discKind=kind;b.dataset.delta=String(delta);b.textContent=delta<0?"−":"+";
+     b.setAttribute("aria-label",(delta<0?"Reduzir":"Aumentar")+" preço da cópia de "+kind.toUpperCase());
+     b.disabled=delta<0?game.discCopier.prices[kind]<=1:game.discCopier.prices[kind]>=MAX_DISC_PRICE;actions.append(b);
+    }
+    const cost=document.createElement("small");cost.className="disc-copy-cost";const margin=game.discCopier.prices[kind]-discMediaCost(game,kind);
+    cost.textContent="Mídia: "+inReais(discMediaCost(game,kind))+" · resultado por cópia: "+inReais(margin)+(margin<0?" · este preço dá prejuízo":"");
+    row.append(name,actions,cost);discControls.append(row);
+   }
+   const copier=game.discCopier;
+   setText("disc-copy-summary",copier.cdCopies+" CDs · "+copier.dvdCopies+" DVDs · faturamento "+inReais(copier.revenue)+" · mídias "+inReais(copier.expenses)+" · resultado do serviço "+inReais(copier.revenue-copier.expenses)+" (antes do investimento na copiadora).");
+   setText("disc-copy-capacity",discCopiesToday(game)+" de "+DISC_COPIES_PER_DAY+" cópias feitas hoje. Preços altos reduzem a procura; o orçamento do cliente limita o pedido.");
   }
   setText("stock", "Bebidas "+game.inventory.soda+" · Doces "+game.inventory.candy+" · Salgadinhos "+game.inventory.snacks);
   setText("supplier-status",supplierLevel(game)===2?"Fornecedor parceiro · 20% de desconto nos novos lotes":"Fornecedor básico · preços de atacado normais");
@@ -908,8 +1008,87 @@ function renderUI():void {
       line.append(title,choices);licensePanel.appendChild(line);
     }
   }
-  setText("bin-status","Lixeiras: "+(game.binFill??[0,0]).map(n=>Math.round(n)+"%").join(" · ")+" · faxineiro "+(game.cleaningJob?"em serviço":"disponível"));
-  const cleanButton=document.querySelector<HTMLButtonElement>("#clean-bins");if(cleanButton)cleanButton.disabled=!!game.cleaningJob||!(game.binFill??[]).some(x=>x>=10)||game.cash<55;
+  if(eraGamePanel&&adminOpen&&activeAdminTab==="licenses"){
+    eraGamePanel.replaceChildren();
+    const owned=game.licensedEraGames??[];
+    const summary=document.createElement("p");summary.className="era-game-summary";
+    summary.textContent=owned.length+" de "+ERA_GAME_CATALOG.length+" títulos licenciados · variedade amplia a procura em "+Math.round((eraGameVisitorMultiplier(game)-1)*1000)/10+"%, até 15%.";
+    eraGamePanel.append(summary);
+    for(const releaseYear of [1998,1999]){
+      const section=document.createElement("section");section.className="era-game-section";
+      const groupTitle=document.createElement("h4");
+      const titles=ERA_GAME_CATALOG.filter(title=>title.year===releaseYear);
+      groupTitle.textContent=releaseYear+" · "+titles.filter(title=>owned.some(id=>id===title.id)).length+" de 5 jogos";
+      const grid=document.createElement("div");grid.className="era-game-grid";
+      for(const title of titles){
+        const quote=quoteEraGame(game,title.id),bought=owned.some(id=>id===title.id),locked=year<title.year;
+        const card=document.createElement("article");card.className="era-game-card"+(locked?" era-game-locked":"")+(bought?" era-game-owned":"");
+        const cover=document.createElement("div");cover.className="era-game-cover";cover.dataset.theme=title.theme;
+        const release=document.createElement("small");release.className="era-cover-release";release.textContent="SOFTDOWN · "+title.year;
+        const symbol=document.createElement("span");symbol.className="era-cover-symbol";symbol.setAttribute("aria-hidden","true");symbol.textContent=title.symbol;
+        const coverName=document.createElement("strong");coverName.className="era-cover-title";coverName.textContent=title.name;
+        const genre=document.createElement("small");genre.className="era-cover-genre";genre.textContent=title.genre+" · EDIÇÃO PC";
+        cover.append(release,symbol,coverName,genre);
+        const details=document.createElement("div");details.className="era-game-details";
+        const name=document.createElement("strong");name.textContent=title.name;
+        const info=document.createElement("p");info.textContent=title.description;
+        const meta=document.createElement("small");meta.textContent=title.genre+" · "+title.year+" · licença da lan house · R$ "+title.cost;
+        const status=document.createElement("small");status.className="era-game-status";
+        status.textContent=bought?"✓ Licença ativa no estabelecimento":quote.ok?"Pronto para licenciar":quote.message;
+        const button=document.createElement("button");button.type="button";button.className="slice";button.dataset.eraGameBuy=title.id;
+        button.textContent=bought?"✓ Licenciado":locked?"🔒 Chega em "+title.year:quote.ok?"Licenciar · R$ "+title.cost:"Indisponível";
+        button.disabled=!quote.ok;button.title=quote.message;
+        details.append(name,info,meta,status,button);card.append(cover,details);grid.append(card);
+      }
+      section.append(groupTitle,grid);eraGamePanel.append(section);
+    }
+  }
+  if(gpuGamePanel&&adminOpen&&activeAdminTab==="licenses"){
+    gpuGamePanel.replaceChildren();
+    if(game.economyVersion!==2||year<2005){
+      const note=document.createElement("p");
+      note.textContent=game.economyVersion!==2
+       ?"Os jogos com GPU são um recurso do modo histórico."
+       :"Novos jogos que exigem placa de vídeo chegam em 2005.";
+      gpuGamePanel.append(note);
+    }else for(const title of GPU_GAME_CATALOG){
+      const card=document.createElement("div");card.className="price-control";
+      const heading=document.createElement("strong");
+      heading.textContent=title.name+" · "+title.year;
+      const requirements=document.createElement("p");requirements.className="catalog-game-note";
+      const gpu=GPU_CATALOG.find(x=>x.id===title.minGpu);
+      const os=WINDOWS_ERAS.find(x=>x.id===title.minWindows);
+      requirements.textContent="Requer GPU "+(gpu?.name??title.minGpu)+
+       " ou superior e "+(os?.name??title.minWindows)+" licenciado.";
+      const quote=quoteGpuGame(game,title.id);
+      const status=document.createElement("p");status.className="catalog-game-note";
+      const bought=game.licensedGpuGames?.includes(title.id)===true;
+      status.textContent=(bought?"Licenciado. ":quote.message+" ")+
+       (quote.eligiblePcs.length
+        ?"Roda no(s) PC(s) "+quote.eligiblePcs.map(i=>i+1).join(", ")+"."
+        :"Nenhuma máquina compatível ainda.")+
+       " Adicional máximo de R$ "+title.hourlyBonus.toFixed(2)+
+       "/h, somente para clientes de jogos avançados e dentro do teto anual.";
+      if(bought&&quote.eligiblePcs.length){
+        status.textContent+=" Valor atual por hora: "+
+         quote.eligiblePcs.map(i=>"PC "+(i+1)+" R$ "+gpuGameHourlyRate(game,i).toFixed(2)).join(" · ")+".";
+      }
+      const action=document.createElement("button");
+      action.type="button";action.className="slice";action.dataset.gpuGameBuy=title.id;
+      action.textContent=bought?"Licenciado":year<title.year
+       ?"🔒 Disponível em "+title.year:"Licenciar · R$ "+title.cost;
+      action.disabled=!quote.ok;
+      action.title=quote.ok?"Licença para todo o estabelecimento, uso restrito a máquinas compatíveis.":quote.message;
+      card.append(heading,requirements,status,action);
+      gpuGamePanel.append(card);
+    }
+  }
+  setText("bin-status","Lixeiras: "+(game.binFill??[0,0]).map((n,i)=>{
+    const state=binStatus(n);
+    return (i+1)+": "+(state==="empty"?"Vazia":state==="full"?"Cheia":"Enchendo · "+Math.round(n)+"%");
+  }).join(" · ")+(game.overflowWaste?" · ⚠ Lixo no chão: "+Math.round(game.overflowWaste):"")+
+  " · faxineiro "+(game.cleaningJob?"em serviço":"disponível"));
+  const cleanButton=document.querySelector<HTMLButtonElement>("#clean-bins");if(cleanButton)cleanButton.disabled=!!game.cleaningJob||(!(game.binFill??[]).some(x=>x>=10)&&(game.overflowWaste??0)<1)||game.cash<serviceVisitCost(game,"cleaning");
   setText("finance", "Entradas R$ "+game.revenue+" · Saídas R$ "+game.expenses+" · Atendimentos "+game.served);
   const monthUsed=game.monthPcUsedMinutes??0,monthCapacity=game.monthPcCapacityMinutes??0;
   const monthPct=computerOccupancyPercent(monthUsed,monthCapacity);
@@ -935,6 +1114,7 @@ function renderUI():void {
     promotionButton.textContent=promoting?"✓ Divulgação contratada hoje":"📣 Fazer panfletagem · "+label;
   }
   setText("expansion", "Ampliação "+game.expansionLevel+"/2");
+  }
   const recentEvents=game.eventLog.slice(0,6),eventSignature=JSON.stringify(recentEvents);
   if(eventSignature!==lastEventSignature){
   events.replaceChildren();
@@ -951,14 +1131,19 @@ function renderUI():void {
   controls.setAttribute("aria-expanded",String(adminOpen));
   presentLiveState(game,internetName(),adminOpen?activeAdminTab:null);
 }
-let lastFrame=0,lastUI=0,lastMenuFrame=0,elapsed=0;
+let lastFrame=0,lastUI=0,lastMenuFrame=0,elapsed=0,lastScroll=-1000,lastInput=-1000,uiPointerHeld=false,sceneVisible=true;
+new IntersectionObserver(entries=>{sceneVisible=entries[0]?.isIntersecting??false;}).observe(canvas);
+document.addEventListener("scroll",()=>{lastScroll=performance.now();},{capture:true,passive:true});
+document.addEventListener("pointerdown",()=>{uiPointerHeld=true;lastInput=performance.now();},{capture:true,passive:true});
+for(const type of ["pointerup","pointercancel"])document.addEventListener(type,()=>{uiPointerHeld=false;lastInput=performance.now();},{capture:true,passive:true});
+window.addEventListener("blur",()=>{uiPointerHeld=false;});
 let wasSimulating=false;
 const reduceMotion=window.matchMedia("(prefers-reduced-motion: reduce)");
 function frame(timestamp:number):void {
   if(lastFrame===0) lastFrame=timestamp;
   const dt=Math.max(0,Math.min(0.08,(timestamp-lastFrame)/1000));
   lastFrame=timestamp;elapsed+=dt;
-  const simulating=isPlaying&&!layoutEditor.active&&!placingKind&&!relocating&&!wallMode&&!installingAnnexPc;
+  const simulating=isPlaying&&game.totalMinutes<GAME_LAST_MINUTE&&!layoutEditor.active&&!placingKind&&!relocating&&!wallMode&&!installingAnnexPc;
   if(wasSimulating!==simulating){sceneMotion.reset();wasSimulating=simulating;}
   if(simulating&&game.leftoverMinutes+dt*4.0>=1)sceneMotion.capture(game);
   if(isPlaying&&!layoutEditor.active&&!placingKind&&!relocating&&!wallMode&&!installingAnnexPc)stepGame(game,dt*4.0);
@@ -989,18 +1174,20 @@ function frame(timestamp:number):void {
     speechPopups.push({...speech,age:0});
     if(speechPopups.length>8)speechPopups.shift();
   }
-  if(isPlaying)renderer.draw(sceneMotion.sample(game),elapsed);
-  if(isPlaying&&layoutEditor.active)renderer.drawLayoutOverlay(game,layoutEditor.selected,layoutEditor.draft,elapsed);
-  else if(menuRenderer&&!reduceMotion.matches&&timestamp-lastMenuFrame>65){menuRenderer.draw(menuPreview,elapsed);lastMenuFrame=timestamp;}
-  if(isPlaying){paintPayments(dt);paintSales(dt);paintSpeech(dt);}
-  if(isPlaying&&placingKind)renderer.drawPlacementCandidates(game,placingKind,hoveredPlacement,purchaseRotation);
-  if(isPlaying&&relocating)renderer.drawRelocationCandidates(game,relocationFrom,hoveredPlacement);
-  if(isPlaying&&wallMode){
+  const paintScene=isPlaying&&sceneVisible&&!document.hidden&&!adminOpen&&!shopOpen&&!noticesOpen&&timestamp-lastScroll>120;
+  if(paintScene)renderer.draw(sceneMotion.sample(game),elapsed);
+  if(paintScene&&layoutEditor.active)renderer.drawLayoutOverlay(game,layoutEditor.selected,layoutEditor.draft,elapsed);
+  if(!isPlaying&&menuRenderer&&!document.hidden&&!reduceMotion.matches&&timestamp-lastMenuFrame>65){menuRenderer.draw(menuPreview,elapsed);lastMenuFrame=timestamp;}
+  if(isPlaying){paintPayments(dt,paintScene);paintSales(dt,paintScene);paintSpeech(dt,paintScene);}
+  if(paintScene&&layoutEditor.active&&layoutEditor.wall)renderer.drawWallPreview(game,layoutEditor.wall,true);
+  if(paintScene&&placingKind)renderer.drawPlacementCandidates(game,placingKind,hoveredPlacement,purchaseRotation);
+  if(paintScene&&relocating)renderer.drawRelocationCandidates(game,relocationFrom,hoveredPlacement);
+  if(paintScene&&wallMode){
     if(wallMode==="door")renderer.drawDoorCandidates(game,pendingWall??hoveredWall);
     else renderer.drawWallPreview(game,pendingWall??hoveredWall,wallMode==="remove");
   }
-  if(isPlaying&&installingAnnexPc)renderer.drawAnnexPcCandidates(game,hoveredAnnexPc);
-  if(isPlaying&&timestamp-lastUI>450){lastUI=timestamp;renderUI();}
+  if(paintScene&&installingAnnexPc)renderer.drawAnnexPcCandidates(game,hoveredAnnexPc);
+  if(isPlaying&&timestamp-lastUI>450&&timestamp-lastScroll>160&&!uiPointerHeld&&timestamp-lastInput>120){lastUI=timestamp;renderUI(true);}
   requestAnimationFrame(frame);
 }
 setInterval(save,8000);

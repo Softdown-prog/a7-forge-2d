@@ -14,6 +14,10 @@ export interface Customer {
   target: Point;
   /** Lugar atual na fila física; opcional para partidas anteriores. */
   queueIndex?: number;
+  retailQueueItem?: Item;
+  retailQueueIndex?: number;
+  /** Limita buscas de desvio; salvo para conservar retomadas de partidas. */
+  nextCrowdRetryMinute?: number;
   /** Waypoints seguintes ao target, serializáveis e opcionais para saves anteriores. */
   route?: Point[];
   /** Minutos de transição sentando/levantando. */
@@ -26,9 +30,15 @@ export interface Customer {
   /** No máximo uma bebida e um alimento por visita, inclusive após importar save. */
   purchasedDrink?: boolean;
   purchasedFood?: boolean;
+  /** Pedido de cópias já avaliado no balcão; impede reprocessamento após recarga. */
+  discCopyChecked?: boolean;
   costume: Costume;
   /** Cliente VIP (opcional para saves antigos). */
   vip?: boolean;
+  /** Prefere títulos 2005+; derivado do ID, sem sorteio adicional. */
+  gpuGamer?: boolean;
+  /** Sessão cobrada com adicional de jogo GPU; preservado em saves. */
+  gpuGameCharged?: boolean;
   pcIndex: number | null;
   usedMinutes: number;
   /** Duração contratada na chegada; saves antigos usam 45 minutos. */
@@ -73,6 +83,8 @@ export interface GameState {
   counterBusyUntil?: number;
   /** Preços por produto, opcionais para saves antigos. */
   retailPrices?: Record<Item,number>;
+  /** Serviço abstrato do balcão, sem objeto ou posição no mapa. */
+  discCopier?: import("./discCopy.js").DiscCopier;
   /** Nível de hardware por PC, 1 é o computador original. */
   pcTiers?: number[];
   /** Peças por estação; null/ausente usa a configuração CRT legada do nível. */
@@ -91,6 +103,10 @@ export interface GameState {
   internetTier: number;
   offlineUntil: number;
   licensedGames: boolean;
+  /** Títulos individuais de 1998/1999, ausentes em saves antigos. */
+  licensedEraGames?: import("./eraGames.js").EraGameId[];
+  /** Licenças avançadas por estabelecimento (opcional em saves antigos). */
+  licensedGpuGames?: import("./gpuGames.js").GpuGameId[];
   expansionLevel: number;
   installedPcs?: number;
   /** Extensões de terreno independentes; ausentes em saves anteriores. */
@@ -105,10 +121,14 @@ export interface GameState {
   furniturePlacements?: Array<{kind:"poster"|"plant"|"table";slotId:string;rotation?:0|1|2|3}>;
   /** Edição física gratuita; IDs das estações preservam peças, licenças e receita. */
   objectPlacements?: Array<{id:string;x:number;y:number;rotation:0|1|2|3}>;
+  /** Pôsteres originais retirados pelo jogador; índices estáveis de 0 a 6. */
+  removedBuiltPosters?: number[];
   /** Desgaste percentual por estação; saves antigos iniciam em zero. */
   pcWear?: number[];
   repairJobs?: import("./services.js").RepairJob[];
   binFill?: number[];
+  /** Lixo derramado quando as lixeiras atingem a capacidade total. */
+  overflowWaste?: number;
   cleaningJob?: import("./services.js").CleaningJob;
   inventory: Inventory;
   customers: Customer[];
@@ -128,6 +148,18 @@ export interface GameState {
   eventLog: string[];
   notices?: import("./notices.js").GameNotice[];
   lastDecisionDay?: number;
+  /** Semente exclusiva do calendário de cartas; não avança RNG de visitantes. */
+  mailScheduleSeed?: number;
+  /** Ponto de partida da distribuição, preservado ao migrar partidas anteriores. */
+  mailStartDay?: number;
+  /** Cartas já entregues; permanecem únicas mesmo após compactar o correio. */
+  mailSeenIds?: import("./mailCalendar.js").SporadicMailId[];
+  /** Histórias únicas: sorteadas uma única vez, mesmo após compactar o envelope. */
+  storySeenIds?: import("./storyEvents.js").StoryId[];
+  /** Cadeias persistentes: retorno e encerramento independentes do RNG. */
+  storyRecords?: import("./storyEvents.js").StoryRecord[];
+  /** Bônus/penalidades temporários que afetam clientes realmente chegando. */
+  storyVisitorEffects?: import("./storyEvents.js").StoryVisitorEffect[];
   /** Não permite sortear uma segunda vistoria elétrica na mesma partida. */
   electricalInspectionSeen?: boolean;
   /** Adequação da instalação concluída por profissional. */
