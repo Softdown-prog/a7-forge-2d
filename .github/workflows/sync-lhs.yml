@@ -1,0 +1,92 @@
+name: LHS - sincronizar jogo do A7 Forge
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/sync-lhs.yml
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: lhs-production-mirror
+  cancel-in-progress: false
+
+env:
+  UPSTREAM_REPO: https://github.com/Softdown-prog/A7-forge-2D-.git
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do repositório conectado ao Cloudflare
+        uses: actions/checkout@v4
+
+      - name: Conferir novo commit na origem
+        id: upstream
+        shell: bash
+        run: |
+          set -euo pipefail
+          SHA="$(git ls-remote "$UPSTREAM_REPO" refs/heads/main | cut -f1)"
+          test -n "$SHA"
+          echo "sha=$SHA" >> "$GITHUB_OUTPUT"
+          if [ -f .lhs-upstream-sha ] && [ "$(cat .lhs-upstream-sha)" = "$SHA" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "A versão $SHA já foi sincronizada."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Obter somente a pasta do Lan House Simulator
+        if: steps.upstream.outputs.changed == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --filter=blob:none --sparse --branch main "$UPSTREAM_REPO" "$RUNNER_TEMP/a7-source"
+          git -C "$RUNNER_TEMP/a7-source" sparse-checkout set games/lan_house_simulator
+          test -f "$RUNNER_TEMP/a7-source/games/lan_house_simulator/package.json"
+
+      - name: Preparar Node 22
+        if: steps.upstream.outputs.changed == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Compilar e validar antes de publicar
+        if: steps.upstream.outputs.changed == 'true'
+        working-directory: ${{ runner.temp }}/a7-source/games/lan_house_simulator
+        run: |
+          npm ci
+          npm run build:site
+          npm run check:site
+          node --test tests/website.test.mjs
+
+      - name: Atualizar espelho conectado à Cloudflare
+        if: steps.upstream.outputs.changed == 'true'
+        shell: bash
+        env:
+          SOURCE_SHA: ${{ steps.upstream.outputs.sha }}
+        run: |
+          set -euo pipefail
+          rsync -a --checksum --delete \
+            --exclude '/node_modules/' --exclude '/dist/' --exclude '/out/' \
+            "$RUNNER_TEMP/a7-source/games/lan_house_simulator/" \
+            "games/lan_house_simulator/"
+          printf '%s\n' "$SOURCE_SHA" > .lhs-upstream-sha
+          git add -A games/lan_house_simulator .lhs-upstream-sha
+          if git diff --cached --quiet; then
+            echo "Sem diferenças após sincronização."
+            exit 0
+          fi
+          if git diff --cached --quiet -- games/lan_house_simulator; then
+            MSG="[CF-Pages-Skip] sync(lhs): atualizar referência da origem ${SOURCE_SHA:0:12}"
+          else
+            MSG="sync(lhs): publicar atualização aprovada da main ${SOURCE_SHA:0:12}"
+          fi
+          git -c user.name='github-actions[bot]' \
+              -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+              commit -m "$MSG"
+          git push origin HEAD:main
