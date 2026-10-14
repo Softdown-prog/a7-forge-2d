@@ -1,0 +1,520 @@
+import {editableObjects,objectCorners,layoutPlacementIssue,builtPosters,type EditableObject} from "../sim/editableObjects.js";
+import {computerSeat} from "../sim/route.js";
+import type { Customer, GameState, Point } from "../sim/types.js";
+import { pcCount, pcPosition, roomWidth, online } from "../sim/engine.js";
+import {roomBounds,type RoomBounds} from "../sim/room.js";
+import { cameraForGame, cuboid, iso, polygon, type Projection,objectCamera } from "./isometric.js";
+import { drawRetroComputer, drawSeatedKeyboardOverlay } from "./retroComputer.js";
+import { drawActor, actorHitbox, actorStyleFor, type ActorPose } from "./actorArt.js";
+import { movementDirection } from "./direction.js";
+import {FURNITURE_SLOTS,furnitureSlots,occupiedFurnitureSlots,availablePlacementSlots,furnitureLocations,type FurnitureKind,type PlacementSlot} from "../sim/shop.js";
+import { vendingMachines,placedObject,counterPoint,type PlacedPoint } from "../sim/layout.js";
+import {drawVendingMachine,drawSnackShelf} from "./retailArt.js";
+import {wallEndpoints,canBuildWall,type WallSegment} from "../sim/walls.js";
+import {annexComputerSlots,availableAnnexComputers,type AnnexComputerSlot} from "../sim/stations.js";
+import {BIN_SPOTS,binSpots} from "../sim/services.js";
+import {SCENE_THEME as theme} from "./theme.js";
+import {drawWallPoster,purchasedPosterKind,type PosterKind} from "./posterArt.js";
+
+export class SceneRenderer {
+  private heroHitbox = { x: 0, y: 0, width: 0, height: 0 };
+  private background:HTMLCanvasElement|null=null;
+  private backgroundKey="";
+  constructor(private ctx: CanvasRenderingContext2D) {}
+  hitOwner(x: number, y: number): boolean {
+    const r = this.heroHitbox;
+    return x >= r.x && x <= r.x + r.width && y >= r.y && y <= r.y + r.height;
+  }
+  drawLayoutOverlay(s:GameState,selected:string|null,draft:EditableObject|null,time:number):void{
+    const cam=cameraForGame(s),ctx=this.ctx;
+    ctx.save();
+    for(const o of editableObjects(s)){
+      const corners=o.surface==="wall"?[iso({x:o.x,y:o.y},cam,115),iso({x:o.x+(o.axis==="y"?0:o.w),y:o.y+(o.axis==="y"?o.w:0)},cam,115)]:objectCorners(o).map(p=>iso(p,cam,2));
+      ctx.beginPath();corners.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));if(corners.length>2)ctx.closePath();
+      ctx.strokeStyle=o.id===selected?"#92d8ed":"rgba(239,190,91,.7)";ctx.lineWidth=o.id===selected?3:1.2;ctx.stroke();
+    }
+    if(draft){
+      const original=editableObjects(s).find(o=>o.id===draft.id),changed=!original||original.x!==draft.x||original.y!==draft.y||original.rotation!==draft.rotation;
+      ctx.globalAlpha=.65;
+      if(changed){
+      if(draft.kind==="pc")this.desk(cam,draft,draft.index!,time,online(s),s);
+      else if(draft.kind==="counter")this.counter(cam,draft);
+      else if(draft.kind==="shelf")this.shelf(cam,0,s.inventory.snacks,draft);
+      else if(draft.kind==="soda"||draft.kind==="candy")this.machine(cam,draft.x,draft.y,draft.kind,time,s.inventory[draft.kind],draft.rotation);
+      else if(draft.kind==="bin")this.trashBin(cam,draft,0);
+      else if(draft.id.startsWith("built-poster:"))drawWallPoster(ctx,cam,{x:draft.x,y:draft.y,axis:draft.rotation===3?"y":"x",span:draft.span!,top:133,height:59},draft.posterKind!);
+      else this.renderPurchasedFurniture(cam,draft.kind as FurnitureKind,draft.x,draft.y,draft.rotation,"city",draft.axis);
+      }
+      ctx.globalAlpha=1;
+      const corners=objectCorners(draft).map(p=>iso(p,cam,3));
+      polygon(ctx,corners,layoutPlacementIssue(s,draft)?"rgba(215,92,69,.15)":"rgba(121,223,152,.15)",layoutPlacementIssue(s,draft)?"#efad87":"#b9efa1");
+    }
+    ctx.restore();
+  }
+  draw(s: GameState, elapsedSeconds: number): void {
+    const ctx = this.ctx, w=1000, h=610, roomW=roomWidth(s), camera=cameraForGame(s),bounds=roomBounds(s);
+    this.drawBackground(s,camera,bounds,w,h);
+    type Entry={depth:number;paint:()=>void};
+    const entries:Entry[]=[
+      {depth:placedObject(s,"shelf",{x:bounds.minX+.23,y:2.92}).x+placedObject(s,"shelf",{x:bounds.minX+.23,y:2.92}).y+.55,paint:()=>this.shelf(camera,bounds.minX,s.inventory.snacks,placedObject(s,"shelf",{x:bounds.minX+.23,y:2.92}))},
+      {depth:6,paint:()=>this.extraFurniture(camera,s)},
+      ...vendingMachines(s).map(m=>({
+        depth:m.x+m.y+0.25,
+        paint:()=>this.machine(camera,m.x,m.y,m.kind,elapsedSeconds,s.inventory[m.kind],m.rotation)
+      })),
+      {depth:counterPoint(s,{x:1.45,y:1.05}).x+counterPoint(s,{x:1.45,y:1.05}).y-.5,paint:()=>this.owner(camera,elapsedSeconds,s)},
+      {depth:placedObject(s,"counter",{x:.9,y:1.42}).x+placedObject(s,"counter",{x:.9,y:1.42}).y+.8,paint:()=>this.counter(camera,placedObject(s,"counter",{x:.9,y:1.42}))},
+      {depth:roomW+6,paint:()=>this.doorMarker(camera,s)}
+    ];
+    for (let i=0;i<pcCount(s);i++){
+      const p=pcPosition(i,s);
+      entries.push({depth:p.x+p.y,paint:()=>this.desk(camera,p,i,elapsedSeconds,online(s),s)});
+    }
+    for(let i=0;i<BIN_SPOTS.length;i++){
+      const p=binSpots(s)[i]!;
+      entries.push({depth:p.x+p.y+.1,paint:()=>this.trashBin(camera,p,s.binFill?.[i]??0)});
+    }
+    for(const job of s.repairJobs??[])entries.push({depth:job.x+job.y+.9,paint:()=>this.worker(camera,job.x,job.y,elapsedSeconds,"technician",job.phase==="working",job.progress/job.duration)});
+    if(s.cleaningJob){const j=s.cleaningJob;entries.push({depth:j.x+j.y+.9,paint:()=>this.worker(camera,j.x,j.y,elapsedSeconds,"cleaner",j.phase==="working",j.progress/9)});}
+    for(const wall of s.interiorWalls??[])
+      entries.push({depth:wall.x+wall.y+0.5,paint:()=>this.drawInteriorWall(camera,wall)});
+    for(const door of s.interiorDoors??[])
+      entries.push({depth:door.x+door.y+0.5,paint:()=>this.drawInteriorDoor(camera,door)});
+    for (const c of s.customers) {
+      const seated=c.stage==="sitting" || c.stage==="using" || c.stage==="standing";
+      const location=seated && c.pcIndex!==null ? pcPosition(c.pcIndex,s) : c;
+      entries.push({depth:location.x+location.y+(seated?1.16:0.08),paint:()=>this.customer(camera,c,elapsedSeconds,seated,s)});
+    }
+    entries.sort((a,b)=>a.depth-b.depth);
+    for (const e of entries) e.paint();
+    this.sign(camera,roomW);
+    this.hudInside(ctx,s);
+  }
+  /** One local bitmap for the unchanged room: shadow, floor, outside walls and
+   * fixed decoration. Animated objects keep their original depth-sorted paint. */
+  private drawBackground(s:GameState,camera:Projection,bounds:RoomBounds,w:number,h:number):void{
+    const live=this.ctx;
+    const key=JSON.stringify([w,h,camera,bounds,s.furniture?.poster??0,
+      s.furniturePlacements?.filter(p=>p.kind==="poster")??[],s.objectPlacements?.filter(p=>p.id.startsWith("built-poster:"))??[]]);
+    if(typeof document!=="undefined"){
+      if(!this.background){this.background=document.createElement("canvas");this.background.width=w;this.background.height=h;}
+      const buffer=this.background.getContext("2d");
+      if(buffer){
+        if(key!==this.backgroundKey){
+          this.ctx=buffer;
+          try{this.paintBackground(s,camera,bounds,w,h);this.backgroundKey=key;}
+          finally{this.ctx=live;}
+        }
+        live.drawImage(this.background,0,0);return;
+      }
+    }
+    this.paintBackground(s,camera,bounds,w,h);
+  }
+  private paintBackground(s:GameState,camera:Projection,bounds:RoomBounds,w:number,h:number):void{
+    const ctx=this.ctx,sky=ctx.createLinearGradient(0,0,0,h);
+    sky.addColorStop(0,theme.backgroundTop);sky.addColorStop(1,theme.backgroundBottom);
+    ctx.fillStyle=sky;ctx.fillRect(0,0,w,h);
+    this.floor(camera,bounds);this.walls(camera,bounds);this.decor(camera,bounds,s);this.extraPosters(camera,s);
+  }
+  /** Paredes isométricas procedurais, respeitando a ordem de profundidade dos objetos. */
+  private drawInteriorWall(camera:Projection,wall:WallSegment,preview=false,allowed=true):void{
+    const [a,b]=wallEndpoints(wall),height=78;
+    const footA=iso(a,camera),footB=iso(b,camera),topA=iso(a,camera,height),topB=iso(b,camera,height);
+    const ctx=this.ctx;ctx.save();
+    polygon(ctx,[topA,topB,footB,footA],preview?
+      (allowed?"rgba(91,183,147,0.68)":"rgba(204,78,69,0.72)"):"rgba(211,195,177,0.91)",
+      preview?(allowed?"#bdf5d4":"#ffd0ba"):"#735f61");
+    const capA=iso({x:a.x+0.03,y:a.y+0.03},camera,height+2),
+      capB=iso({x:b.x+0.03,y:b.y+0.03},camera,height+2);
+    ctx.strokeStyle=preview?"#f3f3d8":"#faf0dc";ctx.lineWidth=Math.max(1,4*camera.zoom);
+    ctx.beginPath();ctx.moveTo(capA.x,capA.y);ctx.lineTo(capB.x,capB.y);ctx.stroke();
+    ctx.restore();
+  }
+  private drawInteriorDoor(camera:Projection,door:WallSegment,preview=false):void{
+    const [a,b]=wallEndpoints(door),ctx=this.ctx;
+    const left=iso(a,camera),right=iso(b,camera),
+      leftTop=iso(a,camera,78),rightTop=iso(b,camera,78);
+    ctx.save();
+    ctx.strokeStyle=preview?"#8ee6b3":"#704c48";
+    ctx.lineWidth=Math.max(3,8*camera.zoom);
+    ctx.beginPath();ctx.moveTo(left.x,left.y);ctx.lineTo(leftTop.x,leftTop.y);
+    ctx.lineTo(rightTop.x,rightTop.y);ctx.lineTo(right.x,right.y);ctx.stroke();
+    ctx.strokeStyle=preview?"#ddffe3":"#d4ad77";
+    ctx.lineWidth=Math.max(1.5,3*camera.zoom);
+    ctx.beginPath();ctx.moveTo(left.x,left.y);ctx.lineTo(right.x,right.y);ctx.stroke();
+    ctx.restore();
+  }
+  /** Ícones e fantasma dos novos PCs, usando o mesmo centro de clique da UI. */
+  drawAnnexPcCandidates(s:GameState,hovered:string|null):void{
+    const cam=cameraForGame(s),available=new Set(availableAnnexComputers(s).map(x=>x.id));
+    this.ctx.save();
+    for(const slot of annexComputerSlots(s)){
+      const p=iso({x:slot.position.x+0.35,y:slot.position.y+0.55},cam,4);
+      const free=available.has(slot.id),selected=hovered===slot.id;
+      this.ctx.beginPath();this.ctx.ellipse(p.x,p.y,19*cam.zoom,11*cam.zoom,0,0,Math.PI*2);
+      this.ctx.fillStyle=!free?"rgba(183,75,70,.78)":selected?"rgba(114,233,162,.98)":"rgba(73,160,130,.80)";
+      this.ctx.fill();
+      this.ctx.strokeStyle="#f6efdc";this.ctx.lineWidth=selected?3:1.3;this.ctx.stroke();
+      if(selected&&free){this.ctx.globalAlpha=.66;
+        drawRetroComputer(this.ctx,cam,slot.position,pcCount(s),1,true,s);
+        this.ctx.globalAlpha=1;
+      }
+    }
+    this.ctx.restore();
+  }
+  drawDoorCandidates(s:GameState,hovered:WallSegment|null):void{
+    const cam=cameraForGame(s);
+    this.ctx.save();
+    for(const wall of s.interiorWalls??[]){
+      const [a,b]=wallEndpoints(wall),point=iso({x:(a.x+b.x)/2,y:(a.y+b.y)/2},cam,40);
+      this.ctx.fillStyle="#d2bc76";this.ctx.beginPath();
+      this.ctx.arc(point.x,point.y,Math.max(2,6*cam.zoom),0,Math.PI*2);this.ctx.fill();
+    }
+    if(hovered)this.drawInteriorDoor(cam,hovered,true);
+    this.ctx.restore();
+  }
+  drawWallPreview(s:GameState,wall:WallSegment|null,demolish:boolean):void{
+    if(!wall)return;
+    const exists=(s.interiorWalls??[]).some(w=>w.axis===wall.axis&&w.x===wall.x&&w.y===wall.y);
+    const isDoor=(s.interiorDoors??[]).some(w=>w.axis===wall.axis&&w.x===wall.x&&w.y===wall.y);
+    if(demolish&&isDoor){this.drawInteriorDoor(cameraForGame(s),wall,true);return;}
+    if(demolish&&!exists)return;
+    this.drawInteriorWall(cameraForGame(s),wall,true,demolish?exists:canBuildWall(s,wall));
+  }
+  /** The ghost shares the exact geometry with purchased furniture. */
+  drawPlacementCandidates(s:GameState,kind:FurnitureKind,hoveredId:string|null,rotation:0|1|2|3=0):void{
+    const camera=cameraForGame(s);
+    const occupied=occupiedFurnitureSlots(s),available=new Set(availablePlacementSlots(s,kind).map(p=>p.id));
+    const surface=kind==="poster"?"wall":"floor";
+    const ctx=this.ctx;
+    ctx.save();
+    for(const slot of furnitureSlots(s)){
+      if(slot.surface!==surface)continue;
+      const at=this.slotAnchor(camera,slot),blocked=occupied.has(slot.id)||!available.has(slot.id);
+      const hover=slot.id===hoveredId;
+      ctx.beginPath();ctx.ellipse(at.x,at.y,16*camera.zoom,9*camera.zoom,0,0,Math.PI*2);
+      ctx.fillStyle=blocked?"rgba(185,62,57,0.78)":hover?"rgba(113,233,165,0.92)":"rgba(81,182,137,0.73)";
+      ctx.fill();ctx.strokeStyle=blocked?"#ffd2bd":"#edffe9";ctx.lineWidth=hover?3:1.5;ctx.stroke();
+      if(hover&&!blocked){ctx.save();ctx.globalAlpha=0.73;this.renderPurchasedFurniture(camera,kind,slot.x,slot.y,rotation,"city",slot.axis);ctx.restore();}
+    }
+    ctx.restore();
+  }
+  /** Modo de reorganização: proprietário escolhe primeiro um móvel e depois um encaixe livre. */
+  drawRelocationCandidates(s:GameState,fromSlot:string|null,hoveredId:string|null):void{
+    const camera=cameraForGame(s),ctx=this.ctx;
+    const items=furnitureLocations(s),moving=items.find(p=>p.slotId===fromSlot);
+    const occupied=occupiedFurnitureSlots(s);
+    ctx.save();
+    for(const slot of furnitureSlots(s)){
+      if(moving && ((moving.kind==="poster")!==(slot.surface==="wall")))continue;
+      const owned=items.some(p=>p.slotId===slot.id);
+      if(!moving&&!owned)continue;
+      const at=this.slotAnchor(camera,slot);
+      const selected=slot.id===fromSlot,hovered=slot.id===hoveredId;
+      ctx.beginPath();
+      ctx.ellipse(at.x,at.y,18*camera.zoom,10*camera.zoom,0,0,Math.PI*2);
+      ctx.fillStyle=selected?"rgba(94,197,255,0.93)":owned
+        ?(moving?"rgba(183,68,64,0.78)":"rgba(245,194,98,0.88)")
+        :hovered?"rgba(111,231,172,0.96)":"rgba(91,188,144,0.75)";
+      ctx.fill();
+      ctx.strokeStyle=selected?"#dbf7ff":owned&&moving?"#ffe0c4":"#fff4d9";
+      ctx.lineWidth=hovered||selected?3:1.5;ctx.stroke();
+      if(moving && hovered&&!occupied.has(slot.id)){
+        ctx.save();ctx.globalAlpha=0.76;
+        this.renderPurchasedFurniture(camera,moving.kind,slot.x,slot.y,moving.rotation??0);
+        ctx.restore();
+      }
+    }
+    ctx.restore();
+  }
+  private slotAnchor(camera:Projection,slot:PlacementSlot):Point{
+    return slot.surface==="wall"
+      ?iso({x:slot.x+(slot.axis==="y"?0:.33),y:slot.y+(slot.axis==="y"?.33:0)},camera,137)
+      :iso({x:slot.x+0.25,y:slot.y+0.20},camera,9);
+  }
+  private renderPurchasedFurniture(camera:Projection,kind:FurnitureKind,x:number,y:number,rotation:0|1|2|3=0,posterKind:PosterKind="city",axis:"x"|"y"="x"):void{
+    if(kind==="poster"){
+      drawWallPoster(this.ctx,camera,{x,y,axis,span:.65,top:156,height:39},posterKind);
+    }else if(kind==="plant"){
+      cuboid(this.ctx,camera,x,y,0.32,0.32,22,["#a87553","#805344","#915f4c"]);
+      const center=iso({x:x+0.16,y:y+0.16},camera,42);
+      this.ctx.fillStyle="#578d68";this.ctx.beginPath();
+      this.ctx.ellipse(center.x,center.y,13*camera.zoom,15*camera.zoom,0,0,Math.PI*2);this.ctx.fill();
+    }else if(kind==="table"){
+      cuboid(this.ctx,camera,x,y,rotation%2===0?0.55:0.4,rotation%2===0?0.4:0.55,23,["#c49a76","#8d6754","#a07b60"]);
+    }
+    if(kind!=="poster"){
+      const width=kind==="table"?(rotation%2===0?0.55:0.4):0.32;
+      const depth=kind==="table"?(rotation%2===0?0.4:0.55):0.32;
+      const direction=[[0,1],[1,0],[0,-1],[-1,0]][rotation]!;
+      const marker=iso({x:x+width/2+direction[0]!*width*.43,
+                        y:y+depth/2+direction[1]!*depth*.43},camera,kind==="plant"?20:19);
+      this.ctx.fillStyle="#f5cd91";this.ctx.beginPath();
+      this.ctx.ellipse(marker.x,marker.y,3.5*camera.zoom,2.5*camera.zoom,0,0,Math.PI*2);this.ctx.fill();
+    }
+  }
+  private extraPosters(camera:Projection,s:GameState):void{
+    const positioned=(s.furniturePlacements??[]).filter(p=>p.kind==="poster");
+    for(let i=0;i<Math.min(2,Math.max(0,(s.furniture?.poster??0)-positioned.length));i++){
+      const x=2.1+i*2.25;
+      const y=roomBounds(s).minY+0.01;
+      this.renderPurchasedFurniture(camera,"poster",x,y,0,purchasedPosterKind(i));
+    }
+    for(const [index,placed] of positioned.entries()){
+      const slot=furnitureSlots(s).find(v=>v.id===placed.slotId&&v.surface==="wall");
+      if(slot)this.renderPurchasedFurniture(camera,"poster",slot.x,slot.y,0,purchasedPosterKind(index),slot.axis);
+    }
+  }
+    /* Saved placement coordinates are always resolved from vetted slots. */
+  private extraFurniture(camera:Projection,s:GameState):void{
+    const positioned=s.furniturePlacements??[];
+    const legacyPlants=Math.max(0,(s.furniture?.plant??0)-positioned.filter(p=>p.kind==="plant").length);
+    for(let i=0;i<Math.min(2,legacyPlants);i++){
+      const x=i===0?0.6:roomWidth(s)-0.8,y=i===0?5.3:3.6;
+      cuboid(this.ctx,camera,x,y,0.32,0.32,22,["#a87553","#805344","#915f4c"]);
+      const center=iso({x:x+0.16,y:y+0.16},camera,42);
+      this.ctx.fillStyle="#578d68";this.ctx.beginPath();
+      this.ctx.ellipse(center.x,center.y,13*camera.zoom,15*camera.zoom,0,0,Math.PI*2);this.ctx.fill();
+    }
+    if((s.furniture?.table??0)>positioned.filter(p=>p.kind==="table").length){
+      cuboid(this.ctx,camera,0.75,4.12,0.55,0.4,23,["#c49a76","#8d6754","#a07b60"]);
+    }
+    for(const placed of positioned){
+      if(placed.kind==="poster")continue;
+      const slot=furnitureSlots(s).find(v=>v.id===placed.slotId&&v.surface==="floor");
+      if(slot)this.renderPurchasedFurniture(camera,placed.kind,slot.x,slot.y,placed.rotation??0);
+    }
+  }
+  private floor(camera:Projection,bounds:RoomBounds):void {
+    const ctx=this.ctx,minX=bounds.minX,w=bounds.maxX,south=bounds.maxY,north=bounds.minY;
+    // O cenário é uma plataforma suspensa: sem exterior, sem base ligada a um terreno.
+    const rearRight=iso({x:w,y:north},camera);
+    const frontRight=iso({x:w,y:south},camera);
+    const frontLeft=iso({x:minX,y:south},camera);
+    const bottom=24*camera.zoom;
+    ctx.save();
+    ctx.shadowColor="rgba(7,12,23,0.65)";
+    ctx.shadowBlur=25*camera.zoom;
+    ctx.shadowOffsetY=18*camera.zoom;
+    polygon(ctx,[frontLeft,frontRight,
+      {x:frontRight.x,y:frontRight.y+bottom},
+      {x:frontLeft.x,y:frontLeft.y+bottom}],"#514854","#343245");
+    ctx.restore();
+    polygon(ctx,[frontLeft,frontRight,
+      {x:frontRight.x,y:frontRight.y+bottom},
+      {x:frontLeft.x,y:frontLeft.y+bottom}],theme.baseFront,theme.ink);
+    polygon(ctx,[rearRight,frontRight,
+      {x:frontRight.x,y:frontRight.y+bottom},
+      {x:rearRight.x,y:rearRight.y+bottom}],theme.baseSide,theme.ink);
+    for(let y=north;y<south;y++) for(let x=minX;x<w;x++) {
+      const ps=[iso({x,y},camera),iso({x:x+1,y},camera),iso({x:x+1,y:y+1},camera),iso({x,y:y+1},camera)];
+      const tone=(x+y)%2===0?theme.floorLight:theme.floorDark;
+      polygon(ctx,ps,tone,theme.floorLine);
+      if(y===4 && x>0 && x<w-1) {
+        const c=iso({x:x+0.5,y:y+0.5},camera);
+        ctx.fillStyle="rgba(100,83,77,0.10)";
+        ctx.fillRect(c.x-4,c.y-2,8,4);
+      }
+    }
+    // Tapete de circulação feito no mesmo plano da grade; sem geometria 3D.
+    polygon(ctx,[
+      iso({x:0.7,y:4.15},camera),iso({x:Math.min(w-0.5,5.1),y:4.15},camera),
+      iso({x:Math.min(w-0.5,5.1),y:4.83},camera),iso({x:0.7,y:4.83},camera)
+    ],"rgba(66,105,106,0.17)","rgba(73,106,105,0.27)");
+  }
+  private walls(camera:Projection,bounds:RoomBounds):void {
+    const ctx=this.ctx,minX=bounds.minX,w=bounds.maxX,south=bounds.maxY,north=bounds.minY;
+    polygon(ctx,[iso({x:minX,y:north},camera,155),iso({x:w,y:north},camera,155),
+      iso({x:w,y:north},camera),iso({x:minX,y:north},camera)],theme.wallBack,"#7f876e");
+    polygon(ctx,[iso({x:minX,y:north},camera,155),iso({x:minX,y:south},camera,155),
+      iso({x:minX,y:south},camera),iso({x:minX,y:north},camera)],theme.wallSide,"#748168");
+    for(const position of [2.15,4.45]){
+      const a=iso({x:position,y:north},camera,127),b=iso({x:position+1.2,y:north},camera,127),
+        c=iso({x:position+1.2,y:north},camera,73),d=iso({x:position,y:north},camera,73);
+      polygon(ctx,[a,b,c,d],"#344F62","#F9E2BE");
+      polygon(ctx,[iso({x:position+0.62,y:north},camera,127),iso({x:position+0.62,y:north},camera,73),
+        c,b],"rgba(127,186,201,0.19)");
+      // Montante e travessa dividem a janela, sem renderizar qualquer exterior.
+      const mullionTop=iso({x:position+0.6,y:north},camera,127);
+      const mullionBottom=iso({x:position+0.6,y:north},camera,73);
+      ctx.strokeStyle="#C5B49B";ctx.lineWidth=2.3*camera.zoom;
+      ctx.beginPath();ctx.moveTo(mullionTop.x,mullionTop.y);
+      ctx.lineTo(mullionBottom.x,mullionBottom.y);ctx.stroke();
+      const middleLeft=iso({x:position,y:north},camera,100);
+      const middleRight=iso({x:position+1.2,y:north},camera,100);
+      ctx.beginPath();ctx.moveTo(middleLeft.x,middleLeft.y);
+      ctx.lineTo(middleRight.x,middleRight.y);ctx.stroke();
+      // Peitoril projetado em 2:1, distinto do caixilho.
+      polygon(ctx,[iso({x:position-0.06,y:north+0.03},camera,72),
+        iso({x:position+1.26,y:north+0.03},camera,72),
+        iso({x:position+1.26,y:north+0.11},camera,70),
+        iso({x:position-0.06,y:north+0.11},camera,70)],"#DDD0B3","#867D79");
+    }
+  }
+  private decor(camera:Projection,bounds:RoomBounds,s:GameState):void {
+    const ctx=this.ctx,minX=bounds.minX,w=bounds.maxX,south=bounds.maxY,north=bounds.minY;
+    // Frisos ao pé das paredes; ajudam a perceber o interior sem adicionar telhado.
+    polygon(ctx,[
+      iso({x:minX,y:north+0.02},camera,9),iso({x:w,y:north+0.02},camera,9),
+      iso({x:w,y:north+0.02},camera,2),iso({x:minX,y:north+0.02},camera,2)
+    ],"#967D78");
+    polygon(ctx,[
+      iso({x:minX+0.02,y:north},camera,9),iso({x:minX+0.02,y:south},camera,9),
+      iso({x:minX+0.02,y:south},camera,2),iso({x:minX+0.02,y:north},camera,2)
+    ],"#817A84");
+    // Original illustrations share the wall plane, including typography.
+    for(const p of builtPosters(s))drawWallPoster(ctx,camera,{x:p.x,y:p.y,axis:p.axis!,span:p.span!,top:p.id.endsWith(":0")||p.id.endsWith(":1")?128:133,height:p.id.endsWith(":0")||p.id.endsWith(":1")?49:59},p.posterKind!);
+    // Luminárias na parte superior da parede: iluminação contida e sem brilho glossy.
+    for(const x of [1.7,3.9,Math.max(5.4,w-1.2)]){
+      const p=iso({x,y:north},camera,146),z=camera.zoom;
+      ctx.fillStyle="#7B6261";ctx.fillRect(p.x-17*z,p.y-4*z,34*z,9*z);
+      ctx.fillStyle="#F6E1B2";ctx.fillRect(p.x-14*z,p.y-1*z,28*z,3*z);
+    }
+  }
+  private counter(camera:Projection,p:PlacedPoint={x:.9,y:1.42}):void {
+    camera=objectCamera(camera,p,1.75,.72,p.rotation);
+    const ctx=this.ctx;
+    cuboid(ctx,camera,p.x,p.y,1.75,0.68,49,["#EDCB8E","#7E5047","#986353"]);
+    cuboid(ctx,camera,p.x+.05,p.y+.03,1.65,0.7,12,["#F3D5A1","#9E6A4C","#A57958"]);
+    const point=iso({x:p.x+.65,y:p.y+.28},camera,62);
+    ctx.fillStyle="#26374E";ctx.fillRect(point.x-9,point.y-10,18,15);
+    ctx.fillStyle="#83D4CE";ctx.fillRect(point.x-6,point.y-7,12,8);
+  }
+  private shelf(camera:Projection,minX=0,stock=20,p:PlacedPoint={x:minX+.23,y:2.92}):void {
+    drawSnackShelf(this.ctx,objectCamera(camera,p,.46,1.22,p.rotation),minX,stock,true,p);
+  }
+  private machine(camera:Projection,x:number,y:number,kind:"soda"|"candy",t:number,stock?:number,rotation:0|1|2|3=0):void {
+    drawVendingMachine(this.ctx,objectCamera(camera,{x,y},.66,.59,rotation),{x,y},kind,t,stock);
+  }
+  private trashBin(camera:Projection,p:Point,fill:number):void{
+    const ctx=this.ctx,loc=iso(p,camera),z=camera.zoom;
+    ctx.save();ctx.translate(loc.x,loc.y);
+    ctx.fillStyle="#1d2930";ctx.beginPath();ctx.ellipse(0,2*z,12*z,5*z,0,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle="#426f68";ctx.strokeStyle="#182e37";ctx.lineWidth=2*z;
+    ctx.beginPath();ctx.moveTo(-10*z,-21*z);ctx.lineTo(10*z,-21*z);ctx.lineTo(8*z,0);ctx.lineTo(-8*z,0);ctx.closePath();ctx.fill();ctx.stroke();
+    ctx.fillStyle="#87b9aa";ctx.fillRect(-11*z,-23*z,22*z,5*z);
+    ctx.fillStyle="#32483b";ctx.fillRect(-7*z,-18*z,14*z*Math.min(1,fill/100),4*z);
+    if(fill>65){ctx.fillStyle="#8e8262";ctx.fillRect(-5*z,-26*z,10*z,4*z);}
+    ctx.restore();
+  }
+  private worker(camera:Projection,x:number,y:number,time:number,kind:"technician"|"cleaner",working:boolean,progress:number):void{
+    const ctx=this.ctx,z=camera.zoom,p=iso({x,y},camera);
+    const bob=working?Math.sin(time*9)*2*z:Math.sin(time*6)*1.2*z;
+    ctx.save();ctx.translate(p.x,p.y+bob);ctx.lineJoin="round";ctx.lineWidth=2*z;ctx.strokeStyle="#1d3140";
+    const rect=(x:number,y:number,w:number,h:number,color:string)=>{ctx.fillStyle=color;ctx.fillRect(x*z,y*z,w*z,h*z);ctx.strokeRect(x*z,y*z,w*z,h*z);};
+    const trousers=kind==="technician"?"#204b4a":"#344b74";
+    rect(-7,-15,6,15,trousers);rect(1,-15,6,15,trousers);
+    rect(-9,-34,18,21,kind==="technician"?"#438461":"#779cbd");
+    rect(-15,-32,5,15,kind==="technician"?"#529a71":"#7aa3bf");
+    rect(10,-32,5,15,kind==="technician"?"#529a71":"#7aa3bf");
+    rect(-7,-47,14,14,"#d8a486");
+    rect(-9,-51,18,7,kind==="technician"?"#e2b632":"#f3e9d5");
+    rect(-12,-46,24,3,kind==="technician"?"#f8d658":"#d7e8ed");
+    if(kind==="technician"){ctx.fillStyle="#e5c675";ctx.fillRect(-2*z,-32*z,4*z,11*z);}
+    if(working){rect(14,-24,6,5,kind==="technician"?"#9aa9b0":"#ded5ab");}
+    ctx.restore();
+    if(working){ctx.save();ctx.fillStyle="#142934";ctx.fillRect(p.x-22*z,p.y-64*z,44*z,7*z);
+      ctx.fillStyle=kind==="technician"?"#e5bd59":"#8cc6b8";
+      ctx.fillRect(p.x-21*z,p.y-63*z,42*z*Math.max(0,Math.min(1,progress)),5*z);ctx.restore();}
+  }
+  private desk(camera:Projection,p:Point,i:number,t:number,isOnline:boolean,s:GameState):void {
+    drawRetroComputer(this.ctx,objectCamera(camera,p,1.1,.7,(p as PlacedPoint).rotation),p,i,t,isOnline,s);
+  }
+  private owner(camera:Projection,t:number,s?:GameState):void {
+    const position=counterPoint(s,{x:1.45,y:1.05}),r=placedObject(s,"counter",{x:.9,y:1.42}).rotation??0;
+    // Mesmo rosto e uniforme em todos os quadros; o balcão oclui parcialmente o corpo.
+    drawActor(this.ctx,camera,{...position,kind:"owner",id:0,time:t,pose:"idle",direction:(["south","west","north","east"] as const)[r]});
+    // Bandeja oval na mão do proprietário, preservando rosto e hitbox do ator.
+    const plate=iso(counterPoint(s,{x:1.63,y:1.27}),camera,45),scale=camera.zoom;
+    this.ctx.save();
+    this.ctx.lineWidth=3*scale;
+    this.ctx.strokeStyle="#314859";
+    this.ctx.fillStyle="#edf1e6";
+    this.ctx.beginPath();this.ctx.ellipse(plate.x,plate.y,16*scale,6*scale,-0.10,0,Math.PI*2);
+    this.ctx.fill();this.ctx.stroke();
+    this.ctx.strokeStyle="#bdc9c5";this.ctx.lineWidth=1.2*scale;
+    this.ctx.beginPath();this.ctx.ellipse(plate.x,plate.y,11*scale,3.5*scale,-0.10,0,Math.PI*2);
+    this.ctx.stroke();this.ctx.restore();
+    this.heroHitbox=actorHitbox(camera,position.x,position.y);
+  }
+  private customer(camera:Projection,c:Customer,t:number,seated:boolean,s:GameState):void {
+    let x=c.x,y=c.y;
+    const moving=c.stage==="arriving" || c.stage==="to_pc" ||
+      c.stage==="shopping" || c.stage==="leaving";
+    let pose:ActorPose=moving&&Math.hypot(c.target.x-c.x,c.target.y-c.y)>.0001?"walking":"idle";
+    let transition=1;
+    if(seated && c.pcIndex!==null){
+      const p=pcPosition(c.pcIndex,s);
+      const seat=computerSeat(p);x=seat.x;y=seat.y;
+      pose=c.stage==="standing"?"standing-up":"sitting";
+      transition=c.stage==="sitting"?Math.min(1,(c.poseMinutes??0)/3):
+        c.stage==="standing"?Math.min(1,(c.poseMinutes??0)/3):1;
+    }
+    const direction=seated?(["north","east","south","west"] as const)[pcPosition(c.pcIndex!,s).rotation??0]:
+      moving?movementDirection({x:c.x,y:c.y},c.target,c.facing??"south"):
+      (c.facing??"south");
+    drawActor(this.ctx,camera,{
+      x,y,kind:c.costume,id:c.id,time:t+0.29*c.id,
+      pose,direction,transition
+    });
+    if(seated && c.pcIndex!==null){
+      const style=actorStyleFor(c.costume,c.id);
+      const weight=c.stage==="using"?1:
+        c.stage==="sitting"?transition:
+        c.stage==="standing"?1-transition:0;
+      drawSeatedKeyboardOverlay(this.ctx,objectCamera(camera,pcPosition(c.pcIndex,s),1.1,.7,pcPosition(c.pcIndex,s).rotation),pcPosition(c.pcIndex,s),t,
+        style.skin,style.shirt,weight);
+    }
+    if(c.vip){
+      const marker=iso({x,y},camera,100);
+      this.ctx.save();this.ctx.font="bold "+Math.max(10,12*camera.zoom)+"px system-ui,sans-serif";
+      this.ctx.textAlign="center";this.ctx.lineWidth=2*camera.zoom;this.ctx.strokeStyle="#273448";
+      this.ctx.strokeText("★ VIP",marker.x,marker.y);this.ctx.fillStyle="#f5ca64";this.ctx.fillText("★ VIP",marker.x,marker.y);this.ctx.restore();
+    }
+    if(c.stage==="waiting"){
+      const p=iso({x,y},camera,95);
+      this.ctx.save();
+      this.ctx.font="900 "+Math.max(20,23*camera.zoom)+"px system-ui,sans-serif";
+      this.ctx.textAlign="center";this.ctx.textBaseline="middle";
+      this.ctx.lineJoin="round";this.ctx.lineWidth=4*camera.zoom;
+      this.ctx.strokeStyle="#222535";this.ctx.strokeText("?",p.x,p.y);
+      this.ctx.fillStyle="#FF4848";this.ctx.fillText("?",p.x,p.y);
+      this.ctx.restore();
+    }
+  }
+  private doorMarker(camera:Projection,s:GameState):void {
+    // Somente limiar de entrada dentro do salão; não há rua, fachada externa ou chuva.
+    const x=7.5,y=6,ctx=this.ctx;
+    polygon(ctx,[
+      iso({x:x-0.45,y:y-0.24},camera),iso({x:x+0.45,y:y-0.24},camera),
+      iso({x:x+0.45,y},camera),iso({x:x-0.45,y},camera)
+    ],"#D8B98D","#856F62");
+    const left=iso({x:x-0.45,y},camera),right=iso({x:x+0.45,y},camera);
+    ctx.beginPath();ctx.moveTo(left.x,left.y);ctx.lineTo(right.x,right.y);
+    ctx.strokeStyle="#FFF0BC";ctx.lineWidth=4*camera.zoom;ctx.stroke();
+    const mid=iso({x,y:y-0.45},camera);
+    polygon(ctx,[{x:mid.x-10,y:mid.y+5},{x:mid.x+10,y:mid.y+5},
+      {x:mid.x,y:mid.y-6}],"#F1D49B");
+  }
+  private sign(camera:Projection,w:number):void {
+    // Plaqueta de marca na área vazia do fundo: não cobre quadros nem clientes.
+    const ctx=this.ctx,x=28,y=28,label=w>8?"SALÃO AMPLIADO":"PRIMEIRAS CONEXÕES";
+    ctx.save();
+    ctx.fillStyle="rgba(25,46,42,0.9)";ctx.fillRect(x,y,210,50);
+    ctx.strokeStyle="#5e7b52";ctx.lineWidth=1;ctx.strokeRect(x+.5,y+.5,209,49);
+    ctx.fillStyle=theme.mint;ctx.fillRect(x+13,y+14,9,9);
+    ctx.fillStyle=theme.amber;ctx.fillRect(x+20,y+22,4,4);
+    ctx.font="bold 17px Trebuchet MS, sans-serif";ctx.fillStyle=theme.paper;
+    ctx.fillText("LAN HOUSE",x+35,y+24);
+    ctx.font="bold 9px Courier New, monospace";ctx.fillStyle=theme.mint;
+    ctx.fillText(label,x+35,y+39);
+    ctx.restore();
+    void camera;
+  }
+  private hudInside(ctx:CanvasRenderingContext2D,s:GameState):void {
+    ctx.save();ctx.fillStyle="rgba(25,46,42,.88)";ctx.fillRect(18,558,310,29);
+    ctx.fillStyle=theme.mint;ctx.fillRect(29,571,5,5);
+    ctx.fillStyle=theme.paper;ctx.font="bold 10px Courier New, monospace";
+    ctx.fillText(pcCount(s)+" ESTAÇÕES  /  "+s.customers.length+" CLIENTES",44,576);ctx.restore();
+  }
+}
