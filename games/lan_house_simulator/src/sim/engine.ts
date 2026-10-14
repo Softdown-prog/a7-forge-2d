@@ -27,6 +27,7 @@ import {recordPaidSession,recordStationMinute,validStationLedger} from "./statio
 import {crowdRoute} from "./crowdNavigation.js";
 import {validLcdModels} from "./computerModels.js";
 import {validHardwareState} from "./hardware.js";
+import {stationPoweredOn,validStationPower} from "./stationPower.js";
 import {WINDOWS_ERAS} from "./era.js";
 import {clampPriceToEra,normalizedHourlyPrice} from "./historicalEconomy.js";
 import {validGpuGameLicenses,gpuGameHourlyRate,gpuGameSessionPrice,wantsGpuGame} from "./gpuGames.js";
@@ -192,12 +193,12 @@ export function chooseAvailablePc(s:GameState,c:Customer):number|undefined {
  // A fila e a escolha antiga não mudam para os demais visitantes.
  if(c.gpuGamer){
   for(let i=0;i<pcCount(s);i++){
-   if(isReserved(s,i)||pcBroken(s,i)||gpuGameHourlyRate(s,i)<=s.pricePerHour)continue;
+   if(isReserved(s,i)||pcBroken(s,i)||!stationPoweredOn(s,i)||gpuGameHourlyRate(s,i)<=s.pricePerHour)continue;
    if(navigableRoute(s,origin,computerSeat(pcPosition(i,s))))return i;
   }
  }
  for(let i=0;i<pcCount(s);i++){
-  if(isReserved(s,i)||pcBroken(s,i))continue;
+  if(isReserved(s,i)||pcBroken(s,i)||!stationPoweredOn(s,i))continue;
   const destination=computerSeat(pcPosition(i,s));
   const route=navigableRoute(s,origin,destination);
   if(!route)continue;
@@ -370,7 +371,7 @@ function resolvePurchase(s: GameState, c: Customer): void {
 function advanceCustomer(s: GameState, c: Customer): void {
   switch (c.stage) {
     case "arriving":
-      if (moveRoute(s,c)) c.stage = "waiting";
+      if(localMinute(s)<CLOSING_START_MINUTE&&moveRoute(s,c))c.stage="waiting";
       return;
     case "waiting": if(localMinute(s)<CLOSING_START_MINUTE)tryServe(s, c);return;
     case "to_pc":
@@ -418,6 +419,7 @@ function advanceCustomer(s: GameState, c: Customer): void {
       }
       return;
     case "standing":
+      if(localMinute(s)>=CLOSING_START_MINUTE)return; // Aguarda sua vez na dispersão da saída.
       c.poseMinutes = (c.poseMinutes ?? 0) + 1;
       if (c.poseMinutes >= 3) {
         if(c.pcIndex!==null && pcBroken(s,c.pcIndex))addLog(s,"PC "+(c.pcIndex+1)+" precisa de manutenção.");
@@ -458,6 +460,8 @@ function nextDay(s: GameState): void {
   if (s.cash < 0) addLog(s, "Atenção: caixa negativo. Reorganize a operação!");
 }
 export function visitorArrivalChance(s:GameState,occupied:number):number {
+  // Quando todas as máquinas estão desligadas, o salão não aceita novas sessões.
+  if(Array.from({length:pcCount(s)},(_,i)=>i).every(i=>!stationPoweredOn(s,i)))return 0;
   if(localMinute(s)>=LAST_ADMISSION_MINUTE||
     (localMinute(s)<10&&s.customers.some(c=>c.stage==="leaving")))return 0;
   const factor=demandFactor(normalizedHourlyPrice(s,s.pricePerHour),s.reputation,online(s),s.weather==="rain");
@@ -474,12 +478,12 @@ function prepareClosing(s:GameState):void {
    if(active(a)!==active(b))return active(a)?1:-1;
    return Math.hypot(a.x-exit.x,a.y-exit.y)-Math.hypot(b.x-exit.x,b.y-exit.y)||a.id-b.id;
  });
- for(const [index,c] of candidates.entries()){
-   // Limitar a uma saída nova a cada dois minutos do relógio do jogo.
-   if(minute<CLOSING_START_MINUTE+index*2)continue;
-   if(active(c)&&minute<SESSION_FINISH_MINUTE&&c.usedMinutes<(c.sessionMinutes??SESSION_MINUTES))continue;
-   sendHome(s,c);
- }
+ // Poucos clientes por vez: um a cada dois minutos no começo, um por
+ // minuto depois das 21h20. Evita uma debandada quando muitos PCs desocupam.
+ if(minute<CLOSING_START_MINUTE+20&&(minute-CLOSING_START_MINUTE)%2!==0)return;
+ const next=candidates.find(c=>
+   !active(c)||minute>=SESSION_FINISH_MINUTE||c.usedMinutes>=(c.sessionMinutes??SESSION_MINUTES));
+ if(next)sendHome(s,next);
 }
 function advanceMinute(s: GameState): void {
   if(s.totalMinutes>=GAME_LAST_MINUTE)return;
@@ -507,8 +511,10 @@ function advanceMinute(s: GameState): void {
   const occupied = s.customers.filter(c => c.stage === "using" || c.stage === "to_pc").length;
   const admission=visitorArrivalChance(s,occupied);
   if (s.customers.length < 14 && admission>0 && random(s)<admission)spawn(s);
-  refreshCounterQueue(s);
-  refreshRetailQueues(s);
+  if(localMinute(s)<CLOSING_START_MINUTE){
+    refreshCounterQueue(s);
+    refreshRetailQueues(s);
+  }
   // Remover cada cliente assim que atravessa a soleira, liberando a porta
   // antes do próximo. Dar prioridade a quem já está saindo e está mais perto.
   const exit=entrance(s);
@@ -539,7 +545,7 @@ export function isValidSave(value: unknown): value is GameState {
   const v = value as Partial<GameState>;
   const metrics=[v.monthPcUsedMinutes,v.monthPcCapacityMinutes,v.lastMonthPcUsedMinutes,
     v.lastMonthPcCapacityMinutes,v.monthRevenueBase,v.monthExpensesBase,v.lastMonthRevenue,v.lastMonthExpenses];
-  return (v.economyVersion===undefined||v.economyVersion===2) && validDiscCopier(v) && validHardwareState(v) && validGpuGameLicenses(v.licensedGpuGames,v) && validEraGameLicenses(v.licensedEraGames,v) && validLcdModels(v.pcLcdModels) && validStationLedger(v.stationLedger) &&
+  return validStationPower(v) && (v.economyVersion===undefined||v.economyVersion===2) && validDiscCopier(v) && validHardwareState(v) && validGpuGameLicenses(v.licensedGpuGames,v) && validEraGameLicenses(v.licensedEraGames,v) && validLcdModels(v.pcLcdModels) && validStationLedger(v.stationLedger) &&
     (v.stationLedger===undefined||v.stationLedger.length<=pcCount(v as GameState)) &&
     (v.pcWindows===undefined||(Array.isArray(v.pcWindows)&&v.pcWindows.length<=200&&v.pcWindows.every(id=>id===null||WINDOWS_ERAS.some(w=>w.id===id)))) &&
     metrics.every(n=>n===undefined||(Number.isFinite(n)&&n>=0&&n<=1e9)) &&
