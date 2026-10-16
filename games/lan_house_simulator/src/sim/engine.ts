@@ -527,6 +527,7 @@ function nextDay(s: GameState): void {
     s.cash -= bill; s.expenses += bill;
     s.energyAccrued=0;
     s.employeePayrollAccrued=0;
+    s.employeeWorkedDays={cleaner:0,technician:0};
     closeFinancialMonth(s);
     addLog(s, "Contas do mês pagas: -R$ " + bill + " (energia R$ "+energy+"; salários R$ "+wages+"; aluguel, internet e manutenção).");
   }
@@ -585,6 +586,9 @@ function advanceMinute(s: GameState): void {
     }
   }
   dispatchHiredStaff(s);
+  // Uma visita contratual ainda ativa após a virada do dia ganha uma só diária
+  // no novo dia, também quando o jogo retoma um save intermediário.
+  accrueEmployeeDay(s);
   tickServices(s);
   prepareClosing(s);
   const occupied = s.customers.filter(c => c.stage === "using" || c.stage === "to_pc").length;
