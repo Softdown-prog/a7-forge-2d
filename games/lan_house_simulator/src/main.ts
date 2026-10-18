@@ -1,4 +1,5 @@
 import {mountCloudControls} from "./ui/cloudControls.js";
+import {renderTimeWeatherPanel} from "./ui/timeWeatherPanel.js";
 import {buyPrinter,quotePrinter,printPaperInkCost,pagesPrintedToday,setPrintPrice,PRINT_MAX_PRICE} from "./sim/printService.js";
 import {buyDiscCopier,quoteDiscCopier,discMediaCost,discCopiesToday,setDiscCopyPrice,DISC_COPIER_YEAR,DISC_COPIES_PER_DAY,MAX_DISC_PRICE} from "./sim/discCopy.js";
 import {drawDiscCopier} from "./render/discCopierArt.js";
@@ -224,6 +225,12 @@ document.getElementById("menu-options")?.addEventListener("click",()=>{
  document.getElementById("menu-options")?.setAttribute("aria-expanded",String(!settingsPanel!.hidden));
 });
 soundToggle.addEventListener("change",()=>{soundEnabled=soundToggle!.checked;soundscape.setEnabled(soundEnabled);try{localStorage.setItem("lhs.sound",soundEnabled?"on":"off");}catch{}});
+// Populate the expanded view immediately on touch or keyboard, rather than
+// waiting for the next throttled HUD refresh.
+document.getElementById("time-weather-panel")?.addEventListener("toggle",()=>{
+ const panel=document.getElementById("time-weather-panel");
+ if(panel?.hasAttribute("open"))renderTimeWeatherPanel(game,iconMarkup);
+});
 document.getElementById("open-menu")?.addEventListener("click",showMenu);
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&isPlaying){if(layoutEditor.active)layoutEditor.close();else if(placingKind||relocating||wallMode||installingAnnexPc)stopPlacement();else showMenu();}});
 let shopOpen=false;
@@ -1008,14 +1015,8 @@ function renderUI(liveOnly=false):void {
   if(shopButton)shopButton.setAttribute("aria-expanded",String(shopOpen));
   renderShop(!liveOnly);
   activateAdminTab(activeAdminTab);
-  const days=dayNumber(game)-1;
+  renderTimeWeatherPanel(game,iconMarkup);
   const year=gameYear(game);
-  const month=Math.floor((days%360)/30)+1;
-  const monthDay=days%30+1;
-  const calendar=document.getElementById("calendar-hud");
-  if(calendar){const html=iconMarkup("calendar")+(game.totalMinutes>=GAME_LAST_MINUTE?"Fim do calendário · ":"")+"Dia "+dayNumber(game)+" · "+String(monthDay).padStart(2,"0")+"/"+String(month).padStart(2,"0")+"/"+year+" · "+displayTime(game);if(calendar.innerHTML!==html)calendar.innerHTML=html;}
-  const weather=document.getElementById("weather-hud");
-  if(weather){const html=iconMarkup(game.weather==="rain"?"rain":"sun")+(game.weather==="rain"?"Chuva":"Tempo firme");if(weather.innerHTML!==html)weather.innerHTML=html;}
   const setText=(id:string,value:string):void=>{const node=document.getElementById(id);if(node&&!node.closest(".admin-section[hidden],.management-page[hidden]")&&node.textContent!==value)node.textContent=value;};
   if(adminOpen){
   const stationRevision=[year,game.cash,game.economyVersion,game.pcTiers,game.pcWindows,game.pcWindowsLicenses,game.pcPoweredOff,game.pcGpus,game.pcLcdModels,game.pcComponents,Array.from({length:pcCount(game)},(_,i)=>stationOccupied(game,i)),game.repairJobs?.map(j=>[j.pc,j.phase,Math.floor(j.progress/j.duration*4)])];
