@@ -8,6 +8,8 @@ import {createPs1ActionsPort} from "./application/ps1ActionsPort.js";
 import {createPs1AdminPort} from "./application/ps1AdminPort.js";
 import {createGpuDownloadMetersPort} from "./application/gpuDownloadMetersPort.js";
 import {refreshGpuDownloadMeters} from "./ui/gpuDownloadMeters.js";
+import {createWindowsLicensePort} from "./application/windowsLicensePort.js";
+import {renderWindowsLicensePanel} from "./ui/windowsLicensePanel.js";
 import {renderPs1AdminPanel} from "./ui/ps1AdminPanel.js";
 import {createShopActionsPort} from "./application/shopActionsPort.js";
 import {installShopControls} from "./ui/shopControls.js";
@@ -50,7 +52,8 @@ import { createGame, displayTime, online, pcCount, stepGame, isValidSave, applyR
 import { basicGamesLicenseCost, supplierLevel, wholesaleCost, monthlyBills, energyMonthlyEstimate, productPrice } from "./sim/economy.js";
 import {financialSnapshot,monthlyClosingSnapshot} from "./sim/financialClarity.js";
 import {computerOccupancyPercent,expansionAdvice} from "./sim/financialReview.js";
-import {stationAccountingSummary} from "./sim/stationAccounting.js";
+import {createStationLedgerPort} from "./application/stationLedgerPort.js";
+import {renderStationLedgerRows} from "./ui/stationLedgerPanel.js";
 import {hourlyPriceInsight,hourlyPriceScenarios,energyYearOutlook} from "./sim/pricingInsights.js";
 import {annualHourlyCeiling,allowableHourlyPrice,priceIndex,yearFromMinutes,
  SESSION_PACKAGES,sessionPrice,clampPriceToEra,ipcaLastYear,MIN_HOURLY_PRICE} from "./sim/historicalEconomy.js";
@@ -75,7 +78,7 @@ import { Soundscape } from "./audio/soundscape.js";
 import {consumeNewMail,mailBaseline} from "./audio/mailNotification.js";
 import {unreadNotices,missingWindowsLicenses} from "./sim/notices.js";
 import {decisionOptions} from "./sim/decisions.js";
-import {gameYear,INTERNET_ERAS,WINDOWS_ERAS,installedWindows} from "./sim/era.js";
+import {gameYear,INTERNET_ERAS,WINDOWS_ERAS} from "./sim/era.js";
 import {GPU_CATALOG,installedGpu,gpuSpec} from "./sim/gpu.js";
 import {GPU_GAME_CATALOG,quoteGpuGame,gpuGameHourlyRate,gpuGameInstalledOnPc,gpuGameAttraction,gpuGameInstallJob} from "./sim/gpuGames.js";
 import {gpuDemandReport,gpuLicenseCoverage} from "./sim/gpuDemand.js";
@@ -89,7 +92,7 @@ import {employeeHired,employeeDailyWage} from "./sim/staff.js";
 import {serviceVisitCost} from "./sim/historicalEconomy.js";
 import {LCD_CATALOG,installedLcd,lcdSpec,stationModelName,stationOccupied,type LcdId} from "./sim/computerModels.js";
 import {drawRetroComputer} from "./render/retroComputer.js";
-import {windowsHardwareIssues,hardwareFor,buildParts,requiredPsuWatts} from "./sim/hardware.js";
+import {hardwareFor,buildParts,requiredPsuWatts} from "./sim/hardware.js";
 import {renderHardwarePanel,type HardwareTab} from "./ui/hardwarePanel.js";
 import {stationPoweredOn,stationHasCustomer} from "./sim/stationPower.js";
 
@@ -830,6 +833,8 @@ function renderShop(force=true):void{
  }
 }
 const gpuDownloadMetersPort=createGpuDownloadMetersPort(()=>game);
+const windowsLicensePort=createWindowsLicensePort(()=>game);
+const stationLedgerPort=createStationLedgerPort(()=>game);
 function renderUI(liveOnly=false):void {
   nightTournamentHud.render(game);
   if(adminOpen&&activeAdminTab==="finance"&&managementPanels.active("finance","events"))
@@ -1115,28 +1120,8 @@ function renderUI(liveOnly=false):void {
   const poweredOff=Array.from({length:pcCount(game)},(_,i)=>i).filter(i=>!stationPoweredOn(game,i)).length;
   setText("pc", pcCount(game)+" computadores · "+game.customers.filter(c=>c.stage==="using").length+" ocupados · "+poweredOff+" desligados · "+broken+" em manutenção");
   const stationLedgerRows=document.querySelector<HTMLTableSectionElement>("#station-ledger-rows");
-  if(stationLedgerRows&&adminOpen&&activeAdminTab==="computers"&&managementPanels.active("computers","ledger")){
-    const rows:HTMLTableRowElement[]=[];
-    const currency=(value:number):string=>value.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
-    for(let i=0;i<pcCount(game);i++){
-      const account=stationAccountingSummary(game,i);
-      const row=document.createElement("tr");
-      const cells=[
-        "PC "+(i+1),String(account.sessions),String(account.vipSessions),
-        Math.floor(account.occupiedMinutes).toLocaleString("pt-BR"),
-        currency(account.sessionRevenue),currency(account.energyShare),
-        currency(account.sessionRevenue-account.energyShare)
-      ];
-      for(let j=0;j<cells.length;j++){
-        const cell=j===0?document.createElement("th"):document.createElement("td");
-        if(j===0)(cell as HTMLTableCellElement).scope="row";
-        cell.textContent=cells[j]!;
-        row.append(cell);
-      }
-      rows.push(row);
-    }
-    const next=document.createElement("tbody");next.append(...rows);syncPanelChildren(stationLedgerRows,next);
-  }
+  if(stationLedgerRows&&adminOpen&&activeAdminTab==="computers"&&managementPanels.active("computers","ledger"))
+    renderStationLedgerRows(stationLedgerRows,stationLedgerPort);
   const liveMaintenance=document.getElementById("pc-maintenance");
   if(liveMaintenance&&adminOpen&&activeAdminTab==="computers"&&!managementPanels.active("computers","ledger")&&panelChanged("computers",[managementPanels.current("computers"),selectedLcdPc,selectedHardwareTab,stationRevision,managementPanels.active("computers","operations")?game.pcWear?.map(Math.round):null],!liveOnly)){
     const page=managementPanels.current("computers");
@@ -1275,29 +1260,8 @@ function renderUI(liveOnly=false):void {
     basicLicenseButton.disabled=game.cash<basicLicensePrice;
     basicLicenseButton.textContent="Regularizar jogos · "+inCurrency(basicLicensePrice);
   }
-  if(licensePanel&&adminOpen&&activeAdminTab==="licenses"&&managementPanels.active("licenses","windows")&&panelChanged("licensePanel",[stationRevision],!liveOnly)){
-    const nextWindows=document.createElement("div");
-    for(let i=0;i<pcCount(game);i++){
-      const line=document.createElement("div");line.className="price-control";
-      const title=document.createElement("strong");
-      const edition=WINDOWS_ERAS.find(w=>w.id===installedWindows(game,i))!;
-      const isLicensed=game.pcWindowsLicenses?.[i]===true;
-      title.textContent="PC "+(i+1)+" · "+edition.name+(isLicensed?" · licenciado":" · sem licença");
-      const choices=document.createElement("div");choices.className="action-row wrap";
-      for(const item of WINDOWS_ERAS){
-        const btn=document.createElement("button");btn.type="button";btn.className="slice";
-        btn.dataset.winPc=String(i);btn.dataset.winEdition=item.id;
-        const already=isLicensed&&edition.id===item.id;
-        const reasons=windowsHardwareIssues(game,i,item.id);
-        btn.textContent=item.name+" · "+(year<item.year?"🔒 "+item.year:already?"Instalado":"R$ "+item.cost);
-        btn.disabled=year<item.year||already||game.cash<item.cost||reasons.length>0||stationPoweredOn(game,i)||stationOccupied(game,i)||!!game.repairJobs?.some(j=>j.pc===i);
-        btn.title=reasons.join(" ");
-        choices.appendChild(btn);
-      }
-      line.append(title,choices);nextWindows.appendChild(line);
-    }
-   syncPanelChildren(licensePanel,nextWindows);
-  }
+  if(licensePanel&&adminOpen&&activeAdminTab==="licenses"&&managementPanels.active("licenses","windows")&&panelChanged("licensePanel",[stationRevision],!liveOnly))
+   renderWindowsLicensePanel(licensePanel,windowsLicensePort);
   if(eraGamePanel&&adminOpen&&activeAdminTab==="licenses"&&managementPanels.active("licenses","classic")&&panelChanged("eraGamePanel",[year,stationRevision,game.licensedGames,game.licensedEraGames,game.ericSecondMailDelivered],!liveOnly)){
     const nextEraGames=document.createElement("div");
     const owned=game.licensedEraGames??[];

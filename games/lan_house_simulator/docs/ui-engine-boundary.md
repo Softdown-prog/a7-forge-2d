@@ -123,6 +123,19 @@
 - `main.ts` injeta a nova porta de leitura. Instalação, cancelamento, preços, simulação, RNG e esquema de save não foram alterados.
 - `tests/gpu-download-ui-boundary.test.mjs` cobre progresso, pausa, importação de save, aba oculta e a fronteira de dependências.
 
+## Décimo sexto recorte: licenças Windows por computador
+
+- `src/application/windowsLicensePort.ts` projeta licenças, compatibilidade, custos e bloqueios por ano, energia, ocupação, manutenção e saldo a partir da partida corrente.
+- `src/ui/windowsLicensePanel.ts` apresenta os controles com os mesmos `data-win-pc` / `data-win-edition` e aplica `syncPanelChildren`, preservando o comportamento do painel mobile.
+- O `main.ts` conserva o gatilho por aba e `panelChanged`; as regras de compra, estado do motor e formato do save permanecem intactos.
+
+## Décimo sétimo recorte: contabilidade financeira por computador
+
+- `src/application/stationLedgerPort.ts` projeta sessões, sessões VIP, minutos ocupados, faturamento, rateio de energia e saldo por PC sem entregar referências mutáveis do save.
+- `src/ui/stationLedgerPanel.ts` conserva a tabela acessível (`th scope="row"`), formatação pt-BR e `syncPanelChildren`, sem ler diretamente a simulação.
+- `main.ts` só injeta a porta e chama o renderizador quando Computadores > Contabilidade está ativo. Nenhuma mudança nas regras financeiras, no Canvas, toque, RNG ou esquema de save.
+- `tests/station-ledger-boundary.test.mjs` verifica dados, importação de partida, cópias primitivas e dependências das camadas.
+
 ## Cuidados
 
 - Não alterar IDs de elementos, esquema do save, RNG, tempo simulado ou política de autosave.
