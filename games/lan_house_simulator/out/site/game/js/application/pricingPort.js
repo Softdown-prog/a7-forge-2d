@@ -1,0 +1,59 @@
+import { setHourlyPrice, setProductPrice, productPrice } from "../sim/economy.js?v=fa1ff35e3337";
+import { setPrintPrice } from "../sim/printService.js?v=fa1ff35e3337";
+import { setDiscCopyPrice } from "../sim/discCopy.js?v=fa1ff35e3337";
+import { setPs1HourlyPrice, ps1HourPrice } from "../sim/ps1.js?v=fa1ff35e3337";
+import { clampPriceToEra } from "../sim/historicalEconomy.js?v=fa1ff35e3337";
+const invalid = { ok: false, message: "Ajuste de preço inválido." };
+const valid = (direction) => direction === 1 || direction === -1;
+const cents = (value) => Math.round(value * 100) / 100;
+export function createPricingPort(getState) {
+    return {
+        changeHourly(direction) {
+            if (!valid(direction))
+                return invalid;
+            const state = getState(), step = state.economyVersion === 2 ? .5 : 2;
+            return setHourlyPrice(state, cents(state.pricePerHour + direction * step));
+        },
+        changePs1(direction) {
+            if (!valid(direction))
+                return invalid;
+            const state = getState();
+            return setPs1HourlyPrice(state, cents(ps1HourPrice(state) + direction * .25));
+        },
+        changePrinting(direction, requestedDelta) {
+            if (!valid(direction))
+                return invalid;
+            const state = getState(), step = state.economyVersion === 2 ? .5 : 1;
+            if (requestedDelta !== undefined && requestedDelta !== direction * step)
+                return invalid;
+            if (!state.printer)
+                return { ok: false, message: "Compre uma impressora primeiro." };
+            return setPrintPrice(state, cents(state.printer.price + direction * step));
+        },
+        changeDisc(kind, direction) {
+            if (!valid(direction) || !(kind === "cd" || kind === "dvd"))
+                return invalid;
+            const state = getState();
+            if (!state.discCopier)
+                return { ok: false, message: "Compre a copiadora primeiro." };
+            return setDiscCopyPrice(state, kind, state.discCopier.prices[kind] + direction);
+        },
+        changeRetail(item, direction) {
+            if (!valid(direction) || !(item === "soda" || item === "candy" || item === "snacks"))
+                return invalid;
+            const state = getState();
+            return setProductPrice(state, item, productPrice(state, item) + direction);
+        },
+        canMigrateHistorical() { return getState().economyVersion !== 2; },
+        migrateHistorical() {
+            const state = getState();
+            if (state.economyVersion === 2)
+                return false;
+            state.economyVersion = 2;
+            if (state.retailPrices?.soda === 8 && state.retailPrices.candy === 5 && state.retailPrices.snacks === 9)
+                delete state.retailPrices;
+            clampPriceToEra(state);
+            return true;
+        }
+    };
+}

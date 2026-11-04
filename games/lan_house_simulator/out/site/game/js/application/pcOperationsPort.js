@@ -1,0 +1,62 @@
+import { pcCount, pcWear, pcBroken } from "../sim/engine.js?v=fa1ff35e3337";
+import { stationPoweredOn, stationHasCustomer } from "../sim/stationPower.js?v=fa1ff35e3337";
+import { employeeHired } from "../sim/staff.js?v=fa1ff35e3337";
+import { workPhaseLabel } from "../sim/staffPresentation.js?v=fa1ff35e3337";
+import { serviceVisitCost } from "../sim/historicalEconomy.js?v=fa1ff35e3337";
+import { gameYear } from "../sim/era.js?v=fa1ff35e3337";
+import { isLinuxPc } from "../sim/linuxQuest.js?v=fa1ff35e3337";
+export function createPcOperationsPort(getState) {
+    return {
+        overview() {
+            const game = getState(), installed = pcCount(game);
+            let poweredOff = 0, broken = 0, totalWear = 0;
+            for (let i = 0; i < installed; i++) {
+                if (!stationPoweredOn(game, i))
+                    poweredOff++;
+                if (pcBroken(game, i))
+                    broken++;
+                totalWear += pcWear(game, i);
+            }
+            // Whole-percentage snapshots coalesce tiny wear changes between frames.
+            const repairing = new Set((game.repairJobs ?? [])
+                .filter(job => job.phase !== "leaving").map(job => job.pc)).size;
+            return { installed, poweredOff, broken, repairing,
+                averageWear: installed ? Math.min(100, Math.max(0, Math.round(totalWear / installed))) : 0 };
+        },
+        summary() {
+            const game = getState(), count = pcCount(game);
+            const broken = Array.from({ length: count }, (_, i) => i).filter(i => pcBroken(game, i)).length;
+            const poweredOff = Array.from({ length: count }, (_, i) => i).filter(i => !stationPoweredOn(game, i)).length;
+            return count + " computadores · " + game.customers.filter(c => c.stage === "using" && c.ps1StationIndex === undefined && c.ps2StationIndex === undefined).length +
+                " ocupados · " + poweredOff + " desligados · " + broken + " em manutenção";
+        },
+        rows() {
+            const game = getState(), year = gameYear(game);
+            return Array.from({ length: pcCount(game) }, (_, i) => {
+                const wear = pcWear(game, i), isOn = stationPoweredOn(game, i), busy = stationHasCustomer(game, i);
+                const job = game.repairJobs?.find(j => j.pc === i);
+                const tier = game.pcTiers?.[i] ?? 1, hardwareYear = tier === 1 ? 2000 : 2003;
+                const repairLabel = job ?
+                    "Técnico · " + workPhaseLabel("technician", job) + (job.phase === "working" ? " · " + Math.floor(job.progress / job.duration * 100) + "%" : "") :
+                    employeeHired(game, "technician") ? "Solicitar reparo · equipe contratada" :
+                        "Chamar técnico avulso · R$ " + serviceVisitCost(game, "repair", wear).toLocaleString("pt-BR");
+                return {
+                    index: i, poweredOn: isOn,
+                    label: "PC " + (i + 1) + " · " + (isOn ? "LIGADO" : "DESLIGADO") +
+                        " · desgaste " + Math.round(wear) + "%" + (pcBroken(game, i) ? " · MANUTENÇÃO" : "") +
+                        " · hardware nível " + tier + (isLinuxPc(game, i) ? " · Linux" : " · Windows"),
+                    powerLabel: isOn ? "Desligar estação" : "Ligar estação",
+                    powerDisabled: isOn ? busy : !!game.repairJobs?.some(j => j.pc === i && j.phase !== "leaving"),
+                    powerTitle: isOn && busy ? "Aguarde o cliente sair para desligar." : isOn ?
+                        "Economize energia e libere atualizações." : "Religue para receber clientes.",
+                    repairLabel,
+                    repairDisabled: wear < 1 || !!job || game.customers.some(c => c.pcIndex === i && ["using", "sitting", "standing", "to_pc"].includes(c.stage)),
+                    progress: job ? { max: job.duration, value: job.progress, ariaLabel: "Reparo do PC " + (i + 1) } : null,
+                    upgradeLabel: tier >= 3 ? "Ver Peças e configuração" :
+                        "Kit CRT " + hardwareYear + " · " + (year < hardwareYear ? "🔒 " + hardwareYear : "R$ " + (tier * 240)),
+                    upgradeDisabled: tier >= 3 || year < hardwareYear || game.cash < tier * 240 || isOn || busy || !!job
+                };
+            });
+        }
+    };
+}

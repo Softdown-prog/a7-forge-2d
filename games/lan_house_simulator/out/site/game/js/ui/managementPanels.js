@@ -1,0 +1,198 @@
+/** The advanced merchandise catalog appears in 2000, but legacy restocking is always available. */
+export const MERCHANDISE_CATALOG_UNLOCK_YEAR = 2000;
+export function installManagementPanels(admin, onChange, getYear) {
+    const selections = new Map();
+    const selectors = new Map();
+    const lockRefreshers = [];
+    const $ = (id) => document.getElementById(id);
+    const following = (start, end = null) => {
+        const nodes = [];
+        let node = start;
+        while (node && node !== end) {
+            nodes.push(node);
+            node = node.nextElementSibling;
+        }
+        return nodes;
+    };
+    const headingFor = (node) => { let heading = node.previousElementSibling; while (heading && heading.tagName !== 'H3')
+        heading = heading.previousElementSibling; return heading; };
+    function mount(area, pages, dynamic) {
+        const root = $('section-' + area), nav = document.createElement('nav');
+        nav.className = 'management-pages';
+        nav.setAttribute('aria-label', 'Painéis de ' + (root.querySelector('h3')?.textContent ?? area));
+        const angularRoot = area === 'computers' ? root.querySelector('#angular-computer-workspace') :
+            area === 'services' ? root.querySelector('#angular-service-workspace') :
+                area === 'stock' ? root.querySelector('#angular-stock-workspace') :
+                    area === 'finance' ? root.querySelector('#angular-finance-workspace') :
+                        area === 'prices' ? root.querySelector('#angular-prices-workspace') :
+                            area === 'licenses' ? root.querySelector('#angular-licenses-workspace') :
+                                area === 'consoles' ? root.querySelector('#angular-consoles-workspace') : null;
+        (angularRoot ?? root.querySelector('h3'))?.after(nav);
+        const controls = [], panes = [];
+        const isLocked = (page) => page.unlockYear !== undefined && getYear() < page.unlockYear;
+        const lockHint = area === 'stock' ? document.createElement('p') : null;
+        if (lockHint) {
+            lockHint.id = 'stock-catalog-unlock-note';
+            lockHint.className = 'management-lock-note';
+            lockHint.textContent = '🔒 Catálogo avançado disponível a partir de 2000. Até lá, reponha bebidas, doces e salgadinhos na aba Fornecedores.';
+            nav.after(lockHint);
+        }
+        for (const page of pages) {
+            const pane = document.createElement('section');
+            pane.className = 'management-page';
+            pane.id = 'page-' + area + '-' + page.id;
+            pane.dataset.managementPage = page.id;
+            pane.setAttribute('aria-label', page.label);
+            pane.hidden = true;
+            pane.append(...page.nodes);
+            root.append(pane);
+            panes.push(pane);
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'slice';
+            button.dataset.panelChoice = page.id;
+            button.setAttribute('aria-controls', pane.id);
+            button.textContent = page.label;
+            button.addEventListener('click', () => { select(page.id); admin.scrollTop = 0; onChange(); });
+            controls.push(button);
+            nav.append(button);
+        }
+        function select(id) {
+            const requested = pages.find(page => page.id === id);
+            // Disabled buttons cannot be clicked, and programmatic navigation must
+            // never expose the locked catalog through old shortcut links.
+            const chosen = requested && !isLocked(requested) ? requested : pages.find(page => !isLocked(page));
+            if (!chosen)
+                return;
+            selections.set(area, chosen.id);
+            for (const [i, pane] of panes.entries()) {
+                const active = pages[i] === chosen;
+                pane.hidden = !active;
+                controls[i].setAttribute('aria-pressed', String(active));
+                // One delegated maintenance host, mounted only in the selected task page.
+                if (active && dynamic && chosen.id !== 'ledger')
+                    pane.append(dynamic);
+            }
+            if (dynamic)
+                dynamic.hidden = chosen.id === 'ledger';
+            document.dispatchEvent(new CustomEvent('lhs:management-page-selected', { detail: { area, page: chosen.id } }));
+        }
+        lockRefreshers.push(() => {
+            for (const [i, page] of pages.entries()) {
+                if (page.unlockYear === undefined)
+                    continue;
+                const locked = isLocked(page), button = controls[i];
+                const label = (locked ? '🔒 ' : '🔓 ') + page.label + (locked ? ' · ' + page.unlockYear : '');
+                if (button.textContent !== label)
+                    button.textContent = label;
+                button.disabled = locked;
+                button.title = locked ? 'Disponível a partir de ' + page.unlockYear + '.' : '';
+                if (locked && selections.get(area) === page.id)
+                    select(pages.find(p => !isLocked(p)).id);
+                if (lockHint)
+                    lockHint.hidden = !locked;
+            }
+        });
+        selectors.set(area, select);
+        select(pages[0].id);
+        lockRefreshers[lockRefreshers.length - 1]();
+    }
+    const prices = $('section-prices'), insight = prices.querySelector('.price-insight');
+    const packageList = $('session-package-prices'), packages = [packageList.previousElementSibling, packageList];
+    // The optional Angular navigation is not a native task node: keep it anchored
+    // directly inside the administration section when the legacy panes are moved.
+    const hourly = following(prices.querySelector('h3').nextElementSibling, insight)
+        .filter(node => node.id !== 'angular-prices-workspace');
+    packages.forEach(node => node.remove());
+    mount('prices', [
+        { id: 'hourly', label: 'Hora e pacotes', nodes: [...hourly, ...packages] },
+        { id: 'insights', label: 'Análise da tarifa', nodes: [insight] },
+        { id: 'retail', label: 'Produtos', nodes: [$('retail-price-controls')] },
+        { id: 'printing', label: 'Impressões', nodes: [$('print-service-panel')] },
+        { id: 'discs', label: 'Cópias CD / DVD', nodes: [$('disc-copy-panel')] }
+    ]);
+    for (const [page, text] of [['printing', 'Compre a impressora na loja para oferecer este serviço.'], ['discs', 'Compre a copiadora na loja, disponível a partir de 2001.']]) {
+        const empty = document.createElement('p');
+        empty.className = 'management-empty';
+        empty.textContent = text;
+        $('page-prices-' + page).append(empty);
+    }
+    mount('stock', [
+        { id: 'catalog', label: 'Mercadorias', unlockYear: MERCHANDISE_CATALOG_UNLOCK_YEAR, nodes: [$('merchandise-catalog')] },
+        { id: 'suppliers', label: 'Fornecedores', nodes: [$('stock'), $('merchandise-suppliers'), $('supplier-status'), $('supplier-up').closest('.action-row')] },
+        { id: 'orders', label: 'Entregas', nodes: [$('merchandise-orders')] }
+    ]);
+    const computers = $('section-computers');
+    mount('computers', [
+        { id: 'operations', label: 'Operação e reparos', nodes: [] },
+        { id: 'hardware', label: 'Peças e configuração', nodes: [] },
+        { id: 'windows', label: 'Windows', nodes: [] },
+        { id: 'monitors', label: 'Monitores', nodes: [] },
+        { id: 'ledger', label: 'Receita por PC', nodes: [computers.querySelector('.station-ledger-panel')] }
+    ], $('pc-maintenance'));
+    const serviceRoot = $('section-services'), access = serviceRoot.querySelector('.service-access-review');
+    const network = following($('internet'));
+    const staff = Array.from(serviceRoot.children).filter(node => node !== serviceRoot.querySelector('h3') && node.id !== 'angular-service-workspace' && node !== access && !network.includes(node));
+    mount('services', [
+        { id: 'staff', label: 'Equipe e limpeza', nodes: staff },
+        { id: 'network', label: 'Internet e contrato', nodes: network },
+        { id: 'access', label: 'Passagens', nodes: [access] }
+    ]);
+    const licenseRoot = $('section-licenses'), classicHeading = headingFor($('era-game-catalog')), gpuHeading = headingFor($('gpu-game-catalog'));
+    const windows = following(licenseRoot.querySelector('h3').nextElementSibling, classicHeading)
+        .filter(node => node.id !== 'angular-licenses-workspace');
+    const classic = following(classicHeading, gpuHeading), advanced = following(gpuHeading);
+    mount('licenses', [
+        { id: 'windows', label: 'Windows por PC', nodes: windows },
+        { id: 'classic', label: 'Jogos clássicos', nodes: classic },
+        { id: 'gpu', label: 'Jogos com GPU', nodes: advanced }
+    ]);
+    const finance = $('section-finance');
+    mount('finance', [
+        { id: 'balance', label: 'Caixa e contas', nodes: [admin.querySelector('.balance-guide'), $('bill-watch'), ...following($('finance'), finance.querySelector('.finance-usage'))] },
+        { id: 'usage', label: 'Ocupação e resultado', nodes: [finance.querySelector('.finance-usage'), $('expansion')] },
+        { id: 'events', label: 'Primeira sexta', nodes: [$('first-meetup-panel')] },
+        { id: 'promotion', label: 'Divulgação', nodes: [finance.querySelector('.promotion-panel')] },
+        { id: 'feedback', label: 'Opiniões dos clientes', nodes: [$('customer-feedback-panel')] },
+        { id: 'restart', label: 'Reiniciar partida', nodes: [$('reset-game').closest('.action-row')] }
+    ]);
+    const consoleRoot = $('section-consoles'), discs = consoleRoot.querySelector('.ps1-disc-admin');
+    const consolePricing = following($('ps1-overview').nextElementSibling, discs);
+    mount('consoles', [
+        { id: 'stations', label: 'Bancadas', nodes: [$('ps1-stations'), $('ps2-stations')] },
+        { id: 'pricing', label: 'Preço por hora', nodes: [...consolePricing, $('ps2-pricing')] },
+        { id: 'discs', label: 'Jogos PS1 / PS2', nodes: [discs, $('ps2-game-admin')] }
+    ]);
+    const summary = document.createElement('details');
+    summary.className = 'management-summary';
+    summary.open = !matchMedia('(max-width:700px)').matches;
+    const summaryTitle = document.createElement('summary');
+    summaryTitle.id = 'management-summary-value';
+    summaryTitle.textContent = 'Visão geral do negócio';
+    const metrics = admin.querySelector('.admin-summary');
+    metrics.before(summary);
+    summary.append(summaryTitle, metrics);
+    const areaLabel = document.createElement('label');
+    areaLabel.className = 'management-area';
+    areaLabel.textContent = 'Área da administração';
+    const areaSelect = document.createElement('select');
+    areaSelect.id = 'admin-area';
+    for (const button of Array.from(admin.querySelectorAll('[data-admin-tab]'))) {
+        const option = document.createElement('option');
+        option.value = button.dataset.adminTab;
+        option.textContent = button.textContent;
+        areaSelect.append(option);
+    }
+    areaSelect.addEventListener('change', () => { admin.querySelector('[data-admin-tab="' + areaSelect.value + '"]')?.click(); admin.scrollTop = 0; });
+    areaLabel.append(areaSelect);
+    admin.querySelector('.admin-title')?.after(areaLabel);
+    return {
+        select: (area, page) => selectors.get(area)?.(page),
+        current: (area) => selections.get(area),
+        active: (area, page) => selections.get(area) === page,
+        syncArea: (area) => { if (areaSelect.value !== area)
+            areaSelect.value = area; },
+        syncUnlocks: () => { for (const refresh of lockRefreshers)
+            refresh(); }
+    };
+}

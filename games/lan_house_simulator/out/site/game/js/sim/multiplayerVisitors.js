@@ -1,0 +1,180 @@
+import { DAY_MINUTES } from "./types.js?v=fa1ff35e3337";
+import { sessionPlan } from "./customerChoices.js?v=fa1ff35e3337";
+import { sessionRevenue } from "./economy.js?v=fa1ff35e3337";
+import { gameYear } from "./eraCatalog.js?v=fa1ff35e3337";
+import { ERIC_MULTIPLAYER_GAME_ID, multiplayerEligiblePcs } from "./eraGames.js?v=fa1ff35e3337";
+import { spawnMultiplayerFriend } from "./customerArrival.js?v=fa1ff35e3337";
+import { entrance, pcPosition, addLog, localMinute, SESSION_FINISH_MINUTE } from "./simulationState.js?v=fa1ff35e3337";
+import { computerSeat } from "./route.js?v=fa1ff35e3337";
+import { navigableRoute } from "./navigation.js?v=fa1ff35e3337";
+import { isReserved, sendHome, queueVisualEvent } from "./customerFlow.js?v=fa1ff35e3337";
+/** Percursos reais de três amigos podem ultrapassar 85 minutos com a fila
+ * e a circulação do salão; não cancelar sessão já contratada em 85min. */
+const MAX_VISIT_AGE = 125;
+const groupMembers = (s) => s.multiplayerVisit?.memberIds
+    .map(id => s.customers.find(c => c.id === id)).filter((c) => !!c) ?? [];
+function dismiss(s, message) {
+    const people = groupMembers(s);
+    for (const c of people)
+        if (c.pcIndex === null && c.stage !== "leaving")
+            sendHome(s, c);
+    // Amigos já pagos mantêm o direito à sessão; só as vagas
+    // ainda não contratadas são devolvidas.
+    for (const c of people)
+        if (c.pcIndex === null)
+            c.multiplayerAssignedPc = undefined;
+    s.multiplayerVisit = undefined;
+    if (message) {
+        s.eventLog.unshift("Multiplayer: " + message);
+        s.eventLog.splice(14);
+    }
+}
+/** A turma só aparece se o título foi adquirido e há máquinas reais.
+ * Dia e horário determinísticos por save; uma oportunidade a cada 7 dias.
+ */
+export function tickMultiplayerVisitors(s) {
+    const now = s.totalMinutes, day = Math.floor(now / DAY_MINUTES) + 1, minute = now % DAY_MINUTES;
+    const visit = s.multiplayerVisit;
+    if (visit) {
+        const present = groupMembers(s);
+        if (visit.startedMinute === undefined && now - visit.createdMinute > MAX_VISIT_AGE &&
+            (visit.memberIds.length < visit.size || present.some(c => c.stage !== "using"))) {
+            dismiss(s, "a turma não conseguiu se reunir a tempo.");
+            return;
+        }
+        if (visit.memberIds.length === visit.size) {
+            if (!present.length) {
+                s.multiplayerVisit = undefined;
+                return;
+            }
+            // Um integrante que desapareceu não pode deixar o resto da turma
+            // aguardando indefinidamente diante do caixa.
+            if (!visit.paid && present.length < visit.size && present.some(c => c.pcIndex === null))
+                dismiss(s, "um amigo saiu antes de a turma concluir o pagamento.");
+            return;
+        }
+        if (s.customers.length >= 14)
+            return;
+        const c = spawnMultiplayerFriend(s, visit.id);
+        if (c)
+            visit.memberIds.push(c.id);
+        return;
+    }
+    if (gameYear(s) < 2000 || !s.licensedEraGames?.includes(ERIC_MULTIPLAYER_GAME_ID))
+        return;
+    if (s.multiplayerLastVisitDay === day || day % 7 !== ((s.mailScheduleSeed ?? 0) % 7))
+        return;
+    if (minute !== 170 + ((s.mailScheduleSeed ?? 0) % 110))
+        return;
+    s.multiplayerLastVisitDay = day;
+    // Ocupação física e caminhos precisam permitir ao menos dois amigos.
+    const available = multiplayerEligiblePcs(s).filter(i => !isReserved(s, i) &&
+        !!navigableRoute(s, entrance(s), computerSeat(pcPosition(i, s))));
+    if (available.length < 2)
+        return;
+    const size = available.length >= 3 && ((day + (s.mailScheduleSeed ?? 0)) % 2 === 0) ? 3 : 2;
+    s.multiplayerVisit = { id: s.nextCustomerId, size, memberIds: [], createdMinute: now };
+    addLog(s, "Uma turma de " + size + " amigos quer jogar Setor Zero em rede. Eles entram e pagam no caixa.");
+    const first = spawnMultiplayerFriend(s, s.multiplayerVisit.id);
+    if (first)
+        s.multiplayerVisit.memberIds.push(first.id);
+}
+/** Executado no caixa: verifica todos presentes antes de prometer as
+ * estações distintas. Cada cliente paga individualmente na rotina normal.
+ * Retorna true enquanto a pessoa ainda não pode ser atendida.
+ */
+export function waitForMultiplayerFriends(s, c) {
+    const visit = s.multiplayerVisit;
+    if (!visit || visit.id !== c.multiplayerVisitId)
+        return false;
+    const members = groupMembers(s);
+    if (members.length !== visit.size) {
+        c.waitingMinutes++;
+        return true;
+    }
+    if (members.some(member => member.stage === "leaving")) {
+        dismiss(s, "um participante desistiu antes da partida.");
+        return true;
+    }
+    // Um único pacote para a rodada toda: não vender 45 minutos a um
+    // amigo e 30 minutos a outro. Reservar margem para todos se sentarem.
+    if (visit.sessionMinutes === undefined) {
+        const remaining = SESSION_FINISH_MINUTE - localMinute(s) - 25;
+        const plans = members.map(member => sessionPlan(member, 45, remaining, minutes => sessionRevenue(s.pricePerHour, minutes, s.economyVersion === 2)));
+        if (plans.some(minutes => minutes === null)) {
+            dismiss(s, "a turma não consegue pagar uma sessão conjunta antes do fechamento.");
+            return true;
+        }
+        visit.sessionMinutes = Math.min(...plans);
+    }
+    if (members.every(member => member.multiplayerAssignedPc !== undefined || member.pcIndex !== null))
+        return false;
+    const available = multiplayerEligiblePcs(s).filter(i => !isReserved(s, i));
+    const chosen = [];
+    for (const member of members) {
+        const pc = available.find(index => !chosen.includes(index) &&
+            !!navigableRoute(s, { x: member.x, y: member.y }, computerSeat(pcPosition(index, s))));
+        if (pc === undefined) {
+            dismiss(s, "não havia computadores livres e acessíveis para o grupo.");
+            return true;
+        }
+        chosen.push(pc);
+    }
+    for (let i = 0; i < members.length; i++)
+        members[i].multiplayerAssignedPc = chosen[i];
+    return false;
+}
+/** A rodada não começa quando o PRIMEIRO amigo senta. Espera todos os
+ * pagamentos, percursos e animações de sentar, e inicia na mesma batida.
+ * Usa exatamente os clientes que já estão no salão e não cobra novamente.
+ */
+export function startMultiplayerRound(s, c) {
+    const visit = s.multiplayerVisit;
+    if (c.multiplayerVisitId === undefined || !visit || visit.id !== c.multiplayerVisitId ||
+        visit.startedMinute !== undefined)
+        return false;
+    const members = groupMembers(s);
+    if (!visit.paid || members.length !== visit.size || members.some(friend => friend.stage !== "sitting" || (friend.poseMinutes ?? 0) < 3 || friend.pcIndex === null))
+        return true;
+    if (new Set(members.map(friend => friend.pcIndex)).size !== visit.size)
+        return true;
+    visit.startedMinute = s.totalMinutes;
+    s.multiplayerRoundsPlayed = (s.multiplayerRoundsPlayed ?? 0) + 1;
+    for (const friend of members) {
+        friend.stage = "using";
+        friend.poseMinutes = 0;
+        friend.usedMinutes = 0;
+        s.keyboardEffects = queueVisualEvent(s.keyboardEffects, {
+            customerId: friend.id, pcIndex: friend.pcIndex
+        });
+    }
+    addLog(s, "Setor Zero: os " + visit.size +
+        " amigos começaram a MESMA partida em rede, cada um no seu PC.");
+    return true;
+}
+/** A LAN local não depende de contratar internet externa. */
+export function multiplayerRoundActive(s, c) {
+    return c.multiplayerVisitId !== undefined && s.multiplayerVisit?.id === c.multiplayerVisitId &&
+        s.multiplayerVisit.startedMinute !== undefined;
+}
+/** Saves antigos não contêm os campos de multiplayer. */
+export function validMultiplayerVisit(s) {
+    const last = s.multiplayerLastVisitDay, visit = s.multiplayerVisit;
+    if (last !== undefined && (!Number.isInteger(last) || last < 1 ||
+        last > Math.floor((s.totalMinutes ?? 0) / DAY_MINUTES) + 1))
+        return false;
+    if (visit === undefined)
+        return true;
+    if (!visit || !Number.isInteger(visit.id) || visit.id < 1 ||
+        !Number.isInteger(visit.size) || ![2, 3].includes(visit.size) ||
+        (visit.paid !== undefined && typeof visit.paid !== "boolean") ||
+        (visit.sessionMinutes !== undefined && visit.sessionMinutes !== 30 && visit.sessionMinutes !== 45) ||
+        (visit.startedMinute !== undefined && (!Number.isInteger(visit.startedMinute) ||
+            visit.startedMinute < visit.createdMinute || visit.startedMinute > (s.totalMinutes ?? 0) ||
+            visit.paid !== true || visit.memberIds.length !== visit.size)) ||
+        !Number.isInteger(visit.createdMinute) || visit.createdMinute < 0 ||
+        visit.createdMinute > (s.totalMinutes ?? 0) || !Array.isArray(visit.memberIds) ||
+        visit.memberIds.length > visit.size || new Set(visit.memberIds).size !== visit.memberIds.length)
+        return false;
+    return visit.memberIds.every(id => Number.isInteger(id) && id >= visit.id && id < (s.nextCustomerId ?? 0));
+}

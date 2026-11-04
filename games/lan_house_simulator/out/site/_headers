@@ -1,0 +1,45 @@
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; media-src 'self' blob:; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://lhs-backend-1010038095056.us-central1.run.app; frame-src 'self'; object-src 'none'; base-uri 'self'
+/
+  Cache-Control: no-cache, must-revalidate
+/jogar/
+  Cache-Control: no-cache, must-revalidate
+/sobre-o-jogo/
+  Cache-Control: no-cache, must-revalidate
+/sobre-nos/
+  Cache-Control: no-cache, must-revalidate
+/ajuda/
+  Cache-Control: no-cache, must-revalidate
+/contato/
+  Cache-Control: no-cache, must-revalidate
+/conta/
+  Cache-Control: no-cache, must-revalidate
+/conta/confirmar/
+  Cache-Control: no-cache, must-revalidate
+/donate/
+  Cache-Control: no-cache, must-revalidate
+/termos/
+  Cache-Control: no-cache, must-revalidate
+/privacidade/
+  Cache-Control: no-cache, must-revalidate
+/dados/
+  Cache-Control: no-cache, must-revalidate
+/404.html
+  Cache-Control: no-cache, must-revalidate
+/account-config.json
+  Cache-Control: no-store
+/online-config.json
+  Cache-Control: no-store
+/checkout-config.json
+  Cache-Control: no-store
+/robots.txt
+  Cache-Control: no-cache, must-revalidate
+/game/*
+  Cache-Control: no-cache, must-revalidate
+/assets/site/main-EDZQOBOC.js
+  Cache-Control: public, max-age=31536000, immutable
+/assets/site/styles-FNQQA63V.css
+  Cache-Control: public, max-age=31536000, immutable

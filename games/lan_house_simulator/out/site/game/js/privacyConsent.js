@@ -1,0 +1,64 @@
+export const PRIVACY_KEY = "lhs.privacy-choice.v1";
+export const PRIVACY_DURATION_MS = 30 * 24 * 60 * 60 * 1000;
+export function readPrivacyChoice(storage, now = Date.now()) {
+    try {
+        const raw = storage.getItem(PRIVACY_KEY);
+        if (!raw)
+            return null;
+        const data = JSON.parse(raw);
+        if (data.version !== 1 || (data.choice !== "accepted" && data.choice !== "rejected") ||
+            typeof data.at !== "number" || !Number.isFinite(data.at) ||
+            data.at > now || now - data.at >= PRIVACY_DURATION_MS)
+            return null;
+        return data.choice;
+    }
+    catch {
+        return null;
+    }
+}
+export function savePrivacyChoice(storage, choice, now = Date.now()) {
+    try {
+        storage.setItem(PRIVACY_KEY, JSON.stringify({ version: 1, choice, at: now }));
+    }
+    catch { }
+}
+export function optionalPrivacyAllowed() {
+    return typeof localStorage !== "undefined" && readPrivacyChoice(localStorage) === "accepted";
+}
+export function mountPrivacyBanner() {
+    // O site carrega o jogo num iframe alto: posicionar o aviso no topo
+    // visível evita que aceitar/recusar fiquem fora da área tocável.
+    if (typeof window !== "undefined" && window.self !== window.top)
+        document.documentElement.classList.add("lhs-embedded-game");
+    const banner = document.getElementById("privacy-banner");
+    const accept = document.getElementById("privacy-accept");
+    const reject = document.getElementById("privacy-reject");
+    if (!banner || !accept || !reject)
+        return;
+    // A decisão vale tanto para aceite quanto para recusa; não deixar nenhum
+    // botão flutuante após a escolha. Reabrir apenas após expirar ou limpar dados.
+    const refresh = () => { banner.hidden = readPrivacyChoice(localStorage) !== null; };
+    const decide = (choice) => {
+        savePrivacyChoice(localStorage, choice);
+        refresh();
+        document.dispatchEvent(new CustomEvent("lhs:privacy-choice", { detail: { choice } }));
+    };
+    accept.addEventListener("click", () => decide("accepted"));
+    reject.addEventListener("click", () => decide("rejected"));
+    // Volta a conferir o prazo quando a aba retorna ao primeiro plano e quando
+    // outra aba modifica ou remove a escolha no armazenamento local.
+    document.addEventListener("visibilitychange", () => { if (!document.hidden)
+        refresh(); });
+    if (typeof window !== "undefined")
+        window.addEventListener("storage", event => {
+            if (event.key === null || event.key === PRIVACY_KEY)
+                refresh();
+        });
+    refresh();
+}
+if (typeof document !== "undefined") {
+    if (document.readyState === "loading")
+        document.addEventListener("DOMContentLoaded", mountPrivacyBanner, { once: true });
+    else
+        mountPrivacyBanner();
+}

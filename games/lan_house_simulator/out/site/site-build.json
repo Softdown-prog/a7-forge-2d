@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1,
+  "framework": "angular",
+  "source": "frontend-angular/src/site-rewrite",
+  "publicPrerender": true,
+  "productionCheckoutEnabled": false
+}

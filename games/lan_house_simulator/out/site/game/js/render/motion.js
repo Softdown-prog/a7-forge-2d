@@ -1,0 +1,138 @@
+import { canTraverseLocalStep, localStepValidator } from "../sim/navigation.js?v=fa1ff35e3337";
+import { directionFromDelta, screenViewForMotion } from "./direction.js?v=fa1ff35e3337";
+import { entrance } from "../sim/engine.js?v=fa1ff35e3337";
+const groundDistance = (dx, dy) => Math.hypot((dx - dy) * 64, (dx + dy) * 32);
+const lerp = (a, b, t) => a + (b - a) * t;
+/** Presentation between fixed simulation minutes. Never writes to a save or
+ * changes paths, reservations, money, RNG, or the four-minutes/second clock. */
+export class SceneMotion {
+    customers = new Map();
+    repairs = new Map();
+    cleaning;
+    postman;
+    captured = false;
+    strides = new Map();
+    repairStrides = new Map();
+    cleaningStride;
+    reset() {
+        this.customers.clear();
+        this.repairs.clear();
+        this.cleaning = undefined;
+        this.postman = undefined;
+        this.captured = false;
+        this.strides.clear();
+        this.repairStrides.clear();
+        this.cleaningStride = undefined;
+    }
+    /** Same screen-space distance and eight-view facing used for customer strides. */
+    workerStride(s, prev, current, old) {
+        if (!prev)
+            return { distance: 0, view: screenViewForMotion(0, 0, current.facing) };
+        const dx = current.x - prev.x, dy = current.y - prev.y;
+        const valid = Math.hypot(dx, dy) <= .8 && canTraverseLocalStep(s, prev, current);
+        const travel = valid ? groundDistance(dx, dy) : 0;
+        return { distance: (old?.distance ?? 0) + travel,
+            view: travel > .0001 ? screenViewForMotion(dx, dy) : old?.view ?? screenViewForMotion(0, 0, current.facing) };
+    }
+    workerSample(s, prev, current, base, alpha) {
+        const fallback = base ?? { distance: 0, view: screenViewForMotion(0, 0, current.facing) };
+        if (!prev)
+            return { ...current, renderMotion: { ...fallback, moving: false } };
+        const dx = current.x - prev.x, dy = current.y - prev.y;
+        // Never animate a teleport, nor interpolate a chord across a closed partition.
+        const valid = Math.hypot(dx, dy) <= .8 && canTraverseLocalStep(s, prev, current);
+        const travel = valid ? groundDistance(dx, dy) : 0;
+        const at = valid ? this.position(s, prev, current, alpha) : { x: current.x, y: current.y };
+        const phase = alpha < 1 ? prev.phase : current.phase;
+        return { ...current, ...at, phase, progress: lerp(prev.progress, current.progress, alpha),
+            facing: travel > .0001 ? directionFromDelta(dx, dy, current.facing ?? prev.facing) : current.facing,
+            renderMotion: { distance: fallback.distance + travel * alpha,
+                view: travel > .0001 ? screenViewForMotion(dx, dy) : fallback.view,
+                moving: travel > .0001 && phase !== "working" } };
+    }
+    capture(s) {
+        // A malha e as portas não mudam durante a captura: calcular uma vez
+        // para todos os clientes, mesmo em salões cheios e divididos.
+        const entry = entrance(s), traverse = localStepValidator(s);
+        const strides = new Map();
+        for (const c of s.customers) {
+            const prev = this.customers.get(c.id) ?? (this.captured && c.stage === "arriving" &&
+                Math.hypot(c.x - entry.x, c.y - entry.y) <= .8 ? { ...c, ...entry } : undefined);
+            const old = this.strides.get(c.id);
+            const dx = prev ? c.x - prev.x : 0, dy = prev ? c.y - prev.y : 0;
+            const continuous = !!prev && Math.hypot(dx, dy) <= .8 && traverse(prev, c);
+            const distance = continuous ? groundDistance(dx, dy) : 0;
+            strides.set(c.id, { distance: (old?.distance ?? 0) + distance,
+                view: distance > .0001 ? screenViewForMotion(dx, dy) : old?.view ?? screenViewForMotion(0, 0, c.facing) });
+        }
+        this.strides = strides;
+        const repairStrides = new Map();
+        for (const job of s.repairJobs ?? []) {
+            const old = this.repairs.get(job.pc);
+            const fresh = old?.phase === "leaving" && job.phase === "arriving";
+            repairStrides.set(job.pc, this.workerStride(s, fresh ? undefined : old, job, fresh ? undefined : this.repairStrides.get(job.pc)));
+        }
+        this.repairStrides = repairStrides;
+        this.cleaningStride = s.cleaningJob ? this.workerStride(s, this.cleaning, s.cleaningJob, this.cleaningStride) : undefined;
+        this.captured = true;
+        this.customers = new Map(s.customers.map(c => [c.id, { ...c, target: { ...c.target } }]));
+        this.repairs = new Map((s.repairJobs ?? []).map(j => [j.pc, { ...j }]));
+        this.cleaning = s.cleaningJob ? { ...s.cleaningJob } : undefined;
+        this.postman = s.postmanDelivery ? { ...s.postmanDelivery } : undefined;
+    }
+    position(s, previous, current, alpha) {
+        // A collision detour can turn around a corner in one minute. Do not draw a
+        // straight chord through its wall or interpolate a legacy teleport/day reset.
+        if (Math.hypot(current.x - previous.x, current.y - previous.y) > .8 ||
+            !canTraverseLocalStep(s, previous, current))
+            return { x: current.x, y: current.y };
+        return { x: lerp(previous.x, current.x, alpha), y: lerp(previous.y, current.y, alpha) };
+    }
+    sample(s, fraction = s.leftoverMinutes) {
+        const alpha = Math.max(0, Math.min(1, fraction));
+        // Uma apresentação visual percorre todos os clientes com as mesmas
+        // divisórias. Não refazer roomBounds/portas para cada corpo a cada frame.
+        const entry = entrance(s), traverse = localStepValidator(s);
+        const courier = s.postmanDelivery, previousCourier = this.postman;
+        // Presentation only: short local moves interpolate, but never through walls.
+        const interpolatedCourier = courier ? (() => {
+            const continuous = previousCourier?.issueIndex === courier.issueIndex &&
+                Math.hypot(courier.x - previousCourier.x, courier.y - previousCourier.y) <= .8 &&
+                canTraverseLocalStep(s, previousCourier, courier);
+            const dx = continuous ? courier.x - previousCourier.x : 0;
+            const dy = continuous ? courier.y - previousCourier.y : 0;
+            const moving = !!continuous && Math.hypot(dx, dy) > .001 && courier.phase !== "handing";
+            const point = continuous ? { x: lerp(previousCourier.x, courier.x, alpha),
+                y: lerp(previousCourier.y, courier.y, alpha) } : courier;
+            return { ...courier, ...point, renderMotion: { distance: moving ? Math.hypot((dx - dy) * 64, (dx + dy) * 32) * alpha : 0,
+                    view: screenViewForMotion(dx, dy, courier.facing), moving } };
+        })() : undefined;
+        return { ...s, postmanDelivery: interpolatedCourier, customers: s.customers.map(c => {
+                const prev = this.customers.get(c.id) ?? (this.captured && c.stage === "arriving" &&
+                    Math.hypot(c.x - entry.x, c.y - entry.y) <= .8 ? { ...c, ...entry } : undefined);
+                const stride = this.strides.get(c.id) ?? { distance: 0, view: screenViewForMotion(0, 0, c.facing) };
+                if (!prev)
+                    return { ...c, renderMotion: { ...stride, moving: false } };
+                const changed = prev.stage !== c.stage;
+                const stage = changed && alpha < 1 ? prev.stage : c.stage;
+                const endPose = changed && (prev.stage === "sitting" || prev.stage === "standing") ? 3 : (c.poseMinutes ?? 0);
+                const dx = c.x - prev.x, dy = c.y - prev.y;
+                const travel = Math.hypot(dx, dy) <= .8 && traverse(prev, c) ? groundDistance(dx, dy) : 0;
+                const at = travel ? { x: lerp(prev.x, c.x, alpha), y: lerp(prev.y, c.y, alpha) } : { x: c.x, y: c.y };
+                const renderMotion = { distance: stride.distance + travel * alpha,
+                    view: travel > .0001 ? screenViewForMotion(dx, dy) : stride.view, moving: travel > .0001 };
+                const facing = directionFromDelta(c.x - prev.x, c.y - prev.y, c.facing ?? prev.facing);
+                return { ...c, ...at, stage, facing, renderMotion, pcIndex: changed && alpha < 1 ? prev.pcIndex : c.pcIndex,
+                    poseMinutes: lerp(prev.poseMinutes ?? 0, endPose, alpha),
+                    ps1StationIndex: changed && alpha < 1 ? prev.ps1StationIndex : c.ps1StationIndex,
+                    ps1SeatIndex: changed && alpha < 1 ? prev.ps1SeatIndex : c.ps1SeatIndex,
+                    ps2StationIndex: changed && alpha < 1 ? prev.ps2StationIndex : c.ps2StationIndex,
+                    ps2SeatIndex: changed && alpha < 1 ? prev.ps2SeatIndex : c.ps2SeatIndex,
+                    // The renderer points the actor along the motion being presented, rather
+                    // than turning early toward the next simulation waypoint.
+                    target: { x: c.x, y: c.y } };
+            }), repairJobs: s.repairJobs?.map(j => this.workerSample(s, this.repairs.get(j.pc), j, this.repairStrides.get(j.pc), alpha)), cleaningJob: s.cleaningJob
+                ? this.workerSample(s, this.cleaning, s.cleaningJob, this.cleaningStride, alpha)
+                : undefined };
+    }
+}

@@ -1,0 +1,29 @@
+import { gameYear } from "../sim/era.js?v=fa1ff35e3337";
+import { priceIndex } from "../sim/historicalEconomy.js?v=fa1ff35e3337";
+import { monthlyBills, energyMonthlyEstimate } from "../sim/economy.js?v=fa1ff35e3337";
+export function createFinancialAdminOverviewPort(getState) {
+    const money = (n) => "R$ " + n.toLocaleString("pt-BR");
+    return { snapshot() {
+            const s = getState(), index = s.economyVersion === 2 ? priceIndex(gameYear(s)) : 1;
+            const rent = Math.round((270 + s.expansionLevel * 170) * index);
+            const internet = Math.round((110 + (s.internetTier - 1) * 85) * index);
+            const energy = s.energyAccrued !== undefined ? Math.round(s.energyAccrued) : energyMonthlyEstimate(s);
+            const maintenance = Math.round((75 + s.expansionLevel * 35) * index);
+            const wages = s.employeePayrollAccrued ?? 0;
+            const printer = s.printer?.walkIns ?? 0, discs = s.discCopier?.walkIns ?? 0;
+            const attended = s.served + printer + discs, ps1 = s.ps1Sessions ?? 0, ps2 = s.ps2Sessions ?? 0;
+            return {
+                bills: money(monthlyBills(s)), served: String(attended),
+                breakdown: "Contas: aluguel " + money(rent) + " · internet " + money(internet) +
+                    " · energia acumulada " + money(energy) + " · manutenção " + money(maintenance) +
+                    " · salários acumulados " + money(wages) + " · projeção energia/mês " + money(energyMonthlyEstimate(s)) +
+                    ". Diárias cobradas apenas nos dias com atendimento efetivo.",
+                activity: "Entradas R$ " + s.revenue + " · Saídas R$ " + s.expenses +
+                    " · Atendimentos " + attended + " (PCs " + (s.served - ps1 - ps2) +
+                    ((s.ps1Stations?.length ?? 0) + ps1 > 0 ? " · PlayStation " + ps1 : "") +
+                    ((s.ps2Stations?.length ?? 0) + ps2 > 0 ? " · PS2 " + ps2 : "") +
+                    " · Impressões avulsas " + printer + " · Cópias avulsas " + discs + ")",
+                expansion: "Ampliação " + s.expansionLevel + "/2"
+            };
+        } };
+}

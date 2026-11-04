@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "method": "isolated-chromium-public-snapshot",
+  "paths": [
+    "/",
+    "/jogar/",
+    "/sobre-o-jogo/",
+    "/sobre-nos/",
+    "/ajuda/",
+    "/contato/",
+    "/termos/",
+    "/privacidade/"
+  ],
+  "excluded": [
+    "/conta/",
+    "/conta/confirmar/",
+    "/donate/",
+    "/dados/"
+  ],
+  "notFound": true
+}

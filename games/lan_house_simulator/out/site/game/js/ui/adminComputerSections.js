@@ -1,0 +1,31 @@
+/** Presentation coordinator for computer maintenance, hardware, LCDs and ledger.
+ * The active game, purchases and save handling stay in the application bootstrap.
+ */
+import { renderPcMaintenancePanel } from "./pcMaintenancePanel.js?v=fa1ff35e3337";
+export function renderAdminComputerSections(options) {
+    const ledger = options.doc.querySelector("#station-ledger-rows");
+    if (ledger && options.adminOpen && options.computersTab && options.ledgerActive())
+        options.renderLedger(ledger);
+    const host = options.doc.getElementById("pc-maintenance");
+    if (host && options.adminOpen && options.computersTab && !options.ledgerActive() && options.maintenanceChanged()) {
+        const page = options.currentPage();
+        renderPcMaintenancePanel(host, {
+            build: maintenance => {
+                if (page === "operations")
+                    options.renderOperations(maintenance);
+                options.clampSelectedStation();
+                if (page === "hardware" || page === "windows")
+                    options.renderHardware(maintenance, page);
+                if (page === "monitors")
+                    options.renderMonitors(maintenance);
+                options.renderComputerSummary(maintenance);
+            },
+            decorate: options.decorate,
+            reconcile: options.reconcile,
+            selectedStation: options.selectedStation
+        }, options.doc);
+        // Native reconciliation is complete; Angular reads the settled controls.
+        if (typeof options.doc.dispatchEvent === "function" && typeof CustomEvent === "function")
+            options.doc.dispatchEvent(new CustomEvent("lhs:pc-maintenance-refreshed"));
+    }
+}

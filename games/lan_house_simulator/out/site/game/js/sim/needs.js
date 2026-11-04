@@ -1,0 +1,72 @@
+import { chooseMerchandise, productSpec } from "./merchandise.js?v=fa1ff35e3337";
+import { ITEM_PRICES } from "./economy.js?v=fa1ff35e3337";
+import { SESSION_PACKAGES } from "./historicalEconomy.js?v=fa1ff35e3337";
+/** Necessidades 0..100. Cada minuto do jogo atualiza uma vez; sem decisões por frame. */
+export function initialNeeds(id) {
+    return { thirst: 25 + (id * 17) % 38, hunger: 18 + (id * 23) % 43, energy: 58 + (id * 11) % 38 };
+}
+export function tickNeeds(c) {
+    const n = c.needs ?? (c.needs = initialNeeds(c.id));
+    n.thirst = Math.min(100, n.thirst + 0.34);
+    n.hunger = Math.min(100, n.hunger + 0.20);
+    n.energy = Math.max(0, n.energy - (c.stage === "using" ? 0.26 : 0.10));
+}
+/** Só decidir compras depois do PC; a reserva da cadeira não é interrompida. */
+export function selectPurchase(c, inventory, state) {
+    const n = c.needs ?? initialNeeds(c.id);
+    if (state) {
+        const selected = (!c.purchasedDrink && n.thirst >= 55 ? chooseMerchandise(state, c, true) : null) ??
+            (!c.purchasedFood && n.hunger >= 55 ? chooseMerchandise(state, c, false) : null);
+        c.desiredProduct = selected ?? undefined;
+        return selected ? productSpec(selected).category : null;
+    }
+    const cash = c.wallet ?? 18;
+    if (!c.purchasedDrink && n.thirst >= 55 && inventory.soda > 0 && cash >= ITEM_PRICES.soda)
+        return "soda";
+    if (!c.purchasedFood && n.hunger >= 55) {
+        if (inventory.snacks > 0 && cash >= ITEM_PRICES.snacks)
+            return "snacks";
+        if (inventory.candy > 0 && cash >= ITEM_PRICES.candy)
+            return "candy";
+    }
+    return null;
+}
+/** Aplicar apenas após a venda real; impede compras repetidas durante o trajeto. */
+export function consumePurchase(c, item, relief) {
+    const n = c.needs ?? (c.needs = initialNeeds(c.id));
+    if (item === "soda") {
+        c.purchasedDrink = true;
+        n.thirst = Math.max(0, n.thirst - (relief ?? 55));
+    }
+    else {
+        c.purchasedFood = true;
+        n.hunger = Math.max(0, n.hunger - (relief ?? (item === "snacks" ? 55 : 35)));
+    }
+}
+/** Escolha determinística por perfil, energia e sede. O tempo é contratado antes do pagamento. */
+export function chooseSessionMinutes(c, historical = false) {
+    const n = c.needs ?? initialNeeds(c.id);
+    // Cliente cansado ou com muita sede prefere jogar menos; entusiasta pode ficar 90 min.
+    if (!historical) {
+        if (n.energy < 45 || n.thirst >= 72)
+            return 30;
+        if (n.energy >= 82 && n.thirst < 45 && c.id % 3 === 0)
+            return 90;
+        if (n.energy >= 65 && n.thirst < 65 && c.id % 2 === 0)
+            return 60;
+        return 45;
+    }
+    if (n.energy < 45 || n.thirst >= 72)
+        return 30;
+    if (n.energy >= 87 && n.thirst < 40 && c.id % 17 === 0)
+        return 240;
+    if (n.energy >= 82 && n.thirst < 50 && c.id % 11 === 0)
+        return 180;
+    if (n.energy >= 78 && n.thirst < 55 && c.id % 7 === 0)
+        return 120;
+    if (n.energy >= 75 && n.thirst < 60 && c.id % 3 === 0)
+        return 90;
+    if (n.energy >= 65 && n.thirst < 65 && c.id % 2 === 0)
+        return 60;
+    return SESSION_PACKAGES[1];
+}
