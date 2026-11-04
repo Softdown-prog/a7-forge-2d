@@ -1,13 +1,13 @@
-import { purchaseApproach, vendingMachines, placedObject } from "./layout.js?v=fa1ff35e3337";
-import { roomBounds } from "./room.js?v=fa1ff35e3337";
-import { consoleFootprints } from "./consoleLayout.js?v=fa1ff35e3337";
-import { editableObjects, objectRect } from "./layoutGeometry.js?v=fa1ff35e3337";
-import { counterQueueSlot, MAX_COUNTER_QUEUE, CUSTOMER_COLLISION_RADIUS } from "./checkoutQueue.js?v=fa1ff35e3337";
-import { navigableRoute } from "./navigation.js?v=fa1ff35e3337";
-import { crowdRoute } from "./crowdNavigation.js?v=fa1ff35e3337";
-import { layoutGoals } from "./layoutGeometry.js?v=fa1ff35e3337";
-import { AISLE_Y } from "./route.js?v=fa1ff35e3337";
-import { entrance } from "./simulationState.js?v=fa1ff35e3337";
+import { purchaseApproach, vendingMachines, placedObject } from "./layout.js?v=faa670fa6ec3";
+import { roomBounds } from "./room.js?v=faa670fa6ec3";
+import { consoleFootprints } from "./consoleLayout.js?v=faa670fa6ec3";
+import { editableObjects, objectRect } from "./layoutGeometry.js?v=faa670fa6ec3";
+import { counterQueueSlot, MAX_COUNTER_QUEUE, CUSTOMER_COLLISION_RADIUS } from "./checkoutQueue.js?v=faa670fa6ec3";
+import { navigableRoute } from "./navigation.js?v=faa670fa6ec3";
+import { crowdRoute } from "./crowdNavigation.js?v=faa670fa6ec3";
+import { layoutGoals } from "./layoutGeometry.js?v=faa670fa6ec3";
+import { AISLE_Y } from "./route.js?v=faa670fa6ec3";
+import { entrance } from "./simulationState.js?v=faa670fa6ec3";
 const cache = new WeakMap();
 /** Encaixes separados para cada atendimento, sem tomar assentos ou lugares do caixa. */
 export function retailQueueSlots(s, item) {

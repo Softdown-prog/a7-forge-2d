@@ -1,4 +1,4 @@
-import { iso } from "./isometric.js?v=fa1ff35e3337";
+import { iso } from "./isometric.js?v=faa670fa6ec3";
 export const POSTER_KINDS = ["coaster", "tactical", "golf", "artillery", "city", "terminal", "arcade"];
 export const POSTER_WIDTH = 96, POSTER_HEIGHT = 112;
 const palettes = {

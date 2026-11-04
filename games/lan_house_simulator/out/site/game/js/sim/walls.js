@@ -1,13 +1,13 @@
-import { entrance, pcCount, pcPosition } from "./simulationState.js?v=fa1ff35e3337";
-import { hallwayRoute, computerSeat } from "./route.js?v=fa1ff35e3337";
-import { vendingApproach, purchaseApproach } from "./layout.js?v=fa1ff35e3337";
-import { roomBounds } from "./room.js?v=fa1ff35e3337";
-import { navigableRoute, routesForCurrentCustomers } from "./navigation.js?v=fa1ff35e3337";
-import { consoleFootprints, consoleApproaches } from "./consoleLayout.js?v=fa1ff35e3337";
-import { editableObjects, wallCutsObject } from "./layoutGeometry.js?v=fa1ff35e3337";
-import { counterQueue } from "./route.js?v=fa1ff35e3337";
-import { activeRetailQueuesReachable, refreshRetailQueues } from "./retailQueue.js?v=fa1ff35e3337";
-import { CUSTOMER_COLLISION_RADIUS } from "./checkoutQueue.js?v=fa1ff35e3337";
+import { entrance, pcCount, pcPosition } from "./simulationState.js?v=faa670fa6ec3";
+import { hallwayRoute, computerSeat } from "./route.js?v=faa670fa6ec3";
+import { vendingApproach, purchaseApproach } from "./layout.js?v=faa670fa6ec3";
+import { roomBounds } from "./room.js?v=faa670fa6ec3";
+import { navigableRoute, routesForCurrentCustomers } from "./navigation.js?v=faa670fa6ec3";
+import { consoleFootprints, consoleApproaches } from "./consoleLayout.js?v=faa670fa6ec3";
+import { editableObjects, wallCutsObject } from "./layoutGeometry.js?v=faa670fa6ec3";
+import { counterQueue } from "./route.js?v=faa670fa6ec3";
+import { activeRetailQueuesReachable, refreshRetailQueues } from "./retailQueue.js?v=faa670fa6ec3";
+import { CUSTOMER_COLLISION_RADIUS } from "./checkoutQueue.js?v=faa670fa6ec3";
 export const WALL_COST = 30;
 export const MAX_INTERIOR_WALLS = 220;
 export function wallId(w) { return w.axis + ":" + w.x + ":" + w.y; }

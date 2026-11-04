@@ -1,10 +1,10 @@
-import { pcCount, pcWear, pcBroken } from "../sim/engine.js?v=fa1ff35e3337";
-import { stationPoweredOn, stationHasCustomer } from "../sim/stationPower.js?v=fa1ff35e3337";
-import { employeeHired } from "../sim/staff.js?v=fa1ff35e3337";
-import { workPhaseLabel } from "../sim/staffPresentation.js?v=fa1ff35e3337";
-import { serviceVisitCost } from "../sim/historicalEconomy.js?v=fa1ff35e3337";
-import { gameYear } from "../sim/era.js?v=fa1ff35e3337";
-import { isLinuxPc } from "../sim/linuxQuest.js?v=fa1ff35e3337";
+import { pcCount, pcWear, pcBroken } from "../sim/engine.js?v=faa670fa6ec3";
+import { stationPoweredOn, stationHasCustomer } from "../sim/stationPower.js?v=faa670fa6ec3";
+import { employeeHired } from "../sim/staff.js?v=faa670fa6ec3";
+import { workPhaseLabel } from "../sim/staffPresentation.js?v=faa670fa6ec3";
+import { serviceVisitCost } from "../sim/historicalEconomy.js?v=faa670fa6ec3";
+import { gameYear } from "../sim/era.js?v=faa670fa6ec3";
+import { isLinuxPc } from "../sim/linuxQuest.js?v=faa670fa6ec3";
 export function createPcOperationsPort(getState) {
     return {
         overview() {

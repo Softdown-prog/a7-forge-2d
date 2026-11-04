@@ -1,13 +1,13 @@
-export { BIN_SPOTS, binSpots, binStates, binStatus } from "./serviceLayout.js?v=fa1ff35e3337";
-export { pcUnderRepair } from "./stationPower.js?v=fa1ff35e3337";
-import { directionFromDelta } from "./direction.js?v=fa1ff35e3337";
-import { serviceVisitCost } from "./historicalEconomy.js?v=fa1ff35e3337";
-import { canTraverseLocalStep } from "./navigation.js?v=fa1ff35e3337";
-import { binSpots } from "./serviceLayout.js?v=fa1ff35e3337";
-import { entrance, pcCount, pcPosition } from "./simulationState.js?v=fa1ff35e3337";
-import { accrueEmployeeDay, employeeHired } from "./staff.js?v=fa1ff35e3337";
-import { cleanerWorkPoint, technicianContactPoint, technicianWorkPoint } from "./staffWorksites.js?v=fa1ff35e3337";
-import { workerRoute } from "./workerNavigation.js?v=fa1ff35e3337";
+export { BIN_SPOTS, binSpots, binStates, binStatus } from "./serviceLayout.js?v=faa670fa6ec3";
+export { pcUnderRepair } from "./stationPower.js?v=faa670fa6ec3";
+import { directionFromDelta } from "./direction.js?v=faa670fa6ec3";
+import { serviceVisitCost } from "./historicalEconomy.js?v=faa670fa6ec3";
+import { canTraverseLocalStep } from "./navigation.js?v=faa670fa6ec3";
+import { binSpots } from "./serviceLayout.js?v=faa670fa6ec3";
+import { entrance, pcCount, pcPosition } from "./simulationState.js?v=faa670fa6ec3";
+import { accrueEmployeeDay, employeeHired } from "./staff.js?v=faa670fa6ec3";
+import { cleanerWorkPoint, technicianContactPoint, technicianWorkPoint } from "./staffWorksites.js?v=faa670fa6ec3";
+import { workerRoute } from "./workerNavigation.js?v=faa670fa6ec3";
 export const REPAIR_DURATION = 24;
 function approach(a, b, speed) {
     const dx = b.x - a.x, dy = b.y - a.y, d = Math.hypot(dx, dy);

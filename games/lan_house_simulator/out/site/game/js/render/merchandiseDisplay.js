@@ -1,5 +1,5 @@
-import { PRODUCTS, merchandiseStock } from '../sim/merchandise.js?v=fa1ff35e3337';
-import { RETAIL_DISPLAY_CAPACITY } from './retailArt.js?v=fa1ff35e3337';
+import { PRODUCTS, merchandiseStock } from '../sim/merchandise.js?v=faa670fa6ec3';
+import { RETAIL_DISPLAY_CAPACITY } from './retailArt.js?v=faa670fa6ec3';
 const groups = { soda: PRODUCTS.filter(p => p.category === 'soda'), candy: PRODUCTS.filter(p => p.category === 'candy'), snacks: PRODUCTS.filter(p => p.category === 'snacks') };
 const cache = new WeakMap();
 /** Rebuild bounded display only after a real stock change; sprites retain the same cache. */

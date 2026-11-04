@@ -1,5 +1,5 @@
-import { iso } from "./isometric.js?v=fa1ff35e3337";
-import { DAY_MINUTES, OPEN_HOUR } from "../sim/types.js?v=fa1ff35e3337";
+import { iso } from "./isometric.js?v=faa670fa6ec3";
+import { DAY_MINUTES, OPEN_HOUR } from "../sim/types.js?v=faa670fa6ec3";
 /** Uses the game's official 10:00–22:00 day cycle. Pure: no RNG or save state. */
 export function pixelClockDisplay(totalMinutes) {
     if (!Number.isFinite(totalMinutes) || totalMinutes < 0)

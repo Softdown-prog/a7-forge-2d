@@ -1,5 +1,5 @@
-import { pcCount } from "../sim/engine.js?v=fa1ff35e3337";
-import { stationOccupied } from "../sim/computerModels.js?v=fa1ff35e3337";
+import { pcCount } from "../sim/engine.js?v=faa670fa6ec3";
+import { stationOccupied } from "../sim/computerModels.js?v=faa670fa6ec3";
 export function createStationRevisionPort(getState) {
     return { snapshot(year) {
             const s = getState();

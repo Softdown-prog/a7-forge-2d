@@ -1,5 +1,5 @@
-import { drawActor } from "./actorArt.js?v=fa1ff35e3337";
-import { ACTOR_SPRITE_WIDTH as WIDTH, ACTOR_SPRITE_HEIGHT as HEIGHT, ACTOR_SPRITE_LEFT as LEFT, ACTOR_SPRITE_TOP as TOP } from "./actorSprites.js?v=fa1ff35e3337";
+import { drawActor } from "./actorArt.js?v=faa670fa6ec3";
+import { ACTOR_SPRITE_WIDTH as WIDTH, ACTOR_SPRITE_HEIGHT as HEIGHT, ACTOR_SPRITE_LEFT as LEFT, ACTOR_SPRITE_TOP as TOP } from "./actorSprites.js?v=faa670fa6ec3";
 // Reuse both surfaces; readbacks and tight bitmap preparation stay off the UI thread.
 const canvas = new OffscreenCanvas(WIDTH, HEIGHT), ctx = canvas.getContext("2d", { willReadFrequently: true });
 const cropped = new OffscreenCanvas(WIDTH, HEIGHT), crop = cropped.getContext("2d");

@@ -1,13 +1,13 @@
-import { DAY_MINUTES } from "./types.js?v=fa1ff35e3337";
-import { sessionPlan } from "./customerChoices.js?v=fa1ff35e3337";
-import { sessionRevenue } from "./economy.js?v=fa1ff35e3337";
-import { gameYear } from "./eraCatalog.js?v=fa1ff35e3337";
-import { ERIC_MULTIPLAYER_GAME_ID, multiplayerEligiblePcs } from "./eraGames.js?v=fa1ff35e3337";
-import { spawnMultiplayerFriend } from "./customerArrival.js?v=fa1ff35e3337";
-import { entrance, pcPosition, addLog, localMinute, SESSION_FINISH_MINUTE } from "./simulationState.js?v=fa1ff35e3337";
-import { computerSeat } from "./route.js?v=fa1ff35e3337";
-import { navigableRoute } from "./navigation.js?v=fa1ff35e3337";
-import { isReserved, sendHome, queueVisualEvent } from "./customerFlow.js?v=fa1ff35e3337";
+import { DAY_MINUTES } from "./types.js?v=faa670fa6ec3";
+import { sessionPlan } from "./customerChoices.js?v=faa670fa6ec3";
+import { sessionRevenue } from "./economy.js?v=faa670fa6ec3";
+import { gameYear } from "./eraCatalog.js?v=faa670fa6ec3";
+import { ERIC_MULTIPLAYER_GAME_ID, multiplayerEligiblePcs } from "./eraGames.js?v=faa670fa6ec3";
+import { spawnMultiplayerFriend } from "./customerArrival.js?v=faa670fa6ec3";
+import { entrance, pcPosition, addLog, localMinute, SESSION_FINISH_MINUTE } from "./simulationState.js?v=faa670fa6ec3";
+import { computerSeat } from "./route.js?v=faa670fa6ec3";
+import { navigableRoute } from "./navigation.js?v=faa670fa6ec3";
+import { isReserved, sendHome, queueVisualEvent } from "./customerFlow.js?v=faa670fa6ec3";
 /** Percursos reais de três amigos podem ultrapassar 85 minutos com a fila
  * e a circulação do salão; não cancelar sessão já contratada em 85min. */
 const MAX_VISIT_AGE = 125;

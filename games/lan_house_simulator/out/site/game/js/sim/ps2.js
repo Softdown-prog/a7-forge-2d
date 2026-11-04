@@ -1,10 +1,10 @@
-import { annualHourlyCeiling, isHistorical, priceIndex, sessionPrice, yearFromMinutes } from "./historicalEconomy.js?v=fa1ff35e3337";
-import { furnitureSlots } from "./furnitureLayout.js?v=fa1ff35e3337";
-import { consolePoint, consoleSeat, consoleApproach, consoleBusy, consoleFootprints } from "./consoleLayout.js?v=fa1ff35e3337";
-import { layoutGoals, layoutPlacementIssue, objectTouchesCustomer } from "./layoutGeometry.js?v=fa1ff35e3337";
-import { navigableRoute, canTraverseLocalStep, routesForCurrentCustomers } from "./navigation.js?v=fa1ff35e3337";
-import { entrance } from "./simulationState.js?v=fa1ff35e3337";
-import { activeRetailQueuesReachable } from "./retailQueue.js?v=fa1ff35e3337";
+import { annualHourlyCeiling, isHistorical, priceIndex, sessionPrice, yearFromMinutes } from "./historicalEconomy.js?v=faa670fa6ec3";
+import { furnitureSlots } from "./furnitureLayout.js?v=faa670fa6ec3";
+import { consolePoint, consoleSeat, consoleApproach, consoleBusy, consoleFootprints } from "./consoleLayout.js?v=faa670fa6ec3";
+import { layoutGoals, layoutPlacementIssue, objectTouchesCustomer } from "./layoutGeometry.js?v=faa670fa6ec3";
+import { navigableRoute, canTraverseLocalStep, routesForCurrentCustomers } from "./navigation.js?v=faa670fa6ec3";
+import { entrance } from "./simulationState.js?v=faa670fa6ec3";
+import { activeRetailQueuesReachable } from "./retailQueue.js?v=faa670fa6ec3";
 export const PS2_UNLOCK_YEAR = 2006;
 export const PS2_MAX_STATIONS = 3;
 export const PS2_BASE_BENCH_PRICE = 980;
@@ -198,7 +198,7 @@ export function setPs2Power(s, index, on) {
     st.poweredOff = !on;
     return { ok: true, message: on ? "PS2 ligado." : "PS2 desligado. Atendimento pausado." };
 }
-export { ps2EnergyCostPerMinute } from "./consoleEnergy.js?v=fa1ff35e3337";
+export { ps2EnergyCostPerMinute } from "./consoleEnergy.js?v=faa670fa6ec3";
 export function ps2SessionWear(s, index) {
     const st = s.ps2Stations?.[index];
     if (st)

@@ -1,8 +1,8 @@
-import { renderFinancialBalance, renderFinancialBillWatch } from "./financialBalancePanel.js?v=fa1ff35e3337";
-import { renderFinancialAdminTotals, renderFinancialAdminActivity } from "./financialAdminOverviewPanel.js?v=fa1ff35e3337";
-import { renderMonthlyFinancePanel } from "./monthlyFinancePanel.js?v=fa1ff35e3337";
-import { renderPromotionStatus } from "./promotionStatusPanel.js?v=fa1ff35e3337";
-import { renderCustomerFeedback } from "./customerFeedbackPanel.js?v=fa1ff35e3337";
+import { renderFinancialBalance, renderFinancialBillWatch } from "./financialBalancePanel.js?v=faa670fa6ec3";
+import { renderFinancialAdminTotals, renderFinancialAdminActivity } from "./financialAdminOverviewPanel.js?v=faa670fa6ec3";
+import { renderMonthlyFinancePanel } from "./monthlyFinancePanel.js?v=faa670fa6ec3";
+import { renderPromotionStatus } from "./promotionStatusPanel.js?v=faa670fa6ec3";
+import { renderCustomerFeedback } from "./customerFeedbackPanel.js?v=faa670fa6ec3";
 export function renderAdminFinanceSummary(options) {
     renderFinancialBalance(options.balance.balance(), options.setText, options.doc);
     if (options.financeTab && options.pageActive("feedback")) {
