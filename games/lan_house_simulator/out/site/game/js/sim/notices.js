@@ -1,8 +1,8 @@
-import { DAY_MINUTES } from "./types.js?v=faa670fa6ec3";
-import { ERIC_FIRST_MAIL_ID, ERIC_FIRST_MAIL_TITLE, ERIC_FIRST_MAIL_BODY, ericFirstMailDue, ERIC_SECOND_MAIL_ID, ERIC_SECOND_MAIL_TITLE, ERIC_SECOND_MAIL_BODY, ericSecondMailDue } from "./ericStory.js?v=faa670fa6ec3";
-import { isHistorical, priceIndex, yearFromMinutes } from "./historicalEconomy.js?v=faa670fa6ec3";
-import { nextLinuxLetter, recordLinuxMail, isLinuxPc } from "./linuxQuest.js?v=faa670fa6ec3";
-import { isSporadicMailId, sporadicMailDue, recordMailDelivery, fixedYearMailWindowDue } from "./mailCalendar.js?v=faa670fa6ec3";
+import { DAY_MINUTES } from "./types.js?v=a7a149bb38f1";
+import { ERIC_FIRST_MAIL_ID, ERIC_FIRST_MAIL_TITLE, ERIC_FIRST_MAIL_BODY, ericFirstMailDue, ERIC_SECOND_MAIL_ID, ERIC_SECOND_MAIL_TITLE, ERIC_SECOND_MAIL_BODY, ericSecondMailDue } from "./ericStory.js?v=a7a149bb38f1";
+import { isHistorical, priceIndex, yearFromMinutes } from "./historicalEconomy.js?v=a7a149bb38f1";
+import { nextLinuxLetter, recordLinuxMail, isLinuxPc } from "./linuxQuest.js?v=a7a149bb38f1";
+import { isSporadicMailId, sporadicMailDue, recordMailDelivery, fixedYearMailWindowDue } from "./mailCalendar.js?v=a7a149bb38f1";
 const day = (s) => Math.floor(s.totalMinutes / DAY_MINUTES) + 1;
 const computerCount = (s) => Math.max(3, Math.min(3 + s.expansionLevel * 2, s.installedPcs ?? (3 + s.expansionLevel * 2))) + (s.annexPcs?.length ?? 0);
 export function missingWindowsLicenses(s) {

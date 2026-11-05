@@ -1,19 +1,32 @@
-import { availablePlacementSlots, furnitureSlots, shopPrice } from "./shop.js?v=faa670fa6ec3";
-import { annualHourlyCeiling, isHistorical, yearFromMinutes, priceIndex } from "./historicalEconomy.js?v=faa670fa6ec3";
-import { consolePoint, consoleSeat, consoleApproach } from "./consoleLayout.js?v=faa670fa6ec3";
-import { roomBounds } from "./room.js?v=faa670fa6ec3";
+import { availablePlacementSlots, furnitureSlots, shopPrice } from "./shop.js?v=a7a149bb38f1";
+import { annualHourlyCeiling, isHistorical, yearFromMinutes, priceIndex } from "./historicalEconomy.js?v=a7a149bb38f1";
+import { consolePoint, consoleSeat, consoleApproach } from "./consoleLayout.js?v=a7a149bb38f1";
+import { roomBounds } from "./room.js?v=a7a149bb38f1";
 /** Marco de design: mistura das antigas locadoras de console com lan houses. */
 export const PS1_UNLOCK_YEAR = 2002;
 export const PS1_MAX_STATIONS = 3;
 export const PS1_REPAIR_COST = 45;
 export const PS1_WEAR_LIMIT = 100;
+/** Cinco títulos de lançamento + dois extras em 2002, dois por ano até 2005.
+ * O PS2 chega em 2006; os CDs já adquiridos do PS1 continuam válidos. */
 export const PS1_CD_CATALOG = [
-    { id: "turbo-circuito", title: "Turbo Circuito", genre: "Corrida", basePrice: 44 },
-    { id: "gol-de-rua", title: "Gol de Rua", genre: "Futebol", basePrice: 39 },
-    { id: "ilha-dos-cristais", title: "Ilha dos Cristais", genre: "Aventura", basePrice: 49 },
-    { id: "luta-neon", title: "Luta Neon", genre: "Luta", basePrice: 54 },
-    { id: "cosmo-blocos", title: "Cosmo Blocos", genre: "Quebra-cabeça", basePrice: 29 }
+    { id: "turbo-circuito", title: "Turbo Circuito", genre: "Corrida", basePrice: 44, releaseYear: 2002 },
+    { id: "gol-de-rua", title: "Gol de Rua", genre: "Futebol", basePrice: 39, releaseYear: 2002 },
+    { id: "ilha-dos-cristais", title: "Ilha dos Cristais", genre: "Aventura", basePrice: 49, releaseYear: 2002 },
+    { id: "luta-neon", title: "Luta Neon", genre: "Luta", basePrice: 54, releaseYear: 2002 },
+    { id: "cosmo-blocos", title: "Cosmo Blocos", genre: "Quebra-cabeça", basePrice: 29, releaseYear: 2002 },
+    { id: "rally-do-deserto", title: "Rally do Deserto", genre: "Corrida", basePrice: 42, releaseYear: 2002 },
+    { id: "sombras-do-castelo", title: "Sombras do Castelo", genre: "Ação", basePrice: 46, releaseYear: 2002 },
+    { id: "defensores-do-espaco", title: "Defensores do Espaço", genre: "Tiro", basePrice: 52, releaseYear: 2003 },
+    { id: "selva-perdida", title: "Selva Perdida", genre: "Aventura", basePrice: 48, releaseYear: 2003 },
+    { id: "dragoes-de-aco", title: "Dragões de Aço", genre: "RPG", basePrice: 59, releaseYear: 2004 },
+    { id: "ritmo-da-cidade", title: "Ritmo da Cidade", genre: "Música", basePrice: 35, releaseYear: 2004 },
+    { id: "agentes-da-noite", title: "Agentes da Noite", genre: "Furtividade", basePrice: 61, releaseYear: 2005 },
+    { id: "oceano-profundo", title: "Oceano Profundo", genre: "Exploração", basePrice: 53, releaseYear: 2005 }
 ];
+export function ps1ReleasedDiscs(year) {
+    return PS1_CD_CATALOG.filter(d => year >= d.releaseYear);
+}
 export const PS1_SECOND_SEAT_BASE_COST = 120;
 /** Extra original: cadeira e gamepad, sem comprar outro console ou CD. */
 export function ps1SecondSeatPrice(s) {
@@ -28,7 +41,7 @@ export function ps1DiscPrice(s, id) {
     const title = PS1_CD_CATALOG.find(x => x.id === id);
     if (!title)
         return 0;
-    const factor = priceIndex(yearFromMinutes(s.totalMinutes)) / priceIndex(PS1_UNLOCK_YEAR);
+    const factor = priceIndex(yearFromMinutes(s.totalMinutes)) / priceIndex(title.releaseYear);
     return Math.round(title.basePrice * factor * 100) / 100;
 }
 export function ps1ActiveCopies(s, id, excludeIndex = -1) {
@@ -36,7 +49,8 @@ export function ps1ActiveCopies(s, id, excludeIndex = -1) {
 }
 export function ps1PlayableDisc(s, index) {
     const id = s.ps1Stations?.[index]?.discId;
-    return id && ps1DiscCopies(s, id) > 0 && ps1ActiveCopies(s, id) <= ps1DiscCopies(s, id) ? id : null;
+    return id && ps1ReleasedDiscs(yearFromMinutes(s.totalMinutes)).some(d => d.id === id) &&
+        ps1DiscCopies(s, id) > 0 && ps1ActiveCopies(s, id) <= ps1DiscCopies(s, id) ? id : null;
 }
 /** Compra definitiva: ao adquirir o primeiro CD, ativa automaticamente uma cadeira vazia. */
 export function buyPs1Disc(s, id) {
@@ -45,6 +59,8 @@ export function buyPs1Disc(s, id) {
         return { ok: false, message: "CD de PlayStation desconhecido." };
     if (!in2002(s) || !(s.ps1Stations?.length))
         return { ok: false, message: "Instale primeiro uma bancada de PlayStation em 2002." };
+    if (yearFromMinutes(s.totalMinutes) < title.releaseYear)
+        return { ok: false, message: title.title + " estará disponível em " + title.releaseYear + "." };
     if (ps1DiscCopies(s, id) >= PS1_MAX_STATIONS)
         return { ok: false, message: "Já existem cópias suficientes deste CD para todas as bancadas." };
     const price = ps1DiscPrice(s, id);
@@ -71,6 +87,8 @@ export function setPs1StationDisc(s, index, id) {
         const title = PS1_CD_CATALOG.find(t => t.id === id);
         if (!title)
             return { ok: false, message: "CD desconhecido." };
+        if (yearFromMinutes(s.totalMinutes) < title.releaseYear)
+            return { ok: false, message: "Este CD estará disponível em " + title.releaseYear + "." };
         if (ps1ActiveCopies(s, id, index) >= ps1DiscCopies(s, id))
             return { ok: false, message: "Todas as cópias de " + title.title + " já estão em outras bancadas." };
     }
@@ -239,7 +257,7 @@ export function validPs1State(s) {
         if (!stock || typeof stock !== "object" || Array.isArray(stock))
             return false;
         for (const [id, copies] of Object.entries(stock)) {
-            if (!PS1_CD_CATALOG.some(t => t.id === id) || !Number.isInteger(copies) ||
+            if (!PS1_CD_CATALOG.some(t => t.id === id && t.releaseYear <= yearFromMinutes(s.totalMinutes ?? 0)) || !Number.isInteger(copies) ||
                 copies < 1 || copies > PS1_MAX_STATIONS)
                 return false;
         }

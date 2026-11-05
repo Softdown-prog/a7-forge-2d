@@ -1,5 +1,5 @@
-import { gameYear } from "../sim/era.js?v=faa670fa6ec3";
-import { PS1_CD_CATALOG, PS1_MAX_STATIONS, PS1_UNLOCK_YEAR, ps1HourPrice, ps1AllowedHourlyCeiling, ps1DiscCopies, ps1PlayableDisc, ps1SecondSeatPrice, ps1OpenSeat } from "../sim/ps1.js?v=faa670fa6ec3";
+import { gameYear } from "../sim/era.js?v=a7a149bb38f1";
+import { PS1_CD_CATALOG, PS1_MAX_STATIONS, PS1_UNLOCK_YEAR, ps1HourPrice, ps1AllowedHourlyCeiling, ps1DiscCopies, ps1PlayableDisc, ps1SecondSeatPrice, ps1OpenSeat } from "../sim/ps1.js?v=a7a149bb38f1";
 export function createPs1AdminPort(getState) {
     return { snapshot() {
             const s = getState(), stations = s.ps1Stations ?? [], year = gameYear(s);
@@ -16,7 +16,7 @@ export function createPs1AdminPort(getState) {
                     const occupied = s.customers.filter(c => c.ps1StationIndex === index &&
                         ["to_pc", "sitting", "using", "standing"].includes(c.stage)).length;
                     const isBusy = occupied > 0, playableDisc = ps1PlayableDisc(s, index);
-                    const discOptions = PS1_CD_CATALOG.flatMap(disc => {
+                    const discOptions = PS1_CD_CATALOG.filter(d => d.releaseYear <= year).flatMap(disc => {
                         const copies = ps1DiscCopies(s, disc.id);
                         if (!copies)
                             return [];

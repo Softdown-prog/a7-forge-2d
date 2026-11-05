@@ -2,7 +2,7 @@
  * totalMinutes fica no último minuto de sexta e avança para sábado 10h
  * apenas ao final. O mês não pode virar duas vezes.
  */
-import { campaignDate, weekdayIndex, weekdayName } from "./campaignWeek.js?v=faa670fa6ec3";
+import { campaignDate, weekdayIndex, weekdayName } from "./campaignWeek.js?v=a7a149bb38f1";
 export const NIGHT_START_CIVIL_MINUTE = 22 * 60;
 export const NIGHT_FIRST_ARRIVAL_OFFSET = 60; // 23:00 de sexta (referência de design)
 export const NIGHT_MORNING_EXIT_OFFSET = 540; // 07:00 de sábado (referência de design)

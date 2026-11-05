@@ -1,6 +1,6 @@
-import { stationUpgradeIssue } from "./stationPower.js?v=faa670fa6ec3";
-import { gameYear } from "./eraCatalog.js?v=faa670fa6ec3";
-import { linuxMachineFor, linuxMachineSpec } from "./linuxMachines.js?v=faa670fa6ec3";
+import { stationUpgradeIssue } from "./stationPower.js?v=a7a149bb38f1";
+import { gameYear } from "./eraCatalog.js?v=a7a149bb38f1";
+import { linuxMachineFor, linuxMachineSpec } from "./linuxMachines.js?v=a7a149bb38f1";
 /** Fictional station kits: release years belong to the game's progression. */
 export const LCD_CATALOG = [
     { id: "lcd05", name: "Bairro LCD 17", year: 2005, cost: 580, bonus: .02, powerSaving: .00012, description: "LCD 4:3 prateado, base larga e gabinete de transição." },

@@ -1,13 +1,13 @@
-import { iso, polygon, cuboid, raisedCuboid } from "./isometric.js?v=faa670fa6ec3";
-import { pcBroken } from "../sim/engine.js?v=faa670fa6ec3";
-import { stationPoweredOn } from "../sim/stationPower.js?v=faa670fa6ec3";
-import { installedGpu } from "../sim/gpu.js?v=faa670fa6ec3";
-import { installedLcd } from "../sim/computerModels.js?v=faa670fa6ec3";
-import { cosmeticAvailable } from "../sim/premiumCosmetics.js?v=faa670fa6ec3";
-import { yearFromMinutes } from "../sim/historicalEconomy.js?v=faa670fa6ec3";
-import { isLinuxPc } from "../sim/linuxQuest.js?v=faa670fa6ec3";
-import { linuxMachineFor } from "../sim/linuxMachines.js?v=faa670fa6ec3";
-import { drawPcScreenActivity, pcActivityForStation, pcScreenFrame } from "./pcScreenActivities.js?v=faa670fa6ec3";
+import { iso, polygon, cuboid, raisedCuboid } from "./isometric.js?v=a7a149bb38f1";
+import { pcBroken } from "../sim/engine.js?v=a7a149bb38f1";
+import { stationPoweredOn } from "../sim/stationPower.js?v=a7a149bb38f1";
+import { installedGpu } from "../sim/gpu.js?v=a7a149bb38f1";
+import { installedLcd } from "../sim/computerModels.js?v=a7a149bb38f1";
+import { cosmeticAvailable } from "../sim/premiumCosmetics.js?v=a7a149bb38f1";
+import { yearFromMinutes } from "../sim/historicalEconomy.js?v=a7a149bb38f1";
+import { isLinuxPc } from "../sim/linuxQuest.js?v=a7a149bb38f1";
+import { linuxMachineFor } from "../sim/linuxMachines.js?v=a7a149bb38f1";
+import { drawPcScreenActivity, pcActivityForStation, pcScreenFrame } from "./pcScreenActivities.js?v=a7a149bb38f1";
 const lcdMaterials = {
     lcd05: { top: "#d4dcd9", front: "#a5b6b5", side: "#71888a", accent: "#75a5a8" },
     lcd08: { top: "#535d60", front: "#39474b", side: "#26383d", accent: "#98b9b7" },

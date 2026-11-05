@@ -1,5 +1,5 @@
-import { DAY_MINUTES } from "./types.js?v=faa670fa6ec3";
-import { yearFromMinutes, priceIndex } from "./historicalEconomy.js?v=faa670fa6ec3";
+import { DAY_MINUTES } from "./types.js?v=a7a149bb38f1";
+import { yearFromMinutes, priceIndex } from "./historicalEconomy.js?v=a7a149bb38f1";
 export const DISC_COPIER_YEAR = 2001;
 export const DISC_COPIER_COST = 900;
 export const DISC_COPIES_PER_DAY = 24;

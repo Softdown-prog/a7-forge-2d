@@ -1,8 +1,8 @@
-import { createGame, dayNumber } from "../sim/engine.js?v=faa670fa6ec3";
-import { GAME_LAST_MINUTE } from "../sim/mailCalendar.js?v=faa670fa6ec3";
-import { clampPriceToEra } from "../sim/historicalEconomy.js?v=faa670fa6ec3";
-import { loadLocalSave, replaceLocalSave, writeLocalSave } from "../sim/localSave.js?v=faa670fa6ec3";
-import { serializeSave, parseImportedSave } from "../sim/saveTransfer.js?v=faa670fa6ec3";
+import { createGame, dayNumber } from "../sim/engine.js?v=a7a149bb38f1";
+import { GAME_LAST_MINUTE } from "../sim/mailCalendar.js?v=a7a149bb38f1";
+import { clampPriceToEra } from "../sim/historicalEconomy.js?v=a7a149bb38f1";
+import { loadLocalSave, replaceLocalSave, writeLocalSave } from "../sim/localSave.js?v=a7a149bb38f1";
+import { serializeSave, parseImportedSave } from "../sim/saveTransfer.js?v=a7a149bb38f1";
 export function createGameSessionPort(store, getState) {
     return {
         startup() {

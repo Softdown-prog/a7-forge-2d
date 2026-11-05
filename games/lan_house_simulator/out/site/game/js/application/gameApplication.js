@@ -1,7 +1,7 @@
-import { createAccountGamePort } from "./accountGamePort.js?v=faa670fa6ec3";
-import { createGameFramePort } from "./gameFramePort.js?v=faa670fa6ec3";
-import { createGamePorts } from "./gamePorts.js?v=faa670fa6ec3";
-import { createGameSessionPort } from "./gameSessionPort.js?v=faa670fa6ec3";
+import { createAccountGamePort } from "./accountGamePort.js?v=a7a149bb38f1";
+import { createGameFramePort } from "./gameFramePort.js?v=a7a149bb38f1";
+import { createGamePorts } from "./gamePorts.js?v=a7a149bb38f1";
+import { createGameSessionPort } from "./gameSessionPort.js?v=a7a149bb38f1";
 export function createGameApplication(options) {
     let game;
     const sessionPort = createGameSessionPort(options.store, () => game);

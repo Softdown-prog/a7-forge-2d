@@ -1,11 +1,11 @@
-import { buyComputer, availablePlacementSlots } from "../sim/shop.js?v=faa670fa6ec3";
-import { linuxMachineSpec } from "../sim/linuxMachines.js?v=faa670fa6ec3";
-import { buyPrinter } from "../sim/printService.js?v=faa670fa6ec3";
-import { buyDiscCopier } from "../sim/discCopy.js?v=faa670fa6ec3";
-import { expandShop } from "../sim/economy.js?v=faa670fa6ec3";
-import { expandDirection } from "../sim/room.js?v=faa670fa6ec3";
-import { buyPs2Station } from "../sim/ps2.js?v=faa670fa6ec3";
-import { buyPs1Station } from "../sim/ps1.js?v=faa670fa6ec3";
+import { buyComputer, availablePlacementSlots } from "../sim/shop.js?v=a7a149bb38f1";
+import { linuxMachineSpec } from "../sim/linuxMachines.js?v=a7a149bb38f1";
+import { buyPrinter } from "../sim/printService.js?v=a7a149bb38f1";
+import { buyDiscCopier } from "../sim/discCopy.js?v=a7a149bb38f1";
+import { expandShop } from "../sim/economy.js?v=a7a149bb38f1";
+import { expandDirection } from "../sim/room.js?v=a7a149bb38f1";
+import { buyPs2Station } from "../sim/ps2.js?v=a7a149bb38f1";
+import { buyPs1Station } from "../sim/ps1.js?v=a7a149bb38f1";
 const furniture = (s) => s === "poster" || s === "plant" || s === "table";
 const extension = (s) => s === "west" || s === "east" || s === "north";
 export function createShopActionsPort(getState) {

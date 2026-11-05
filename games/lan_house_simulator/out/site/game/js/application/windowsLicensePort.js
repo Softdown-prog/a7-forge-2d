@@ -1,10 +1,10 @@
-import { pcCount } from "../sim/engine.js?v=faa670fa6ec3";
-import { gameYear, WINDOWS_ERAS, installedWindows } from "../sim/era.js?v=faa670fa6ec3";
-import { windowsHardwareIssues } from "../sim/hardware.js?v=faa670fa6ec3";
-import { stationPoweredOn, stationUpgradeIssue } from "../sim/stationPower.js?v=faa670fa6ec3";
-import { isLinuxPc } from "../sim/linuxQuest.js?v=faa670fa6ec3";
-import { linuxMachineFor, linuxMachineSpec } from "../sim/linuxMachines.js?v=faa670fa6ec3";
-import { stationOccupied } from "../sim/computerModels.js?v=faa670fa6ec3";
+import { pcCount } from "../sim/engine.js?v=a7a149bb38f1";
+import { gameYear, WINDOWS_ERAS, installedWindows } from "../sim/era.js?v=a7a149bb38f1";
+import { windowsHardwareIssues } from "../sim/hardware.js?v=a7a149bb38f1";
+import { stationPoweredOn, stationUpgradeIssue } from "../sim/stationPower.js?v=a7a149bb38f1";
+import { isLinuxPc } from "../sim/linuxQuest.js?v=a7a149bb38f1";
+import { linuxMachineFor, linuxMachineSpec } from "../sim/linuxMachines.js?v=a7a149bb38f1";
+import { stationOccupied } from "../sim/computerModels.js?v=a7a149bb38f1";
 export function createWindowsLicensePort(getState) {
     return { rows() {
             const s = getState(), year = gameYear(s);

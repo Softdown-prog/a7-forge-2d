@@ -1,5 +1,5 @@
-import { financialSnapshot, monthlyClosingSnapshot } from "../sim/financialClarity.js?v=faa670fa6ec3";
-import { monthlyBills } from "../sim/economy.js?v=faa670fa6ec3";
+import { financialSnapshot, monthlyClosingSnapshot } from "../sim/financialClarity.js?v=a7a149bb38f1";
+import { monthlyBills } from "../sim/economy.js?v=a7a149bb38f1";
 export function createFinancialBalancePort(getState) {
     const money = (n) => "R$ " + n.toLocaleString("pt-BR");
     const currency = (n) => n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
