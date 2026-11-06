@@ -1,5 +1,5 @@
-import { drawPs2Station } from "../render/ps2Art.js?v=1426089a9f9b";
-import { ps2ProceduralCover } from "./ps2CoverArt.js?v=1426089a9f9b";
+import { drawPs2Station } from "../render/ps2Art.js?v=80953abaf40f";
+import { ps2ProceduralCover } from "./ps2CoverArt.js?v=80953abaf40f";
 const money = (n) => n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 function text(doc, tag, value) { const el = doc.createElement(tag); el.textContent = value; return el; }
 function button(doc, value, disabled, key, index) {

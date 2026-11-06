@@ -1,6 +1,6 @@
-import { DAY_MINUTES } from "./types.js?v=1426089a9f9b";
-import { isHistorical, priceIndex, yearFromMinutes } from "./historicalEconomy.js?v=1426089a9f9b";
-import { hasPlayableGpuGame } from "./gpuGames.js?v=1426089a9f9b";
+import { DAY_MINUTES } from "./types.js?v=80953abaf40f";
+import { isHistorical, priceIndex, yearFromMinutes } from "./historicalEconomy.js?v=80953abaf40f";
+import { hasPlayableGpuGame } from "./gpuGames.js?v=80953abaf40f";
 export const STORY_IDS = [
     "roof-leak", "neighbor-noise", "damaged-keyboard", "malware-incident",
     "missing-stock", "unexpected-power-bill", "late-supplier", "lost-document",

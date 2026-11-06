@@ -1,6 +1,6 @@
-import { iso } from "./isometric.js?v=1426089a9f9b";
-import { walkPhase, walkingLeg, walkAxis } from "./walkCycle.js?v=1426089a9f9b";
-import { workerMotion } from "./workerMotion.js?v=1426089a9f9b";
+import { iso } from "./isometric.js?v=80953abaf40f";
+import { walkPhase, walkingLeg, walkAxis } from "./walkCycle.js?v=80953abaf40f";
+import { workerMotion } from "./workerMotion.js?v=80953abaf40f";
 const casual = [
     { shirt: "#358C94", dark: "#225D73", highlight: "#7FC5BA", pants: "#374A69", hair: "#4A342D", skin: "#EFB68F", trim: "#F2D08D" },
     { shirt: "#BE6B57", dark: "#8B4455", highlight: "#E49C7A", pants: "#3D5368", hair: "#6B493A", skin: "#BD8467", trim: "#E8CF8C" },

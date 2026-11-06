@@ -1,6 +1,6 @@
 /** PS1 CD cards; clicks continue to use the existing delegated shop handler. */
-import { nextPs1DiscReleaseYear } from "../application/ps1ShopDiscPort.js?v=1426089a9f9b";
-import { ps1ProceduralCover } from "./ps1CoverArt.js?v=1426089a9f9b";
+import { nextPs1DiscReleaseYear } from "../application/ps1ShopDiscPort.js?v=80953abaf40f";
+import { ps1ProceduralCover } from "./ps1CoverArt.js?v=80953abaf40f";
 export function renderPs1ShopDiscCatalog(host, port, inConsoleTab, doc) {
     if (!inConsoleTab)
         return;

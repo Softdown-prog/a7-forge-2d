@@ -1,8 +1,8 @@
 /** Independent ornamental menu sample. Never mutates or advances the player's active save.
  * Creation belongs to the application layer, not the DOM presentation module.
  */
-import { createGame, pcPosition } from "../sim/engine.js?v=1426089a9f9b";
-import { computerSeat } from "../sim/route.js?v=1426089a9f9b";
+import { createGame, pcPosition } from "../sim/engine.js?v=80953abaf40f";
+import { computerSeat } from "../sim/route.js?v=80953abaf40f";
 export function createMenuScenePreview() {
     const sample = createGame(98);
     sample.customers = [0, 1].map(i => {

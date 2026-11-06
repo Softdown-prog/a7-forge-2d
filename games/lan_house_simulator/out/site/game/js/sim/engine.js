@@ -1,46 +1,47 @@
 /** engine.ts: módulo do runtime LHS; lógica executada por minuto do jogo. */
-export { chooseAvailablePc } from "./customerFlow.js?v=1426089a9f9b";
-export { canCustomerOccupy, EXIT_REACH_DISTANCE } from "./customerMotion.js?v=1426089a9f9b";
-export { addLog, applyResult, CLOSING_START_MINUTE, createGame, dayNumber, displayTime, entrance, LAST_ADMISSION_MINUTE, legacyPcCount, online, pcBroken, pcCount, pcPosition, pcWear, roomWidth } from "./simulationState.js?v=1426089a9f9b";
-import { validLcdModels } from "./computerModels.js?v=1426089a9f9b";
-import { spawn, spawnDiscWalkIn, spawnPrintWalkIn } from "./customerArrival.js?v=1426089a9f9b";
-import { validCustomerFeedback } from "./customerFeedback.js?v=1426089a9f9b";
-import { refreshCounterQueue, sendHome, startStanding } from "./customerFlow.js?v=1426089a9f9b";
-import { advanceCustomer } from "./customerLifecycle.js?v=1426089a9f9b";
-import { EXIT_REACH_DISTANCE } from "./customerMotion.js?v=1426089a9f9b";
-import { scheduleDecisions } from "./decisions.js?v=1426089a9f9b";
-import { DISC_COPIES_PER_DAY, discCopiesToday, discWalkInDue, validDiscCopier } from "./discCopy.js?v=1426089a9f9b";
-import { demandFactor, energyCostPerMinute, monthlyBills } from "./economy.js?v=1426089a9f9b";
-import { validateObjectPlacements } from "./editableObjects.js?v=1426089a9f9b";
-import { WINDOWS_ERAS } from "./eraCatalog.js?v=1426089a9f9b";
-import { eraGameVisitorMultiplier, validEraGameLicenses } from "./eraGames.js?v=1426089a9f9b";
-import { paidMonthlyBillReceipt, validPaidMonthlyBill } from "./financialClarity.js?v=1426089a9f9b";
-import { closeFinancialMonth, recordComputerUtilization } from "./financialReview.js?v=1426089a9f9b";
-import { validFridayMeetupDraft } from "./fridayMeetup.js?v=1426089a9f9b";
-import { validGpuGameDemand } from "./gpuDemand.js?v=1426089a9f9b";
-import { gpuGameSpec, gpuGameVisitorMultiplier, tickGpuGameInstallations, validGpuGameInstallJobs, validGpuGameInstalls, validGpuGameLicenses } from "./gpuGames.js?v=1426089a9f9b";
-import { validHardwareState } from "./hardware.js?v=1426089a9f9b";
-import { clampPriceToEra, normalizedHourlyPrice } from "./historicalEconomy.js?v=1426089a9f9b";
-import { GAME_END_DAY, GAME_LAST_MINUTE, isSporadicMailId } from "./mailCalendar.js?v=1426089a9f9b";
-import { productSpec, receiveDueOrders, validMerchandise } from "./merchandise.js?v=1426089a9f9b";
-import { tickMultiplayerVisitors, validMultiplayerVisit } from "./multiplayerVisitors.js?v=1426089a9f9b";
-import { tickNeeds } from "./needs.js?v=1426089a9f9b";
-import { advanceNightMeetup, beginNightMeetup, nightScheduledForClosing, validNightMeetup } from "./nightMeetup.js?v=1426089a9f9b";
-import { reviewNotices } from "./notices.js?v=1426089a9f9b";
-import { validLinuxState } from "./linuxQuest.js?v=1426089a9f9b";
-import { tickPostman, validPostmanDelivery } from "./postmanDelivery.js?v=1426089a9f9b";
-import { pagesPrintedToday, PRINT_PAGES_PER_DAY, printWalkInDue, validPrinterService } from "./printService.js?v=1426089a9f9b";
-import { promotionVisitorMultiplier } from "./promotion.js?v=1426089a9f9b";
-import { ps2EnergyCostPerMinute, ps2HourPrice, ps2StationAvailable, validPs2State } from "./ps2.js?v=1426089a9f9b";
-import { ps1EnergyCostPerMinute, ps1HourPrice, ps1StationAvailable, validPs1State } from "./ps1.js?v=1426089a9f9b";
-import { refreshRetailQueues } from "./retailQueue.js?v=1426089a9f9b";
-import { addWaste, dispatchHiredStaff, tickServices } from "./services.js?v=1426089a9f9b";
-import { addLog, CLOSING_START_MINUTE, dayNumber, entrance, LAST_ADMISSION_MINUTE, localMinute, online, pcCount, random, SESSION_FINISH_MINUTE } from "./simulationState.js?v=1426089a9f9b";
-import { accrueEmployeeDay, validEmployeeState } from "./staff.js?v=1426089a9f9b";
-import { recordStationMinute, validStationLedger } from "./stationAccounting.js?v=1426089a9f9b";
-import { stationReadyForSessions, validStationPower } from "./stationPower.js?v=1426089a9f9b";
-import { CHAIN_IDS, STORY_IDS, storyVisitorMultiplier } from "./storyEvents.js?v=1426089a9f9b";
-import { DAY_MINUTES, SESSION_MINUTES } from "./types.js?v=1426089a9f9b";
+export { chooseAvailablePc } from "./customerFlow.js?v=80953abaf40f";
+export { canCustomerOccupy, EXIT_REACH_DISTANCE } from "./customerMotion.js?v=80953abaf40f";
+export { addLog, applyResult, CLOSING_START_MINUTE, createGame, dayNumber, displayTime, entrance, LAST_ADMISSION_MINUTE, legacyPcCount, online, pcBroken, pcCount, pcPosition, pcWear, roomWidth } from "./simulationState.js?v=80953abaf40f";
+import { validLcdModels } from "./computerModels.js?v=80953abaf40f";
+import { spawn, spawnDiscWalkIn, spawnPrintWalkIn } from "./customerArrival.js?v=80953abaf40f";
+import { validCustomerFeedback } from "./customerFeedback.js?v=80953abaf40f";
+import { refreshCounterQueue, sendHome, startStanding } from "./customerFlow.js?v=80953abaf40f";
+import { advanceCustomer } from "./customerLifecycle.js?v=80953abaf40f";
+import { EXIT_REACH_DISTANCE } from "./customerMotion.js?v=80953abaf40f";
+import { scheduleDecisions } from "./decisions.js?v=80953abaf40f";
+import { DISC_COPIES_PER_DAY, discCopiesToday, discWalkInDue, validDiscCopier } from "./discCopy.js?v=80953abaf40f";
+import { demandFactor, energyCostPerMinute, monthlyBills } from "./economy.js?v=80953abaf40f";
+import { validateObjectPlacements } from "./editableObjects.js?v=80953abaf40f";
+import { WINDOWS_ERAS } from "./eraCatalog.js?v=80953abaf40f";
+import { eraGameVisitorMultiplier, validEraGameLicenses } from "./eraGames.js?v=80953abaf40f";
+import { paidMonthlyBillReceipt, validPaidMonthlyBill } from "./financialClarity.js?v=80953abaf40f";
+import { closeFinancialMonth, recordComputerUtilization } from "./financialReview.js?v=80953abaf40f";
+import { validFridayMeetupDraft } from "./fridayMeetup.js?v=80953abaf40f";
+import { validGpuGameDemand } from "./gpuDemand.js?v=80953abaf40f";
+import { gpuGameSpec, gpuGameVisitorMultiplier, tickGpuGameInstallations, validGpuGameInstallJobs, validGpuGameInstalls, validGpuGameLicenses } from "./gpuGames.js?v=80953abaf40f";
+import { validHardwareState } from "./hardware.js?v=80953abaf40f";
+import { clampPriceToEra, normalizedHourlyPrice } from "./historicalEconomy.js?v=80953abaf40f";
+import { GAME_END_DAY, GAME_LAST_MINUTE, isSporadicMailId } from "./mailCalendar.js?v=80953abaf40f";
+import { productSpec, receiveDueOrders, validMerchandise } from "./merchandise.js?v=80953abaf40f";
+import { tickMultiplayerVisitors, validMultiplayerVisit } from "./multiplayerVisitors.js?v=80953abaf40f";
+import { tickNeeds } from "./needs.js?v=80953abaf40f";
+import { advanceNightMeetup, beginNightMeetup, nightScheduledForClosing, validNightMeetup } from "./nightMeetup.js?v=80953abaf40f";
+import { reviewNotices } from "./notices.js?v=80953abaf40f";
+import { validLinuxState } from "./linuxQuest.js?v=80953abaf40f";
+import { tickPostman, validPostmanDelivery } from "./postmanDelivery.js?v=80953abaf40f";
+import { pagesPrintedToday, PRINT_PAGES_PER_DAY, printWalkInDue, validPrinterService } from "./printService.js?v=80953abaf40f";
+import { promotionVisitorMultiplier } from "./promotion.js?v=80953abaf40f";
+import { ps2EnergyCostPerMinute, ps2HourPrice, ps2StationAvailable, validPs2State } from "./ps2.js?v=80953abaf40f";
+import { validPs2ReleaseMailHistory } from "./ps2ReleaseMail.js?v=80953abaf40f";
+import { ps1EnergyCostPerMinute, ps1HourPrice, ps1StationAvailable, validPs1State } from "./ps1.js?v=80953abaf40f";
+import { refreshRetailQueues } from "./retailQueue.js?v=80953abaf40f";
+import { addWaste, dispatchHiredStaff, tickServices } from "./services.js?v=80953abaf40f";
+import { addLog, CLOSING_START_MINUTE, dayNumber, entrance, LAST_ADMISSION_MINUTE, localMinute, online, pcCount, random, SESSION_FINISH_MINUTE } from "./simulationState.js?v=80953abaf40f";
+import { accrueEmployeeDay, validEmployeeState } from "./staff.js?v=80953abaf40f";
+import { recordStationMinute, validStationLedger } from "./stationAccounting.js?v=80953abaf40f";
+import { stationReadyForSessions, validStationPower } from "./stationPower.js?v=80953abaf40f";
+import { CHAIN_IDS, STORY_IDS, storyVisitorMultiplier } from "./storyEvents.js?v=80953abaf40f";
+import { DAY_MINUTES, SESSION_MINUTES } from "./types.js?v=80953abaf40f";
 function nextDay(s) {
     for (const c of s.customers)
         if (c.stage !== "leaving")
@@ -239,7 +240,7 @@ export function isValidSave(value) {
     const v = value;
     const metrics = [v.monthPcUsedMinutes, v.monthPcCapacityMinutes, v.lastMonthPcUsedMinutes,
         v.lastMonthPcCapacityMinutes, v.monthRevenueBase, v.monthExpensesBase, v.lastMonthRevenue, v.lastMonthExpenses];
-    return validPostmanDelivery(v) && validLinuxState(v) && validMultiplayerVisit(v) && validFridayMeetupDraft(v) && validNightMeetup(v) && validMerchandise(v) && validCustomerFeedback(v.customerFeedback, v.totalMinutes ?? 0) && validEmployeeState(v) && validStationPower(v) && validPs1State(v) && validPs2State(v) && validPaidMonthlyBill(v.lastPaidMonthlyBill, v) && (v.economyVersion === undefined || v.economyVersion === 2) && validDiscCopier(v) && validPrinterService(v) && validHardwareState(v) && validGpuGameLicenses(v.licensedGpuGames, v) && validGpuGameInstalls(v.gpuGameInstalls, v) && validGpuGameInstallJobs(v.gpuGameInstallJobs, v) && validGpuGameDemand(v.gpuGameDemand) && validEraGameLicenses(v.licensedEraGames, v) && validLcdModels(v.pcLcdModels) && validStationLedger(v.stationLedger) &&
+    return validPostmanDelivery(v) && validLinuxState(v) && validMultiplayerVisit(v) && validFridayMeetupDraft(v) && validNightMeetup(v) && validMerchandise(v) && validCustomerFeedback(v.customerFeedback, v.totalMinutes ?? 0) && validEmployeeState(v) && validStationPower(v) && validPs1State(v) && validPs2State(v) && validPs2ReleaseMailHistory(v) && validPaidMonthlyBill(v.lastPaidMonthlyBill, v) && (v.economyVersion === undefined || v.economyVersion === 2) && validDiscCopier(v) && validPrinterService(v) && validHardwareState(v) && validGpuGameLicenses(v.licensedGpuGames, v) && validGpuGameInstalls(v.gpuGameInstalls, v) && validGpuGameInstallJobs(v.gpuGameInstallJobs, v) && validGpuGameDemand(v.gpuGameDemand) && validEraGameLicenses(v.licensedEraGames, v) && validLcdModels(v.pcLcdModels) && validStationLedger(v.stationLedger) &&
         (v.stationLedger === undefined || v.stationLedger.length <= pcCount(v)) &&
         (v.pcWindows === undefined || (Array.isArray(v.pcWindows) && v.pcWindows.length <= 200 && v.pcWindows.every(id => id === null || WINDOWS_ERAS.some(w => w.id === id)))) &&
         metrics.every(n => n === undefined || (Number.isFinite(n) && n >= 0 && n <= 1e9)) &&

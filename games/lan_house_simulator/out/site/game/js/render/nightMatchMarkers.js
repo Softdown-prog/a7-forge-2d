@@ -1,6 +1,6 @@
-import { knockoutCurrentMatch } from "../sim/nightKnockout.js?v=1426089a9f9b";
-import { pcPosition } from "../sim/engine.js?v=1426089a9f9b";
-import { iso } from "./isometric.js?v=1426089a9f9b";
+import { knockoutCurrentMatch } from "../sim/nightKnockout.js?v=80953abaf40f";
+import { pcPosition } from "../sim/engine.js?v=80953abaf40f";
+import { iso } from "./isometric.js?v=80953abaf40f";
 /** Reações apenas para uma vitória marcada pelo motor, com 8 minutos de duração. */
 export function nightMatchReactions(s) {
     const n = s.nightMeetup, t = n?.tournament;

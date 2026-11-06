@@ -1,6 +1,6 @@
-import { stationUpgradeIssue } from "./stationPower.js?v=1426089a9f9b";
-import { gameYear } from "./eraCatalog.js?v=1426089a9f9b";
-import { hardwareFor, buildParts, requiredPsuWatts } from "./hardware.js?v=1426089a9f9b";
+import { stationUpgradeIssue } from "./stationPower.js?v=80953abaf40f";
+import { gameYear } from "./eraCatalog.js?v=80953abaf40f";
+import { hardwareFor, buildParts, requiredPsuWatts } from "./hardware.js?v=80953abaf40f";
 export const GPU_CATALOG = [
     { id: "gpu05", name: "PixelForce 6600", year: 2005, cost: 440, power: 0.18, bonus: 0.035, theme: "emerald" },
     { id: "gpu07", name: "PixelForce 8800", year: 2007, cost: 790, power: 0.34, bonus: 0.060, theme: "amber" },

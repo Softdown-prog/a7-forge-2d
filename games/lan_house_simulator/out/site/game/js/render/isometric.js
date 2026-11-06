@@ -1,5 +1,5 @@
-import { roomBounds } from "../sim/room.js?v=1426089a9f9b";
-import { turnPoint } from "../sim/layout.js?v=1426089a9f9b";
+import { roomBounds } from "../sim/room.js?v=80953abaf40f";
+import { turnPoint } from "../sim/layout.js?v=80953abaf40f";
 export function objectCamera(cam, p, w, d, rotation = 0) {
     return rotation ? { ...cam, rotation, pivot: { x: p.x + w / 2, y: p.y + d / 2 } } : cam;
 }

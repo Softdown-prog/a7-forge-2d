@@ -1,4 +1,4 @@
-import { iso } from "./isometric.js?v=1426089a9f9b";
+import { iso } from "./isometric.js?v=80953abaf40f";
 export function createScenePicker(canvas, placementActions, getCamera, selection, coarsePointer) {
     function getCanvasPoint(e) {
         const element = canvas;

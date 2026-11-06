@@ -1,4 +1,4 @@
-import { productPrice } from "../sim/economy.js?v=1426089a9f9b";
+import { productPrice } from "../sim/economy.js?v=80953abaf40f";
 const PRODUCTS = [
     { id: "soda", label: "Refrigerante" },
     { id: "candy", label: "Doce" },

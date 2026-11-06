@@ -1,5 +1,5 @@
-import { renderNoticeWindowStatus } from "./noticeWindowStatusPanel.js?v=1426089a9f9b";
-import { renderNoticeInbox } from "./noticeInboxPanel.js?v=1426089a9f9b";
+import { renderNoticeWindowStatus } from "./noticeWindowStatusPanel.js?v=80953abaf40f";
+import { renderNoticeInbox } from "./noticeInboxPanel.js?v=80953abaf40f";
 export function createNoticeWindowRefresh(options) {
     let lastStatus = "";
     return { refresh(open, force) {

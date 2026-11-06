@@ -1,0 +1,51 @@
+import { isHistorical, yearFromMinutes } from "./historicalEconomy.js?v=80953abaf40f";
+import { fixedYearMailWindowDue } from "./mailCalendar.js?v=80953abaf40f";
+import { PS2_GAME_CATALOG, ps2ReleasedGames } from "./ps2.js?v=80953abaf40f";
+export const PS2_RELEASE_MAIL_YEARS = [2006, 2007, 2008, 2009, 2010];
+export const ps2ReleaseMailId = (year) => `ps2-games-${year}`;
+/** A notice enters the inbox only during the first 30 in-game days of its year.
+ * Migrated campaigns starting in 2009 do not receive letters for 2006-2008. */
+export function duePs2ReleaseAnnouncement(s) {
+    if (!isHistorical(s))
+        return null;
+    const year = yearFromMinutes(s.totalMinutes);
+    if (!PS2_RELEASE_MAIL_YEARS.some(y => y === year))
+        return null;
+    const releaseYear = year;
+    if (!fixedYearMailWindowDue(s, releaseYear, 1, 30) ||
+        s.ps2ReleaseMailSeenYears?.includes(releaseYear))
+        return null;
+    const id = ps2ReleaseMailId(releaseYear);
+    if (s.notices?.some(n => n.id === id))
+        return null;
+    const launched = PS2_GAME_CATALOG.filter(g => g.releaseYear === releaseYear);
+    const highlights = launched.slice(-2).map(g => g.title);
+    if (highlights.length !== 2)
+        return null;
+    const total = ps2ReleasedGames(releaseYear).length;
+    const next = PS2_RELEASE_MAIL_YEARS.find(y => y > releaseYear);
+    return {
+        id, year: releaseYear,
+        title: releaseYear === 2006 ? "Estreia do PS2: novos jogos na loja" : "PS2: lançamentos de " + releaseYear,
+        body: `O catálogo de PlayStation 2 ganhou novos jogos em ${releaseYear}: ${highlights.join(" e ")}. ` +
+            `Agora são ${total} títulos disponíveis. As mídias podem ser compradas na loja para equipar as bancadas PS2. ` +
+            (next ? `Mais dois jogos chegarão em ${next}.` : "O calendário de lançamentos do PS2 está completo por enquanto.")
+    };
+}
+export function recordPs2ReleaseMail(s, year) {
+    const seen = s.ps2ReleaseMailSeenYears ?? (s.ps2ReleaseMailSeenYears = []);
+    if (!seen.includes(year))
+        seen.push(year);
+}
+/** Validate external saves, but do not require the field in legacy saves. */
+export function validPs2ReleaseMailHistory(s) {
+    const seen = s.ps2ReleaseMailSeenYears;
+    if (seen === undefined)
+        return true;
+    if (!Array.isArray(seen) || seen.length > PS2_RELEASE_MAIL_YEARS.length ||
+        new Set(seen).size !== seen.length || !Number.isFinite(s.totalMinutes))
+        return false;
+    const year = yearFromMinutes(s.totalMinutes);
+    return isHistorical(s) &&
+        seen.every(y => PS2_RELEASE_MAIL_YEARS.some(value => value === y) && y <= year);
+}

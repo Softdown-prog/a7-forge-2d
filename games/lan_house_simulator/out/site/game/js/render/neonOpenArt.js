@@ -1,6 +1,6 @@
-import { iso } from "./isometric.js?v=1426089a9f9b";
-import { CLOSING_START_MINUTE } from "../sim/engine.js?v=1426089a9f9b";
-import { DAY_MINUTES } from "../sim/types.js?v=1426089a9f9b";
+import { iso } from "./isometric.js?v=80953abaf40f";
+import { CLOSING_START_MINUTE } from "../sim/engine.js?v=80953abaf40f";
+import { DAY_MINUTES } from "../sim/types.js?v=80953abaf40f";
 /** Horário simulado: a lan house abre às 10:00 e encerra o expediente às 21:00.
  * A placa desliga quando o salão começa a fechar, não quando muda o FPS. */
 export function neonOpenLit(totalMinutes) {
