@@ -1,7 +1,8 @@
-import { availablePlacementSlots, furnitureSlots, shopPrice } from "./shop.js?v=80953abaf40f";
-import { annualHourlyCeiling, isHistorical, yearFromMinutes, priceIndex } from "./historicalEconomy.js?v=80953abaf40f";
-import { consolePoint, consoleSeat, consoleApproach } from "./consoleLayout.js?v=80953abaf40f";
-import { roomBounds } from "./room.js?v=80953abaf40f";
+import { availablePlacementSlots, furnitureSlots, shopPrice } from "./shop.js?v=b612b1779b4d";
+import { annualHourlyCeiling, isHistorical, yearFromMinutes, priceIndex } from "./historicalEconomy.js?v=b612b1779b4d";
+import { consolePoint, consoleSeat, consoleApproach } from "./consoleLayout.js?v=b612b1779b4d";
+import { roomBounds } from "./room.js?v=b612b1779b4d";
+import { topGamesCanBuy } from "./topGamesUnlockGate.js?v=b612b1779b4d";
 /** Marco de design: mistura das antigas locadoras de console com lan houses. */
 export const PS1_UNLOCK_YEAR = 2002;
 export const PS1_MAX_STATIONS = 3;
@@ -61,6 +62,8 @@ export function buyPs1Disc(s, id) {
         return { ok: false, message: "Instale primeiro uma bancada de PlayStation em 2002." };
     if (yearFromMinutes(s.totalMinutes) < title.releaseYear)
         return { ok: false, message: title.title + " estará disponível em " + title.releaseYear + "." };
+    if (!topGamesCanBuy(s, "ps1", id, ps1DiscCopies(s, id)))
+        return { ok: false, message: "Tony precisa receber a revista Top Games que apresenta " + title.title + " antes de comprar o CD." };
     if (ps1DiscCopies(s, id) >= PS1_MAX_STATIONS)
         return { ok: false, message: "Já existem cópias suficientes deste CD para todas as bancadas." };
     const price = ps1DiscPrice(s, id);

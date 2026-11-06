@@ -1,6 +1,6 @@
-import { isHistorical, yearFromMinutes } from "./historicalEconomy.js?v=80953abaf40f";
-import { fixedYearMailWindowDue } from "./mailCalendar.js?v=80953abaf40f";
-import { PS2_GAME_CATALOG, ps2ReleasedGames } from "./ps2.js?v=80953abaf40f";
+import { isHistorical, yearFromMinutes } from "./historicalEconomy.js?v=b612b1779b4d";
+import { fixedYearMailWindowDue } from "./mailCalendar.js?v=b612b1779b4d";
+import { PS2_GAME_CATALOG, ps2ReleasedGames } from "./ps2.js?v=b612b1779b4d";
 export const PS2_RELEASE_MAIL_YEARS = [2006, 2007, 2008, 2009, 2010];
 export const ps2ReleaseMailId = (year) => `ps2-games-${year}`;
 /** A notice enters the inbox only during the first 30 in-game days of its year.
@@ -24,12 +24,22 @@ export function duePs2ReleaseAnnouncement(s) {
         return null;
     const total = ps2ReleasedGames(releaseYear).length;
     const next = PS2_RELEASE_MAIL_YEARS.find(y => y > releaseYear);
+    // On new campaigns the magazine is Tony's only source of title discovery.
+    // The yearly news may announce market releases, but not reveal free titles,
+    // claim that buying is already unlocked or bypass the physical postman.
+    const discoveryRequired = s.topGamesUnlockMode === "magazines";
+    const marketNews = discoveryRequired ?
+        "O catálogo de PlayStation 2 recebeu " + launched.length + " lançamentos em " + releaseYear +
+            ". São " + total + " jogos publicados até agora. " +
+            "Para descobrir cada título, assine a revista Top Games e receba o exemplar correspondente do carteiro. " +
+            "A edição apresenta o jogo; o DVD deve ser comprado separadamente na loja. " :
+        `O catálogo de PlayStation 2 ganhou novos jogos em ${releaseYear}: ${highlights.join(" e ")}. ` +
+            `Agora são ${total} títulos disponíveis. As mídias podem ser compradas na loja para equipar as bancadas PS2. `;
     return {
         id, year: releaseYear,
-        title: releaseYear === 2006 ? "Estreia do PS2: novos jogos na loja" : "PS2: lançamentos de " + releaseYear,
-        body: `O catálogo de PlayStation 2 ganhou novos jogos em ${releaseYear}: ${highlights.join(" e ")}. ` +
-            `Agora são ${total} títulos disponíveis. As mídias podem ser compradas na loja para equipar as bancadas PS2. ` +
-            (next ? `Mais dois jogos chegarão em ${next}.` : "O calendário de lançamentos do PS2 está completo por enquanto.")
+        title: releaseYear === 2006 ? "Estreia do PS2: novidades no mercado" : "PS2: lançamentos de " + releaseYear,
+        body: marketNews +
+            (next ? `Mais dois jogos serão publicados em ${next}.` : "O calendário de lançamentos do PS2 está completo por enquanto.")
     };
 }
 export function recordPs2ReleaseMail(s, year) {

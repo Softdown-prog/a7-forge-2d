@@ -1,10 +1,11 @@
-import { linuxDay, linuxNextMagazineDueDay, LINUX_MAGAZINE_ISSUE_COST, LINUX_MAGAZINE_TITLES, nextLinuxLetter, recordLinuxMail } from "./linuxQuest.js?v=80953abaf40f";
-import { entrance } from "./simulationState.js?v=80953abaf40f";
-import { counterQueue } from "./route.js?v=80953abaf40f";
-import { workerRoute } from "./workerNavigation.js?v=80953abaf40f";
-import { canTraverseLocalStep } from "./navigation.js?v=80953abaf40f";
-import { directionFromDelta } from "./direction.js?v=80953abaf40f";
-import { deliverLinuxMagazineNotice } from "./notices.js?v=80953abaf40f";
+import { linuxDay, linuxNextMagazineDueDay, LINUX_MAGAZINE_ISSUE_COST, LINUX_MAGAZINE_TITLES, nextLinuxLetter, recordLinuxMail } from "./linuxQuest.js?v=b612b1779b4d";
+import { entrance } from "./simulationState.js?v=b612b1779b4d";
+import { TOP_GAMES_ISSUES, dueTopGamesIssue, nextTopGamesDeliveryDay, topGamesIssuePrice, receiveTopGamesIssue } from "./topGamesMagazines.js?v=b612b1779b4d";
+import { counterQueue } from "./route.js?v=b612b1779b4d";
+import { workerRoute } from "./workerNavigation.js?v=b612b1779b4d";
+import { canTraverseLocalStep } from "./navigation.js?v=b612b1779b4d";
+import { directionFromDelta } from "./direction.js?v=b612b1779b4d";
+import { deliverLinuxMagazineNotice, deliverTopGamesMagazineNotice } from "./notices.js?v=b612b1779b4d";
 export const POSTMAN_HANDOFF_MINUTES = 5;
 export const postmanDoor = (s) => entrance(s);
 export const postmanCounter = (s) => {
@@ -50,7 +51,7 @@ const step = (s, job, to, speed) => {
         job.route?.shift();
     return distance(job, to) < .28;
 };
-function dueIssue(s) {
+function dueLinuxIssue(s) {
     const n = s.linuxMagazineIssuesReceived ?? 0;
     if (!s.economyVersion || s.linuxMagazineSubscriptionDay === undefined || n >= 6)
         return null;
@@ -59,19 +60,32 @@ function dueIssue(s) {
         return null;
     return n;
 }
+/** Select the longest-waiting eligible parcel. A single courier and route
+ * serve both subscriptions, with the earlier due magazine going first. */
+function dueDelivery(s) {
+    const linux = dueLinuxIssue(s), top = dueTopGamesIssue(s);
+    const topReady = top !== null && s.cash >= topGamesIssuePrice(s);
+    if (linux === null && !topReady)
+        return null;
+    if (linux !== null && (!topReady ||
+        (linuxNextMagazineDueDay(s) ?? Infinity) <= (nextTopGamesDeliveryDay(s) ?? Infinity)))
+        return { issueIndex: linux };
+    const index = TOP_GAMES_ISSUES.findIndex(issue => issue.id === top.id);
+    return index < 0 ? null : { magazine: "top-games", issueId: top.id, issueIndex: index };
+}
 /** Runs once per simulation minute. Keeps the NPC independent of paid staff.
  * A blocked doorway does not magically deliver the issue or charge money.
  */
 export function tickPostman(s) {
     let job = s.postmanDelivery;
     if (!job) {
-        const n = dueIssue(s);
-        if (n === null)
+        const parcel = dueDelivery(s);
+        if (parcel === null)
             return;
         const door = postmanDoor(s), counter = postmanCounter(s);
         if (!workerRoute(s, door, counter))
             return;
-        job = { issueIndex: n, x: door.x, y: door.y, phase: "arriving", progress: 0,
+        job = { ...parcel, x: door.x, y: door.y, phase: "arriving", progress: 0,
             facing: "north", moving: false };
         s.postmanDelivery = job;
     }
@@ -88,16 +102,36 @@ export function tickPostman(s) {
         job.moving = false;
         job.progress++;
         if (job.progress >= POSTMAN_HANDOFF_MINUTES) {
-            const magazine = LINUX_MAGAZINE_TITLES[job.issueIndex];
-            const letter = nextLinuxLetter(s);
-            if (magazine && letter?.id === magazine.id && s.cash >= LINUX_MAGAZINE_ISSUE_COST) {
-                const before = s.linuxMagazineIssuesReceived ?? 0;
-                recordLinuxMail(s, magazine.id);
-                if (s.linuxMagazineIssuesReceived === before + 1) {
-                    deliverLinuxMagazineNotice(s, letter.id, letter.title, letter.body.replace("A nova revista impressa chegou da banca!", "O carteiro veio até o balcão, tirou o exemplar da bolsa e o entregou a Tony!"));
-                    s.eventLog.unshift("D" + linuxDay(s) + " · Carteiro entregou a revista " +
-                        (before + 1) + "/6 a Tony · R$ " + LINUX_MAGAZINE_ISSUE_COST + ".");
-                    s.eventLog.splice(14);
+            if (job.magazine === "top-games") {
+                const issue = TOP_GAMES_ISSUES[job.issueIndex];
+                // Recheck at the physical handoff: pausing or spending the cash
+                // while the postman walks must cancel this delivery without cost.
+                if (issue && issue.id === job.issueId) {
+                    const paid = receiveTopGamesIssue(s, issue.id);
+                    if (paid.ok) {
+                        const count = s.topGamesReceivedIssues?.length ?? 0;
+                        deliverTopGamesMagazineNotice(s, issue.id, "Top Games · edição " + count + "/" + TOP_GAMES_ISSUES.length + " — " + issue.gameTitle, "O carteiro entrou na lan house e entregou a nova revista Top Games a Tony! " +
+                            "Nesta edição ele conheceu " + issue.gameTitle + " (" + issue.platform.toUpperCase() +
+                            "). Para oferecer o jogo, ainda será preciso comprar a mídia física na loja.");
+                        s.eventLog.unshift("D" + linuxDay(s) + " · Carteiro entregou Top Games " +
+                            count + "/" + TOP_GAMES_ISSUES.length + ": " + issue.gameTitle +
+                            " · R$ " + topGamesIssuePrice(s).toFixed(2) + ".");
+                        s.eventLog.splice(14);
+                    }
+                }
+            }
+            else {
+                const magazine = LINUX_MAGAZINE_TITLES[job.issueIndex];
+                const letter = nextLinuxLetter(s);
+                if (magazine && letter?.id === magazine.id && s.cash >= LINUX_MAGAZINE_ISSUE_COST) {
+                    const before = s.linuxMagazineIssuesReceived ?? 0;
+                    recordLinuxMail(s, magazine.id);
+                    if (s.linuxMagazineIssuesReceived === before + 1) {
+                        deliverLinuxMagazineNotice(s, letter.id, letter.title, letter.body.replace("A nova revista impressa chegou da banca!", "O carteiro veio até o balcão, tirou o exemplar da bolsa e o entregou a Tony!"));
+                        s.eventLog.unshift("D" + linuxDay(s) + " · Carteiro entregou a revista " +
+                            (before + 1) + "/6 a Tony · R$ " + LINUX_MAGAZINE_ISSUE_COST + ".");
+                        s.eventLog.splice(14);
+                    }
                 }
             }
             job.phase = "leaving";
@@ -117,7 +151,9 @@ export function validPostmanDelivery(s) {
     const job = s.postmanDelivery;
     if (job === undefined)
         return true;
-    if (!job || !Number.isInteger(job.issueIndex) || job.issueIndex < 0 || job.issueIndex >= 6 ||
+    if (!job || (job.magazine !== undefined && job.magazine !== "top-games") ||
+        !Number.isInteger(job.issueIndex) || job.issueIndex < 0 ||
+        job.issueIndex >= (job.magazine === "top-games" ? TOP_GAMES_ISSUES.length : 6) ||
         !["arriving", "handing", "leaving"].includes(job.phase) ||
         !Number.isInteger(job.progress) || job.progress < 0 || job.progress > POSTMAN_HANDOFF_MINUTES ||
         !Number.isFinite(job.x) || !Number.isFinite(job.y) || Math.abs(job.x) > 100 || Math.abs(job.y) > 100 ||
@@ -127,6 +163,21 @@ export function validPostmanDelivery(s) {
         (job.stuck !== undefined && (!Number.isInteger(job.stuck) || job.stuck < 0 || job.stuck > 1e6)) ||
         (job.facing !== undefined && !["north", "south", "east", "west"].includes(job.facing)) ||
         (job.moving !== undefined && typeof job.moving !== "boolean"))
+        return false;
+    if (job.magazine === "top-games") {
+        const issue = TOP_GAMES_ISSUES[job.issueIndex];
+        const start = s.topGamesSubscriptionDay, received = s.topGamesReceivedIssues;
+        if (!issue || job.issueId !== issue.id || !Number.isInteger(start) ||
+            !Array.isArray(received) || issue.publicationDay > linuxDay(s) ||
+            start > linuxDay(s))
+            return false;
+        const count = received.length;
+        return s.economyVersion === 2 &&
+            (job.phase === "leaving" ? count === job.issueIndex || count === job.issueIndex + 1 :
+                count === job.issueIndex);
+    }
+    // Legacy Linux saves have no magazine discriminator and no issueId.
+    if (job.issueId !== undefined)
         return false;
     const count = s.linuxMagazineIssuesReceived ?? 0;
     return s.economyVersion === 2 && s.linuxMagazineSubscriptionDay !== undefined &&

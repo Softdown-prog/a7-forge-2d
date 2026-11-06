@@ -1,6 +1,6 @@
-import { drawActor } from "./actorArt.js?v=80953abaf40f";
-import { walkPhase, WALK_CYCLE_DISTANCE } from "./walkCycle.js?v=80953abaf40f";
-import { iso } from "./isometric.js?v=80953abaf40f";
+import { drawActor } from "./actorArt.js?v=b612b1779b4d";
+import { walkPhase, WALK_CYCLE_DISTANCE } from "./walkCycle.js?v=b612b1779b4d";
+import { iso } from "./isometric.js?v=b612b1779b4d";
 const FRAMES = 32, TAU = Math.PI * 2;
 export const ACTOR_SPRITE_WIDTH = 72, ACTOR_SPRITE_HEIGHT = 120;
 export const ACTOR_SPRITE_LEFT = 36, ACTOR_SPRITE_TOP = 110;

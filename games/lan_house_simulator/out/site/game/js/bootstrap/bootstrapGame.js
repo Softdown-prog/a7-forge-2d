@@ -1,27 +1,27 @@
 /** Composition root. Domain rules, DOM presentation, Canvas and lifecycle live in their own adapters. */
-import { createGameApplication } from "../application/gameApplication.js?v=80953abaf40f";
-import { createLcdPreviewSample } from "../application/lcdPreviewSamplePort.js?v=80953abaf40f";
-import { Soundscape } from "../audio/soundscape.js?v=80953abaf40f";
-import { createGameScene } from "../render/gameScene.js?v=80953abaf40f";
-import { cameraForGame } from "../render/isometric.js?v=80953abaf40f";
-import { drawLcdPreviewArtwork } from "../render/lcdPreviewArtwork.js?v=80953abaf40f";
-import { createScenePicker } from "../render/scenePicking.js?v=80953abaf40f";
-import { mountCloudControls } from "../ui/cloudControls.js?v=80953abaf40f";
-import { locateGameElements } from "../ui/gameElements.js?v=80953abaf40f";
-import { createGamePanels } from "../ui/gamePanels.js?v=80953abaf40f";
-import { installGameViewport } from "../ui/gameViewport.js?v=80953abaf40f";
-import { createLayoutEditor } from "../ui/layoutEditor.js?v=80953abaf40f";
-import { createLcdPreviewCache } from "../ui/lcdPreviewCache.js?v=80953abaf40f";
-import { createPlacementController } from "../ui/placementController.js?v=80953abaf40f";
-import { decorateControls, installWindowNavigation } from "../ui/presentation.js?v=80953abaf40f";
-import { installRuntimeControls } from "../ui/runtimeControls.js?v=80953abaf40f";
-import { createRuntimeLoop } from "../ui/runtimeLoop.js?v=80953abaf40f";
-import { createRuntimeSessionController } from "../ui/runtimeSessionController.js?v=80953abaf40f";
-import { createRuntimeUiState } from "../ui/runtimeUiState.js?v=80953abaf40f";
-import { createServiceAccessInspectionCache } from "../ui/serviceAccessInspectionCache.js?v=80953abaf40f";
-import { installSoundInputBindings } from "../ui/soundInputBindings.js?v=80953abaf40f";
-import { createSoundPreferencePort } from "../ui/soundPreferencePort.js?v=80953abaf40f";
-import { browserMailSeed, browserSaveStore } from "./browserServices.js?v=80953abaf40f";
+import { createGameApplication } from "../application/gameApplication.js?v=b612b1779b4d";
+import { createLcdPreviewSample } from "../application/lcdPreviewSamplePort.js?v=b612b1779b4d";
+import { Soundscape } from "../audio/soundscape.js?v=b612b1779b4d";
+import { createGameScene } from "../render/gameScene.js?v=b612b1779b4d";
+import { cameraForGame } from "../render/isometric.js?v=b612b1779b4d";
+import { drawLcdPreviewArtwork } from "../render/lcdPreviewArtwork.js?v=b612b1779b4d";
+import { createScenePicker } from "../render/scenePicking.js?v=b612b1779b4d";
+import { mountCloudControls } from "../ui/cloudControls.js?v=b612b1779b4d";
+import { locateGameElements } from "../ui/gameElements.js?v=b612b1779b4d";
+import { createGamePanels } from "../ui/gamePanels.js?v=b612b1779b4d";
+import { installGameViewport } from "../ui/gameViewport.js?v=b612b1779b4d";
+import { createLayoutEditor } from "../ui/layoutEditor.js?v=b612b1779b4d";
+import { createLcdPreviewCache } from "../ui/lcdPreviewCache.js?v=b612b1779b4d";
+import { createPlacementController } from "../ui/placementController.js?v=b612b1779b4d";
+import { decorateControls, installWindowNavigation } from "../ui/presentation.js?v=b612b1779b4d";
+import { installRuntimeControls } from "../ui/runtimeControls.js?v=b612b1779b4d";
+import { createRuntimeLoop } from "../ui/runtimeLoop.js?v=b612b1779b4d";
+import { createRuntimeSessionController } from "../ui/runtimeSessionController.js?v=b612b1779b4d";
+import { createRuntimeUiState } from "../ui/runtimeUiState.js?v=b612b1779b4d";
+import { createServiceAccessInspectionCache } from "../ui/serviceAccessInspectionCache.js?v=b612b1779b4d";
+import { installSoundInputBindings } from "../ui/soundInputBindings.js?v=b612b1779b4d";
+import { createSoundPreferencePort } from "../ui/soundPreferencePort.js?v=b612b1779b4d";
+import { browserMailSeed, browserSaveStore } from "./browserServices.js?v=b612b1779b4d";
 export function bootstrapGame(document = globalThis.document, win = window) {
     const elements = locateGameElements(document), store = browserSaveStore(() => win.localStorage);
     const preference = createSoundPreferencePort({ get: store.getItem, set: store.setItem });
@@ -53,11 +53,13 @@ export function bootstrapGame(document = globalThis.document, win = window) {
     installWindowNavigation();
     session.showMenu();
     loop.start();
+    const windowsClock = win.setInterval(() => { if (application.finishRealWindows())
+        renderUI(); }, 1000);
     // React mounts navigation before bootstrap. Reveal those controls only after
     // two real frames: the first draws the CRT menu preview and attaches listeners.
     // Avoid races in mobile touch and account/continue flows.
     win.requestAnimationFrame(() => win.requestAnimationFrame(() => {
         document.documentElement.dataset.gameReady = "true";
     }));
-    return { stop: () => loop.stop() };
+    return { stop: () => { win.clearInterval(windowsClock); loop.stop(); } };
 }

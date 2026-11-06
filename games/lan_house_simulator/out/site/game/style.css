@@ -603,7 +603,7 @@ progress{accent-color:#63804b;max-width:100%;grid-column:1/-1;width:100%;height:
 @media(max-width:700px){#pc-maintenance .pc-operation{grid-template-columns:repeat(2,minmax(0,1fr))}#pc-maintenance .pc-operation>span{grid-column:1/-1}#pc-maintenance .pc-power-toggle{min-width:0}}
 
 /* Backup visual leve: se o Canvas do menu falhar, não mostrar um CRT vazio. */
-#menu-scene{background-image:url("./assets/ui/salon-preview.webp?v=80953abaf40f");background-size:cover;background-position:center}
+#menu-scene{background-image:url("./assets/ui/salon-preview.webp?v=b612b1779b4d");background-size:cover;background-position:center}
 
 /* Downloads: resumo persistente acima do catálogo, sem empurrar a tela no celular. */
 .gpu-download-overview{display:grid;gap:10px;padding:12px;margin:8px 0 14px;
@@ -1121,6 +1121,17 @@ progress{accent-color:#63804b;max-width:100%;grid-column:1/-1;width:100%;height:
 
 /* Native PS2 discs use original, readable portrait covers. */
 .ps2-game-card .ps2-game-cover{display:block;width:min(100%,165px);height:auto;aspect-ratio:3/4;object-fit:cover;margin:0 auto 9px;border:2px solid #d8e4ee;border-left-width:7px;box-shadow:3px 6px 10px #09121d66;background:#151d37}
+/* Undiscovered Top Games issues keep portrait slots without exposing game artwork.
+   Real covers are only generated after the edition arrives. */
+.top-games-secret-cover{
+  display:grid;place-items:center;width:min(100%,165px);aspect-ratio:3/4;
+  margin:0 auto 9px;border:2px solid #879da5;border-left-width:7px;
+  border-radius:4px;background:linear-gradient(145deg,#243c49,#131e2b 65%,#344a50);
+  color:#e2f1dc;font:700 clamp(38px,8vw,60px)/1 system-ui,sans-serif;
+  box-shadow:3px 6px 10px #09121d55;user-select:none
+}
+.ps1-cd-jewel > .top-games-secret-cover{width:100%;height:100%;margin:0;border:0;border-radius:0}
+.angular-console-grid .top-games-secret-cover{max-width:165px}
 /* PS2 uses the existing console cards and native mobile controls. */
 .ps2-shop-preview{display:block;width:100%;max-width:300px;height:auto;margin:0 auto 8px;border-radius:8px;background:#172b38}
 .ps2-bench-card select,#ps2-stations select{max-width:100%;width:100%;min-height:40px}
@@ -1281,3 +1292,8 @@ html:not([data-game-ready="true"]) #react-quick-deck{visibility:hidden}
 .react-shop-no-match{margin:0!important;flex:0 0 100%;color:#71583e;font-size:12px}
 #shop-catalog>.shop-card[hidden]{display:none!important}
 @media(max-width:700px){.react-shop-search{padding:11px;gap:7px}.react-shop-search-count{flex:0 0 100%}}
+
+/* Installation countdown is a native progress element, shared by Windows and maintenance panels. */
+.windows-install-status{padding:10px 14px;margin:10px 0;border:1px solid #729282;border-radius:6px;background:rgba(20,50,46,.65)}
+.windows-install-status p{margin:6px 0;color:inherit;font-size:.9rem}
+.windows-install-status progress{display:block;width:100%;height:13px;accent-color:#7ec3a0}

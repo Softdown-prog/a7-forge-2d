@@ -1,4 +1,4 @@
-import { gameYear } from "../sim/era.js?v=80953abaf40f";
+import { gameYear } from "../sim/era.js?v=b612b1779b4d";
 export function createShopCatalogRevisionPort(getState) {
     return { snapshot(category) {
             const s = getState();
@@ -8,6 +8,8 @@ export function createShopCatalogRevisionPort(getState) {
                 s.roomExtensions, s.furniture, s.furniturePlacements, s.objectPlacements,
                 s.removedBuiltPosters, s.interiorWalls, s.interiorDoors,
                 s.linuxResearchStartedDay, s.linuxMailSeenIds, s.pcLinuxModels, s.pcOperatingSystems,
+                s.topGamesUnlockMode, s.topGamesSubscriptionDay, s.topGamesSubscriptionActive,
+                s.topGamesReceivedIssues, s.topGamesLastDeliveryDay,
                 ...(s.ps2Stations !== undefined ? [s.ps2Stations, s.ps2Games] : [])
             ];
         } };

@@ -1,4 +1,4 @@
-import { iso, polygon, raisedCuboid } from "./isometric.js?v=80953abaf40f";
+import { iso, polygon, raisedCuboid } from "./isometric.js?v=b612b1779b4d";
 /** Miniatura da mesma torre óptica usada na vitrine.
  * Instalada SOBRE o balcão (não cria objeto nem colisão) após a compra. */
 export function drawCounterDiscCopier(ctx, cam, counter, active = false, time = 0) {

@@ -140,6 +140,13 @@ export interface GameState {
   linuxMagazineSubscriptionDay?:number;
   linuxMagazineIssuesReceived?:number;
   linuxMagazineLastDeliveryDay?:number;
+  /** Assinatura Top Games: opcional para saves legados; cobrança apenas ao receber a revista. */
+  /** New historical saves discover console titles through magazines; absent in pre-feature saves. */
+  topGamesUnlockMode?:"magazines";
+  topGamesSubscriptionDay?:number;
+  topGamesSubscriptionActive?:boolean;
+  topGamesReceivedIssues?:string[];
+  topGamesLastDeliveryDay?:number;
   /** Visiting postman delivering the next paid printed magazine. */
   postmanDelivery?:import("./postmanDelivery.js").PostmanDelivery;
   linuxMailSeenIds?:import("./linuxQuest.js").LinuxMailId[];
@@ -157,7 +164,7 @@ export interface GameState {
   /** Peças por estação; null/ausente usa a configuração CRT legada do nível. */
   pcComponents?: Array<import("./hardwareCatalog.js").PcComponents|null>;
   /** GPU por computador; ausente em saves anteriores. */
-  pcGpus?: Array<"gpu05"|"gpu07"|"gpu09"|"gpu11"|"gpu13"|null>;
+  pcGpus?: Array<import("./gpuCatalog.js").GpuId|null>;
   pcLcdModels?: Array<"lcd05"|"lcd08"|"lcd12"|"lcd17"|"lcd24"|null>;
   /** Contrato de atacado opcional para saves antigos: 1 padrão, 2 parceiro. */
   supplierTier?: 1 | 2;
@@ -168,6 +175,7 @@ export interface GameState {
   pcWindows?: Array<"win98"|"win2000"|"winxp"|"winvista"|"win7"|"win8"|"win10"|"win11">;
   /** Licenças pagas por PC; saves anteriores mantêm o Windows 98 preinstalado. */
   pcWindowsLicenses?: boolean[];
+  windowsInstallJobs?: import("./windowsInstallation.js").WindowsInstallJob[];
   internetTier: number;
   offlineUntil: number;
   licensedGames: boolean;

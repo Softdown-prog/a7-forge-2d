@@ -1,11 +1,11 @@
-import { DAY_MINUTES, OPEN_HOUR } from "./types.js?v=80953abaf40f";
-import { INITIAL_CASH } from "./gameDefaults.js?v=80953abaf40f";
-import { futureNightClock } from "./futureNightClock.js?v=80953abaf40f";
-import { annexComputerPosition } from "./stationLayout.js?v=80953abaf40f";
-import { pcUnderRepair } from "./stationPower.js?v=80953abaf40f";
+import { DAY_MINUTES, OPEN_HOUR } from "./types.js?v=b612b1779b4d";
+import { INITIAL_CASH } from "./gameDefaults.js?v=b612b1779b4d";
+import { futureNightClock } from "./futureNightClock.js?v=b612b1779b4d";
+import { annexComputerPosition } from "./stationLayout.js?v=b612b1779b4d";
+import { pcUnderRepair } from "./stationPower.js?v=b612b1779b4d";
 export const COSTUMES = ["regular", "regular", "female", "female-bob", "female-ponytail", "regular", "clown", "vampire", "stitched-monster", "rabbit", "mouse-mascot"];
 /** Encerrar de forma gradual: últimos visitantes até 20h30, início da saída às 21h. */
-export { LAST_ADMISSION_MINUTE } from "./types.js?v=80953abaf40f";
+export { LAST_ADMISSION_MINUTE } from "./types.js?v=b612b1779b4d";
 export const CLOSING_START_MINUTE = DAY_MINUTES - 60;
 export const SESSION_FINISH_MINUTE = DAY_MINUTES - 30; // Últimas sessões terminam até 21h30.
 export const localMinute = (s) => s.totalMinutes % DAY_MINUTES;
@@ -16,7 +16,7 @@ export function createGame(seed = 72421, economyMode = "classic") {
         cash: INITIAL_CASH, revenue: 0, expenses: 0, reputation: 75,
         monthPcUsedMinutes: 0, monthPcCapacityMinutes: 0, monthRevenueBase: 0, monthExpensesBase: 0,
         pricePerHour: economyMode === "historical" ? 2.5 : 12,
-        ...(economyMode === "historical" ? { economyVersion: 2 } : { retailPrices: { soda: 8, candy: 5, snacks: 9 } }),
+        ...(economyMode === "historical" ? { economyVersion: 2, topGamesUnlockMode: "magazines" } : { retailPrices: { soda: 8, candy: 5, snacks: 9 } }),
         pcTiers: [1, 1, 1], pcGpus: [null, null, null], internetTier: 1, offlineUntil: 0, licensedGames: false,
         expansionLevel: 0, roomExtensions: { west: 0, east: 0, south: 0, north: 0 }, installedPcs: 3, furniture: { poster: 0, plant: 0, table: 0 }, pcWear: [0, 0, 0], inventory: { soda: 12, candy: 15, snacks: 10 },
         customers: [], nextCustomerId: 1, served: 0, lostCustomers: 0, purchases: 0,

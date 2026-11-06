@@ -1,13 +1,8 @@
-import { stationUpgradeIssue } from "./stationPower.js?v=80953abaf40f";
-import { gameYear } from "./eraCatalog.js?v=80953abaf40f";
-import { hardwareFor, buildParts, requiredPsuWatts } from "./hardware.js?v=80953abaf40f";
-export const GPU_CATALOG = [
-    { id: "gpu05", name: "PixelForce 6600", year: 2005, cost: 440, power: 0.18, bonus: 0.035, theme: "emerald" },
-    { id: "gpu07", name: "PixelForce 8800", year: 2007, cost: 790, power: 0.34, bonus: 0.060, theme: "amber" },
-    { id: "gpu09", name: "PixelForce 260", year: 2009, cost: 1150, power: 0.49, bonus: 0.085, theme: "cyan" },
-    { id: "gpu11", name: "PixelForce 560", year: 2011, cost: 1590, power: 0.62, bonus: 0.11, theme: "violet" },
-    { id: "gpu13", name: "PixelForce 770", year: 2013, cost: 2250, power: 0.78, bonus: 0.14, theme: "crimson" }
-];
+import { stationUpgradeIssue } from "./stationPower.js?v=b612b1779b4d";
+import { gameYear } from "./eraCatalog.js?v=b612b1779b4d";
+import { hardwareFor, buildParts, requiredPsuWatts } from "./hardware.js?v=b612b1779b4d";
+import { GPU_CATALOG } from "./gpuCatalog.js?v=b612b1779b4d";
+export { GPU_CATALOG } from "./gpuCatalog.js?v=b612b1779b4d";
 export function installedGpu(s, index) {
     const id = s.pcGpus?.[index];
     return GPU_CATALOG.some(x => x.id === id) ? id : null;

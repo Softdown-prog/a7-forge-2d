@@ -2,7 +2,7 @@
  * Keeps animation capture before clock advancement and resets interpolation
  * whenever eligibility for movement changes.
  */
-import { frameActivitySnapshot } from "./frameActivity.js?v=80953abaf40f";
+import { frameActivitySnapshot } from "./frameActivity.js?v=b612b1779b4d";
 export function createFrameSimulationCoordinator(actions) {
     let wasSimulating = false;
     return {

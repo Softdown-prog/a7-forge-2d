@@ -1,5 +1,6 @@
-import { drawPs2Station } from "../render/ps2Art.js?v=80953abaf40f";
-import { ps2ProceduralCover } from "./ps2CoverArt.js?v=80953abaf40f";
+import { drawPs2Station } from "../render/ps2Art.js?v=b612b1779b4d";
+import { ps2ProceduralCover } from "./ps2CoverArt.js?v=b612b1779b4d";
+import { UNKNOWN_TOP_GAMES_TITLE, UNKNOWN_TOP_GAMES_GENRE, UNKNOWN_TOP_GAMES_HINT } from "./topGamesConcealment.js?v=b612b1779b4d";
 const money = (n) => n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 function text(doc, tag, value) { const el = doc.createElement(tag); el.textContent = value; return el; }
 function button(doc, value, disabled, key, index) {
@@ -47,15 +48,26 @@ export function renderPs2ShopCatalog(host, port, doc) {
     for (const g of s.games) {
         const item = doc.createElement("article");
         item.className = "shop-card ps2-game-card";
-        const cover = doc.createElement("img");
-        cover.className = "ps2-game-cover";
-        cover.src = ps2ProceduralCover(g, doc);
-        cover.alt = "Capa procedural de " + g.title;
-        cover.loading = "lazy";
-        cover.decoding = "async";
-        cover.width = 420;
-        cover.height = 560;
-        item.append(cover, text(doc, "h3", g.title), text(doc, "p", g.genre + " · " + g.releaseYear + " · " + g.copies + " cópia(s) no acervo. Cada mídia equipa uma bancada."), button(doc, g.buyText + " · " + money(g.price), g.disabled, "buyPs2Game", g.id));
+        if (g.magazineLocked) {
+            const unknown = doc.createElement("span");
+            unknown.className = "top-games-secret-cover";
+            unknown.textContent = "?";
+            unknown.setAttribute("aria-hidden", "true");
+            item.append(unknown);
+        }
+        else {
+            const cover = doc.createElement("img");
+            cover.className = "ps2-game-cover";
+            cover.src = ps2ProceduralCover(g, doc);
+            cover.alt = "Capa procedural de " + g.title;
+            cover.loading = "lazy";
+            cover.decoding = "async";
+            cover.width = 420;
+            cover.height = 560;
+            item.append(cover);
+        }
+        item.append(text(doc, "h3", g.magazineLocked ? UNKNOWN_TOP_GAMES_TITLE : g.title), text(doc, "p", g.magazineLocked ? UNKNOWN_TOP_GAMES_GENRE + " · " + g.releaseYear + " · " + UNKNOWN_TOP_GAMES_HINT :
+            g.genre + " · " + g.releaseYear + " · " + g.copies + " cópia(s) no acervo. Cada mídia equipa uma bancada."), button(doc, g.magazineLocked ? "Leia a revista Top Games" : g.buyText + " · " + money(g.price), g.disabled, "buyPs2Game", g.id));
         host.append(item);
     }
 }

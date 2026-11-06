@@ -1,12 +1,12 @@
-export { builtPosters, editableObjects, fixedLayoutObjects, layoutGoals, layoutPlacementIssue, objectCorners, objectRect, objectTouchesCustomer, pointInsideObject, wallCutsObject } from "./layoutGeometry.js?v=80953abaf40f";
-import { counterQueueCustomers, counterQueueSlot } from "./checkoutQueue.js?v=80953abaf40f";
-import { furnitureLocations, furnitureSlots } from "./furnitureLayout.js?v=80953abaf40f";
-import { purchaseApproach } from "./layout.js?v=80953abaf40f";
-import { builtPosters, editableObjects, fixedLayoutObjects, layoutGoals, layoutPlacementIssue, objectTouchesCustomer } from "./layoutGeometry.js?v=80953abaf40f";
-import { navigableRoute, routesForCurrentCustomers } from "./navigation.js?v=80953abaf40f";
-import { activeRetailQueuesReachable, refreshRetailQueues } from "./retailQueue.js?v=80953abaf40f";
-import { removeFurniture } from "./shop.js?v=80953abaf40f";
-import { entrance } from "./simulationState.js?v=80953abaf40f";
+export { builtPosters, editableObjects, fixedLayoutObjects, layoutGoals, layoutPlacementIssue, objectCorners, objectRect, objectTouchesCustomer, pointInsideObject, wallCutsObject } from "./layoutGeometry.js?v=b612b1779b4d";
+import { counterQueueCustomers, counterQueueSlot } from "./checkoutQueue.js?v=b612b1779b4d";
+import { furnitureLocations, furnitureSlots } from "./furnitureLayout.js?v=b612b1779b4d";
+import { purchaseApproach } from "./layout.js?v=b612b1779b4d";
+import { builtPosters, editableObjects, fixedLayoutObjects, layoutGoals, layoutPlacementIssue, objectTouchesCustomer } from "./layoutGeometry.js?v=b612b1779b4d";
+import { navigableRoute, routesForCurrentCustomers } from "./navigation.js?v=b612b1779b4d";
+import { activeRetailQueuesReachable, refreshRetailQueues } from "./retailQueue.js?v=b612b1779b4d";
+import { removeFurniture } from "./shop.js?v=b612b1779b4d";
+import { entrance } from "./simulationState.js?v=b612b1779b4d";
 export function validateObjectPlacements(s) {
     if (s.removedBuiltPosters !== undefined && (!Array.isArray(s.removedBuiltPosters) || s.removedBuiltPosters.length > 7 || new Set(s.removedBuiltPosters).size !== s.removedBuiltPosters.length || !s.removedBuiltPosters.every(i => Number.isInteger(i) && i >= 0 && i < 7)))
         return false;

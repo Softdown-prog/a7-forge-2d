@@ -1,21 +1,28 @@
 /** Read-only PS1/PS2 projections; all purchase rules remain in the game ports. */
-import { nextPs1DiscReleaseYear } from "../application/ps1ShopDiscPort.js?v=80953abaf40f";
-import { ps1ProceduralCover } from "./ps1CoverArt.js?v=80953abaf40f";
-import { ps2ProceduralCover } from "./ps2CoverArt.js?v=80953abaf40f";
+import { nextPs1DiscReleaseYear } from "../application/ps1ShopDiscPort.js?v=b612b1779b4d";
+import { ps1ProceduralCover } from "./ps1CoverArt.js?v=b612b1779b4d";
+import { ps2ProceduralCover } from "./ps2CoverArt.js?v=b612b1779b4d";
+import { UNKNOWN_TOP_GAMES_TITLE, UNKNOWN_TOP_GAMES_GENRE } from "./topGamesConcealment.js?v=b612b1779b4d";
 const money = (v) => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 export function projectPs1Disc(row) {
     const price = money(row.price);
-    return { id: row.id, title: row.title, genre: row.genre, copies: row.copies, releaseYear: row.releaseYear,
-        buttonText: row.noStation ? "Instale uma bancada primeiro" : row.full ? "Acervo completo" :
+    return { id: row.id, title: row.magazineLocked ? UNKNOWN_TOP_GAMES_TITLE : row.title,
+        genre: row.magazineLocked ? UNKNOWN_TOP_GAMES_GENRE : row.genre,
+        copies: row.copies, releaseYear: row.releaseYear,
+        buttonText: row.magazineLocked ? "Leia a revista Top Games" : row.noStation ? "Instale uma bancada primeiro" : row.full ? "Acervo completo" :
             row.disabled ? "Caixa insuficiente · " + price : "Comprar CD · " + price,
-        disabled: row.disabled, cover: ps1ProceduralCover(row) };
+        disabled: row.disabled, cover: row.magazineLocked ? null : ps1ProceduralCover(row) };
 }
 export function projectPs2Game(row) {
-    return { id: row.id, title: row.title, genre: row.genre, copies: row.copies, releaseYear: row.releaseYear,
-        buttonText: row.buyText + " · " + money(row.price), disabled: row.disabled, cover: ps2ProceduralCover(row) };
+    return { id: row.id, title: row.magazineLocked ? UNKNOWN_TOP_GAMES_TITLE : row.title,
+        genre: row.magazineLocked ? UNKNOWN_TOP_GAMES_GENRE : row.genre,
+        copies: row.copies, releaseYear: row.releaseYear,
+        buttonText: row.magazineLocked ? "Leia a revista Top Games" : row.buyText + " · " + money(row.price),
+        disabled: row.disabled, cover: row.magazineLocked ? null : ps2ProceduralCover(row) };
 }
-export function projectConsoleShop(ps1, slots, selected, discs, ps2, artworkPs1, artworkPs2) {
+export function projectConsoleShop(ps1, slots, selected, discs, ps2, artworkPs1, artworkPs2, topGames = null) {
     return {
+        topGames,
         ps1: { offerText: ps1.text, offerDisabled: ps1.disabled, slots,
             selected: slots.some(s => s.id === selected) ? selected : slots[0]?.id ?? null,
             artwork: artworkPs1, nextReleaseYear: nextPs1DiscReleaseYear(discs),

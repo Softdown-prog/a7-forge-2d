@@ -1,3 +1,4 @@
+import { windowsInstallFor } from "./windowsInstallation.js?v=b612b1779b4d";
 /** Saves antigos sem campo de energia mantêm todas as estações ligadas. */
 export function stationPoweredOn(s, index) { return s.pcPoweredOff?.[index] !== true; }
 export function validStationPower(s) {
@@ -18,6 +19,8 @@ export function stationReadyForSessions(s, index) {
         return false;
     if (s.gpuGameInstallJobs?.some(job => job.pc === index))
         return false;
+    if (windowsInstallFor(s, index))
+        return false;
     return true;
 }
 export function stationPowerCount(s) {
@@ -36,6 +39,8 @@ export function stationUpgradeIssue(s, index) {
         return "Desligue o PC " + (index + 1) + " antes de atualizar.";
     if (s.repairJobs?.some(j => j.pc === index && j.phase !== "leaving"))
         return "Aguarde o técnico concluir o reparo.";
+    if (windowsInstallFor(s, index))
+        return "Aguarde a instalação do Windows terminar.";
     return null;
 }
 export function toggleStationPower(s, index) {
@@ -51,6 +56,8 @@ export function toggleStationPower(s, index) {
     }
     if (s.repairJobs?.some(j => j.pc === index && j.phase !== "leaving"))
         return { ok: false, message: "Aguarde a manutenção terminar antes de religar este PC." };
+    if (windowsInstallFor(s, index))
+        return { ok: false, message: "Windows está instalando no PC " + (index + 1) + ". Aguarde para ligar." };
     s.pcPoweredOff = Array.from({ length: stationPowerCount(s) }, (_, i) => s.pcPoweredOff?.[i] === true);
     s.pcPoweredOff[index] = false;
     return { ok: true, message: "PC " + (index + 1) + " ligado e disponível para clientes." };

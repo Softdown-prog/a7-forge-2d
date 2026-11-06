@@ -1,22 +1,24 @@
 /** Complete hardware presentation model; all quotes and eligibility stay in simulation. */
-import { stationModelName, stationOccupied } from "../sim/computerModels.js?v=80953abaf40f";
-import { WINDOWS_ERAS, gameYear, installedWindows } from "../sim/eraCatalog.js?v=80953abaf40f";
-import { gpuSpec, installedGpu } from "../sim/gpu.js?v=80953abaf40f";
-import { HARDWARE_CATALOG, HARDWARE_LABELS, PLATFORM_KITS, buildParts, describePart, hardwareFor, quotePart, quotePlatform, requiredPsuWatts, windowsHardwareIssues } from "../sim/hardware.js?v=80953abaf40f";
-import { pcCount } from "../sim/simulationState.js?v=80953abaf40f";
-import { stationPoweredOn } from "../sim/stationPower.js?v=80953abaf40f";
+import { stationModelName, stationOccupied } from "../sim/computerModels.js?v=b612b1779b4d";
+import { WINDOWS_ERAS, gameYear, installedWindows } from "../sim/eraCatalog.js?v=b612b1779b4d";
+import { gpuSpec, installedGpu } from "../sim/gpu.js?v=b612b1779b4d";
+import { HARDWARE_CATALOG, HARDWARE_LABELS, PLATFORM_KITS, buildParts, describePart, hardwareFor, quotePart, quotePlatform, requiredPsuWatts, windowsHardwareIssues } from "../sim/hardware.js?v=b612b1779b4d";
+import { pcCount } from "../sim/simulationState.js?v=b612b1779b4d";
+import { stationPoweredOn } from "../sim/stationPower.js?v=b612b1779b4d";
+import { windowsInstallDurationMs, windowsInstallProgress } from "../sim/windowsInstallation.js?v=b612b1779b4d";
 export function createHardwarePanelPort(getState) {
     return { snapshot(requested, tab, page = "hardware") {
             const s = getState(), count = pcCount(s), index = Number.isInteger(requested) ? Math.max(0, Math.min(requested, count - 1)) : 0, year = gameYear(s);
             const build = hardwareFor(s, index), parts = buildParts(build), edition = WINDOWS_ERAS.find(e => e.id === installedWindows(s, index)), licensed = s.pcWindowsLicenses?.[index] === true;
             const powered = stationPoweredOn(s, index), busy = stationOccupied(s, index) || !!s.repairJobs?.some(j => j.pc === index);
+            const installation = windowsInstallProgress(s, index);
             const specs = ['cpu', 'ram', 'storage', 'motherboard', 'psu'].map(kind => ({ kind, label: HARDWARE_LABELS[kind], name: parts[kind].name, description: describePart(parts[kind]) }));
             specs.push({ kind: "gpu", label: "Placa de vídeo", name: gpuSpec(installedGpu(s, index))?.name ?? "Vídeo integrado" });
             const choices = page === "windows" ? WINDOWS_ERAS.map(release => {
                 const reasons = windowsHardwareIssues(s, index, release.id), owned = edition.id === release.id && licensed, locked = year < release.year;
-                return { id: release.id, label: release.name + " · " + (owned ? "Instalado" : locked ? release.year : "R$ " + release.cost), disabled: owned || locked || busy || powered || reasons.length > 0 || s.cash < release.cost,
-                    title: owned ? "Já instalado e licenciado." : locked ? "Lançamento no jogo: " + release.year : reasons.length ? reasons.join(" ") : busy ? "Libere esta estação." : powered ? "Desligue esta estação." : "Instalar somente neste PC.",
-                    detail: owned ? "Instalado e licenciado." : locked ? "Disponível no ano " + release.year + "." : reasons.length ? reasons.join(" ") : busy ? "Libere a estação para instalar." : powered ? "Desligue a estação para instalar." : s.cash < release.cost ? "Caixa insuficiente." : "Compatível com esta configuração." };
+                return { id: release.id, label: release.name + " · " + (owned ? "Instalado" : locked ? release.year : "R$ " + release.cost), disabled: !!installation || owned || locked || busy || powered || reasons.length > 0 || s.cash < release.cost,
+                    title: installation ? "Aguarde a instalação de " + installation.name + "." : owned ? "Já instalado e licenciado." : locked ? "Lançamento no jogo: " + release.year : reasons.length ? reasons.join(" ") : busy ? "Libere esta estação." : powered ? "Desligue esta estação." : "Instalar somente neste PC.",
+                    detail: installation ? "Instalação em andamento neste PC." : owned ? "Instalado e licenciado." : locked ? "Disponível no ano " + release.year + "." : reasons.length ? reasons.join(" ") : busy ? "Libere a estação para instalar." : powered ? "Desligue a estação para instalar." : s.cash < release.cost ? "Caixa insuficiente." : "Compatível · instalação em " + (windowsInstallDurationMs(release.id) / 60000) + " minutos reais." };
             }) : [];
             const currentIssue = page === "windows" ? windowsHardwareIssues(s, index, edition.id) : [];
             const nextWindows = page === "windows" ? WINDOWS_ERAS.find(w => w.year <= year && w.year > edition.year && windowsHardwareIssues(s, index, w.id).length > 0) : undefined;
@@ -31,12 +33,14 @@ export function createHardwarePanelPort(getState) {
                     label: owned ? "Instalado" : year < part.year ? "🔒 Chega em " + part.year : "Instalar · R$ " + part.cost, locked: year < part.year, disabled: !quote.ok };
             });
             return { index, year, tab, page, stations: Array.from({ length: count }, (_, i) => i), powered,
-                powerDisabled: stationOccupied(s, index) || !!s.repairJobs?.some(j => j.pc === index && j.phase !== "leaving"),
+                powerDisabled: !!installation || stationOccupied(s, index) || !!s.repairJobs?.some(j => j.pc === index && j.phase !== "leaving"),
                 machineTitle: "PC " + String(index + 1).padStart(2, "0") + " · " + edition.name,
-                machineSubtitle: (licensed ? "Windows licenciado" : "Windows preinstalado · sem licença adquirida") + " · " + stationModelName(s, index),
-                machineNote: powered ? "PC ligado. Desligue a estação selecionada para instalar peças." : "PC desligado. Pode atualizar quando estiver livre.", specs,
+                machineSubtitle: (installation ? "Instalando " + installation.name + " · " + installation.percent + "%" :
+                    licensed ? "Windows licenciado" : "Windows preinstalado · sem licença adquirida") + " · " + stationModelName(s, index),
+                machineNote: installation ? "Instalação do Windows em andamento. PC desligado e indisponível." :
+                    powered ? "PC ligado. Desligue a estação selecionada para instalar peças." : "PC desligado. Pode atualizar quando estiver livre.", specs,
                 powerNote: "Fonte instalada: " + parts.psu.watts + " W · capacidade recomendada para as peças atuais: " + requiredPsuWatts(build, s.pcGpus?.[index]) + " W (margem de 25%). Uma fonte maior oferece reserva; não consome sua potência máxima o tempo todo.",
-                windows: choices, currentWindowsIssue: currentIssue.length ? edition.name + ": " + currentIssue.join(" ") : null,
+                windows: choices, installation, currentWindowsIssue: currentIssue.length ? edition.name + ": " + currentIssue.join(" ") : null,
                 nextWindowsIssue: nextWindows ? "Para " + nextWindows.name + ": " + windowsHardwareIssues(s, index, nextWindows.id).join(" ") : null,
                 tabs: [{ id: "platform", label: "Kits de plataforma" }, ...Object.entries(HARDWARE_LABELS).map(([id, label]) => ({ id: id, label }))], cards };
         } };

@@ -1,13 +1,14 @@
-export { BIN_SPOTS, binSpots, binStates, binStatus } from "./serviceLayout.js?v=80953abaf40f";
-export { pcUnderRepair } from "./stationPower.js?v=80953abaf40f";
-import { directionFromDelta } from "./direction.js?v=80953abaf40f";
-import { serviceVisitCost } from "./historicalEconomy.js?v=80953abaf40f";
-import { canTraverseLocalStep } from "./navigation.js?v=80953abaf40f";
-import { binSpots } from "./serviceLayout.js?v=80953abaf40f";
-import { entrance, pcCount, pcPosition } from "./simulationState.js?v=80953abaf40f";
-import { accrueEmployeeDay, employeeHired } from "./staff.js?v=80953abaf40f";
-import { cleanerWorkPoint, technicianContactPoint, technicianWorkPoint } from "./staffWorksites.js?v=80953abaf40f";
-import { workerRoute } from "./workerNavigation.js?v=80953abaf40f";
+export { BIN_SPOTS, binSpots, binStates, binStatus } from "./serviceLayout.js?v=b612b1779b4d";
+export { pcUnderRepair } from "./stationPower.js?v=b612b1779b4d";
+import { directionFromDelta } from "./direction.js?v=b612b1779b4d";
+import { serviceVisitCost } from "./historicalEconomy.js?v=b612b1779b4d";
+import { canTraverseLocalStep } from "./navigation.js?v=b612b1779b4d";
+import { binSpots } from "./serviceLayout.js?v=b612b1779b4d";
+import { entrance, pcCount, pcPosition } from "./simulationState.js?v=b612b1779b4d";
+import { accrueEmployeeDay, employeeHired } from "./staff.js?v=b612b1779b4d";
+import { cleanerWorkPoint, technicianContactPoint, technicianWorkPoint } from "./staffWorksites.js?v=b612b1779b4d";
+import { workerRoute } from "./workerNavigation.js?v=b612b1779b4d";
+import { windowsInstallFor } from "./windowsInstallation.js?v=b612b1779b4d";
 export const REPAIR_DURATION = 24;
 function approach(a, b, speed) {
     const dx = b.x - a.x, dy = b.y - a.y, d = Math.hypot(dx, dy);
@@ -23,6 +24,8 @@ function approach(a, b, speed) {
 export function startRepair(s, pc) {
     if (!Number.isInteger(pc) || pc < 0 || pc >= pcCount(s))
         return { ok: false, message: "PC inexistente." };
+    if (windowsInstallFor(s, pc))
+        return { ok: false, message: "Aguarde a instalação do Windows terminar." };
     if (s.repairJobs?.some(j => j.pc === pc))
         return { ok: false, message: "Já existe um técnico atendendo esse PC." };
     if (employeeHired(s, "technician") && s.repairJobs?.length)
@@ -142,7 +145,7 @@ export function dispatchHiredStaff(s) {
         requestCleaning(s);
     if (employeeHired(s, "technician") && !(s.repairJobs?.length)) {
         for (let pc = 0; pc < pcCount(s); pc++) {
-            if ((s.pcWear?.[pc] ?? 0) < 100 || (s.repairJobs ?? []).some(j => j.pc === pc))
+            if ((s.pcWear?.[pc] ?? 0) < 100 || windowsInstallFor(s, pc))
                 continue;
             if (s.customers.some(c => c.pcIndex === pc && ["to_pc", "sitting", "using", "standing"].includes(c.stage)))
                 continue;

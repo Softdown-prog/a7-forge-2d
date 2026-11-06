@@ -1,10 +1,11 @@
-import { annualHourlyCeiling, isHistorical, priceIndex, sessionPrice, yearFromMinutes } from "./historicalEconomy.js?v=80953abaf40f";
-import { furnitureSlots } from "./furnitureLayout.js?v=80953abaf40f";
-import { consolePoint, consoleSeat, consoleApproach, consoleBusy, consoleFootprints } from "./consoleLayout.js?v=80953abaf40f";
-import { layoutGoals, layoutPlacementIssue, objectTouchesCustomer } from "./layoutGeometry.js?v=80953abaf40f";
-import { navigableRoute, canTraverseLocalStep, routesForCurrentCustomers } from "./navigation.js?v=80953abaf40f";
-import { entrance } from "./simulationState.js?v=80953abaf40f";
-import { activeRetailQueuesReachable } from "./retailQueue.js?v=80953abaf40f";
+import { annualHourlyCeiling, isHistorical, priceIndex, sessionPrice, yearFromMinutes } from "./historicalEconomy.js?v=b612b1779b4d";
+import { furnitureSlots } from "./furnitureLayout.js?v=b612b1779b4d";
+import { consolePoint, consoleSeat, consoleApproach, consoleBusy, consoleFootprints } from "./consoleLayout.js?v=b612b1779b4d";
+import { layoutGoals, layoutPlacementIssue, objectTouchesCustomer } from "./layoutGeometry.js?v=b612b1779b4d";
+import { navigableRoute, canTraverseLocalStep, routesForCurrentCustomers } from "./navigation.js?v=b612b1779b4d";
+import { entrance } from "./simulationState.js?v=b612b1779b4d";
+import { topGamesCanBuy } from "./topGamesUnlockGate.js?v=b612b1779b4d";
+import { activeRetailQueuesReachable } from "./retailQueue.js?v=b612b1779b4d";
 export const PS2_UNLOCK_YEAR = 2006;
 export const PS2_MAX_STATIONS = 3;
 export const PS2_BASE_BENCH_PRICE = 980;
@@ -141,6 +142,8 @@ export function buyPs2Game(s, id) {
         return { ok: false, message: "Instale primeiro uma bancada PS2 em 2006." };
     if (yearFromMinutes(s.totalMinutes) < game.releaseYear)
         return { ok: false, message: game.title + " estará disponível em " + game.releaseYear + "." };
+    if (!topGamesCanBuy(s, "ps2", id, ps2GameCopies(s, id)))
+        return { ok: false, message: "Tony precisa receber a revista Top Games que apresenta " + game.title + " antes de comprar o DVD." };
     if (ps2GameCopies(s, id) >= 3)
         return { ok: false, message: "Já há três cópias deste jogo PS2." };
     const price = ps2GamePrice(s, id);
@@ -223,7 +226,7 @@ export function setPs2Power(s, index, on) {
     st.poweredOff = !on;
     return { ok: true, message: on ? "PS2 ligado." : "PS2 desligado. Atendimento pausado." };
 }
-export { ps2EnergyCostPerMinute } from "./consoleEnergy.js?v=80953abaf40f";
+export { ps2EnergyCostPerMinute } from "./consoleEnergy.js?v=b612b1779b4d";
 export function ps2SessionWear(s, index) {
     const st = s.ps2Stations?.[index];
     if (st)

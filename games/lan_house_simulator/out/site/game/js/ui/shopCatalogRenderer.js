@@ -2,16 +2,17 @@
  * Inventory, prices, licensing and placement availability are supplied
  * through live read models, never taken from the game simulation here.
  */
-import { createShopCatalogCard, appendStandardShopCatalogCard, appendShopCatalogOwned } from "./shopCatalogCard.js?v=80953abaf40f";
-import { renderShopCatalogOfferButton } from "./shopCatalogOfferButton.js?v=80953abaf40f";
-import { renderShopServiceOffer } from "./shopServiceOfferButton.js?v=80953abaf40f";
-import { renderPs1ShopOfferButton } from "./ps1ShopOfferButton.js?v=80953abaf40f";
-import { renderPs1ShopPlacement } from "./ps1ShopPlacementPicker.js?v=80953abaf40f";
-import { renderPs1ShopDiscCatalog } from "./ps1ShopDiscCatalog.js?v=80953abaf40f";
-import { renderPs2ShopCatalog } from "./ps2Panels.js?v=80953abaf40f";
-import { regularShopCardView, publishAngularShopCatalog } from "./shopCatalogAngularProjection.js?v=80953abaf40f";
-import { projectConsoleShop, publishAngularConsoleShop } from "./shopConsoleAngularProjection.js?v=80953abaf40f";
-import { shopCategory } from "./shopPanels.js?v=80953abaf40f";
+import { createShopCatalogCard, appendStandardShopCatalogCard, appendShopCatalogOwned } from "./shopCatalogCard.js?v=b612b1779b4d";
+import { renderShopCatalogOfferButton } from "./shopCatalogOfferButton.js?v=b612b1779b4d";
+import { renderShopServiceOffer } from "./shopServiceOfferButton.js?v=b612b1779b4d";
+import { renderPs1ShopOfferButton } from "./ps1ShopOfferButton.js?v=b612b1779b4d";
+import { renderPs1ShopPlacement } from "./ps1ShopPlacementPicker.js?v=b612b1779b4d";
+import { renderPs1ShopDiscCatalog } from "./ps1ShopDiscCatalog.js?v=b612b1779b4d";
+import { renderPs2ShopCatalog } from "./ps2Panels.js?v=b612b1779b4d";
+import { renderTopGamesSubscription } from "./topGamesShopPanel.js?v=b612b1779b4d";
+import { regularShopCardView, publishAngularShopCatalog } from "./shopCatalogAngularProjection.js?v=b612b1779b4d";
+import { projectConsoleShop, publishAngularConsoleShop } from "./shopConsoleAngularProjection.js?v=b612b1779b4d";
+import { shopCategory } from "./shopPanels.js?v=b612b1779b4d";
 export function renderShopCatalog(options) {
     options.renderOverview();
     options.host.replaceChildren();
@@ -54,13 +55,15 @@ export function renderShopCatalog(options) {
     renderPs1ShopDiscCatalog(options.host, options.discs, options.currentCategory() === "consoles", options.doc);
     if (options.ps2 && options.currentCategory() === "consoles")
         renderPs2ShopCatalog(options.host, options.ps2, options.doc);
+    if (options.topGames && currentCategory === "consoles")
+        renderTopGamesSubscription(options.host, options.topGames.snapshot(), options.doc);
     if (currentCategory === "consoles" && typeof options.doc.getElementById === "function" &&
         options.doc.getElementById("angular-shop-catalog")) {
         const ps1Card = options.host.querySelector('button[data-buy="ps1"]')?.closest(".shop-card");
         const ps1Artwork = ps1Card?.querySelector(".shop-art img")?.getAttribute("src") ?? null;
         const ps2Canvas = options.host.querySelector(".ps2-bench-card canvas");
         const ps2Artwork = ps2Canvas?.toDataURL() ?? null;
-        publishAngularConsoleShop(options.doc, projectConsoleShop(options.ps1Offer(), options.ps1Slots(), options.selectedPs1Slot(), options.discs.snapshot(), options.ps2?.snapshot() ?? null, ps1Artwork, ps2Artwork));
+        publishAngularConsoleShop(options.doc, projectConsoleShop(options.ps1Offer(), options.ps1Slots(), options.selectedPs1Slot(), options.discs.snapshot(), options.ps2?.snapshot() ?? null, ps1Artwork, ps2Artwork, options.topGames?.snapshot() ?? null));
     }
     // Only alert presentation controls after the original DOM catalogue is complete.
     if (typeof options.host.dispatchEvent === "function" && typeof Event === "function")

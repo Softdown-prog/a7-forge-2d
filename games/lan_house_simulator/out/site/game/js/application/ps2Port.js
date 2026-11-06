@@ -1,6 +1,7 @@
-import { PS2_GAME_CATALOG, ps2ReleasedGames, ps2Unlocked, ps2BenchPrice, ps2GamePrice, ps2GameCopies, ps2ActiveCopies, ps2HourPrice, ps2AllowedHourlyCeiling, ps2PlacementSlots, ps2OpenSeat, ps2StationBusy, ps2SecondSeatPrice, ps2RepairPrice, buyPs2Station, buyPs2Game, setPs2StationGame, buyPs2SecondSeat, repairPs2, setPs2Power, setPs2HourlyPrice } from "../sim/ps2.js?v=80953abaf40f";
-import { ps1PlacementLabel } from "../sim/ps1.js?v=80953abaf40f";
-import { yearFromMinutes } from "../sim/historicalEconomy.js?v=80953abaf40f";
+import { PS2_GAME_CATALOG, ps2ReleasedGames, ps2Unlocked, ps2BenchPrice, ps2GamePrice, ps2GameCopies, ps2ActiveCopies, ps2HourPrice, ps2AllowedHourlyCeiling, ps2PlacementSlots, ps2OpenSeat, ps2StationBusy, ps2SecondSeatPrice, ps2RepairPrice, buyPs2Station, buyPs2Game, setPs2StationGame, buyPs2SecondSeat, repairPs2, setPs2Power, setPs2HourlyPrice } from "../sim/ps2.js?v=b612b1779b4d";
+import { ps1PlacementLabel } from "../sim/ps1.js?v=b612b1779b4d";
+import { yearFromMinutes } from "../sim/historicalEconomy.js?v=b612b1779b4d";
+import { topGamesCanBuy } from "../sim/topGamesUnlockGate.js?v=b612b1779b4d";
 const invalid = { ok: false, message: "Ação de PS2 inválida." };
 const known = (id) => PS2_GAME_CATALOG.some(g => g.id === id);
 export function createPs2Port(getState) {
@@ -31,8 +32,11 @@ export function createPs2Port(getState) {
                 secondSeatPrice: ps2SecondSeatPrice(s), repairPrice: ps2RepairPrice(s), slots, nextReleaseYear,
                 games: availableGames.map(g => {
                     const copies = ps2GameCopies(s, g.id), price = ps2GamePrice(s, g.id), hasStation = stations.length > 0;
-                    return { ...g, price, copies, disabled: !unlocked || !hasStation || copies >= 3 || s.cash < price,
-                        buyText: !unlocked ? "Disponível em 2006" : !hasStation ? "Instale uma bancada PS2" : copies >= 3 ? "Acervo completo" : s.cash < price ? "Caixa insuficiente" : "Comprar jogo" };
+                    const magazineLocked = !topGamesCanBuy(s, "ps2", g.id, copies);
+                    return { ...g, price, copies, magazineLocked,
+                        disabled: !unlocked || !hasStation || magazineLocked || copies >= 3 || s.cash < price,
+                        buyText: !unlocked ? "Disponível em 2006" : !hasStation ? "Instale uma bancada PS2" :
+                            magazineLocked ? "Leia a revista Top Games" : copies >= 3 ? "Acervo completo" : s.cash < price ? "Caixa insuficiente" : "Comprar jogo" };
                 }), stations: view };
         },
         buyStation(slot) { return buyPs2Station(getState(), slot); },

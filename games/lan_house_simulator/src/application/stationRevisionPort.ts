@@ -17,7 +17,10 @@ export function createStationRevisionPort(getState:()=>GameState):StationRevisio
    s.pcPoweredOff,s.pcGpus,s.pcLcdModels,s.pcComponents,
    s.pcLinuxInstalled,s.pcOperatingSystems,s.linuxResearchStartedDay,Math.floor(s.totalMinutes/720),
    Array.from({length:pcCount(s)},(_,i)=>stationOccupied(s,i)),
-   s.repairJobs?.map(j=>[j.pc,j.phase,Math.floor(j.progress/j.duration*4)])
+   s.repairJobs?.map(j=>[j.pc,j.phase,Math.floor(j.progress/j.duration*4)]),
+   ...(s.windowsInstallJobs?.length
+    ?[s.windowsInstallJobs.map(j=>[j.pc,j.edition,j.startedAtMs,j.finishedAtMs]),Math.floor(Date.now()/1000)]
+    :[])
   ];
  }};
 }

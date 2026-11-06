@@ -1,9 +1,9 @@
 /** DOM and cached Canvas previews for the shop catalog, without simulation dependencies. */
-import { drawDiscCopier } from "../render/discCopierArt.js?v=80953abaf40f";
-import { drawPrinterShop } from "../render/printerArt.js?v=80953abaf40f";
-import { drawPs1Station } from "../render/ps1Art.js?v=80953abaf40f";
-import { drawLinuxWorkstationPreview } from "../render/linuxWorkstationPreview.js?v=80953abaf40f";
-import { iconMarkup, catalogueIcon } from "./presentation.js?v=80953abaf40f";
+import { drawDiscCopier } from "../render/discCopierArt.js?v=b612b1779b4d";
+import { drawPrinterShop } from "../render/printerArt.js?v=b612b1779b4d";
+import { drawPs1Station } from "../render/ps1Art.js?v=b612b1779b4d";
+import { drawLinuxWorkstationPreview } from "../render/linuxWorkstationPreview.js?v=b612b1779b4d";
+import { iconMarkup, catalogueIcon } from "./presentation.js?v=b612b1779b4d";
 const shopArtwork = new Map();
 export function createShopCatalogCard(item, doc) {
     const card = doc.createElement("article");

@@ -1,37 +1,37 @@
-import { createPanelRevisionCache } from "../application/panelRevisionCache.js?v=80953abaf40f";
-import { placementStatusSnapshot } from "../application/placementStatusPort.js?v=80953abaf40f";
-import { serviceAccessStatusSnapshot } from "../application/serviceAccessStatusPort.js?v=80953abaf40f";
-import { createAdminAreaTabs } from "./adminAreaTabs.js?v=80953abaf40f";
-import { publishAngularAdminSummary } from "./adminReactiveSummary.js?v=80953abaf40f";
-import { renderAdminComputerSections } from "./adminComputerSections.js?v=80953abaf40f";
-import { renderAdminFinanceActivity, renderAdminFinanceSummary } from "./adminFinanceSections.js?v=80953abaf40f";
-import { renderAdminGpuLicenseSections } from "./adminGpuLicenseSections.js?v=80953abaf40f";
-import { renderAdminPricingSections } from "./adminPricingSections.js?v=80953abaf40f";
-import { renderPs2AdminPanel } from "./ps2Panels.js?v=80953abaf40f";
-import { renderAdminServicesConsoles } from "./adminServicesConsoles.js?v=80953abaf40f";
-import { createVisibleAdminTextWriter, formatAdminMoney, renderAdminDisclosure, renderAdminWindowVisibility, renderShopWindowVisibility } from "./adminShell.js?v=80953abaf40f";
-import { renderCommerceNetworkPanel } from "./commerceNetworkPanel.js?v=80953abaf40f";
-import { renderDeskServicePanels } from "./deskPricingPanel.js?v=80953abaf40f";
-import { renderEventLog } from "./eventLogPanel.js?v=80953abaf40f";
-import { createEventLogRefresh } from "./eventLogRefresh.js?v=80953abaf40f";
-import { installFridayMeetupPanel } from "./fridayMeetupPanel.js?v=80953abaf40f";
-import { renderHardwarePanel } from "./hardwarePanel.js?v=80953abaf40f";
-import { renderLcdMonitorsPanel } from "./lcdMonitorsPanel.js?v=80953abaf40f";
-import { installManagementPanels } from "./managementPanels.js?v=80953abaf40f";
-import { installMerchandisePanel } from "./merchandisePanel.js?v=80953abaf40f";
-import { installNightTournamentHud } from "./nightTournamentHud.js?v=80953abaf40f";
-import { createNoticeWindowRefresh } from "./noticeWindowRefresh.js?v=80953abaf40f";
-import { syncPanelChildren } from "./panelChildren.js?v=80953abaf40f";
-import { renderPcOperations } from "./pcOperationsPanel.js?v=80953abaf40f";
-import { renderPlacementStatus } from "./placementStatusPanel.js?v=80953abaf40f";
-import { decorateControls, iconMarkup, presentComputerOperations, presentLiveState } from "./presentation.js?v=80953abaf40f";
-import { renderServiceAccessOverlayStatus } from "./serviceAccessStatusPanel.js?v=80953abaf40f";
-import { createShopCatalogRefresh } from "./shopCatalogRefresh.js?v=80953abaf40f";
-import { renderShopCatalog } from "./shopCatalogRenderer.js?v=80953abaf40f";
-import { renderShopOverview } from "./shopOverviewPanel.js?v=80953abaf40f";
-import { installShopPanels } from "./shopPanels.js?v=80953abaf40f";
-import { renderStationLedgerRows } from "./stationLedgerPanel.js?v=80953abaf40f";
-import { renderTimeWeatherPanel } from "./timeWeatherPanel.js?v=80953abaf40f";
+import { createPanelRevisionCache } from "../application/panelRevisionCache.js?v=b612b1779b4d";
+import { placementStatusSnapshot } from "../application/placementStatusPort.js?v=b612b1779b4d";
+import { serviceAccessStatusSnapshot } from "../application/serviceAccessStatusPort.js?v=b612b1779b4d";
+import { createAdminAreaTabs } from "./adminAreaTabs.js?v=b612b1779b4d";
+import { publishAngularAdminSummary } from "./adminReactiveSummary.js?v=b612b1779b4d";
+import { renderAdminComputerSections } from "./adminComputerSections.js?v=b612b1779b4d";
+import { renderAdminFinanceActivity, renderAdminFinanceSummary } from "./adminFinanceSections.js?v=b612b1779b4d";
+import { renderAdminGpuLicenseSections } from "./adminGpuLicenseSections.js?v=b612b1779b4d";
+import { renderAdminPricingSections } from "./adminPricingSections.js?v=b612b1779b4d";
+import { renderPs2AdminPanel } from "./ps2Panels.js?v=b612b1779b4d";
+import { renderAdminServicesConsoles } from "./adminServicesConsoles.js?v=b612b1779b4d";
+import { createVisibleAdminTextWriter, formatAdminMoney, renderAdminDisclosure, renderAdminWindowVisibility, renderShopWindowVisibility } from "./adminShell.js?v=b612b1779b4d";
+import { renderCommerceNetworkPanel } from "./commerceNetworkPanel.js?v=b612b1779b4d";
+import { renderDeskServicePanels } from "./deskPricingPanel.js?v=b612b1779b4d";
+import { renderEventLog } from "./eventLogPanel.js?v=b612b1779b4d";
+import { createEventLogRefresh } from "./eventLogRefresh.js?v=b612b1779b4d";
+import { installFridayMeetupPanel } from "./fridayMeetupPanel.js?v=b612b1779b4d";
+import { renderHardwarePanel } from "./hardwarePanel.js?v=b612b1779b4d";
+import { renderLcdMonitorsPanel } from "./lcdMonitorsPanel.js?v=b612b1779b4d";
+import { installManagementPanels } from "./managementPanels.js?v=b612b1779b4d";
+import { installMerchandisePanel } from "./merchandisePanel.js?v=b612b1779b4d";
+import { installNightTournamentHud } from "./nightTournamentHud.js?v=b612b1779b4d";
+import { createNoticeWindowRefresh } from "./noticeWindowRefresh.js?v=b612b1779b4d";
+import { syncPanelChildren } from "./panelChildren.js?v=b612b1779b4d";
+import { renderPcOperations } from "./pcOperationsPanel.js?v=b612b1779b4d";
+import { renderPlacementStatus } from "./placementStatusPanel.js?v=b612b1779b4d";
+import { decorateControls, iconMarkup, presentComputerOperations, presentLiveState } from "./presentation.js?v=b612b1779b4d";
+import { renderServiceAccessOverlayStatus } from "./serviceAccessStatusPanel.js?v=b612b1779b4d";
+import { createShopCatalogRefresh } from "./shopCatalogRefresh.js?v=b612b1779b4d";
+import { renderShopCatalog } from "./shopCatalogRenderer.js?v=b612b1779b4d";
+import { renderShopOverview } from "./shopOverviewPanel.js?v=b612b1779b4d";
+import { installShopPanels } from "./shopPanels.js?v=b612b1779b4d";
+import { renderStationLedgerRows } from "./stationLedgerPanel.js?v=b612b1779b4d";
+import { renderTimeWeatherPanel } from "./timeWeatherPanel.js?v=b612b1779b4d";
 export function createGamePanels(options) {
     const { elements: e, state, ports, save, lcdPreview, inspection: serviceAccessInspection } = options;
     const { document, admin, shop, shopCatalog, events, status, controls, noticesList, retailControls, discControls, printControls, placementToolbar, placementHelp, stage, gpuPcChoice, gpuList, licensePanel, eraGamePanel, gpuGamePanel } = e;
@@ -64,7 +64,7 @@ export function createGamePanels(options) {
             ps1Slots: () => ps1ShopPlacementPort.snapshot(),
             selectedPs1Slot: () => state.selection.selectedPs1PlacementId,
             selectPs1Slot: id => { state.selection.selectedPs1PlacementId = id; },
-            discs: ps1ShopDiscPort, ps2: ports.ps2Port
+            discs: ps1ShopDiscPort, ps2: ports.ps2Port, topGames: ports.topGamesShopPort
         })
     });
     function renderShop(force = true) { shopCatalogRefresh.refresh(force); }

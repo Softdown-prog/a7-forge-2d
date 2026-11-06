@@ -30,6 +30,9 @@ try{
   const mobile=width<700;
   const ctx=await browser.newContext({viewport:{width,height:900},isMobile:mobile,hasTouch:mobile});
   const state=createGame(900+width,"historical");
+  // O calendário original é exercitado aqui. A entrega e o bloqueio por
+  // revista são cobertos no teste integrado da loja Angular.
+  delete state.topGamesUnlockMode;
   state.totalMinutes=4*360*DAY_MINUTES;state.cash=6000;
   await ctx.addInitScript(({key,state})=>{
    localStorage.setItem(key,JSON.stringify(state));localStorage.setItem("lhs.sound","off");
@@ -69,7 +72,7 @@ try{
   await page.locator("#section-consoles").screenshot({path:resolve(out,"ps1_admin_"+width+".png")});
   // Outra partida salva com cliente usando o controle no salão; exercício
   // do render real e da posição do personagem sobre a cadeira.
-  const active=createGame(1100+width,"historical");active.totalMinutes=4*360*DAY_MINUTES;
+  const active=createGame(1100+width,"historical");delete active.topGamesUnlockMode;active.totalMinutes=4*360*DAY_MINUTES;
   active.cash=5000;
   const slot=ps1PlacementSlots(active)[0];
   assert.ok(slot);assert.equal(buyPs1Station(active,slot.id).ok,true);

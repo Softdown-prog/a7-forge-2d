@@ -1,7 +1,7 @@
-import { missingWindowsLicenses } from "../sim/notices.js?v=80953abaf40f";
-import { linuxUnlocked, LINUX_OCTOBER_DAY, LINUX_MAGAZINE_ENROLLMENT_COST, LINUX_MAGAZINE_ISSUE_COST, linuxNextMagazineDueDay, LINUX_MAGAZINE_TITLES, linuxDay } from "../sim/linuxQuest.js?v=80953abaf40f";
-import { decisionOptions } from "../sim/decisions.js?v=80953abaf40f";
-import { basicGamesLicenseCost } from "../sim/economy.js?v=80953abaf40f";
+import { missingWindowsLicenses } from "../sim/notices.js?v=b612b1779b4d";
+import { linuxUnlocked, LINUX_OCTOBER_DAY, LINUX_MAGAZINE_ENROLLMENT_COST, LINUX_MAGAZINE_ISSUE_COST, linuxNextMagazineDueDay, LINUX_MAGAZINE_TITLES, linuxDay } from "../sim/linuxQuest.js?v=b612b1779b4d";
+import { decisionOptions } from "../sim/decisions.js?v=b612b1779b4d";
+import { basicGamesLicenseCost } from "../sim/economy.js?v=b612b1779b4d";
 export function createNoticeInboxPort(getState) {
     return { snapshot() {
             const s = getState();

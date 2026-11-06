@@ -1,12 +1,14 @@
-export { gameYear, installedWindows, INTERNET_ERAS, internetUnlockYear, WINDOWS_ERAS, windowsLicenseCost } from "./eraCatalog.js?v=80953abaf40f";
-import { gameYear, installedWindows, WINDOWS_ERAS } from "./eraCatalog.js?v=80953abaf40f";
-import { windowsHardwareIssues } from "./hardware.js?v=80953abaf40f";
-import { isLinuxPc } from "./linuxQuest.js?v=80953abaf40f";
-import { stationUpgradeIssue } from "./stationPower.js?v=80953abaf40f";
+export { gameYear, installedWindows, INTERNET_ERAS, internetUnlockYear, WINDOWS_ERAS, windowsLicenseCost } from "./eraCatalog.js?v=b612b1779b4d";
+import { gameYear, installedWindows, WINDOWS_ERAS } from "./eraCatalog.js?v=b612b1779b4d";
+import { windowsHardwareIssues } from "./hardware.js?v=b612b1779b4d";
+import { stationUpgradeIssue } from "./stationPower.js?v=b612b1779b4d";
+import { windowsInstallDurationMs, windowsInstallFor } from "./windowsInstallation.js?v=b612b1779b4d";
 export function licenseWindows(s, index, edition) {
     const count = Math.max(3, Math.min(3 + s.expansionLevel * 2, s.installedPcs ?? (3 + s.expansionLevel * 2))) + (s.annexPcs?.length ?? 0);
     if (!Number.isInteger(index) || index < 0 || index >= count)
         return { ok: false, message: "PC inexistente." };
+    if (windowsInstallFor(s, index))
+        return { ok: false, message: "Aguarde a instalação do Windows neste PC." };
     const issue = stationUpgradeIssue(s, index);
     if (issue)
         return { ok: false, message: issue };
@@ -20,6 +22,8 @@ export function licenseWindows(s, index, edition) {
     const hardwareIssue = windowsHardwareIssues(s, index, edition)[0];
     if (hardwareIssue)
         return { ok: false, message: release.name + ": " + hardwareIssue };
+    if (s.gpuGameInstallJobs?.some(j => j.pc === index))
+        return { ok: false, message: "Aguarde o download no PC terminar." };
     if (s.customers.some(c => c.pcIndex === index && ["to_pc", "sitting", "using", "standing"].includes(c.stage)) || s.repairJobs?.some(j => j.pc === index))
         return { ok: false, message: "Libere a estação antes de instalar o Windows." };
     // Mesmo o Windows 98 inicial exige sua própria licença, separada do hardware.
@@ -28,11 +32,8 @@ export function licenseWindows(s, index, edition) {
         return { ok: false, message: "Caixa insuficiente: licença de " + release.name + " custa R$ " + cost + "." };
     s.cash -= cost;
     s.expenses += cost;
-    s.pcWindows = Array.from({ length: count }, (_, i) => installedWindows(s, i));
-    s.pcWindows[index] = edition;
-    s.pcWindowsLicenses = Array.from({ length: count }, (_, i) => s.pcWindowsLicenses?.[i] === true);
-    s.pcWindowsLicenses[index] = true;
-    if (isLinuxPc(s, index))
-        s.pcOperatingSystems[index] = "windows";
-    return { ok: true, message: "PC " + (index + 1) + " licenciado com " + release.name + ": -R$ " + cost + "." };
+    const startedAtMs = Date.now(), finishedAtMs = startedAtMs + windowsInstallDurationMs(edition);
+    (s.windowsInstallJobs ??= []).push({ pc: index, edition, startedAtMs, finishedAtMs });
+    return { ok: true, message: "Instalação de " + release.name + " iniciada no PC " + (index + 1) +
+            ": -R$ " + cost + "; duração " + (windowsInstallDurationMs(edition) / 60000) + " minutos reais." };
 }
