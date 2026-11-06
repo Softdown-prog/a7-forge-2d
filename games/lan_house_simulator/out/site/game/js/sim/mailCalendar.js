@@ -1,4 +1,4 @@
-import { DAY_MINUTES } from "./types.js?v=a7a149bb38f1";
+import { DAY_MINUTES } from "./types.js?v=1426089a9f9b";
 /** O calendário do LHS tem 12 meses de 30 dias por ano. */
 export const GAME_FIRST_YEAR = 1998;
 export const GAME_LAST_YEAR = 2030;

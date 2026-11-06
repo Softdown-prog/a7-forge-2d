@@ -1,9 +1,9 @@
-export { INITIAL_CASH } from "./gameDefaults.js?v=a7a149bb38f1";
-import { INITIAL_CASH } from "./gameDefaults.js?v=a7a149bb38f1";
-import { DAY_MINUTES } from "./types.js?v=a7a149bb38f1";
-import { monthlyBills, energyMonthlyEstimate } from "./economy.js?v=a7a149bb38f1";
-import { isHistorical, priceIndex, yearFromMinutes } from "./historicalEconomy.js?v=a7a149bb38f1";
-import { GAME_END_DAY } from "./mailCalendar.js?v=a7a149bb38f1";
+export { INITIAL_CASH } from "./gameDefaults.js?v=1426089a9f9b";
+import { INITIAL_CASH } from "./gameDefaults.js?v=1426089a9f9b";
+import { DAY_MINUTES } from "./types.js?v=1426089a9f9b";
+import { monthlyBills, energyMonthlyEstimate } from "./economy.js?v=1426089a9f9b";
+import { isHistorical, priceIndex, yearFromMinutes } from "./historicalEconomy.js?v=1426089a9f9b";
+import { GAME_END_DAY } from "./mailCalendar.js?v=1426089a9f9b";
 /** Apenas leitura dos lançamentos reais, sem alterar dinheiro, RNG ou save. */
 export function financialSnapshot(s) {
     const netResult = s.revenue - s.expenses;

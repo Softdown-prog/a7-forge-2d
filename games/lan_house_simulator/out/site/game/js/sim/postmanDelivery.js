@@ -1,10 +1,10 @@
-import { linuxDay, linuxNextMagazineDueDay, LINUX_MAGAZINE_ISSUE_COST, LINUX_MAGAZINE_TITLES, nextLinuxLetter, recordLinuxMail } from "./linuxQuest.js?v=a7a149bb38f1";
-import { entrance } from "./simulationState.js?v=a7a149bb38f1";
-import { counterQueue } from "./route.js?v=a7a149bb38f1";
-import { workerRoute } from "./workerNavigation.js?v=a7a149bb38f1";
-import { canTraverseLocalStep } from "./navigation.js?v=a7a149bb38f1";
-import { directionFromDelta } from "./direction.js?v=a7a149bb38f1";
-import { deliverLinuxMagazineNotice } from "./notices.js?v=a7a149bb38f1";
+import { linuxDay, linuxNextMagazineDueDay, LINUX_MAGAZINE_ISSUE_COST, LINUX_MAGAZINE_TITLES, nextLinuxLetter, recordLinuxMail } from "./linuxQuest.js?v=1426089a9f9b";
+import { entrance } from "./simulationState.js?v=1426089a9f9b";
+import { counterQueue } from "./route.js?v=1426089a9f9b";
+import { workerRoute } from "./workerNavigation.js?v=1426089a9f9b";
+import { canTraverseLocalStep } from "./navigation.js?v=1426089a9f9b";
+import { directionFromDelta } from "./direction.js?v=1426089a9f9b";
+import { deliverLinuxMagazineNotice } from "./notices.js?v=1426089a9f9b";
 export const POSTMAN_HANDOFF_MINUTES = 5;
 export const postmanDoor = (s) => entrance(s);
 export const postmanCounter = (s) => {

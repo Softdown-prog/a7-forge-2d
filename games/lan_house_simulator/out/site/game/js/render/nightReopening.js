@@ -1,5 +1,5 @@
-export { nightReopeningPresentation } from "../application/nightPresentation.js?v=a7a149bb38f1";
-import { nightReopeningPresentation } from "../application/nightPresentation.js?v=a7a149bb38f1";
+export { nightReopeningPresentation } from "../application/nightPresentation.js?v=1426089a9f9b";
+import { nightReopeningPresentation } from "../application/nightPresentation.js?v=1426089a9f9b";
 /** Placa pequena no salão isométrico, sem objetos nem colisão no mapa. */
 export function drawNightReopening(ctx, s, time) {
     const state = nightReopeningPresentation(s);

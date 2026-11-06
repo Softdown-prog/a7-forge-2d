@@ -1,8 +1,8 @@
-import { setHourlyPrice, setProductPrice, productPrice } from "../sim/economy.js?v=a7a149bb38f1";
-import { setPrintPrice } from "../sim/printService.js?v=a7a149bb38f1";
-import { setDiscCopyPrice } from "../sim/discCopy.js?v=a7a149bb38f1";
-import { setPs1HourlyPrice, ps1HourPrice } from "../sim/ps1.js?v=a7a149bb38f1";
-import { clampPriceToEra } from "../sim/historicalEconomy.js?v=a7a149bb38f1";
+import { setHourlyPrice, setProductPrice, productPrice } from "../sim/economy.js?v=1426089a9f9b";
+import { setPrintPrice } from "../sim/printService.js?v=1426089a9f9b";
+import { setDiscCopyPrice } from "../sim/discCopy.js?v=1426089a9f9b";
+import { setPs1HourlyPrice, ps1HourPrice } from "../sim/ps1.js?v=1426089a9f9b";
+import { clampPriceToEra } from "../sim/historicalEconomy.js?v=1426089a9f9b";
 const invalid = { ok: false, message: "Ajuste de preço inválido." };
 const valid = (direction) => direction === 1 || direction === -1;
 const cents = (value) => Math.round(value * 100) / 100;

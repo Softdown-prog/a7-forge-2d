@@ -1,5 +1,6 @@
-import { PS2_GAME_CATALOG, ps2Unlocked, ps2BenchPrice, ps2GamePrice, ps2GameCopies, ps2ActiveCopies, ps2HourPrice, ps2AllowedHourlyCeiling, ps2PlacementSlots, ps2OpenSeat, ps2StationBusy, ps2SecondSeatPrice, ps2RepairPrice, buyPs2Station, buyPs2Game, setPs2StationGame, buyPs2SecondSeat, repairPs2, setPs2Power, setPs2HourlyPrice } from "../sim/ps2.js?v=a7a149bb38f1";
-import { ps1PlacementLabel } from "../sim/ps1.js?v=a7a149bb38f1";
+import { PS2_GAME_CATALOG, ps2ReleasedGames, ps2Unlocked, ps2BenchPrice, ps2GamePrice, ps2GameCopies, ps2ActiveCopies, ps2HourPrice, ps2AllowedHourlyCeiling, ps2PlacementSlots, ps2OpenSeat, ps2StationBusy, ps2SecondSeatPrice, ps2RepairPrice, buyPs2Station, buyPs2Game, setPs2StationGame, buyPs2SecondSeat, repairPs2, setPs2Power, setPs2HourlyPrice } from "../sim/ps2.js?v=1426089a9f9b";
+import { ps1PlacementLabel } from "../sim/ps1.js?v=1426089a9f9b";
+import { yearFromMinutes } from "../sim/historicalEconomy.js?v=1426089a9f9b";
 const invalid = { ok: false, message: "Ação de PS2 inválida." };
 const known = (id) => PS2_GAME_CATALOG.some(g => g.id === id);
 export function createPs2Port(getState) {
@@ -7,6 +8,9 @@ export function createPs2Port(getState) {
     return {
         snapshot() {
             const s = getState(), unlocked = ps2Unlocked(s), stations = s.ps2Stations ?? [];
+            const year = yearFromMinutes(s.totalMinutes);
+            const availableGames = unlocked ? ps2ReleasedGames(year) : [];
+            const nextReleaseYear = unlocked ? PS2_GAME_CATALOG.find(g => g.releaseYear > year)?.releaseYear ?? null : null;
             const price = ps2BenchPrice(s), slots = unlocked && stations.length < 3 ? ps2PlacementSlots(s).map(p => ({ id: p.id, label: ps1PlacementLabel(p) })) : [];
             const view = stations.map((st, index) => {
                 const busy = ps2StationBusy(s, index), occupied = s.customers.filter(c => c.ps2StationIndex === index).length;
@@ -24,8 +28,8 @@ export function createPs2Port(getState) {
                 benchPrice: price, benchDisabled: !unlocked || stations.length >= 3 || !slots.length || s.cash < price,
                 benchText: !unlocked ? "Disponível em 2006" : stations.length >= 3 ? "Limite de 3 bancadas PS2" : !slots.length ? "Sem espaço ou caminho livre" :
                     s.cash < price ? "Caixa insuficiente" : "Comprar bancada PS2",
-                secondSeatPrice: ps2SecondSeatPrice(s), repairPrice: ps2RepairPrice(s), slots,
-                games: PS2_GAME_CATALOG.map(g => {
+                secondSeatPrice: ps2SecondSeatPrice(s), repairPrice: ps2RepairPrice(s), slots, nextReleaseYear,
+                games: availableGames.map(g => {
                     const copies = ps2GameCopies(s, g.id), price = ps2GamePrice(s, g.id), hasStation = stations.length > 0;
                     return { ...g, price, copies, disabled: !unlocked || !hasStation || copies >= 3 || s.cash < price,
                         buyText: !unlocked ? "Disponível em 2006" : !hasStation ? "Instale uma bancada PS2" : copies >= 3 ? "Acervo completo" : s.cash < price ? "Caixa insuficiente" : "Comprar jogo" };

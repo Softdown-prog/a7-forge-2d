@@ -2,16 +2,16 @@
  * Inventory, prices, licensing and placement availability are supplied
  * through live read models, never taken from the game simulation here.
  */
-import { createShopCatalogCard, appendStandardShopCatalogCard, appendShopCatalogOwned } from "./shopCatalogCard.js?v=a7a149bb38f1";
-import { renderShopCatalogOfferButton } from "./shopCatalogOfferButton.js?v=a7a149bb38f1";
-import { renderShopServiceOffer } from "./shopServiceOfferButton.js?v=a7a149bb38f1";
-import { renderPs1ShopOfferButton } from "./ps1ShopOfferButton.js?v=a7a149bb38f1";
-import { renderPs1ShopPlacement } from "./ps1ShopPlacementPicker.js?v=a7a149bb38f1";
-import { renderPs1ShopDiscCatalog } from "./ps1ShopDiscCatalog.js?v=a7a149bb38f1";
-import { renderPs2ShopCatalog } from "./ps2Panels.js?v=a7a149bb38f1";
-import { regularShopCardView, publishAngularShopCatalog } from "./shopCatalogAngularProjection.js?v=a7a149bb38f1";
-import { projectConsoleShop, publishAngularConsoleShop } from "./shopConsoleAngularProjection.js?v=a7a149bb38f1";
-import { shopCategory } from "./shopPanels.js?v=a7a149bb38f1";
+import { createShopCatalogCard, appendStandardShopCatalogCard, appendShopCatalogOwned } from "./shopCatalogCard.js?v=1426089a9f9b";
+import { renderShopCatalogOfferButton } from "./shopCatalogOfferButton.js?v=1426089a9f9b";
+import { renderShopServiceOffer } from "./shopServiceOfferButton.js?v=1426089a9f9b";
+import { renderPs1ShopOfferButton } from "./ps1ShopOfferButton.js?v=1426089a9f9b";
+import { renderPs1ShopPlacement } from "./ps1ShopPlacementPicker.js?v=1426089a9f9b";
+import { renderPs1ShopDiscCatalog } from "./ps1ShopDiscCatalog.js?v=1426089a9f9b";
+import { renderPs2ShopCatalog } from "./ps2Panels.js?v=1426089a9f9b";
+import { regularShopCardView, publishAngularShopCatalog } from "./shopCatalogAngularProjection.js?v=1426089a9f9b";
+import { projectConsoleShop, publishAngularConsoleShop } from "./shopConsoleAngularProjection.js?v=1426089a9f9b";
+import { shopCategory } from "./shopPanels.js?v=1426089a9f9b";
 export function renderShopCatalog(options) {
     options.renderOverview();
     options.host.replaceChildren();

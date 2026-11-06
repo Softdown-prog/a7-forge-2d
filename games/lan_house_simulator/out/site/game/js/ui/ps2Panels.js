@@ -1,4 +1,5 @@
-import { drawPs2Station } from "../render/ps2Art.js?v=a7a149bb38f1";
+import { drawPs2Station } from "../render/ps2Art.js?v=1426089a9f9b";
+import { ps2ProceduralCover } from "./ps2CoverArt.js?v=1426089a9f9b";
 const money = (n) => n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 function text(doc, tag, value) { const el = doc.createElement(tag); el.textContent = value; return el; }
 function button(doc, value, disabled, key, index) {
@@ -12,7 +13,7 @@ function button(doc, value, disabled, key, index) {
 /** Procedural preview made with the same Canvas renderer as the game. */
 export function renderPs2ShopCatalog(host, port, doc) {
     const s = port.snapshot();
-    const heading = text(doc, "h3", "PlayStation 2 · 2006");
+    const heading = text(doc, "h3", "PlayStation 2 · 2006–2010");
     heading.className = "ps2-shop-heading";
     host.append(heading);
     const card = doc.createElement("article");
@@ -38,28 +39,23 @@ export function renderPs2ShopCatalog(host, port, doc) {
     const buy = button(doc, s.benchText + " · " + money(s.benchPrice), s.benchDisabled, "buy", "ps2");
     card.append(canvas, text(doc, "h3", "Bancada PlayStation 2"), text(doc, "p", "Console, TV, bancada, cadeira e controle. Jogos comprados separadamente. Até 3 PS2, além dos PS1. Internet não é necessária."), label, select, buy);
     host.append(card);
+    if (s.nextReleaseYear !== null && s.nextReleaseYear !== undefined) {
+        const teaser = text(doc, "p", "Próxima novidade: 2 jogos PS2 desbloqueados em " + s.nextReleaseYear + ".");
+        teaser.className = "ps2-next-games";
+        host.append(teaser);
+    }
     for (const g of s.games) {
         const item = doc.createElement("article");
         item.className = "shop-card ps2-game-card";
-        // Original code-drawn cover, no external image or commercial artwork.
-        const cover = doc.createElement("canvas");
-        cover.width = 240;
-        cover.height = 120;
-        cover.className = "ps2-shop-preview";
-        const c = cover.getContext("2d");
-        if (c) {
-            c.fillStyle = ["#244e76", "#59508b", "#2a7056", "#22305f", "#765480"][s.games.indexOf(g)];
-            c.fillRect(0, 0, 240, 120);
-            c.fillStyle = "#c4e2e8";
-            for (let i = 0; i < 9; i++)
-                c.fillRect(14 + i * 26, 10 + (i % 3) * 13, 14, 28);
-            c.fillStyle = "#fff";
-            c.font = "bold 17px system-ui";
-            c.fillText(g.title, 12, 91, 218);
-            c.font = "12px system-ui";
-            c.fillText("PS2 · " + g.genre, 12, 110);
-        }
-        item.append(cover, text(doc, "h3", g.title), text(doc, "p", g.genre + " · " + g.copies + " cópia(s) no acervo. Cada mídia equipa uma bancada."), button(doc, g.buyText + " · " + money(g.price), g.disabled, "buyPs2Game", g.id));
+        const cover = doc.createElement("img");
+        cover.className = "ps2-game-cover";
+        cover.src = ps2ProceduralCover(g, doc);
+        cover.alt = "Capa procedural de " + g.title;
+        cover.loading = "lazy";
+        cover.decoding = "async";
+        cover.width = 420;
+        cover.height = 560;
+        item.append(cover, text(doc, "h3", g.title), text(doc, "p", g.genre + " · " + g.releaseYear + " · " + g.copies + " cópia(s) no acervo. Cada mídia equipa uma bancada."), button(doc, g.buyText + " · " + money(g.price), g.disabled, "buyPs2Game", g.id));
         host.append(item);
     }
 }

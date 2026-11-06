@@ -1,23 +1,37 @@
-import { annualHourlyCeiling, isHistorical, priceIndex, sessionPrice, yearFromMinutes } from "./historicalEconomy.js?v=a7a149bb38f1";
-import { furnitureSlots } from "./furnitureLayout.js?v=a7a149bb38f1";
-import { consolePoint, consoleSeat, consoleApproach, consoleBusy, consoleFootprints } from "./consoleLayout.js?v=a7a149bb38f1";
-import { layoutGoals, layoutPlacementIssue, objectTouchesCustomer } from "./layoutGeometry.js?v=a7a149bb38f1";
-import { navigableRoute, canTraverseLocalStep, routesForCurrentCustomers } from "./navigation.js?v=a7a149bb38f1";
-import { entrance } from "./simulationState.js?v=a7a149bb38f1";
-import { activeRetailQueuesReachable } from "./retailQueue.js?v=a7a149bb38f1";
+import { annualHourlyCeiling, isHistorical, priceIndex, sessionPrice, yearFromMinutes } from "./historicalEconomy.js?v=1426089a9f9b";
+import { furnitureSlots } from "./furnitureLayout.js?v=1426089a9f9b";
+import { consolePoint, consoleSeat, consoleApproach, consoleBusy, consoleFootprints } from "./consoleLayout.js?v=1426089a9f9b";
+import { layoutGoals, layoutPlacementIssue, objectTouchesCustomer } from "./layoutGeometry.js?v=1426089a9f9b";
+import { navigableRoute, canTraverseLocalStep, routesForCurrentCustomers } from "./navigation.js?v=1426089a9f9b";
+import { entrance } from "./simulationState.js?v=1426089a9f9b";
+import { activeRetailQueuesReachable } from "./retailQueue.js?v=1426089a9f9b";
 export const PS2_UNLOCK_YEAR = 2006;
 export const PS2_MAX_STATIONS = 3;
 export const PS2_BASE_BENCH_PRICE = 980;
 export const PS2_BASE_HOURLY_RATE = 4;
 export const PS2_REPAIR_COST = 65;
 export const PS2_WEAR_LIMIT = 100;
+/** Five original launch games + two releases in each game-year 2006–2010. */
 export const PS2_GAME_CATALOG = [
-    { id: "cidade-em-fuga", title: "Cidade em Fuga", genre: "Corrida urbana", basePrice: 72 },
-    { id: "arena-dos-guardioes", title: "Arena dos Guardiões", genre: "Ação", basePrice: 79 },
-    { id: "futsal-de-bairro", title: "Futsal de Bairro", genre: "Esporte", basePrice: 64 },
-    { id: "cosmos-2006", title: "Cosmos 2006", genre: "Ficção científica", basePrice: 84 },
-    { id: "batida-de-rua", title: "Batida de Rua", genre: "Ritmo", basePrice: 69 }
+    { id: "cidade-em-fuga", title: "Cidade em Fuga", genre: "Corrida urbana", basePrice: 72, releaseYear: 2006 },
+    { id: "arena-dos-guardioes", title: "Arena dos Guardiões", genre: "Ação", basePrice: 79, releaseYear: 2006 },
+    { id: "futsal-de-bairro", title: "Futsal de Bairro", genre: "Esporte", basePrice: 64, releaseYear: 2006 },
+    { id: "cosmos-2006", title: "Cosmos 2006", genre: "Ficção científica", basePrice: 84, releaseYear: 2006 },
+    { id: "batida-de-rua", title: "Batida de Rua", genre: "Ritmo", basePrice: 69, releaseYear: 2006 },
+    { id: "pistas-da-montanha", title: "Pistas da Montanha", genre: "Corrida", basePrice: 76, releaseYear: 2006 },
+    { id: "templo-da-aurora", title: "Templo da Aurora", genre: "Aventura", basePrice: 83, releaseYear: 2006 },
+    { id: "robos-da-fronteira", title: "Robôs da Fronteira", genre: "Estratégia", basePrice: 87, releaseYear: 2007 },
+    { id: "misterio-do-farol", title: "Mistério do Farol", genre: "Investigação", basePrice: 82, releaseYear: 2007 },
+    { id: "lendas-do-vulcao", title: "Lendas do Vulcão", genre: "RPG", basePrice: 99, releaseYear: 2008 },
+    { id: "volei-na-praia", title: "Vôlei na Praia", genre: "Esporte", basePrice: 74, releaseYear: 2008 },
+    { id: "corrida-no-gelo", title: "Corrida no Gelo", genre: "Corrida", basePrice: 91, releaseYear: 2009 },
+    { id: "cidade-dos-inventores", title: "Cidade dos Inventores", genre: "Quebra-cabeça", basePrice: 85, releaseYear: 2009 },
+    { id: "guardioes-do-oceano", title: "Guardiões do Oceano", genre: "Aventura", basePrice: 97, releaseYear: 2010 },
+    { id: "batidas-do-futuro", title: "Batidas do Futuro", genre: "Ritmo", basePrice: 89, releaseYear: 2010 }
 ];
+export function ps2ReleasedGames(year) {
+    return PS2_GAME_CATALOG.filter(g => year >= g.releaseYear);
+}
 const money = (value) => Math.round(value * 100) / 100;
 const eraFactor = (s) => priceIndex(yearFromMinutes(s.totalMinutes)) / priceIndex(PS2_UNLOCK_YEAR);
 export function ps2Unlocked(s) {
@@ -26,7 +40,8 @@ export function ps2Unlocked(s) {
 export function ps2BenchPrice(s) { return money(PS2_BASE_BENCH_PRICE * eraFactor(s)); }
 export function ps2GamePrice(s, id) {
     const title = PS2_GAME_CATALOG.find(g => g.id === id);
-    return title ? money(title.basePrice * eraFactor(s)) : 0;
+    return title && yearFromMinutes(s.totalMinutes) >= title.releaseYear ?
+        money(title.basePrice * priceIndex(yearFromMinutes(s.totalMinutes)) / priceIndex(title.releaseYear)) : 0;
 }
 export function ps2DefaultHourlyPrice(s) {
     const proposed = Math.floor(PS2_BASE_HOURLY_RATE * eraFactor(s) * 4 + 1e-8) / 4;
@@ -51,7 +66,8 @@ export const ps2GameCopies = (s, id) => s.ps2Games?.[id] ?? 0;
 export const ps2ActiveCopies = (s, id, exclude = -1) => (s.ps2Stations ?? []).filter((st, i) => i !== exclude && st.gameId === id).length;
 export function ps2PlayableGame(s, index) {
     const id = s.ps2Stations?.[index]?.gameId;
-    return id && ps2GameCopies(s, id) > 0 && ps2ActiveCopies(s, id) <= ps2GameCopies(s, id) ? id : null;
+    return id && ps2ReleasedGames(yearFromMinutes(s.totalMinutes)).some(g => g.id === id) &&
+        ps2GameCopies(s, id) > 0 && ps2ActiveCopies(s, id) <= ps2GameCopies(s, id) ? id : null;
 }
 export function ps2OpenSeat(s, index) {
     const st = s.ps2Stations?.[index];
@@ -123,6 +139,8 @@ export function buyPs2Game(s, id) {
         return { ok: false, message: "Jogo PS2 desconhecido." };
     if (!ps2Unlocked(s) || !s.ps2Stations?.length)
         return { ok: false, message: "Instale primeiro uma bancada PS2 em 2006." };
+    if (yearFromMinutes(s.totalMinutes) < game.releaseYear)
+        return { ok: false, message: game.title + " estará disponível em " + game.releaseYear + "." };
     if (ps2GameCopies(s, id) >= 3)
         return { ok: false, message: "Já há três cópias deste jogo PS2." };
     const price = ps2GamePrice(s, id);
@@ -143,8 +161,15 @@ export function setPs2StationGame(s, index, id) {
         return { ok: false, message: "Bancada PS2 inexistente." };
     if (ps2StationBusy(s, index))
         return { ok: false, message: "Aguarde os jogadores saírem para trocar o jogo." };
-    if (id !== null && (!PS2_GAME_CATALOG.some(g => g.id === id) || ps2ActiveCopies(s, id, index) >= ps2GameCopies(s, id)))
-        return { ok: false, message: "Nenhuma cópia livre deste jogo PS2." };
+    if (id !== null) {
+        const game = PS2_GAME_CATALOG.find(g => g.id === id);
+        if (!game)
+            return { ok: false, message: "Jogo PS2 desconhecido." };
+        if (yearFromMinutes(s.totalMinutes) < game.releaseYear)
+            return { ok: false, message: game.title + " estará disponível em " + game.releaseYear + "." };
+        if (ps2ActiveCopies(s, id, index) >= ps2GameCopies(s, id))
+            return { ok: false, message: "Nenhuma cópia livre deste jogo PS2." };
+    }
     if (id === null)
         delete st.gameId;
     else
@@ -198,7 +223,7 @@ export function setPs2Power(s, index, on) {
     st.poweredOff = !on;
     return { ok: true, message: on ? "PS2 ligado." : "PS2 desligado. Atendimento pausado." };
 }
-export { ps2EnergyCostPerMinute } from "./consoleEnergy.js?v=a7a149bb38f1";
+export { ps2EnergyCostPerMinute } from "./consoleEnergy.js?v=1426089a9f9b";
 export function ps2SessionWear(s, index) {
     const st = s.ps2Stations?.[index];
     if (st)
@@ -219,7 +244,8 @@ export function validPs2State(value) {
         if (!stock || typeof stock !== "object" || Array.isArray(stock))
             return false;
         for (const [id, n] of Object.entries(stock))
-            if (!PS2_GAME_CATALOG.some(g => g.id === id) || !Number.isInteger(n) || n < 1 || n > 3)
+            if (!ps2ReleasedGames(yearFromMinutes(value.totalMinutes)).some(g => g.id === id) ||
+                !Number.isInteger(n) || n < 1 || n > 3)
                 return false;
     }
     const ids = new Set(), copies = new Map();
@@ -230,7 +256,7 @@ export function validPs2State(value) {
             return false;
         ids.add(st.slotId);
         if (st.gameId !== undefined) {
-            if (!PS2_GAME_CATALOG.some(g => g.id === st.gameId))
+            if (!ps2ReleasedGames(yearFromMinutes(value.totalMinutes)).some(g => g.id === st.gameId))
                 return false;
             copies.set(st.gameId, (copies.get(st.gameId) ?? 0) + 1);
         }

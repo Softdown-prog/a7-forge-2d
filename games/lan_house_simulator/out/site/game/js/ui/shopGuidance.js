@@ -1,2 +1,2 @@
 /** Compatibility exports; business-independent guidance now lives in application. */
-export { shopPlacementStatus, shopPurchaseButtonText } from "../application/shopCatalogGuidance.js?v=a7a149bb38f1";
+export { shopPlacementStatus, shopPurchaseButtonText } from "../application/shopCatalogGuidance.js?v=1426089a9f9b";

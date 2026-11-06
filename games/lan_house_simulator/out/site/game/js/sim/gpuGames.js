@@ -1,9 +1,9 @@
-import { GPU_CATALOG, installedGpu } from "./gpu.js?v=a7a149bb38f1";
-import { WINDOWS_ERAS, installedWindows } from "./eraCatalog.js?v=a7a149bb38f1";
-import { isLinuxPc } from "./linuxQuest.js?v=a7a149bb38f1";
-import { annualHourlyCeiling, isHistorical, sessionPrice, yearFromMinutes } from "./historicalEconomy.js?v=a7a149bb38f1";
-import { stationPowerCount, stationPoweredOn, stationHasCustomer, stationReadyForSessions } from "./stationPower.js?v=a7a149bb38f1";
-import { gamePopularityWeight } from "./gamePopularity.js?v=a7a149bb38f1";
+import { GPU_CATALOG, installedGpu } from "./gpu.js?v=1426089a9f9b";
+import { WINDOWS_ERAS, installedWindows } from "./eraCatalog.js?v=1426089a9f9b";
+import { isLinuxPc } from "./linuxQuest.js?v=1426089a9f9b";
+import { annualHourlyCeiling, isHistorical, sessionPrice, yearFromMinutes } from "./historicalEconomy.js?v=1426089a9f9b";
+import { stationPowerCount, stationPoweredOn, stationHasCustomer, stationReadyForSessions } from "./stationPower.js?v=1426089a9f9b";
+import { gamePopularityWeight } from "./gamePopularity.js?v=1426089a9f9b";
 /** Títulos fictícios, independentes do catálogo básico R$ 450.
  * A licença é do estabelecimento; a execução e o adicional são por PC.
  * Custos e adicionais são hipóteses de design, não preços históricos.

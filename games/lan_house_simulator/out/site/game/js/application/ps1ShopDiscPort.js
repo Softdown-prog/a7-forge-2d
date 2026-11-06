@@ -1,5 +1,5 @@
-import { gameYear } from "../sim/era.js?v=a7a149bb38f1";
-import { PS1_MAX_STATIONS, PS1_UNLOCK_YEAR, PS1_CD_CATALOG, ps1ReleasedDiscs, ps1DiscCopies, ps1DiscPrice } from "../sim/ps1.js?v=a7a149bb38f1";
+import { gameYear } from "../sim/era.js?v=1426089a9f9b";
+import { PS1_MAX_STATIONS, PS1_UNLOCK_YEAR, PS1_CD_CATALOG, ps1ReleasedDiscs, ps1DiscCopies, ps1DiscPrice } from "../sim/ps1.js?v=1426089a9f9b";
 /** Shows the next yearly milestone without exposing unreleased titles or changing saves. */
 export function nextPs1DiscReleaseYear(rows) {
     if (!rows?.length)

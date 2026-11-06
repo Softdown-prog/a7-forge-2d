@@ -1,8 +1,8 @@
-import { receivePaidMerchandise } from "./merchandise.js?v=a7a149bb38f1";
-import { DAY_MINUTES } from "./types.js?v=a7a149bb38f1";
-import { isHistorical, priceIndex, yearFromMinutes } from "./historicalEconomy.js?v=a7a149bb38f1";
-import { sporadicMailDue, recordMailDelivery, sporadicMailSchedule, additionalMailSchedule, fixedYearMailWindowDue } from "./mailCalendar.js?v=a7a149bb38f1";
-import { STORY_IDS, STORIES, isStoryId, isStoryNoticeId, storyOptions, chooseStory, processStoryFollowups, storySeen, registerLegacyStory } from "./storyEvents.js?v=a7a149bb38f1";
+import { receivePaidMerchandise } from "./merchandise.js?v=1426089a9f9b";
+import { DAY_MINUTES } from "./types.js?v=1426089a9f9b";
+import { isHistorical, priceIndex, yearFromMinutes } from "./historicalEconomy.js?v=1426089a9f9b";
+import { sporadicMailDue, recordMailDelivery, sporadicMailSchedule, additionalMailSchedule, fixedYearMailWindowDue } from "./mailCalendar.js?v=1426089a9f9b";
+import { STORY_IDS, STORIES, isStoryId, isStoryNoticeId, storyOptions, chooseStory, processStoryFollowups, storySeen, registerLegacyStory } from "./storyEvents.js?v=1426089a9f9b";
 export const DECISIONS = {
     "supplier-offer": { title: "Proposta do distribuidor", body: "Um distribuidor oferece um lote promocional de bebidas. Aceitar exige capital, mas aumenta o estoque.", options: [
             { id: "supplier-accept", label: "Comprar lote especial · R$ 140", cost: 140, description: "+35 bebidas" },

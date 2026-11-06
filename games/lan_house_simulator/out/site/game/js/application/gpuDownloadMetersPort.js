@@ -1,4 +1,4 @@
-import { gpuGameDownloadSlots, gpuGameInstallJob, gpuGameInstallPausedReason } from "../sim/gpuGames.js?v=a7a149bb38f1";
+import { gpuGameDownloadSlots, gpuGameInstallJob, gpuGameInstallPausedReason } from "../sim/gpuGames.js?v=1426089a9f9b";
 export function createGpuDownloadMetersPort(getState) {
     const capacity = (s) => ({
         slots: gpuGameDownloadSlots(s),

@@ -1,7 +1,7 @@
-import { gameYear } from "./eraCatalog.js?v=a7a149bb38f1";
-import { HARDWARE_CATALOG, PLATFORM_KITS, hardwarePart } from "./hardwareCatalog.js?v=a7a149bb38f1";
-import { stationUpgradeIssue } from "./stationPower.js?v=a7a149bb38f1";
-export { HARDWARE_CATALOG, HARDWARE_LABELS, PLATFORM_KITS, describePart, formatMemory, hardwarePart } from "./hardwareCatalog.js?v=a7a149bb38f1";
+import { gameYear } from "./eraCatalog.js?v=1426089a9f9b";
+import { HARDWARE_CATALOG, PLATFORM_KITS, hardwarePart } from "./hardwareCatalog.js?v=1426089a9f9b";
+import { stationUpgradeIssue } from "./stationPower.js?v=1426089a9f9b";
+export { HARDWARE_CATALOG, HARDWARE_LABELS, PLATFORM_KITS, describePart, formatMemory, hardwarePart } from "./hardwareCatalog.js?v=1426089a9f9b";
 const kinds = ["cpu", "ram", "storage", "motherboard", "psu"];
 const gpuWatts = { gpu05: 40, gpu07: 75, gpu09: 100, gpu11: 125, gpu13: 150 };
 export function hardwareFor(s, index) {

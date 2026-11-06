@@ -2,7 +2,7 @@
  * Uses the same appearance, expiration thresholds and draw order as the
  * original main loop. The state of the simulation is never changed.
  */
-import { iso } from "./isometric.js?v=a7a149bb38f1";
+import { iso } from "./isometric.js?v=1426089a9f9b";
 export function paintFeedbackPopups(context, getCamera, queues, dt, visible) {
     // Request a camera for each layer, matching the previous painter calls.
     paintPayments(context, getCamera(), queues.payments, dt, visible);
