@@ -1,4 +1,4 @@
-import { roomBounds } from "./room.js?v=7be61a7f1436";
+import { roomBounds } from "./room.js?v=bc8308e69cfd";
 export function furnitureLimit(s, kind) {
     return furnitureSlots(s).filter(p => p.surface === (kind === "poster" ? "wall" : "floor")).length;
 }

@@ -1,7 +1,7 @@
-import { gameYear, installedWindows, WINDOWS_ERAS } from "./eraCatalog.js?v=7be61a7f1436";
-import { isLinuxPc } from "./linuxQuest.js?v=7be61a7f1436";
-import { gamePopularityWeight } from "./gamePopularity.js?v=7be61a7f1436";
-import { stationReadyForSessions, stationPowerCount } from "./stationPower.js?v=7be61a7f1436";
+import { gameYear, installedWindows, WINDOWS_ERAS } from "./eraCatalog.js?v=bc8308e69cfd";
+import { isLinuxPc } from "./linuxQuest.js?v=bc8308e69cfd";
+import { gamePopularityWeight } from "./gamePopularity.js?v=bc8308e69cfd";
+import { stationReadyForSessions, stationPowerCount } from "./stationPower.js?v=bc8308e69cfd";
 /** Jogos fictícios com contratos individuais. Valores são de game design. */
 export const ERIC_MULTIPLAYER_GAME_ID = "setor-zero";
 export const ERA_GAME_CATALOG = [

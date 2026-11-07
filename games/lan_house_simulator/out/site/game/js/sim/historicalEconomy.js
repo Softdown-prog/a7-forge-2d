@@ -1,10 +1,10 @@
-import { DAY_MINUTES } from "./types.js?v=7be61a7f1436";
-import { GAME_LAST_YEAR, GAME_FIRST_YEAR, DAYS_PER_YEAR } from "./mailCalendar.js?v=7be61a7f1436";
-import { hardwareFor } from "./hardware.js?v=7be61a7f1436";
-import { hardwarePart } from "./hardwareCatalog.js?v=7be61a7f1436";
-import { installedWindows, WINDOWS_ERAS } from "./eraCatalog.js?v=7be61a7f1436";
-import { gpuSpec, installedGpu } from "./gpu.js?v=7be61a7f1436";
-import { lcdSpec, installedLcd } from "./computerModels.js?v=7be61a7f1436";
+import { DAY_MINUTES } from "./types.js?v=bc8308e69cfd";
+import { GAME_LAST_YEAR, GAME_FIRST_YEAR, DAYS_PER_YEAR } from "./mailCalendar.js?v=bc8308e69cfd";
+import { hardwareFor } from "./hardware.js?v=bc8308e69cfd";
+import { hardwarePart } from "./hardwareCatalog.js?v=bc8308e69cfd";
+import { installedWindows, WINDOWS_ERAS } from "./eraCatalog.js?v=bc8308e69cfd";
+import { gpuSpec, installedGpu } from "./gpu.js?v=bc8308e69cfd";
+import { lcdSpec, installedLcd } from "./computerModels.js?v=bc8308e69cfd";
 /** IPCA oficial do IBGE, acumulado em cada ano civil (%).
  * Quando o ano ainda não foi encerrado, a simulação congela o último
  * índice conhecido: não inventar números para o futuro. */

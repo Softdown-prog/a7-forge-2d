@@ -1,14 +1,14 @@
-import { installGameLicensingControls } from "./gameLicensingControls.js?v=7be61a7f1436";
-import { installNoticeControls } from "./noticeControls.js?v=7be61a7f1436";
-import { iconMarkup } from "./presentation.js?v=7be61a7f1436";
-import { installPricingControls } from "./pricingControls.js?v=7be61a7f1436";
-import { installPs2Controls } from "./ps2Panels.js?v=7be61a7f1436";
-import { installPs1Controls } from "./ps1Controls.js?v=7be61a7f1436";
-import { installRuntimeInteractionBindings } from "./runtimeInteractionBindings.js?v=7be61a7f1436";
-import { installServiceControls } from "./serviceControls.js?v=7be61a7f1436";
-import { installShopControls } from "./shopControls.js?v=7be61a7f1436";
-import { installStationControls } from "./stationControls.js?v=7be61a7f1436";
-import { renderTimeWeatherPanel } from "./timeWeatherPanel.js?v=7be61a7f1436";
+import { installGameLicensingControls } from "./gameLicensingControls.js?v=bc8308e69cfd";
+import { installNoticeControls } from "./noticeControls.js?v=bc8308e69cfd";
+import { iconMarkup } from "./presentation.js?v=bc8308e69cfd";
+import { installPricingControls } from "./pricingControls.js?v=bc8308e69cfd";
+import { installPs2Controls } from "./ps2Panels.js?v=bc8308e69cfd";
+import { installPs1Controls } from "./ps1Controls.js?v=bc8308e69cfd";
+import { installRuntimeInteractionBindings } from "./runtimeInteractionBindings.js?v=bc8308e69cfd";
+import { installServiceControls } from "./serviceControls.js?v=bc8308e69cfd";
+import { installShopControls } from "./shopControls.js?v=bc8308e69cfd";
+import { installStationControls } from "./stationControls.js?v=bc8308e69cfd";
+import { renderTimeWeatherPanel } from "./timeWeatherPanel.js?v=bc8308e69cfd";
 export function installRuntimeControls(options) {
     const { elements: e, state, ports, panels, placement, session, editor: layoutEditor, window: win } = options;
     const { document, canvas, shopCatalog, noticesList, maintenancePanel, gpuList, gpuPcChoice, licensePanel, gpuGamePanel, eraGamePanel } = e;

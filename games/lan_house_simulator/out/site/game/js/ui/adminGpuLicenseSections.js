@@ -1,9 +1,9 @@
-import { renderGpuCatalogPanel } from "./gpuCatalogPanel.js?v=7be61a7f1436";
-import { renderBasicGamesLicenseStatus } from "./basicGamesLicenseStatusPanel.js?v=7be61a7f1436";
-import { renderWindowsLicensePanel } from "./windowsLicensePanel.js?v=7be61a7f1436";
-import { renderClassicGamesCatalog } from "./classicGamesCatalogPanel.js?v=7be61a7f1436";
-import { renderGpuGamesCatalog } from "./gpuGamesCatalogPanel.js?v=7be61a7f1436";
-import { refreshGpuDownloadMeters } from "./gpuDownloadMeters.js?v=7be61a7f1436";
+import { renderGpuCatalogPanel } from "./gpuCatalogPanel.js?v=bc8308e69cfd";
+import { renderBasicGamesLicenseStatus } from "./basicGamesLicenseStatusPanel.js?v=bc8308e69cfd";
+import { renderWindowsLicensePanel } from "./windowsLicensePanel.js?v=bc8308e69cfd";
+import { renderClassicGamesCatalog } from "./classicGamesCatalogPanel.js?v=bc8308e69cfd";
+import { renderGpuGamesCatalog } from "./gpuGamesCatalogPanel.js?v=bc8308e69cfd";
+import { refreshGpuDownloadMeters } from "./gpuDownloadMeters.js?v=bc8308e69cfd";
 export function renderAdminGpuLicenseSections(options) {
     if (options.gpuPcChoice && options.gpuList && options.adminOpen && options.gpuTab && options.gpuChanged())
         renderGpuCatalogPanel(options.gpuPcChoice, options.gpuList, options.gpuCatalog.snapshot(options.selectedGpuIndex()), options.setText, options.doc, options.sync);

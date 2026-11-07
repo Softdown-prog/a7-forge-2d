@@ -1,5 +1,5 @@
-import { gameYear } from "../sim/era.js?v=7be61a7f1436";
-import { PS1_CD_CATALOG, PS1_MAX_STATIONS, PS1_UNLOCK_YEAR, ps1HourPrice, ps1AllowedHourlyCeiling, ps1DiscCopies, ps1PlayableDisc, ps1SecondSeatPrice, ps1OpenSeat } from "../sim/ps1.js?v=7be61a7f1436";
+import { gameYear } from "../sim/era.js?v=bc8308e69cfd";
+import { PS1_CD_CATALOG, PS1_MAX_STATIONS, PS1_UNLOCK_YEAR, ps1HourPrice, ps1AllowedHourlyCeiling, ps1DiscCopies, ps1PlayableDisc, ps1SecondSeatPrice, ps1OpenSeat } from "../sim/ps1.js?v=bc8308e69cfd";
 export function createPs1AdminPort(getState) {
     return { snapshot() {
             const s = getState(), stations = s.ps1Stations ?? [], year = gameYear(s);

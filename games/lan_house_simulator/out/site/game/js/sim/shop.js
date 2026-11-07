@@ -1,20 +1,20 @@
-export { FURNITURE_SLOTS, furnitureLimit, furnitureLocations, furnitureSlots, occupiedFurnitureSlots } from "./furnitureLayout.js?v=7be61a7f1436";
-import { installedLcd } from "./computerModels.js?v=7be61a7f1436";
-import { installedWindows } from "./eraCatalog.js?v=7be61a7f1436";
-import { linuxMachineSpec, linuxMachineFor } from "./linuxMachines.js?v=7be61a7f1436";
-import { linuxUnlocked } from "./linuxQuest.js?v=7be61a7f1436";
-import { DISC_COPIER_COST } from "./discCopy.js?v=7be61a7f1436";
-import { furnitureLimit, furnitureLocations, furnitureSlots, occupiedFurnitureSlots } from "./furnitureLayout.js?v=7be61a7f1436";
-import { builtPosters, fixedLayoutObjects, layoutGoals, layoutPlacementIssue, objectTouchesCustomer, pointInsideObject } from "./layoutGeometry.js?v=7be61a7f1436";
-import { navigableRoute, routesForCurrentCustomers } from "./navigation.js?v=7be61a7f1436";
-import { PRINTER_COST } from "./printService.js?v=7be61a7f1436";
-import { activeRetailQueuesReachable, refreshRetailQueues } from "./retailQueue.js?v=7be61a7f1436";
-import { expansionPrice } from "./room.js?v=7be61a7f1436";
-import { entrance } from "./simulationState.js?v=7be61a7f1436";
-import { emptyStationAccount } from "./stationAccounting.js?v=7be61a7f1436";
-import { stationPoweredOn } from "./stationPower.js?v=7be61a7f1436";
-import { ANNEX_PC_COST } from "./stations.js?v=7be61a7f1436";
-import { WALL_COST } from "./walls.js?v=7be61a7f1436";
+export { FURNITURE_SLOTS, furnitureLimit, furnitureLocations, furnitureSlots, occupiedFurnitureSlots } from "./furnitureLayout.js?v=bc8308e69cfd";
+import { installedLcd } from "./computerModels.js?v=bc8308e69cfd";
+import { installedWindows } from "./eraCatalog.js?v=bc8308e69cfd";
+import { linuxMachineSpec, linuxMachineFor } from "./linuxMachines.js?v=bc8308e69cfd";
+import { linuxUnlocked } from "./linuxQuest.js?v=bc8308e69cfd";
+import { DISC_COPIER_COST } from "./discCopy.js?v=bc8308e69cfd";
+import { furnitureLimit, furnitureLocations, furnitureSlots, occupiedFurnitureSlots } from "./furnitureLayout.js?v=bc8308e69cfd";
+import { builtPosters, fixedLayoutObjects, layoutGoals, layoutPlacementIssue, objectTouchesCustomer, pointInsideObject } from "./layoutGeometry.js?v=bc8308e69cfd";
+import { navigableRoute, routesForCurrentCustomers } from "./navigation.js?v=bc8308e69cfd";
+import { PRINTER_COST } from "./printService.js?v=bc8308e69cfd";
+import { activeRetailQueuesReachable, refreshRetailQueues } from "./retailQueue.js?v=bc8308e69cfd";
+import { expansionPrice } from "./room.js?v=bc8308e69cfd";
+import { entrance } from "./simulationState.js?v=bc8308e69cfd";
+import { emptyStationAccount } from "./stationAccounting.js?v=bc8308e69cfd";
+import { stationPoweredOn } from "./stationPower.js?v=bc8308e69cfd";
+import { ANNEX_PC_COST } from "./stations.js?v=bc8308e69cfd";
+import { WALL_COST } from "./walls.js?v=bc8308e69cfd";
 export const SHOP_CATALOG = [
     { id: "expand", label: "Ampliar área principal", category: "Expansão", description: "Aumenta em duas faixas a largura da área principal, sempre no mesmo sentido (sem sorteio). Libera duas vagas de PC e aumenta os custos fixos mensais." },
     { id: "computer", label: "Instalar PC na área principal", category: "Computadores", description: "Computador completo com mesa e cadeira, instalado automaticamente na próxima vaga da área principal. Para abrir duas vagas, use Ampliar área principal." },
@@ -68,6 +68,8 @@ function plannedMainComputer(s, count) {
     const placement = layoutPlacementIssue(candidate, nextPc);
     if (placement)
         return { shifted, issue: "Próximo PC sem encaixe: " + placement + " Reorganize o salão." };
+    if (s.customers.some(customer => objectTouchesCustomer(nextPc, customer)))
+        return { shifted, issue: "Aguarde os clientes saírem da posição do próximo PC." };
     if (layoutGoals(candidate).some(p => !navigableRoute(candidate, entrance(candidate), p)))
         return { shifted, issue: "O próximo PC bloquearia uma passagem. Reorganize o salão." };
     return { shifted, issue: null };

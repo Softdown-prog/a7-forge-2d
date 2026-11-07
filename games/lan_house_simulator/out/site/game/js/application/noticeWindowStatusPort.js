@@ -1,4 +1,4 @@
-import { unreadNotices } from "../sim/notices.js?v=7be61a7f1436";
+import { unreadNotices } from "../sim/notices.js?v=bc8308e69cfd";
 export function createNoticeWindowStatusPort(getState) {
     return { snapshot(open) {
             const unread = unreadNotices(getState());

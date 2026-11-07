@@ -1,6 +1,6 @@
-import { productSpec } from "../sim/merchandise.js?v=7be61a7f1436";
-import { iso, polygon, raisedCuboid } from "./isometric.js?v=7be61a7f1436";
-import { VENDING_WIDTH, VENDING_DEPTH } from "../sim/layout.js?v=7be61a7f1436";
+import { productSpec } from "../sim/merchandise.js?v=bc8308e69cfd";
+import { iso, polygon, raisedCuboid } from "./isometric.js?v=bc8308e69cfd";
+import { VENDING_WIDTH, VENDING_DEPTH } from "../sim/layout.js?v=bc8308e69cfd";
 export const RETAIL_DISPLAY_CAPACITY = { soda: 9, candy: 12, snacks: 20 };
 export function visibleRetailStock(stock, capacity) {
     return Number.isFinite(stock) ? Math.max(0, Math.min(capacity, Math.floor(stock))) : 0;
