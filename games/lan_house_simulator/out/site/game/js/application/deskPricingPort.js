@@ -1,6 +1,6 @@
-import { discMediaCost, discCopiesToday, DISC_COPIES_PER_DAY, MAX_DISC_PRICE } from "../sim/discCopy.js?v=105c98f50b12";
-import { printPaperInkCost, pagesPrintedToday, PRINT_PAGES_PER_DAY, PRINT_MAX_PRICE } from "../sim/printService.js?v=105c98f50b12";
-import { discEconomy, printEconomy } from "../sim/serviceEconomy.js?v=105c98f50b12";
+import { discMediaCost, discCopiesToday, DISC_COPIES_PER_DAY, MAX_DISC_PRICE } from "../sim/discCopy.js?v=7be61a7f1436";
+import { printPaperInkCost, pagesPrintedToday, PRINT_PAGES_PER_DAY, PRINT_MAX_PRICE } from "../sim/printService.js?v=7be61a7f1436";
+import { discEconomy, printEconomy } from "../sim/serviceEconomy.js?v=7be61a7f1436";
 const money = (n) => n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 const walkIns = (n) => (n ?? 0) + (n === 1 ? " cliente atendido" : " clientes atendidos");
 export function createDeskPricingPort(getState) {

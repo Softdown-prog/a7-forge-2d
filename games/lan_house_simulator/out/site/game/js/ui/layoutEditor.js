@@ -1,4 +1,4 @@
-import { iso } from "../render/isometric.js?v=105c98f50b12";
+import { iso } from "../render/isometric.js?v=7be61a7f1436";
 export function createLayoutEditor(canvas, port, onOpen, onChange) {
     const panel = document.querySelector("#layout-editor"), select = document.querySelector("#layout-object"), message = document.querySelector("#layout-message"), confirm = document.querySelector("#layout-confirm");
     const remove = document.querySelector("#layout-remove"), removalPanel = document.querySelector("#layout-removal"), removalMessage = document.querySelector("#layout-removal-message");

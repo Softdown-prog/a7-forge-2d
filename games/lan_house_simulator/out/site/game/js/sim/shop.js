@@ -1,20 +1,20 @@
-export { FURNITURE_SLOTS, furnitureLimit, furnitureLocations, furnitureSlots, occupiedFurnitureSlots } from "./furnitureLayout.js?v=105c98f50b12";
-import { installedLcd } from "./computerModels.js?v=105c98f50b12";
-import { installedWindows } from "./eraCatalog.js?v=105c98f50b12";
-import { linuxMachineSpec, linuxMachineFor } from "./linuxMachines.js?v=105c98f50b12";
-import { linuxUnlocked } from "./linuxQuest.js?v=105c98f50b12";
-import { DISC_COPIER_COST } from "./discCopy.js?v=105c98f50b12";
-import { furnitureLimit, furnitureLocations, furnitureSlots, occupiedFurnitureSlots } from "./furnitureLayout.js?v=105c98f50b12";
-import { builtPosters, fixedLayoutObjects, layoutGoals, layoutPlacementIssue, objectTouchesCustomer, pointInsideObject } from "./layoutGeometry.js?v=105c98f50b12";
-import { navigableRoute, routesForCurrentCustomers } from "./navigation.js?v=105c98f50b12";
-import { PRINTER_COST } from "./printService.js?v=105c98f50b12";
-import { activeRetailQueuesReachable, refreshRetailQueues } from "./retailQueue.js?v=105c98f50b12";
-import { expansionPrice } from "./room.js?v=105c98f50b12";
-import { entrance } from "./simulationState.js?v=105c98f50b12";
-import { emptyStationAccount } from "./stationAccounting.js?v=105c98f50b12";
-import { stationPoweredOn } from "./stationPower.js?v=105c98f50b12";
-import { ANNEX_PC_COST } from "./stations.js?v=105c98f50b12";
-import { WALL_COST } from "./walls.js?v=105c98f50b12";
+export { FURNITURE_SLOTS, furnitureLimit, furnitureLocations, furnitureSlots, occupiedFurnitureSlots } from "./furnitureLayout.js?v=7be61a7f1436";
+import { installedLcd } from "./computerModels.js?v=7be61a7f1436";
+import { installedWindows } from "./eraCatalog.js?v=7be61a7f1436";
+import { linuxMachineSpec, linuxMachineFor } from "./linuxMachines.js?v=7be61a7f1436";
+import { linuxUnlocked } from "./linuxQuest.js?v=7be61a7f1436";
+import { DISC_COPIER_COST } from "./discCopy.js?v=7be61a7f1436";
+import { furnitureLimit, furnitureLocations, furnitureSlots, occupiedFurnitureSlots } from "./furnitureLayout.js?v=7be61a7f1436";
+import { builtPosters, fixedLayoutObjects, layoutGoals, layoutPlacementIssue, objectTouchesCustomer, pointInsideObject } from "./layoutGeometry.js?v=7be61a7f1436";
+import { navigableRoute, routesForCurrentCustomers } from "./navigation.js?v=7be61a7f1436";
+import { PRINTER_COST } from "./printService.js?v=7be61a7f1436";
+import { activeRetailQueuesReachable, refreshRetailQueues } from "./retailQueue.js?v=7be61a7f1436";
+import { expansionPrice } from "./room.js?v=7be61a7f1436";
+import { entrance } from "./simulationState.js?v=7be61a7f1436";
+import { emptyStationAccount } from "./stationAccounting.js?v=7be61a7f1436";
+import { stationPoweredOn } from "./stationPower.js?v=7be61a7f1436";
+import { ANNEX_PC_COST } from "./stations.js?v=7be61a7f1436";
+import { WALL_COST } from "./walls.js?v=7be61a7f1436";
 export const SHOP_CATALOG = [
     { id: "expand", label: "Ampliar área principal", category: "Expansão", description: "Aumenta em duas faixas a largura da área principal, sempre no mesmo sentido (sem sorteio). Libera duas vagas de PC e aumenta os custos fixos mensais." },
     { id: "computer", label: "Instalar PC na área principal", category: "Computadores", description: "Computador completo com mesa e cadeira, instalado automaticamente na próxima vaga da área principal. Para abrir duas vagas, use Ampliar área principal." },
@@ -100,9 +100,14 @@ export function buyComputer(s, linuxModel) {
     if (shifted)
         s.objectPlacements = shifted;
     // Ao inserir um PC original depois de PCs anexos, preservar os índices existentes.
-    for (const visitor of s.customers)
+    for (const visitor of s.customers) {
         if (visitor.pcIndex !== null && visitor.pcIndex >= count)
             visitor.pcIndex++;
+        // An unpaid LAN group may have reserved the annex without sitting yet.
+        // Keep the reservation attached to that same physical PC.
+        if (visitor.multiplayerAssignedPc !== undefined && visitor.multiplayerAssignedPc >= count)
+            visitor.multiplayerAssignedPc++;
+    }
     for (const job of s.repairJobs ?? [])
         if (job.pc >= count)
             job.pc++;

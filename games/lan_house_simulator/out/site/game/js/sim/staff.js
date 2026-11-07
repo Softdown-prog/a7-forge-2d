@@ -1,5 +1,5 @@
-import { DAY_MINUTES } from "./types.js?v=105c98f50b12";
-import { isHistorical, priceIndex, yearFromMinutes } from "./historicalEconomy.js?v=105c98f50b12";
+import { DAY_MINUTES } from "./types.js?v=7be61a7f1436";
+import { isHistorical, priceIndex, yearFromMinutes } from "./historicalEconomy.js?v=7be61a7f1436";
 const ROLES = ["cleaner", "technician"];
 /** Valores fictícios de balanceamento de 1998, não salários históricos. */
 export const EMPLOYEE_MONTHLY_WAGE_1998 = { cleaner: 210, technician: 330 };

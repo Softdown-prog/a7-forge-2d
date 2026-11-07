@@ -1,5 +1,5 @@
-import { gameYear } from "../sim/era.js?v=105c98f50b12";
-import { annualHourlyCeiling, allowableHourlyPrice, priceIndex, ipcaLastYear, SESSION_PACKAGES, sessionPrice, MIN_HOURLY_PRICE } from "../sim/historicalEconomy.js?v=105c98f50b12";
+import { gameYear } from "../sim/era.js?v=7be61a7f1436";
+import { annualHourlyCeiling, allowableHourlyPrice, priceIndex, ipcaLastYear, SESSION_PACKAGES, sessionPrice, MIN_HOURLY_PRICE } from "../sim/historicalEconomy.js?v=7be61a7f1436";
 export function createHourlyPriceStatusPort(getState) {
     const currency = (n) => n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
     return { snapshot() {

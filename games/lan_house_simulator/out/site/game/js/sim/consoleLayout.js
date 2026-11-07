@@ -1,5 +1,5 @@
-import { furnitureSlots } from "./furnitureLayout.js?v=105c98f50b12";
-import { roomBounds } from "./room.js?v=105c98f50b12";
+import { furnitureSlots } from "./furnitureLayout.js?v=7be61a7f1436";
+import { roomBounds } from "./room.js?v=7be61a7f1436";
 export const CONSOLE_ACTIVE_STAGES = ["to_pc", "sitting", "using", "standing"];
 export function consoleStations(s, g) {
     return g === "ps1" ? s.ps1Stations ?? [] : s.ps2Stations ?? [];

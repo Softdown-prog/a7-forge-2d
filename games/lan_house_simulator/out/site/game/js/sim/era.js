@@ -1,8 +1,8 @@
-export { gameYear, installedWindows, INTERNET_ERAS, internetUnlockYear, WINDOWS_ERAS, windowsLicenseCost } from "./eraCatalog.js?v=105c98f50b12";
-import { gameYear, installedWindows, WINDOWS_ERAS } from "./eraCatalog.js?v=105c98f50b12";
-import { windowsHardwareIssues } from "./hardware.js?v=105c98f50b12";
-import { stationUpgradeIssue } from "./stationPower.js?v=105c98f50b12";
-import { windowsInstallDurationMs, windowsInstallFor } from "./windowsInstallation.js?v=105c98f50b12";
+export { gameYear, installedWindows, INTERNET_ERAS, internetUnlockYear, WINDOWS_ERAS, windowsLicenseCost } from "./eraCatalog.js?v=7be61a7f1436";
+import { gameYear, installedWindows, WINDOWS_ERAS } from "./eraCatalog.js?v=7be61a7f1436";
+import { windowsHardwareIssues } from "./hardware.js?v=7be61a7f1436";
+import { stationUpgradeIssue } from "./stationPower.js?v=7be61a7f1436";
+import { windowsInstallDurationMs, windowsInstallFor } from "./windowsInstallation.js?v=7be61a7f1436";
 export function licenseWindows(s, index, edition) {
     const count = Math.max(3, Math.min(3 + s.expansionLevel * 2, s.installedPcs ?? (3 + s.expansionLevel * 2))) + (s.annexPcs?.length ?? 0);
     if (!Number.isInteger(index) || index < 0 || index >= count)

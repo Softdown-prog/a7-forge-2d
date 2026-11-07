@@ -1,6 +1,6 @@
-export { nightPrizePresentation, prizeAmountText } from "../application/nightPresentation.js?v=105c98f50b12";
-import { nightPrizePresentation, prizeAmountText } from "../application/nightPresentation.js?v=105c98f50b12";
-import { iso } from "./isometric.js?v=105c98f50b12";
+export { nightPrizePresentation, prizeAmountText } from "../application/nightPresentation.js?v=7be61a7f1436";
+import { nightPrizePresentation, prizeAmountText } from "../application/nightPresentation.js?v=7be61a7f1436";
+import { iso } from "./isometric.js?v=7be61a7f1436";
 /** Medalha e comprovante presos à posição do verdadeiro vencedor no Canvas.
  * A posição acompanha o cliente enquanto ele deixa o estabelecimento.
  */

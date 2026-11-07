@@ -1,4 +1,4 @@
-import { syncPanelChildren } from "./panelChildren.js?v=105c98f50b12";
+import { syncPanelChildren } from "./panelChildren.js?v=7be61a7f1436";
 export function renderWindowsLicensePanel(panel, port) {
     const next = document.createElement("div");
     for (const row of port.rows()) {

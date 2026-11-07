@@ -1,4 +1,4 @@
-import { linuxDay } from "../sim/linuxQuest.js?v=105c98f50b12";
+import { linuxDay } from "../sim/linuxQuest.js?v=7be61a7f1436";
 export function createNoticeInboxRevisionPort(getState) {
     return { snapshot() {
             const s = getState();
