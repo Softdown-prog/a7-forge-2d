@@ -1,5 +1,5 @@
-import { DAY_MINUTES } from "./types.js?v=b612b1779b4d";
-import { GAME_LAST_YEAR, GAME_FIRST_YEAR, DAYS_PER_YEAR } from "./mailCalendar.js?v=b612b1779b4d";
+import { DAY_MINUTES } from "./types.js?v=105c98f50b12";
+import { GAME_LAST_YEAR, GAME_FIRST_YEAR, DAYS_PER_YEAR } from "./mailCalendar.js?v=105c98f50b12";
 /** O jogo usa 12 meses de 30 dias para avançar um ano. */
 export function gameYear(state) {
     return Math.min(GAME_LAST_YEAR, GAME_FIRST_YEAR + Math.floor(Math.max(0, state.totalMinutes) / (DAY_MINUTES * DAYS_PER_YEAR)));

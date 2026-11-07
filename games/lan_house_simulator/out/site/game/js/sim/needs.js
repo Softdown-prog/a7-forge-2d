@@ -1,6 +1,6 @@
-import { chooseMerchandise, productSpec } from "./merchandise.js?v=b612b1779b4d";
-import { ITEM_PRICES } from "./economy.js?v=b612b1779b4d";
-import { SESSION_PACKAGES } from "./historicalEconomy.js?v=b612b1779b4d";
+import { chooseMerchandise, productSpec } from "./merchandise.js?v=105c98f50b12";
+import { ITEM_PRICES } from "./economy.js?v=105c98f50b12";
+import { SESSION_PACKAGES } from "./historicalEconomy.js?v=105c98f50b12";
 /** Necessidades 0..100. Cada minuto do jogo atualiza uma vez; sem decisões por frame. */
 export function initialNeeds(id) {
     return { thirst: 25 + (id * 17) % 38, hunger: 18 + (id * 23) % 43, energy: 58 + (id * 11) % 38 };

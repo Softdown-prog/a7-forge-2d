@@ -1,6 +1,6 @@
-import { isHistorical, yearFromMinutes } from "./historicalEconomy.js?v=b612b1779b4d";
-import { fixedYearMailWindowDue } from "./mailCalendar.js?v=b612b1779b4d";
-import { PS2_GAME_CATALOG, ps2ReleasedGames } from "./ps2.js?v=b612b1779b4d";
+import { isHistorical, yearFromMinutes } from "./historicalEconomy.js?v=105c98f50b12";
+import { fixedYearMailWindowDue } from "./mailCalendar.js?v=105c98f50b12";
+import { PS2_GAME_CATALOG, ps2ReleasedGames } from "./ps2.js?v=105c98f50b12";
 export const PS2_RELEASE_MAIL_YEARS = [2006, 2007, 2008, 2009, 2010];
 export const ps2ReleaseMailId = (year) => `ps2-games-${year}`;
 /** A notice enters the inbox only during the first 30 in-game days of its year.

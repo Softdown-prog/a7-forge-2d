@@ -1,10 +1,10 @@
-import { createMenuScenePreview } from "../application/menuScenePreviewPort.js?v=b612b1779b4d";
-import { paintFeedbackPopups } from "./feedbackPopupPainter.js?v=b612b1779b4d";
-import { drawLayoutEditorOverlay, drawPlacementInteractionOverlays } from "./interactionOverlays.js?v=b612b1779b4d";
-import { cameraForGame } from "./isometric.js?v=b612b1779b4d";
-import { createMenuPreviewPainter } from "./menuPreviewPainter.js?v=b612b1779b4d";
-import { SceneMotion } from "./motion.js?v=b612b1779b4d";
-import { SceneRenderer } from "./scene.js?v=b612b1779b4d";
+import { createMenuScenePreview } from "../application/menuScenePreviewPort.js?v=105c98f50b12";
+import { paintFeedbackPopups } from "./feedbackPopupPainter.js?v=105c98f50b12";
+import { drawLayoutEditorOverlay, drawPlacementInteractionOverlays } from "./interactionOverlays.js?v=105c98f50b12";
+import { cameraForGame } from "./isometric.js?v=105c98f50b12";
+import { createMenuPreviewPainter } from "./menuPreviewPainter.js?v=105c98f50b12";
+import { SceneMotion } from "./motion.js?v=105c98f50b12";
+import { SceneRenderer } from "./scene.js?v=105c98f50b12";
 export function createGameScene(canvas, menuCanvas, source, popupQueues) {
     const view = canvas.getContext("2d");
     if (!view)

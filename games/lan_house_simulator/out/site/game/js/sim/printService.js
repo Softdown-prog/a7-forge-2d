@@ -1,5 +1,5 @@
-import { DAY_MINUTES } from "./types.js?v=b612b1779b4d";
-import { priceIndex, yearFromMinutes } from "./historicalEconomy.js?v=b612b1779b4d";
+import { DAY_MINUTES } from "./types.js?v=105c98f50b12";
+import { priceIndex, yearFromMinutes } from "./historicalEconomy.js?v=105c98f50b12";
 export const PRINTER_COST = 320;
 export const PRINT_PAGES_PER_DAY = 35;
 export const PRINT_MAX_PRICE = 20;

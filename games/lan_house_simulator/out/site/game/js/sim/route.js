@@ -1,4 +1,4 @@
-import { VENDING_APPROACH, counterPoint, stationPoint } from "./layout.js?v=b612b1779b4d";
+import { VENDING_APPROACH, counterPoint, stationPoint } from "./layout.js?v=105c98f50b12";
 /** Circulação simples e determinística pelo corredor frontal. */
 export const AISLE_Y = 4.48;
 export const COUNTER_QUEUE = { x: 1.55, y: 2.56 };
