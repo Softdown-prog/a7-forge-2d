@@ -21,6 +21,8 @@ games/lan_house_simulator/
 
 Unidade lógica CH: 128×64, grade de coordenadas `(x,y)`, projeção `screenX=originX + (x-y)*64*zoom`, `screenY=originY + (x+y)*32*zoom - z*zoom`. Zoom fixo para caber na janela, sem rotação de câmera. Ordenação por profundidade aproximada `x+y`; personagens desenhados em camadas frente/atrás do balcão. O mundo NÃO usa `three.js`, WebGL nem física 3D.
 
+O Canvas trabalha em unidades lógicas fixas de 1000×610 (`render/sceneSurface.ts`); o bitmap real segue a largura CSS × `devicePixelRatio`, quantizado em décimos e limitado a 3× (2× em toque). Pintores nunca veem essa escala; picking e rótulos usam as unidades lógicas. Caches de bitmap (`render/rasterCache.ts`, fundo estático e sprites dos atores) são chaveados pela escala e pela fase subpixel em pixels do dispositivo. A luz por hora do dia (`render/lighting.ts`) deriva apenas do relógio da simulação e é pintada entre os objetos e o HUD interno. Detalhes em [GRAPHICS_REFACTOR.md](GRAPHICS_REFACTOR.md).
+
 A interface é DOM/CSS sobre Canvas para acessibilidade. Nove fatias são uma textura procedural de borda/miolo aplicada por CSS border-image, com cantos não deformados.
 
 ## Simulação determinística
