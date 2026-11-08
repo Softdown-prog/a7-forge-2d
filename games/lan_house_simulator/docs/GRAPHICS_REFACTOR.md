@@ -79,7 +79,21 @@ HUD e na economia, conforme o contrato de visualização; o módulo não lê
 - Placa “LAN HOUSE” e contador de estações/clientes com cantos arredondados,
   sombra e bisel; textos e posições preservados.
 
-## 5. Desempenho
+## 5. Ciclo 2: personagens
+
+![Personagens antes e depois (zoom 4×, três vistas)](../../../docs/quality/lhs_characters_before_after.png)
+
+Cada coluna é uma vista de tela (frente parado, frente-esquerda andando, costas-direita andando); à esquerda o ciclo 1, à direita o ciclo 2. Todos os 13 tipos (casuais, três femininos, dono, fantasias, animais, funcionários e carteiro) usam o mesmo rig e mantêm âncoras, poses, hitbox e paletas.
+
+- **Contornos seletivos** (`edgeFor`): a linha de cada forma é uma versão escura da cor que ela envolve, em vez de um azul-marinho único. Fantasias claras (coelho, rato) deixam de ter aro escuro pesado; sobreposições translúcidas mantêm o traço padrão. Memoizado, sem custo por quadro.
+- **Rosto com volume e vida:** pele em degradê radial com luz no alto à esquerda; olhos com esclera, íris por tipo, pupila, brilho fixo e linha de pálpebra (animais mantêm a conta preta brilhante); bochechas discretas nos personagens de rosto natural.
+- **Cabelo:** reflexo claro na coroa, sempre dentro da silhueta, em casuais, dono, femininos e nas vistas de costas. A sombra da nuca segue a cor do cabelo e é mais leve em cabelo claro (some a meia-lua cinza do coelho e o anel azul das costas).
+- **Forma:** luz de forma no tronco (peito claro, parte inferior direita sombreada), duas dobras de tecido na cintura, fivela, sombra de núcleo no lado oposto à luz em braços e pernas, punhos sombreados e reflexo no bico dos sapatos.
+- **Sem custo novo no cache:** nenhum quadro depende do tempo de parede ou de aleatoriedade, então o Worker continua reaproveitando os mesmos quadros por pose, direção e fase (32 por ciclo). Piscar foi deliberadamente deixado de fora pelo mesmo motivo.
+
+Verificação: `tests/actor-art-polish.test.mjs` (contornos, 13 tipos × 10 poses × 9 vistas sem erro e com coordenadas finitas, determinismo das chamadas, sem imagens ou aleatoriedade, olhos de pessoas vs. animais, paleta/identidade/hitbox inalterados) e `scripts/verify_actor_sprites.mjs`: erro médio máximo contra o artista vetorial caiu de 11,1 para 9,9 (limite 14) e nenhum pixel opaco faltou.
+
+## 6. Desempenho
 
 O custo por frame cresce com a área em pixels do bitmap. Os limites (3×/2×,
 6 Mpx) e a quantização em décimos mantêm os caches reutilizáveis durante o
@@ -87,10 +101,10 @@ redimensionamento do visor. Fundo, mobília e atores continuam cacheados; a
 passagem de luz são poucos gradientes por frame; o brilho de monitor é um
 gradiente por estação. O limite de 30 desenhos/s em toque permanece.
 
-## 6. Verificação
+## 7. Verificação
 
 ```sh
-npm test                                     # inclui scene-surface e scene-lighting
+npm test                                     # inclui scene-surface, scene-lighting e actor-art-polish
 npm run typecheck
 node scripts/verify_rendering.mjs out/perf   # fundo cacheado = pintura direta (0 px)
 node scripts/verify_actor_sprites.mjs        # sprites = artista vetorial
@@ -104,7 +118,7 @@ prateleira exatos em 2,2×; cache dos PCs com no máximo 24 pixels de diferença
 dentro do limite do script. As capturas são de arte procedural em revisão, não
 de assets aprovados.
 
-## 7. Limites conhecidos
+## 8. Limites conhecidos
 
 - Em aparelhos com `devicePixelRatio` 3 e zoom alto do visor o bitmap pode ser
   reduzido pelos limites acima; a imagem continua mais nítida que 1×.
