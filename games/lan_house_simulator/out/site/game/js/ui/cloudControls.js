@@ -1,5 +1,5 @@
-import { createAccountClient } from "./accountClient.js?v=c416c21ccd84";
-import { vipProductThumbnail } from "./vipProductArt.js?v=c416c21ccd84";
+import { createAccountClient } from "./accountClient.js?v=02e5c3e2bfd0";
+import { vipProductThumbnail } from "./vipProductArt.js?v=02e5c3e2bfd0";
 const cookiesText = (amount) => amount.toLocaleString("pt-BR") + " Cookies";
 const brl = (cents) => (cents / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 const priceToBrl = (cookies) => brl(cookies * 10);

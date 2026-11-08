@@ -1,8 +1,8 @@
-import { roomBounds } from "./room.js?v=c416c21ccd84";
-import { pcCount, pcPosition } from "./simulationState.js?v=c416c21ccd84";
-import { furnitureLocations, furnitureSlots } from "./furnitureLayout.js?v=c416c21ccd84";
-import { vendingMachines, counterPoint } from "./layout.js?v=c416c21ccd84";
-import { canTraverseLocalStep } from "./navigation.js?v=c416c21ccd84";
+import { roomBounds } from "./room.js?v=02e5c3e2bfd0";
+import { pcCount, pcPosition } from "./simulationState.js?v=02e5c3e2bfd0";
+import { furnitureLocations, furnitureSlots } from "./furnitureLayout.js?v=02e5c3e2bfd0";
+import { vendingMachines, counterPoint } from "./layout.js?v=02e5c3e2bfd0";
+import { canTraverseLocalStep } from "./navigation.js?v=02e5c3e2bfd0";
 /** Grade para funcionários: desvios em torno de bancadas, PCs, máquinas, móveis e divisórias.
  * Pontos de partida e chegada podem estar junto aos móveis; nunca atravessa parede fechada. */
 export function workerRoute(s, from, to) {

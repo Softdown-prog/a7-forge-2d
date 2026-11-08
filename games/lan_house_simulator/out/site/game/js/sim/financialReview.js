@@ -1,5 +1,5 @@
-import { DAY_MINUTES } from "./types.js?v=c416c21ccd84";
-import { pcCount } from "./simulationState.js?v=c416c21ccd84";
+import { DAY_MINUTES } from "./types.js?v=02e5c3e2bfd0";
+import { pcCount } from "./simulationState.js?v=02e5c3e2bfd0";
 /** Contabiliza um minuto real da simulação — minutos-PC usados/capacidade instalada.
  * A capacidade é acumulada a cada minuto, sem supor que a quantidade de PCs
  * permaneceu constante durante ampliações no meio do mês. */

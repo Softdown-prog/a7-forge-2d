@@ -1,7 +1,7 @@
-import { customerSatisfactionDelta, demandFactor, energyCostPerMinute, sessionRevenue } from "./economy.js?v=c416c21ccd84";
-import { gameYear } from "./eraCatalog.js?v=c416c21ccd84";
-import { DAY_MINUTES } from "./types.js?v=c416c21ccd84";
-import { allowableHourlyPrice, normalizedHourlyPrice, MIN_HOURLY_PRICE } from "./historicalEconomy.js?v=c416c21ccd84";
+import { customerSatisfactionDelta, demandFactor, energyCostPerMinute, sessionRevenue } from "./economy.js?v=02e5c3e2bfd0";
+import { gameYear } from "./eraCatalog.js?v=02e5c3e2bfd0";
+import { DAY_MINUTES } from "./types.js?v=02e5c3e2bfd0";
+import { allowableHourlyPrice, normalizedHourlyPrice, MIN_HOURLY_PRICE } from "./historicalEconomy.js?v=02e5c3e2bfd0";
 /** Informação do motor para a UI: não altera renda, clientes, RNG ou estado. */
 export function hourlyPriceInsight(s) {
     const online = s.totalMinutes >= s.offlineUntil, rainy = s.weather === "rain";

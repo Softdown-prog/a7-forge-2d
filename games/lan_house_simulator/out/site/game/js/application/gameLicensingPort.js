@@ -1,6 +1,6 @@
-import { pcCount } from "../sim/engine.js?v=c416c21ccd84";
-import { ERA_GAME_CATALOG, licenseEraGame } from "../sim/eraGames.js?v=c416c21ccd84";
-import { GPU_GAME_CATALOG, licenseGpuGame, toggleGpuGameInstallation, installGpuGameOnAvailablePcs, cancelGpuGameInstallation } from "../sim/gpuGames.js?v=c416c21ccd84";
+import { pcCount } from "../sim/engine.js?v=02e5c3e2bfd0";
+import { ERA_GAME_CATALOG, licenseEraGame } from "../sim/eraGames.js?v=02e5c3e2bfd0";
+import { GPU_GAME_CATALOG, licenseGpuGame, toggleGpuGameInstallation, installGpuGameOnAvailablePcs, cancelGpuGameInstallation } from "../sim/gpuGames.js?v=02e5c3e2bfd0";
 const invalid = { ok: false, message: "Jogo ou computador inválido." };
 const knownGpu = (id) => GPU_GAME_CATALOG.some(g => g.id === id);
 const validIndex = (s, i) => Number.isInteger(i) && i >= 0 && i < pcCount(s);

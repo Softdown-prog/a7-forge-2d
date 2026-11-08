@@ -1,4 +1,4 @@
-import { iso, polygon, raisedCuboid } from "./isometric.js?v=c416c21ccd84";
+import { iso, polygon, raisedCuboid } from "./isometric.js?v=02e5c3e2bfd0";
 /** Impressora térmica/jato de tinta compacta: receita geométrica, sem PNG externo.
  * O mesmo equipamento aparece no catálogo e sobre o balcão após a compra. */
 export function drawCounterPrinter(ctx, cam, counter, active = false, phase = 0) {

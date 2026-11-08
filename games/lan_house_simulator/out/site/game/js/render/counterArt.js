@@ -1,5 +1,5 @@
-import { iso, polygon, raisedCuboid } from "./isometric.js?v=c416c21ccd84";
-import { drawRasterCached, rasterCacheUsable } from "./rasterCache.js?v=c416c21ccd84";
+import { iso, polygon, raisedCuboid } from "./isometric.js?v=02e5c3e2bfd0";
+import { drawRasterCached, rasterCacheUsable } from "./rasterCache.js?v=02e5c3e2bfd0";
 const faces = { front: [0, 3], back: [1, 2], right: [0, 1], left: [2, 3] };
 function visible(cam, face) { return faces[face].includes(cam.rotation ?? 0); }
 /** Paint on the physical plane. Letters remain readable on the visible side. */

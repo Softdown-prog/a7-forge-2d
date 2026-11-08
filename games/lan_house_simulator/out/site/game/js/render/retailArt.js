@@ -1,8 +1,8 @@
-import { productSpec } from "../sim/merchandise.js?v=c416c21ccd84";
-import { iso, polygon, raisedCuboid } from "./isometric.js?v=c416c21ccd84";
-import { VENDING_WIDTH, VENDING_DEPTH } from "../sim/layout.js?v=c416c21ccd84";
-import { drawRasterCached, rasterCacheUsable } from "./rasterCache.js?v=c416c21ccd84";
-import { mixHex } from "./color.js?v=c416c21ccd84";
+import { productSpec } from "../sim/merchandise.js?v=02e5c3e2bfd0";
+import { iso, polygon, raisedCuboid } from "./isometric.js?v=02e5c3e2bfd0";
+import { VENDING_WIDTH, VENDING_DEPTH } from "../sim/layout.js?v=02e5c3e2bfd0";
+import { drawRasterCached, rasterCacheUsable } from "./rasterCache.js?v=02e5c3e2bfd0";
+import { mixHex } from "./color.js?v=02e5c3e2bfd0";
 export const RETAIL_DISPLAY_CAPACITY = { soda: 9, candy: 12, snacks: 20 };
 export function visibleRetailStock(stock, capacity) {
     return Number.isFinite(stock) ? Math.max(0, Math.min(capacity, Math.floor(stock))) : 0;

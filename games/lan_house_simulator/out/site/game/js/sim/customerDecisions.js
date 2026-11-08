@@ -1,26 +1,26 @@
 /** customerDecisions.ts: módulo do runtime LHS; lógica executada por minuto do jogo. */
-import { acceptsProduct, merchandiseStock, merchandisePrice, productSpec, productQuality, sellMerchandise } from "./merchandise.js?v=c416c21ccd84";
-import { sessionRevenue } from "./economy.js?v=c416c21ccd84";
-import { computerSeat } from "./route.js?v=c416c21ccd84";
-import { counterQueueCustomers } from "./checkoutQueue.js?v=c416c21ccd84";
-import { purchaseApproach } from "./layout.js?v=c416c21ccd84";
-import { chooseSessionMinutes, selectPurchase, consumePurchase } from "./needs.js?v=c416c21ccd84";
-import { sessionPlan, emergencyRetailChoice, debitVisitorBudget, preferredSessionLength, maxServiceWait, prefersConsole } from "./customerChoices.js?v=c416c21ccd84";
-import { navigableRoute, canTraverseLocalStep } from "./navigation.js?v=c416c21ccd84";
-import { addWaste } from "./services.js?v=c416c21ccd84";
-import { serveDiscCopy } from "./discCopy.js?v=c416c21ccd84";
-import { servePrinting } from "./printService.js?v=c416c21ccd84";
-import { complaintLine } from "./customerDialogue.js?v=c416c21ccd84";
-import { recordCustomerFeedback } from "./customerFeedback.js?v=c416c21ccd84";
-import { recordPaidSession } from "./stationAccounting.js?v=c416c21ccd84";
-import { chooseConsoleSession } from "./consoleService.js?v=c416c21ccd84";
-import { isLinuxPc } from "./linuxQuest.js?v=c416c21ccd84";
-import { gpuGameSpec, gpuGamePlayableOnPc, gpuGameSessionPrice } from "./gpuGames.js?v=c416c21ccd84";
-import { recordGpuGameSession } from "./gpuDemand.js?v=c416c21ccd84";
-import { pcCount, pcPosition, addLog, CLOSING_START_MINUTE, SESSION_FINISH_MINUTE, localMinute } from "./simulationState.js?v=c416c21ccd84";
-import { setTravel } from "./customerMotion.js?v=c416c21ccd84";
-import { chooseAvailablePc, customerSays, sendHome, leaveCounterForPc, queueVisualEvent } from "./customerFlow.js?v=c416c21ccd84";
-import { waitForMultiplayerFriends } from "./multiplayerVisitors.js?v=c416c21ccd84";
+import { acceptsProduct, merchandiseStock, merchandisePrice, productSpec, productQuality, sellMerchandise } from "./merchandise.js?v=02e5c3e2bfd0";
+import { sessionRevenue } from "./economy.js?v=02e5c3e2bfd0";
+import { computerSeat } from "./route.js?v=02e5c3e2bfd0";
+import { counterQueueCustomers } from "./checkoutQueue.js?v=02e5c3e2bfd0";
+import { purchaseApproach } from "./layout.js?v=02e5c3e2bfd0";
+import { chooseSessionMinutes, selectPurchase, consumePurchase } from "./needs.js?v=02e5c3e2bfd0";
+import { sessionPlan, emergencyRetailChoice, debitVisitorBudget, preferredSessionLength, maxServiceWait, prefersConsole } from "./customerChoices.js?v=02e5c3e2bfd0";
+import { navigableRoute, canTraverseLocalStep } from "./navigation.js?v=02e5c3e2bfd0";
+import { addWaste } from "./services.js?v=02e5c3e2bfd0";
+import { serveDiscCopy } from "./discCopy.js?v=02e5c3e2bfd0";
+import { servePrinting } from "./printService.js?v=02e5c3e2bfd0";
+import { complaintLine } from "./customerDialogue.js?v=02e5c3e2bfd0";
+import { recordCustomerFeedback } from "./customerFeedback.js?v=02e5c3e2bfd0";
+import { recordPaidSession } from "./stationAccounting.js?v=02e5c3e2bfd0";
+import { chooseConsoleSession } from "./consoleService.js?v=02e5c3e2bfd0";
+import { isLinuxPc } from "./linuxQuest.js?v=02e5c3e2bfd0";
+import { gpuGameSpec, gpuGamePlayableOnPc, gpuGameSessionPrice } from "./gpuGames.js?v=02e5c3e2bfd0";
+import { recordGpuGameSession } from "./gpuDemand.js?v=02e5c3e2bfd0";
+import { pcCount, pcPosition, addLog, CLOSING_START_MINUTE, SESSION_FINISH_MINUTE, localMinute } from "./simulationState.js?v=02e5c3e2bfd0";
+import { setTravel } from "./customerMotion.js?v=02e5c3e2bfd0";
+import { chooseAvailablePc, customerSays, sendHome, leaveCounterForPc, queueVisualEvent } from "./customerFlow.js?v=02e5c3e2bfd0";
+import { waitForMultiplayerFriends } from "./multiplayerVisitors.js?v=02e5c3e2bfd0";
 export function tryServe(s, c) {
     if (c.stage !== "waiting")
         return;

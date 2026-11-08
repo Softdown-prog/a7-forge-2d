@@ -1,6 +1,6 @@
-import { DAY_MINUTES } from './types.js?v=c416c21ccd84';
-import { isHistorical, priceIndex, yearFromMinutes } from './historicalEconomy.js?v=c416c21ccd84';
-import { GAME_LAST_MINUTE } from './mailCalendar.js?v=c416c21ccd84';
+import { DAY_MINUTES } from './types.js?v=02e5c3e2bfd0';
+import { isHistorical, priceIndex, yearFromMinutes } from './historicalEconomy.js?v=02e5c3e2bfd0';
+import { GAME_LAST_MINUTE } from './mailCalendar.js?v=02e5c3e2bfd0';
 /** Category IDs remain the equipment/queue IDs and the three legacy stock keys. */
 export const PRODUCTS = [
     { id: 'soda', name: 'Refrigerante da casa', category: 'soda', year: 1998, price: 1.5, packCost: 7, pack: 10, color: '#bf6560', relief: 55 },
