@@ -61,7 +61,7 @@ A progressão de tecnologia é dado de jogo, independente da arte: `internetTier
 
 ## Renderização de personagens — acabamento procedural V1
 
-O módulo `src/render/actorArt.ts` é um *renderer de estudo*, feito de paths e elipses Canvas 2D em coordenadas locais com âncora de pés. Não depende de imagens online e não é asset aprovado. `actorStyleFor(kind,id)` determina paleta e aparência por identidade, não por timestamp. Poses `idle`, `walking`, `sitting`, `standing-up` compartilham silhueta e rosto, com transições animadas. A orientação esquerda/direita vem do deslocamento dos waypoints, sem rotação de câmera. Fantasias são arquétipos originais. O `actorHitbox` acompanha a cabeça/ombros do proprietário para manter painel clicável.
+O módulo `src/render/actorArt.ts` é um *renderer de estudo*, feito de paths e elipses Canvas 2D em coordenadas locais com âncora de pés. Não depende de imagens online e não é asset aprovado. `actorStyleFor(kind,id)` determina paleta e aparência por identidade, não por timestamp. Poses `idle`, `walking`, `sitting`, `standing-up` compartilham silhueta e rosto, com transições animadas. A orientação esquerda/direita vem do deslocamento dos waypoints, sem rotação de câmera. Fantasias são arquétipos originais. O acabamento do ciclo 2 (contornos tingidos pela cor, olhos com íris, luz de forma e brilho de cabelo) não altera âncoras, poses, hitbox nem a chave dos caches; ver [GRAPHICS_REFACTOR.md](GRAPHICS_REFACTOR.md). O `actorHitbox` acompanha a cabeça/ombros do proprietário para manter painel clicável.
 
 Futuro: trocar formas por sprites A7 Forge após aprovação visual 1x mantendo a API de pose, ID, âncora e paleta, sem refazer IA ou economia. A cena continua fixa, 2:1, cutaway sem telhado/exterior.
 
