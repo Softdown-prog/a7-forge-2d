@@ -1,11 +1,11 @@
-import { pcCount } from "../sim/engine.js?v=c132abc69a79";
-import { gameYear, WINDOWS_ERAS, installedWindows } from "../sim/era.js?v=c132abc69a79";
-import { windowsHardwareIssues } from "../sim/hardware.js?v=c132abc69a79";
-import { stationPoweredOn, stationUpgradeIssue } from "../sim/stationPower.js?v=c132abc69a79";
-import { windowsInstallProgress } from "../sim/windowsInstallation.js?v=c132abc69a79";
-import { isLinuxPc } from "../sim/linuxQuest.js?v=c132abc69a79";
-import { linuxMachineFor, linuxMachineSpec } from "../sim/linuxMachines.js?v=c132abc69a79";
-import { stationOccupied } from "../sim/computerModels.js?v=c132abc69a79";
+import { pcCount } from "../sim/engine.js?v=7d5a5079cdfa";
+import { gameYear, WINDOWS_ERAS, installedWindows } from "../sim/era.js?v=7d5a5079cdfa";
+import { windowsHardwareIssues } from "../sim/hardware.js?v=7d5a5079cdfa";
+import { stationPoweredOn, stationUpgradeIssue } from "../sim/stationPower.js?v=7d5a5079cdfa";
+import { windowsInstallProgress } from "../sim/windowsInstallation.js?v=7d5a5079cdfa";
+import { isLinuxPc } from "../sim/linuxQuest.js?v=7d5a5079cdfa";
+import { linuxMachineFor, linuxMachineSpec } from "../sim/linuxMachines.js?v=7d5a5079cdfa";
+import { stationOccupied } from "../sim/computerModels.js?v=7d5a5079cdfa";
 export function createWindowsLicensePort(getState) {
     return { rows() {
             const s = getState(), year = gameYear(s);

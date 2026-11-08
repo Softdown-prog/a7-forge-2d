@@ -1,6 +1,6 @@
-export { nightReopeningPresentation } from "../application/nightPresentation.js?v=c132abc69a79";
-import { SCENE_WIDTH } from "./sceneSurface.js?v=c132abc69a79";
-import { nightReopeningPresentation } from "../application/nightPresentation.js?v=c132abc69a79";
+export { nightReopeningPresentation } from "../application/nightPresentation.js?v=7d5a5079cdfa";
+import { SCENE_WIDTH } from "./sceneSurface.js?v=7d5a5079cdfa";
+import { nightReopeningPresentation } from "../application/nightPresentation.js?v=7d5a5079cdfa";
 /** Placa pequena no salão isométrico, sem objetos nem colisão no mapa. */
 export function drawNightReopening(ctx, s, time) {
     const state = nightReopeningPresentation(s);

@@ -2,7 +2,7 @@
  * 01/01/1998 foi uma quinta-feira; os próximos dias seguem ciclos de 7,
  * sem consultar Date, fuso horário ou calendário gregoriano ao mudar de ano.
  */
-import { DAY_MINUTES } from "./types.js?v=c132abc69a79";
+import { DAY_MINUTES } from "./types.js?v=7d5a5079cdfa";
 export const CAMPAIGN_WEEKDAYS = ["segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sábado", "domingo"];
 export function weekdayIndex(day) {
     if (!Number.isInteger(day) || day < 1)

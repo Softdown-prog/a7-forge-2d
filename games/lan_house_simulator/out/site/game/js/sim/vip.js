@@ -1,4 +1,4 @@
-import { DAY_MINUTES } from "./types.js?v=c132abc69a79";
+import { DAY_MINUTES } from "./types.js?v=7d5a5079cdfa";
 /** Perfil determinístico, independente do RNG de movimento e dos frames do renderer. */
 export function isVip(customer) { return customer.vip === true; }
 export function vipArrivalEligible(s, visitorId) {

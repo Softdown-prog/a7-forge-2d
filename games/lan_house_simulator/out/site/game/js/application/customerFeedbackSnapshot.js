@@ -1,4 +1,4 @@
-import { FEEDBACK_REASONS, summarizeFeedback } from "../sim/customerFeedback.js?v=c132abc69a79";
+import { FEEDBACK_REASONS, summarizeFeedback } from "../sim/customerFeedback.js?v=7d5a5079cdfa";
 const signed = (value) => (value > 0 ? "+" : "") + value.toFixed(2);
 export function customerFeedbackSnapshot(state) {
     const { records, positive, negative, totalDelta, reasons } = summarizeFeedback(state);

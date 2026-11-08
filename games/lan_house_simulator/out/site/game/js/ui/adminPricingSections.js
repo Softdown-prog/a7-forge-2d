@@ -1,6 +1,6 @@
-import { renderHourlyPriceStatus, renderSessionPackages } from "./hourlyPriceStatusPanel.js?v=c132abc69a79";
-import { renderHourlyPricingInsights, renderEnergyYearOutlook } from "./pricingInsightsPanel.js?v=c132abc69a79";
-import { renderRetailPriceControls } from "./retailPriceControlsPanel.js?v=c132abc69a79";
+import { renderHourlyPriceStatus, renderSessionPackages } from "./hourlyPriceStatusPanel.js?v=7d5a5079cdfa";
+import { renderHourlyPricingInsights, renderEnergyYearOutlook } from "./pricingInsightsPanel.js?v=7d5a5079cdfa";
+import { renderRetailPriceControls } from "./retailPriceControlsPanel.js?v=7d5a5079cdfa";
 export function renderAdminPricingSections(options) {
     renderHourlyPriceStatus(options.hourly, options.setText, options.doc);
     const durations = options.doc.getElementById("session-package-prices");

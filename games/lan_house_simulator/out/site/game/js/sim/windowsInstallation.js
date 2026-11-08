@@ -1,7 +1,7 @@
 /** Pending Windows installs run on the actual wall clock, never game minutes.
  * A paid job survives reload/import; completion only changes the selected PC.
  */
-import { WINDOWS_ERAS, installedWindows } from "./eraCatalog.js?v=c132abc69a79";
+import { WINDOWS_ERAS, installedWindows } from "./eraCatalog.js?v=7d5a5079cdfa";
 export function windowsInstallDurationMs(edition) {
     const index = WINDOWS_ERAS.findIndex(row => row.id === edition);
     return index < 0 ? 0 : (index + 1) * 10 * 60_000;

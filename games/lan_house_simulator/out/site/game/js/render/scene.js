@@ -1,49 +1,49 @@
-import { merchandiseDisplay } from "./merchandiseDisplay.js?v=c132abc69a79";
-import { editableObjects, objectCorners, layoutPlacementIssue, builtPosters } from "../sim/editableObjects.js?v=c132abc69a79";
-import { computerSeat } from "../sim/route.js?v=c132abc69a79";
-import { pcCount, pcPosition, roomWidth, online } from "../sim/engine.js?v=c132abc69a79";
-import { roomBounds } from "../sim/room.js?v=c132abc69a79";
-import { cameraForGame, cuboid, iso, polygon, objectCamera } from "./isometric.js?v=c132abc69a79";
-import { drawRetroComputer, drawSeatedKeyboardOverlay } from "./retroComputer.js?v=c132abc69a79";
-import { cosmeticAvailable, headsetOnSession } from "../sim/premiumCosmetics.js?v=c132abc69a79";
-import { drawNeonOpenSign, neonOpenLit } from "./neonOpenArt.js?v=c132abc69a79";
-import { drawVipAquarium } from "./aquariumArt.js?v=c132abc69a79";
-import { drawPixelClock } from "./pixelClockArt.js?v=c132abc69a79";
-import { yearFromMinutes } from "../sim/historicalEconomy.js?v=c132abc69a79";
-import { actorHitbox, actorStyleFor } from "./actorArt.js?v=c132abc69a79";
-import { drawActorSprite as drawActor } from "./actorSprites.js?v=c132abc69a79";
-import { movementDirection, screenViewForMotion } from "./direction.js?v=c132abc69a79";
-import { furnitureSlots, occupiedFurnitureSlots, availablePlacementSlots, furnitureLocations } from "../sim/shop.js?v=c132abc69a79";
-import { vendingMachines, placedObject, counterPoint } from "../sim/layout.js?v=c132abc69a79";
-import { drawVendingMachine, drawSnackShelf } from "./retailArt.js?v=c132abc69a79";
-import { wallEndpoints, canBuildWall } from "../sim/walls.js?v=c132abc69a79";
-import { annexComputerSlots, availableAnnexComputers } from "../sim/stations.js?v=c132abc69a79";
-import { BIN_SPOTS, binSpots, binStatus } from "../sim/services.js?v=c132abc69a79";
-import { workPhaseLabel } from "../sim/staffPresentation.js?v=c132abc69a79";
-import { workerMotion } from "./workerMotion.js?v=c132abc69a79";
-import { drawWorkContact } from "./workEffects.js?v=c132abc69a79";
-import { technicianContactPoint } from "../sim/staffWorksites.js?v=c132abc69a79";
-import { SCENE_THEME as theme } from "./theme.js?v=c132abc69a79";
-import { gpuGameInstallPausedReason } from "../sim/gpuGames.js?v=c132abc69a79";
-import { ps1StationPoint, ps1PlayableDisc } from "../sim/ps1.js?v=c132abc69a79";
-import { ps2StationPoint, ps2PlayableGame } from "../sim/ps2.js?v=c132abc69a79";
-import { customerConsole, customerConsoleSeat } from "../sim/consoleLayout.js?v=c132abc69a79";
-import { drawPs2Station, drawPs2Controller, ps2ActorGrip } from "./ps2Art.js?v=c132abc69a79";
-import { drawPs1Station, drawPs1Controller } from "./ps1Art.js?v=c132abc69a79";
-import { drawWallPoster, purchasedPosterKind } from "./posterArt.js?v=c132abc69a79";
-import { premiumCheckerPatch, drawPremiumWallPoster } from "./premiumRoomArt.js?v=c132abc69a79";
-import { drawCounter } from "./counterArt.js?v=c132abc69a79";
-import { drawCounterPrinter } from "./printerArt.js?v=c132abc69a79";
-import { printingAnimationActive } from "../sim/printService.js?v=c132abc69a79";
-import { copyingAnimationActive } from "../sim/discCopy.js?v=c132abc69a79";
-import { drawCounterDiscCopier } from "./discCopierArt.js?v=c132abc69a79";
-import { drawNightMatchMarkers, drawNightMatchReactions, nightMatchReactions } from "./nightMatchMarkers.js?v=c132abc69a79";
-import { drawNightPrizePresentation } from "./nightPrizePresentation.js?v=c132abc69a79";
-import { drawNightReopening } from "./nightReopening.js?v=c132abc69a79";
-import { SCENE_WIDTH, SCENE_HEIGHT, contextScale } from "./sceneSurface.js?v=c132abc69a79";
-import { daylightAt, drawSceneLighting, drawScreenGlow, drawVignette, drawLampHalo, lampPositions, windowGlass, WINDOW_POSITIONS } from "./lighting.js?v=c132abc69a79";
-import { computerAppearance, screenGlow } from "./retroComputer.js?v=c132abc69a79";
-import { shadeHex, withAlpha, cellNoise } from "./color.js?v=c132abc69a79";
+import { merchandiseDisplay } from "./merchandiseDisplay.js?v=7d5a5079cdfa";
+import { editableObjects, objectCorners, layoutPlacementIssue, builtPosters } from "../sim/editableObjects.js?v=7d5a5079cdfa";
+import { computerSeat } from "../sim/route.js?v=7d5a5079cdfa";
+import { pcCount, pcPosition, roomWidth, online } from "../sim/engine.js?v=7d5a5079cdfa";
+import { roomBounds } from "../sim/room.js?v=7d5a5079cdfa";
+import { cameraForGame, cuboid, iso, polygon, objectCamera } from "./isometric.js?v=7d5a5079cdfa";
+import { drawRetroComputer, drawSeatedKeyboardOverlay } from "./retroComputer.js?v=7d5a5079cdfa";
+import { cosmeticAvailable, headsetOnSession } from "../sim/premiumCosmetics.js?v=7d5a5079cdfa";
+import { drawNeonOpenSign, neonOpenLit } from "./neonOpenArt.js?v=7d5a5079cdfa";
+import { drawVipAquarium } from "./aquariumArt.js?v=7d5a5079cdfa";
+import { drawPixelClock } from "./pixelClockArt.js?v=7d5a5079cdfa";
+import { yearFromMinutes } from "../sim/historicalEconomy.js?v=7d5a5079cdfa";
+import { actorHitbox, actorStyleFor } from "./actorArt.js?v=7d5a5079cdfa";
+import { drawActorSprite as drawActor } from "./actorSprites.js?v=7d5a5079cdfa";
+import { movementDirection, screenViewForMotion } from "./direction.js?v=7d5a5079cdfa";
+import { furnitureSlots, occupiedFurnitureSlots, availablePlacementSlots, furnitureLocations } from "../sim/shop.js?v=7d5a5079cdfa";
+import { vendingMachines, placedObject, counterPoint } from "../sim/layout.js?v=7d5a5079cdfa";
+import { drawVendingMachine, drawSnackShelf } from "./retailArt.js?v=7d5a5079cdfa";
+import { wallEndpoints, canBuildWall } from "../sim/walls.js?v=7d5a5079cdfa";
+import { annexComputerSlots, availableAnnexComputers } from "../sim/stations.js?v=7d5a5079cdfa";
+import { BIN_SPOTS, binSpots, binStatus } from "../sim/services.js?v=7d5a5079cdfa";
+import { workPhaseLabel } from "../sim/staffPresentation.js?v=7d5a5079cdfa";
+import { workerMotion } from "./workerMotion.js?v=7d5a5079cdfa";
+import { drawWorkContact } from "./workEffects.js?v=7d5a5079cdfa";
+import { technicianContactPoint } from "../sim/staffWorksites.js?v=7d5a5079cdfa";
+import { SCENE_THEME as theme } from "./theme.js?v=7d5a5079cdfa";
+import { gpuGameInstallPausedReason } from "../sim/gpuGames.js?v=7d5a5079cdfa";
+import { ps1StationPoint, ps1PlayableDisc } from "../sim/ps1.js?v=7d5a5079cdfa";
+import { ps2StationPoint, ps2PlayableGame } from "../sim/ps2.js?v=7d5a5079cdfa";
+import { customerConsole, customerConsoleSeat } from "../sim/consoleLayout.js?v=7d5a5079cdfa";
+import { drawPs2Station, drawPs2Controller, ps2ActorGrip } from "./ps2Art.js?v=7d5a5079cdfa";
+import { drawPs1Station, drawPs1Controller } from "./ps1Art.js?v=7d5a5079cdfa";
+import { drawWallPoster, purchasedPosterKind } from "./posterArt.js?v=7d5a5079cdfa";
+import { premiumCheckerPatch, drawPremiumWallPoster } from "./premiumRoomArt.js?v=7d5a5079cdfa";
+import { drawCounter } from "./counterArt.js?v=7d5a5079cdfa";
+import { drawCounterPrinter } from "./printerArt.js?v=7d5a5079cdfa";
+import { printingAnimationActive } from "../sim/printService.js?v=7d5a5079cdfa";
+import { copyingAnimationActive } from "../sim/discCopy.js?v=7d5a5079cdfa";
+import { drawCounterDiscCopier } from "./discCopierArt.js?v=7d5a5079cdfa";
+import { drawNightMatchMarkers, drawNightMatchReactions, nightMatchReactions } from "./nightMatchMarkers.js?v=7d5a5079cdfa";
+import { drawNightPrizePresentation } from "./nightPrizePresentation.js?v=7d5a5079cdfa";
+import { drawNightReopening } from "./nightReopening.js?v=7d5a5079cdfa";
+import { SCENE_WIDTH, SCENE_HEIGHT, contextScale } from "./sceneSurface.js?v=7d5a5079cdfa";
+import { daylightAt, drawSceneLighting, drawScreenGlow, drawVignette, drawLampHalo, lampPositions, windowGlass, WINDOW_POSITIONS } from "./lighting.js?v=7d5a5079cdfa";
+import { computerAppearance, screenGlow } from "./retroComputer.js?v=7d5a5079cdfa";
+import { shadeHex, withAlpha, cellNoise } from "./color.js?v=7d5a5079cdfa";
 export class SceneRenderer {
     ctx;
     heroHitbox = { x: 0, y: 0, width: 0, height: 0 };
@@ -1219,9 +1219,14 @@ export class SceneRenderer {
         const ctx = this.ctx, x = 28, y = 28, label = w > 8 ? "SALÃO AMPLIADO" : "PRIMEIRAS CONEXÕES";
         ctx.save();
         // Terminal plate: soft drop shadow, rounded corners, brushed gradient and a bevel.
-        ctx.shadowColor = "rgba(0,0,0,.35)";
-        ctx.shadowBlur = 12;
-        ctx.shadowOffsetY = 4;
+        // Soft drop shadow from stacked translucent plates: shadowBlur is avoided on purpose,
+        // this plate is repainted every frame and blur is costly on low-end Android.
+        for (const [grow, drop, alpha] of [[5, 6, .07], [3, 5, .09], [1, 3, .14]]) {
+            ctx.fillStyle = "rgba(0,0,0," + alpha + ")";
+            ctx.beginPath();
+            ctx.roundRect(x - grow, y + drop - grow, 210 + grow * 2, 50 + grow * 2, 6 + grow);
+            ctx.fill();
+        }
         const plate = ctx.createLinearGradient(x, y, x, y + 50);
         plate.addColorStop(0, "rgba(34,60,54,0.94)");
         plate.addColorStop(1, "rgba(22,40,37,0.94)");
@@ -1229,9 +1234,6 @@ export class SceneRenderer {
         ctx.beginPath();
         ctx.roundRect(x, y, 210, 50, 6);
         ctx.fill();
-        ctx.shadowColor = "transparent";
-        ctx.shadowBlur = 0;
-        ctx.shadowOffsetY = 0;
         ctx.strokeStyle = "#5e7b52";
         ctx.lineWidth = 1;
         ctx.beginPath();
@@ -1259,16 +1261,16 @@ export class SceneRenderer {
     }
     hudInside(ctx, s) {
         ctx.save();
-        ctx.shadowColor = "rgba(0,0,0,.3)";
-        ctx.shadowBlur = 10;
-        ctx.shadowOffsetY = 3;
+        for (const [grow, drop, alpha] of [[4, 4, .07], [2, 3, .1]]) {
+            ctx.fillStyle = "rgba(0,0,0," + alpha + ")";
+            ctx.beginPath();
+            ctx.roundRect(18 - grow, 558 + drop - grow, 310 + grow * 2, 29 + grow * 2, 5 + grow);
+            ctx.fill();
+        }
         ctx.fillStyle = "rgba(25,46,42,.9)";
         ctx.beginPath();
         ctx.roundRect(18, 558, 310, 29, 5);
         ctx.fill();
-        ctx.shadowColor = "transparent";
-        ctx.shadowBlur = 0;
-        ctx.shadowOffsetY = 0;
         ctx.strokeStyle = "rgba(94,123,82,.8)";
         ctx.lineWidth = 1;
         ctx.beginPath();

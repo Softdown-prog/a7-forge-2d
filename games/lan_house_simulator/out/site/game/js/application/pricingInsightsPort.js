@@ -1,5 +1,5 @@
-import { hourlyPriceInsight, hourlyPriceScenarios, energyYearOutlook } from "../sim/pricingInsights.js?v=c132abc69a79";
-import { allowableHourlyPrice } from "../sim/historicalEconomy.js?v=c132abc69a79";
+import { hourlyPriceInsight, hourlyPriceScenarios, energyYearOutlook } from "../sim/pricingInsights.js?v=7d5a5079cdfa";
+import { allowableHourlyPrice } from "../sim/historicalEconomy.js?v=7d5a5079cdfa";
 export function createPricingInsightsPort(getState) {
     return {
         hourly() {

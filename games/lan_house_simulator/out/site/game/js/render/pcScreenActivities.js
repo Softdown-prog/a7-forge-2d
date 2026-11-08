@@ -1,4 +1,4 @@
-import { isLinuxPc } from "../sim/linuxQuest.js?v=c132abc69a79";
+import { isLinuxPc } from "../sim/linuxQuest.js?v=7d5a5079cdfa";
 const early = ["game", "browser", "chat", "editor", "music"];
 const late = ["game", "video", "browser", "chat", "music", "editor"];
 const clip = (n) => Math.max(0, Math.min(1, n));
