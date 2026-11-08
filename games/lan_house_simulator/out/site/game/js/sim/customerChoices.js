@@ -1,4 +1,4 @@
-import { selectPurchase } from "./needs.js?v=bc8308e69cfd";
+import { selectPurchase } from "./needs.js?v=c132abc69a79";
 /** Apenas pacotes oferecidos ao jogador; nunca inventa minutos avulsos. */
 export const VISITOR_PACKAGES = [240, 180, 120, 90, 60, 45, 30];
 export function sessionPlan(c, wanted, remaining, quote) {

@@ -1,8 +1,8 @@
-import { gameYear } from "./eraCatalog.js?v=bc8308e69cfd";
-import { HARDWARE_CATALOG, PLATFORM_KITS, hardwarePart } from "./hardwareCatalog.js?v=bc8308e69cfd";
-import { stationUpgradeIssue } from "./stationPower.js?v=bc8308e69cfd";
-import { GPU_CATALOG } from "./gpuCatalog.js?v=bc8308e69cfd";
-export { HARDWARE_CATALOG, HARDWARE_LABELS, PLATFORM_KITS, describePart, formatMemory, hardwarePart } from "./hardwareCatalog.js?v=bc8308e69cfd";
+import { gameYear } from "./eraCatalog.js?v=c132abc69a79";
+import { HARDWARE_CATALOG, PLATFORM_KITS, hardwarePart } from "./hardwareCatalog.js?v=c132abc69a79";
+import { stationUpgradeIssue } from "./stationPower.js?v=c132abc69a79";
+import { GPU_CATALOG } from "./gpuCatalog.js?v=c132abc69a79";
+export { HARDWARE_CATALOG, HARDWARE_LABELS, PLATFORM_KITS, describePart, formatMemory, hardwarePart } from "./hardwareCatalog.js?v=c132abc69a79";
 const kinds = ["cpu", "ram", "storage", "motherboard", "psu"];
 // Read PSU wattage from the same catalogue as the store; no stale parallel map.
 const gpuWatts = Object.fromEntries(GPU_CATALOG.map(g => [g.id, g.watts]));

@@ -1,4 +1,4 @@
-import { windowsInstallFor } from "./windowsInstallation.js?v=bc8308e69cfd";
+import { windowsInstallFor } from "./windowsInstallation.js?v=c132abc69a79";
 /** Saves antigos sem campo de energia mantêm todas as estações ligadas. */
 export function stationPoweredOn(s, index) { return s.pcPoweredOff?.[index] !== true; }
 export function validStationPower(s) {

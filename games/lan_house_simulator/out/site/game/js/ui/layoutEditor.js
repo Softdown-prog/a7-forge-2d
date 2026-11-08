@@ -1,4 +1,5 @@
-import { iso } from "../render/isometric.js?v=bc8308e69cfd";
+import { iso } from "../render/isometric.js?v=c132abc69a79";
+import { scenePointFromClient, sceneUnitsPerCssPixel } from "../render/sceneSurface.js?v=c132abc69a79";
 export function createLayoutEditor(canvas, port, onOpen, onChange) {
     const panel = document.querySelector("#layout-editor"), select = document.querySelector("#layout-object"), message = document.querySelector("#layout-message"), confirm = document.querySelector("#layout-confirm");
     const remove = document.querySelector("#layout-remove"), removalPanel = document.querySelector("#layout-removal"), removalMessage = document.querySelector("#layout-removal-message");
@@ -78,9 +79,9 @@ export function createLayoutEditor(canvas, port, onOpen, onChange) {
     const onCanvasTap = (clientX, clientY) => {
         if (!active || removalPending)
             return;
-        const rect = canvas.getBoundingClientRect(), x = (clientX - rect.left) / rect.width * canvas.width, y = (clientY - rect.top) / rect.height * canvas.height, cam = port.camera();
+        const rect = canvas.getBoundingClientRect(), { x, y } = scenePointFromClient(rect, clientX, clientY), cam = port.camera();
         const touch = window.matchMedia("(pointer:coarse)").matches;
-        const pixelRatio = canvas.width / Math.max(1, rect.width);
+        const pixelRatio = sceneUnitsPerCssPixel(rect);
         if (!draft) {
             let best = null, score = Infinity;
             if (!partitionsOnly)
@@ -94,7 +95,7 @@ export function createLayoutEditor(canvas, port, onOpen, onChange) {
             for (const wall of port.partitions())
                 for (const height of [0, 38, 76]) {
                     const [a, b] = port.endpoints(wall), pa = iso(a, cam, height), pb = iso(b, cam, height), dx = pb.x - pa.x, dy = pb.y - pa.y, t = Math.max(0, Math.min(1, ((x - pa.x) * dx + (y - pa.y) * dy) / Math.max(1, dx * dx + dy * dy))), distance = Math.hypot(x - pa.x - t * dx, y - pa.y - t * dy);
-                    if (distance < score && distance < 22 * canvas.width / rect.width) {
+                    if (distance < score && distance < 22 * pixelRatio) {
                         best = wall.id;
                         score = distance;
                     }

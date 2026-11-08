@@ -1,7 +1,7 @@
-import { roomBounds } from "./room.js?v=bc8308e69cfd";
-import { hallwayRoute } from "./route.js?v=bc8308e69cfd";
-import { editableObjects, objectRect } from "./layoutGeometry.js?v=bc8308e69cfd";
-import { consoleFootprints } from "./consoleLayout.js?v=bc8308e69cfd";
+import { roomBounds } from "./room.js?v=c132abc69a79";
+import { hallwayRoute } from "./route.js?v=c132abc69a79";
+import { editableObjects, objectRect } from "./layoutGeometry.js?v=c132abc69a79";
+import { consoleFootprints } from "./consoleLayout.js?v=c132abc69a79";
 function rectStepClear(objects, from, to) {
     const inside = (r, p) => p.x > r.minX + .005 && p.x < r.maxX - .005 && p.y > r.minY + .005 && p.y < r.maxY - .005;
     const count = Math.max(1, Math.ceil(Math.hypot(to.x - from.x, to.y - from.y) / .05));

@@ -2,7 +2,7 @@
  * Uses the same appearance, expiration thresholds and draw order as the
  * original main loop. The state of the simulation is never changed.
  */
-import { iso } from "./isometric.js?v=bc8308e69cfd";
+import { iso } from "./isometric.js?v=c132abc69a79";
 export function paintFeedbackPopups(context, getCamera, queues, dt, visible) {
     // Request a camera for each layer, matching the previous painter calls.
     paintPayments(context, getCamera(), queues.payments, dt, visible);
@@ -25,7 +25,9 @@ function paintPayments(context, camera, paymentPopups, dt, visible) {
         context.globalAlpha = alpha;
         context.textAlign = "center";
         context.lineWidth = 3.2;
-        context.font = "bold 20px system-ui,sans-serif";
+        // Quick pop-in, then the value floats up and fades.
+        const pop = 1 + Math.max(0, .25 - effect.age) * 1.2;
+        context.font = "bold " + Math.round(20 * pop) + "px system-ui,sans-serif";
         const label = "+R$ " + effect.amount;
         const height = effect.age * 43;
         context.strokeStyle = "#103622";
@@ -79,9 +81,21 @@ function paintSpeech(context, camera, speechPopups, dt, visible) {
         context.fillStyle = b.kind === "praise" ? "#e3f9e9" : "#fff2df";
         context.strokeStyle = b.kind === "praise" ? "#227348" : "#9c5238";
         context.lineWidth = 2;
+        // Bubble with a small tail toward the speaker; same box, same lifetime.
         context.beginPath();
         context.roundRect(x, y, width, 27, 8);
         context.fill();
+        context.stroke();
+        context.beginPath();
+        context.moveTo(p.x - 6, y + 26);
+        context.lineTo(p.x, y + 33);
+        context.lineTo(p.x + 6, y + 26);
+        context.closePath();
+        context.fill();
+        context.beginPath();
+        context.moveTo(p.x - 6, y + 26.5);
+        context.lineTo(p.x, y + 33);
+        context.lineTo(p.x + 6, y + 26.5);
         context.stroke();
         context.fillStyle = "#26302c";
         context.textAlign = "center";

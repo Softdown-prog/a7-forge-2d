@@ -1,6 +1,7 @@
-import { drawActor } from "./actorArt.js?v=bc8308e69cfd";
-import { walkPhase, WALK_CYCLE_DISTANCE } from "./walkCycle.js?v=bc8308e69cfd";
-import { iso } from "./isometric.js?v=bc8308e69cfd";
+import { drawActor } from "./actorArt.js?v=c132abc69a79";
+import { walkPhase, WALK_CYCLE_DISTANCE } from "./walkCycle.js?v=c132abc69a79";
+import { iso } from "./isometric.js?v=c132abc69a79";
+import { contextScale } from "./sceneSurface.js?v=c132abc69a79";
 const FRAMES = 32, TAU = Math.PI * 2;
 export const ACTOR_SPRITE_WIDTH = 72, ACTOR_SPRITE_HEIGHT = 120;
 export const ACTOR_SPRITE_LEFT = 36, ACTOR_SPRITE_TOP = 110;
@@ -19,7 +20,7 @@ function createCache() {
         const worker = new Worker(url, { type: "module" });
         cache.worker = worker;
         worker.onmessage = (event) => {
-            const { key, bitmap, left, top } = event.data;
+            const { key, bitmap, left, top } = event.data, scale = event.data.scale ?? 1;
             cache.pending.delete(key);
             const previous = cache.frames.get(key);
             if (previous) {
@@ -28,9 +29,10 @@ function createCache() {
                 cache.frames.delete(key);
             }
             const bytes = bitmap.width * bitmap.height * 4;
-            cache.frames.set(key, { bitmap, left, top, bytes });
+            cache.frames.set(key, { bitmap, left, top, bytes, scale });
             cache.bytes += bytes;
-            while (cache.bytes > PIXEL_BUDGET) {
+            // HiDPI frames carry scale² more pixels; the budget grows with them, capped at 4×.
+            while (cache.bytes > PIXEL_BUDGET * Math.min(4, Math.max(1, scale * scale))) {
                 const oldest = cache.frames.keys().next().value, frame = cache.frames.get(oldest);
                 cache.bytes -= frame.bytes;
                 frame.bitmap.close();
@@ -68,20 +70,27 @@ export function drawActorSprite(ctx, camera, a) {
     const angle = pose === "walking" && a.walkDistance !== undefined ? walkPhase(a.walkDistance) : a.time * rate + offset;
     const phase = rate ? ((Math.round(angle / TAU * FRAMES) % FRAMES) + FRAMES) % FRAMES : 0;
     const time = rate ? (phase / FRAMES * TAU - (pose === "walking" ? id * .27 : pose === "sitting" && !a.gamepad ? id * .37 : 0)) / rate : 0;
-    const key = [a.kind, id, pose, a.direction ?? "south", a.screenView ?? "legacy", a.facing ?? 1, !!a.gamepad, !!a.consoleSeat, phase].join("|");
+    // A HiDPI backing store rasterizes the frame at its device scale, so the
+    // bitmap is never magnified; a transformed context it cannot match stays vector.
+    const scale = contextScale(ctx);
+    if (scale === null) {
+        drawActor(ctx, camera, a);
+        return;
+    }
+    const key = [a.kind, id, pose, a.direction ?? "south", a.screenView ?? "legacy", a.facing ?? 1, !!a.gamepad, !!a.consoleSeat, phase, scale === 1 ? "" : scale].join("|");
     const cache = sharedCache ??= createCache();
     const sprite = cache.frames.get(key);
     if (!sprite) {
         if (cache.worker && !cache.pending.has(key) && cache.pending.size < 64) {
             cache.pending.add(key);
-            cache.worker.postMessage({ key, actor: { ...a, x: 0, y: 0, id, time, walkDistance: a.walkDistance === undefined ? undefined : phase / FRAMES * WALK_CYCLE_DISTANCE } });
+            cache.worker.postMessage({ key, scale, actor: { ...a, x: 0, y: 0, id, time, walkDistance: a.walkDistance === undefined ? undefined : phase / FRAMES * WALK_CYCLE_DISTANCE } });
         }
         drawActor(ctx, camera, a);
         return;
     }
     cache.frames.delete(key);
     cache.frames.set(key, sprite);
-    const p = iso(a, camera), z = camera.zoom;
+    const p = iso(a, camera), z = camera.zoom / sprite.scale;
     // Cropping removes transparent margins only; the anchor and 1x art are retained.
     ctx.drawImage(sprite.bitmap, p.x - sprite.left * z, p.y - sprite.top * z, sprite.bitmap.width * z, sprite.bitmap.height * z);
 }

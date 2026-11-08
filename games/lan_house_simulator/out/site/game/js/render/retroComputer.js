@@ -1,13 +1,14 @@
-import { iso, polygon, cuboid, raisedCuboid } from "./isometric.js?v=bc8308e69cfd";
-import { pcBroken } from "../sim/engine.js?v=bc8308e69cfd";
-import { stationPoweredOn } from "../sim/stationPower.js?v=bc8308e69cfd";
-import { installedGpu } from "../sim/gpu.js?v=bc8308e69cfd";
-import { installedLcd } from "../sim/computerModels.js?v=bc8308e69cfd";
-import { cosmeticAvailable } from "../sim/premiumCosmetics.js?v=bc8308e69cfd";
-import { yearFromMinutes } from "../sim/historicalEconomy.js?v=bc8308e69cfd";
-import { isLinuxPc } from "../sim/linuxQuest.js?v=bc8308e69cfd";
-import { linuxMachineFor } from "../sim/linuxMachines.js?v=bc8308e69cfd";
-import { drawPcScreenActivity, pcActivityForStation, pcScreenFrame } from "./pcScreenActivities.js?v=bc8308e69cfd";
+import { iso, polygon, cuboid, raisedCuboid } from "./isometric.js?v=c132abc69a79";
+import { pcBroken } from "../sim/engine.js?v=c132abc69a79";
+import { stationPoweredOn } from "../sim/stationPower.js?v=c132abc69a79";
+import { installedGpu } from "../sim/gpu.js?v=c132abc69a79";
+import { installedLcd } from "../sim/computerModels.js?v=c132abc69a79";
+import { cosmeticAvailable } from "../sim/premiumCosmetics.js?v=c132abc69a79";
+import { yearFromMinutes } from "../sim/historicalEconomy.js?v=c132abc69a79";
+import { isLinuxPc } from "../sim/linuxQuest.js?v=c132abc69a79";
+import { linuxMachineFor } from "../sim/linuxMachines.js?v=c132abc69a79";
+import { drawPcScreenActivity, pcActivityForStation, pcScreenFrame } from "./pcScreenActivities.js?v=c132abc69a79";
+import { drawRasterCached, rasterCacheUsable } from "./rasterCache.js?v=c132abc69a79";
 const lcdMaterials = {
     lcd05: { top: "#d4dcd9", front: "#a5b6b5", side: "#71888a", accent: "#75a5a8" },
     lcd08: { top: "#535d60", front: "#39474b", side: "#26383d", accent: "#98b9b7" },
@@ -659,8 +660,22 @@ function paintComputer(c, cam, p, index, a) {
 }
 // Native-resolution sprites retain the camera's exact subpixel phase. A frame
 // only blits unchanged furniture; screen activity updates the sprite at 1.7 Hz.
-const sprites = new WeakMap();
 export function drawRetroComputer(ctx, camera, p, index, t, isOnline, s, useCache = true) {
+    const appearance = computerAppearance(s, index, t, isOnline);
+    if (!useCache || !rasterCacheUsable(ctx)) {
+        paintComputer(ctx, camera, p, index, appearance);
+        return;
+    }
+    const base = iso(p, camera), z = camera.zoom;
+    drawRasterCached(ctx, "retro-computer", {
+        key: JSON.stringify([index, z, camera.rotation ?? 0, appearance]),
+        anchorX: base.x, anchorY: base.y, snap: "floor", limit: 64,
+        padX: Math.ceil((camera.rotation ? 130 : 76) * z) + 3, padY: Math.ceil((camera.rotation ? 120 : 91) * z) + 3,
+        width: Math.ceil((camera.rotation ? 260 : 158) * z) + 6, height: Math.ceil((camera.rotation ? 240 : 154) * z) + 6
+    }, target => paintComputer(target, camera, p, index, appearance));
+}
+/** Station state resolved from the simulation only; shared by the painter and the glow. */
+export function computerAppearance(s, index, t, isOnline) {
     const rawTier = s.pcTiers?.[index] ?? 1;
     const tier = Number.isInteger(rawTier) ? Math.max(1, Math.min(3, rawTier)) : 1;
     const occupied = s.customers.some(c => c.pcIndex === index && ["sitting", "using", "standing"].includes(c.stage));
@@ -675,46 +690,20 @@ export function drawRetroComputer(ctx, camera, p, index, t, isOnline, s, useCach
     // só ocorre entre sessões. Nenhuma alteração do RNG ou do save.
     const activity = mode === "busy" || (mode === "ready" && isLinuxPc(s, index)) ? candidate : null;
     const activityFrame = activity ? pcScreenFrame(t) : 0;
-    const appearance = { tier, linuxModel: linuxMachineFor(s, index), occupied, mode,
+    return { tier, linuxModel: linuxMachineFor(s, index), occupied, mode,
         pulse: mode === "busy" || premiumChair ? Math.floor(t * 1.7 + index) % 2 : 0,
         gpu: installedGpu(s, index), lcd: installedLcd(s, index), premiumChair, premiumKeyboard, keyboardPhase,
         activity, activityFrame };
-    if (!useCache || typeof document === "undefined" || ctx.globalAlpha !== 1) {
-        paintComputer(ctx, camera, p, index, appearance);
-        return;
-    }
-    const base = iso(p, camera), ix = Math.floor(base.x), iy = Math.floor(base.y), z = camera.zoom;
-    const fx = base.x - ix, fy = base.y - iy;
-    const key = JSON.stringify([index, z, fx, fy, camera.rotation ?? 0, appearance]);
-    let cache = sprites.get(ctx);
-    if (!cache) {
-        cache = new Map();
-        sprites.set(ctx, cache);
-    }
-    let sprite = cache.get(key);
-    const padX = Math.ceil((camera.rotation ? 130 : 76) * z) + 3, padY = Math.ceil((camera.rotation ? 120 : 91) * z) + 3;
-    if (!sprite) {
-        sprite = document.createElement("canvas");
-        sprite.width = Math.ceil((camera.rotation ? 260 : 158) * z) + 6;
-        sprite.height = Math.ceil((camera.rotation ? 240 : 154) * z) + 6;
-        const buffer = sprite.getContext("2d");
-        if (!buffer) {
-            paintComputer(ctx, camera, p, index, appearance);
-            return;
-        }
-        // Keep the original world-coordinate arithmetic; an integer translation
-        // preserves rasterization at the exact live pixel phase, including text.
-        buffer.translate(padX - ix, padY - iy);
-        paintComputer(buffer, camera, p, index, appearance);
-        cache.set(key, sprite);
-        if (cache.size > 64)
-            cache.delete(cache.keys().next().value);
-    }
-    else {
-        cache.delete(key);
-        cache.set(key, sprite);
-    }
-    ctx.drawImage(sprite, ix - padX, iy - padY);
+}
+/** Colour and strength of the light a monitor throws on its desk; null when dark. */
+export function screenGlow(a) {
+    if (a.mode === "powered-off" || a.mode === "maintenance")
+        return null;
+    if (a.mode === "offline")
+        return { color: "#7fa2b4", strength: .10 };
+    const color = a.activity === "linux-terminal" ? "#9ff0b4" : a.activity === "game" || a.activity === "lan" ? "#ffd9a0" :
+        a.activity === "video" ? "#b9d4ff" : a.lcd ? "#bfe3ea" : "#9fdccd";
+    return { color, strength: a.mode === "busy" ? .3 : .15 };
 }
 /** Arms start at the shoulders and finish on the actual keyboard plane. */
 export function drawSeatedKeyboardOverlay(ctx, camera, p, time, skin, sleeve, weight = 1) {

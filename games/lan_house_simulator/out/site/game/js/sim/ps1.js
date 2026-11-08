@@ -1,8 +1,8 @@
-import { availablePlacementSlots, furnitureSlots, shopPrice } from "./shop.js?v=bc8308e69cfd";
-import { annualHourlyCeiling, isHistorical, yearFromMinutes, priceIndex } from "./historicalEconomy.js?v=bc8308e69cfd";
-import { consolePoint, consoleSeat, consoleApproach } from "./consoleLayout.js?v=bc8308e69cfd";
-import { roomBounds } from "./room.js?v=bc8308e69cfd";
-import { topGamesCanBuy } from "./topGamesUnlockGate.js?v=bc8308e69cfd";
+import { availablePlacementSlots, furnitureSlots, shopPrice } from "./shop.js?v=c132abc69a79";
+import { annualHourlyCeiling, isHistorical, yearFromMinutes, priceIndex } from "./historicalEconomy.js?v=c132abc69a79";
+import { consolePoint, consoleSeat, consoleApproach } from "./consoleLayout.js?v=c132abc69a79";
+import { roomBounds } from "./room.js?v=c132abc69a79";
+import { topGamesCanBuy } from "./topGamesUnlockGate.js?v=c132abc69a79";
 /** Marco de design: mistura das antigas locadoras de console com lan houses. */
 export const PS1_UNLOCK_YEAR = 2002;
 export const PS1_MAX_STATIONS = 3;

@@ -1,6 +1,7 @@
-export { nightPrizePresentation, prizeAmountText } from "../application/nightPresentation.js?v=bc8308e69cfd";
-import { nightPrizePresentation, prizeAmountText } from "../application/nightPresentation.js?v=bc8308e69cfd";
-import { iso } from "./isometric.js?v=bc8308e69cfd";
+export { nightPrizePresentation, prizeAmountText } from "../application/nightPresentation.js?v=c132abc69a79";
+import { SCENE_WIDTH, SCENE_HEIGHT } from "./sceneSurface.js?v=c132abc69a79";
+import { nightPrizePresentation, prizeAmountText } from "../application/nightPresentation.js?v=c132abc69a79";
+import { iso } from "./isometric.js?v=c132abc69a79";
 /** Medalha e comprovante presos à posição do verdadeiro vencedor no Canvas.
  * A posição acompanha o cliente enquanto ele deixa o estabelecimento.
  */
@@ -20,10 +21,10 @@ export function drawNightPrizePresentation(ctx, s, camera, time) {
     ctx.font = "bold " + Math.max(10, Math.round(12 * z)) + "px system-ui,sans-serif";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    const width = Math.min(ctx.canvas.width - 8, Math.max(126, ctx.measureText(label).width + 22 * z));
+    const width = Math.min(SCENE_WIDTH - 8, Math.max(126, ctx.measureText(label).width + 22 * z));
     const height = 25 * z;
-    const x = Math.max(width / 2 + 4, Math.min(ctx.canvas.width - width / 2 - 4, at.x));
-    const y = Math.max(height / 2 + 4, Math.min(ctx.canvas.height - height / 2 - 4, at.y));
+    const x = Math.max(width / 2 + 4, Math.min(SCENE_WIDTH - width / 2 - 4, at.x));
+    const y = Math.max(height / 2 + 4, Math.min(SCENE_HEIGHT - height / 2 - 4, at.y));
     ctx.fillStyle = "rgba(55,41,16,.95)";
     ctx.fillRect(x - width / 2, y - height / 2, width, height);
     ctx.strokeStyle = "#f7d681";

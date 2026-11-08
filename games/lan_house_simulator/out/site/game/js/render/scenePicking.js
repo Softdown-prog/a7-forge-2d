@@ -1,10 +1,9 @@
-import { iso } from "./isometric.js?v=bc8308e69cfd";
+import { iso } from "./isometric.js?v=c132abc69a79";
+import { scenePointFromClient, sceneUnitsPerCssPixel } from "./sceneSurface.js?v=c132abc69a79";
 export function createScenePicker(canvas, placementActions, getCamera, selection, coarsePointer) {
     function getCanvasPoint(e) {
-        const element = canvas;
-        const bounds = element.getBoundingClientRect();
-        return { x: (e.clientX - bounds.left) / bounds.width * element.width,
-            y: (e.clientY - bounds.top) / bounds.height * element.height };
+        // Scene units are fixed; the backing store may hold more device pixels.
+        return scenePointFromClient(canvas.getBoundingClientRect(), e.clientX, e.clientY);
     }
     function pickWall(x, y) {
         const camera = getCamera(), wallMode = selection().wallMode, available = wallMode ? placementActions.walls(wallMode) : [];
@@ -22,7 +21,7 @@ export function createScenePicker(canvas, placementActions, getCamera, selection
                 }
             }
         }
-        return best <= Math.max(12, 22 * canvas.width / canvas.getBoundingClientRect().width) ? nearest : null;
+        return best <= Math.max(12, 22 * sceneUnitsPerCssPixel(canvas.getBoundingClientRect())) ? nearest : null;
     }
     function pickAnnexPc(x, y) {
         const camera = getCamera();
@@ -59,8 +58,7 @@ export function createScenePicker(canvas, placementActions, getCamera, selection
         }
         // O zoom CSS do visor reduz a área tocável real. Usar um raio em
         // pixels de tela para que os encaixes sejam selecionáveis no celular.
-        const rect = canvas.getBoundingClientRect();
-        const cssPixels = canvas.width / Math.max(1, rect.width);
+        const cssPixels = sceneUnitsPerCssPixel(canvas.getBoundingClientRect());
         const coarse = coarsePointer();
         return distance <= Math.max((coarse ? 48 : 23) * cssPixels, 38 * camera.zoom) ? nearest : null;
     }

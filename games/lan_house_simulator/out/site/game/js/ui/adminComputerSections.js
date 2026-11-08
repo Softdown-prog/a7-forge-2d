@@ -1,7 +1,7 @@
 /** Presentation coordinator for computer maintenance, hardware, LCDs and ledger.
  * The active game, purchases and save handling stay in the application bootstrap.
  */
-import { renderPcMaintenancePanel } from "./pcMaintenancePanel.js?v=bc8308e69cfd";
+import { renderPcMaintenancePanel } from "./pcMaintenancePanel.js?v=c132abc69a79";
 export function renderAdminComputerSections(options) {
     const ledger = options.doc.querySelector("#station-ledger-rows");
     if (ledger && options.adminOpen && options.computersTab && options.ledgerActive())
