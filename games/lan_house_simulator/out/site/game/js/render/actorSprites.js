@@ -1,7 +1,7 @@
-import { drawActor } from "./actorArt.js?v=02e5c3e2bfd0";
-import { walkPhase, WALK_CYCLE_DISTANCE } from "./walkCycle.js?v=02e5c3e2bfd0";
-import { iso } from "./isometric.js?v=02e5c3e2bfd0";
-import { contextScale } from "./sceneSurface.js?v=02e5c3e2bfd0";
+import { drawActor, OWNER_IDLE_RATE } from "./actorArt.js?v=a5cbdbc30563";
+import { walkPhase, WALK_CYCLE_DISTANCE } from "./walkCycle.js?v=a5cbdbc30563";
+import { iso } from "./isometric.js?v=a5cbdbc30563";
+import { contextScale } from "./sceneSurface.js?v=a5cbdbc30563";
 const FRAMES = 32, TAU = Math.PI * 2;
 export const ACTOR_SPRITE_WIDTH = 72, ACTOR_SPRITE_HEIGHT = 120;
 export const ACTOR_SPRITE_LEFT = 36, ACTOR_SPRITE_TOP = 110;
@@ -55,17 +55,28 @@ export function actorRequiresLiveGamepadRig(a) {
  * Rasterization runs outside the animation/input thread. A pending frame uses
  * the original art immediately; it never blocks or pauses an actor to warm up.
  * Work, seat transitions and premium effects keep their continuous renderer. */
+/** Which actors may be served from rasterized frames. Work, seat transitions and premium effects keep
+ * their continuous renderer. The owner is cacheable only while idle (breathing and a light gesture,
+ * one loop); printing, copying, receiving and the cyber costume stay live. */
+export function actorSpriteEligible(a, zoom) {
+    const pose = a.pose ?? "idle";
+    if (actorRequiresLiveGamepadRig(a) || zoom > 1 || a.kind === "cleaner" || a.kind === "technician" || a.kind === "postman" || a.premiumHeadset || a.reaction)
+        return false;
+    if (a.kind === "owner")
+        return pose === "idle" && !a.premiumCyber;
+    if (pose !== "idle" && pose !== "walking" && pose !== "sitting")
+        return false;
+    return !(pose === "sitting" && (a.transition ?? 1) < 1);
+}
 export function drawActorSprite(ctx, camera, a) {
     const pose = a.pose ?? "idle";
-    if (actorRequiresLiveGamepadRig(a) || camera.zoom > 1 || a.kind === "owner" || a.kind === "cleaner" || a.kind === "technician" || a.kind === "postman" || a.premiumHeadset || a.reaction ||
-        (pose !== "idle" && pose !== "walking" && pose !== "sitting") ||
-        (pose === "sitting" && (a.transition ?? 1) < 1)) {
+    if (!actorSpriteEligible(a, camera.zoom)) {
         drawActor(ctx, camera, a);
         return;
     }
     // Share palettes, not customer identities or interpolated world coordinates.
     const id = a.kind === "regular" ? (Math.abs(Math.trunc(a.id)) || 0) % 4 : 0;
-    const rate = pose === "walking" ? 7.7 : pose === "sitting" ? (a.gamepad ? 8 : 5.2) : 0;
+    const rate = pose === "walking" ? 7.7 : pose === "sitting" ? (a.gamepad ? 8 : 5.2) : a.kind === "owner" ? OWNER_IDLE_RATE : 0;
     const offset = pose === "walking" ? a.id * .27 : pose === "sitting" && !a.gamepad ? a.id * .37 : 0;
     const angle = pose === "walking" && a.walkDistance !== undefined ? walkPhase(a.walkDistance) : a.time * rate + offset;
     const phase = rate ? ((Math.round(angle / TAU * FRAMES) % FRAMES) + FRAMES) % FRAMES : 0;

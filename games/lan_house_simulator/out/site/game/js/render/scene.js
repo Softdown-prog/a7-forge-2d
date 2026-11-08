@@ -1,49 +1,92 @@
-import { merchandiseDisplay } from "./merchandiseDisplay.js?v=02e5c3e2bfd0";
-import { editableObjects, objectCorners, layoutPlacementIssue, builtPosters } from "../sim/editableObjects.js?v=02e5c3e2bfd0";
-import { computerSeat } from "../sim/route.js?v=02e5c3e2bfd0";
-import { pcCount, pcPosition, roomWidth, online } from "../sim/engine.js?v=02e5c3e2bfd0";
-import { roomBounds } from "../sim/room.js?v=02e5c3e2bfd0";
-import { cameraForGame, cuboid, iso, polygon, objectCamera } from "./isometric.js?v=02e5c3e2bfd0";
-import { drawRetroComputer, drawSeatedKeyboardOverlay } from "./retroComputer.js?v=02e5c3e2bfd0";
-import { cosmeticAvailable, headsetOnSession } from "../sim/premiumCosmetics.js?v=02e5c3e2bfd0";
-import { drawNeonOpenSign, neonOpenLit } from "./neonOpenArt.js?v=02e5c3e2bfd0";
-import { drawVipAquarium } from "./aquariumArt.js?v=02e5c3e2bfd0";
-import { drawPixelClock } from "./pixelClockArt.js?v=02e5c3e2bfd0";
-import { yearFromMinutes } from "../sim/historicalEconomy.js?v=02e5c3e2bfd0";
-import { actorHitbox, actorStyleFor } from "./actorArt.js?v=02e5c3e2bfd0";
-import { drawActorSprite as drawActor } from "./actorSprites.js?v=02e5c3e2bfd0";
-import { movementDirection, screenViewForMotion } from "./direction.js?v=02e5c3e2bfd0";
-import { furnitureSlots, occupiedFurnitureSlots, availablePlacementSlots, furnitureLocations } from "../sim/shop.js?v=02e5c3e2bfd0";
-import { vendingMachines, placedObject, counterPoint } from "../sim/layout.js?v=02e5c3e2bfd0";
-import { drawVendingMachine, drawSnackShelf } from "./retailArt.js?v=02e5c3e2bfd0";
-import { wallEndpoints, canBuildWall } from "../sim/walls.js?v=02e5c3e2bfd0";
-import { annexComputerSlots, availableAnnexComputers } from "../sim/stations.js?v=02e5c3e2bfd0";
-import { BIN_SPOTS, binSpots, binStatus } from "../sim/services.js?v=02e5c3e2bfd0";
-import { workPhaseLabel } from "../sim/staffPresentation.js?v=02e5c3e2bfd0";
-import { workerMotion } from "./workerMotion.js?v=02e5c3e2bfd0";
-import { drawWorkContact } from "./workEffects.js?v=02e5c3e2bfd0";
-import { technicianContactPoint } from "../sim/staffWorksites.js?v=02e5c3e2bfd0";
-import { SCENE_THEME as theme } from "./theme.js?v=02e5c3e2bfd0";
-import { gpuGameInstallPausedReason } from "../sim/gpuGames.js?v=02e5c3e2bfd0";
-import { ps1StationPoint, ps1PlayableDisc } from "../sim/ps1.js?v=02e5c3e2bfd0";
-import { ps2StationPoint, ps2PlayableGame } from "../sim/ps2.js?v=02e5c3e2bfd0";
-import { customerConsole, customerConsoleSeat } from "../sim/consoleLayout.js?v=02e5c3e2bfd0";
-import { drawPs2Station, drawPs2Controller, ps2ActorGrip } from "./ps2Art.js?v=02e5c3e2bfd0";
-import { drawPs1Station, drawPs1Controller } from "./ps1Art.js?v=02e5c3e2bfd0";
-import { drawWallPoster, purchasedPosterKind } from "./posterArt.js?v=02e5c3e2bfd0";
-import { premiumCheckerPatch, drawPremiumWallPoster } from "./premiumRoomArt.js?v=02e5c3e2bfd0";
-import { drawCounter } from "./counterArt.js?v=02e5c3e2bfd0";
-import { drawCounterPrinter } from "./printerArt.js?v=02e5c3e2bfd0";
-import { printingAnimationActive } from "../sim/printService.js?v=02e5c3e2bfd0";
-import { copyingAnimationActive } from "../sim/discCopy.js?v=02e5c3e2bfd0";
-import { drawCounterDiscCopier } from "./discCopierArt.js?v=02e5c3e2bfd0";
-import { drawNightMatchMarkers, drawNightMatchReactions, nightMatchReactions } from "./nightMatchMarkers.js?v=02e5c3e2bfd0";
-import { drawNightPrizePresentation } from "./nightPrizePresentation.js?v=02e5c3e2bfd0";
-import { drawNightReopening } from "./nightReopening.js?v=02e5c3e2bfd0";
-import { SCENE_WIDTH, SCENE_HEIGHT, contextScale } from "./sceneSurface.js?v=02e5c3e2bfd0";
-import { daylightAt, drawSceneLighting, drawScreenGlow, drawMonitorEmission, monitorEmission, drawVignette, drawLampHalo, lampPositions, windowGlass, WINDOW_POSITIONS } from "./lighting.js?v=02e5c3e2bfd0";
-import { computerAppearance, screenGlow, monitorScreenQuad } from "./retroComputer.js?v=02e5c3e2bfd0";
-import { shadeHex, withAlpha, cellNoise } from "./color.js?v=02e5c3e2bfd0";
+import { merchandiseDisplay } from "./merchandiseDisplay.js?v=a5cbdbc30563";
+import { editableObjects, objectCorners, layoutPlacementIssue, builtPosters } from "../sim/editableObjects.js?v=a5cbdbc30563";
+import { computerSeat } from "../sim/route.js?v=a5cbdbc30563";
+import { pcCount, pcPosition, roomWidth, online } from "../sim/engine.js?v=a5cbdbc30563";
+import { roomBounds } from "../sim/room.js?v=a5cbdbc30563";
+import { cameraForGame, cuboid, iso, polygon, objectCamera } from "./isometric.js?v=a5cbdbc30563";
+import { drawRetroComputer, drawSeatedKeyboardOverlay } from "./retroComputer.js?v=a5cbdbc30563";
+import { cosmeticAvailable, headsetOnSession } from "../sim/premiumCosmetics.js?v=a5cbdbc30563";
+import { drawNeonOpenSign, neonOpenLit } from "./neonOpenArt.js?v=a5cbdbc30563";
+import { drawVipAquarium } from "./aquariumArt.js?v=a5cbdbc30563";
+import { drawPixelClock } from "./pixelClockArt.js?v=a5cbdbc30563";
+import { yearFromMinutes } from "../sim/historicalEconomy.js?v=a5cbdbc30563";
+import { actorHitbox, actorStyleFor } from "./actorArt.js?v=a5cbdbc30563";
+import { drawActorSprite as drawActor } from "./actorSprites.js?v=a5cbdbc30563";
+import { movementDirection, screenViewForMotion } from "./direction.js?v=a5cbdbc30563";
+import { furnitureSlots, occupiedFurnitureSlots, availablePlacementSlots, furnitureLocations } from "../sim/shop.js?v=a5cbdbc30563";
+import { vendingMachines, placedObject, counterPoint } from "../sim/layout.js?v=a5cbdbc30563";
+import { drawVendingMachine, drawSnackShelf } from "./retailArt.js?v=a5cbdbc30563";
+import { wallEndpoints, canBuildWall } from "../sim/walls.js?v=a5cbdbc30563";
+import { annexComputerSlots, availableAnnexComputers } from "../sim/stations.js?v=a5cbdbc30563";
+import { BIN_SPOTS, binSpots, binStatus } from "../sim/services.js?v=a5cbdbc30563";
+import { workPhaseLabel } from "../sim/staffPresentation.js?v=a5cbdbc30563";
+import { workerMotion } from "./workerMotion.js?v=a5cbdbc30563";
+import { drawWorkContact } from "./workEffects.js?v=a5cbdbc30563";
+import { technicianContactPoint } from "../sim/staffWorksites.js?v=a5cbdbc30563";
+import { SCENE_THEME as theme } from "./theme.js?v=a5cbdbc30563";
+import { gpuGameInstallPausedReason } from "../sim/gpuGames.js?v=a5cbdbc30563";
+import { ps1StationPoint, ps1PlayableDisc } from "../sim/ps1.js?v=a5cbdbc30563";
+import { ps2StationPoint, ps2PlayableGame } from "../sim/ps2.js?v=a5cbdbc30563";
+import { customerConsole, customerConsoleSeat } from "../sim/consoleLayout.js?v=a5cbdbc30563";
+import { drawPs2Station, drawPs2Controller, ps2ActorGrip } from "./ps2Art.js?v=a5cbdbc30563";
+import { drawPs1Station, drawPs1Controller } from "./ps1Art.js?v=a5cbdbc30563";
+import { drawWallPoster, purchasedPosterKind } from "./posterArt.js?v=a5cbdbc30563";
+import { premiumCheckerPatch, drawPremiumWallPoster } from "./premiumRoomArt.js?v=a5cbdbc30563";
+import { drawCounter } from "./counterArt.js?v=a5cbdbc30563";
+import { drawCounterPrinter } from "./printerArt.js?v=a5cbdbc30563";
+import { printingAnimationActive } from "../sim/printService.js?v=a5cbdbc30563";
+import { copyingAnimationActive } from "../sim/discCopy.js?v=a5cbdbc30563";
+import { drawCounterDiscCopier } from "./discCopierArt.js?v=a5cbdbc30563";
+import { drawNightMatchMarkers, drawNightMatchReactions, nightMatchReactions } from "./nightMatchMarkers.js?v=a5cbdbc30563";
+import { drawNightPrizePresentation } from "./nightPrizePresentation.js?v=a5cbdbc30563";
+import { drawNightReopening } from "./nightReopening.js?v=a5cbdbc30563";
+import { SCENE_WIDTH, SCENE_HEIGHT, contextScale } from "./sceneSurface.js?v=a5cbdbc30563";
+import { daylightAt, drawSceneLighting, drawScreenGlow, drawMonitorEmission, monitorEmission, drawVignette, drawLampHalo, lampPositions, windowGlass, WINDOW_POSITIONS } from "./lighting.js?v=a5cbdbc30563";
+import { drawRasterCached, rasterCacheUsable } from "./rasterCache.js?v=a5cbdbc30563";
+import { computerAppearance, screenGlow, monitorScreenQuad } from "./retroComputer.js?v=a5cbdbc30563";
+import { shadeHex, withAlpha, cellNoise } from "./color.js?v=a5cbdbc30563";
+/** Window glass, reflections and frame for every window on the north wall (pure function of its arguments). */
+function paintWindowPanes(ctx, camera, north, w, glass) {
+    ctx.save();
+    for (const position of WINDOW_POSITIONS) {
+        if (position + 1.2 > w)
+            continue;
+        const a = iso({ x: position, y: north }, camera, 127), b = iso({ x: position + 1.2, y: north }, camera, 127), c = iso({ x: position + 1.2, y: north }, camera, 73), d = iso({ x: position, y: north }, camera, 73);
+        const g = ctx.createLinearGradient(0, a.y, 0, d.y);
+        g.addColorStop(0, glass.top);
+        g.addColorStop(1, glass.bottom);
+        polygon(ctx, [a, b, c, d], g);
+        // Interior reflection of the lamps grows as the street darkens.
+        polygon(ctx, [iso({ x: position + 0.62, y: north }, camera, 127), iso({ x: position + 0.62, y: north }, camera, 73), c, b], "rgba(255,246,222," + (glass.sheen * .45).toFixed(3) + ")");
+        polygon(ctx, [iso({ x: position + .08, y: north }, camera, 124), iso({ x: position + .42, y: north }, camera, 124),
+            iso({ x: position + .26, y: north }, camera, 78), iso({ x: position + .08, y: north }, camera, 78)], "rgba(255,255,255," + (glass.sheen * .5).toFixed(3) + ")");
+        // Montante e travessa dividem a janela, sem renderizar qualquer exterior.
+        const mullionTop = iso({ x: position + 0.6, y: north }, camera, 127);
+        const mullionBottom = iso({ x: position + 0.6, y: north }, camera, 73);
+        ctx.strokeStyle = "#C5B49B";
+        ctx.lineWidth = 2.3 * camera.zoom;
+        ctx.beginPath();
+        ctx.moveTo(mullionTop.x, mullionTop.y);
+        ctx.lineTo(mullionBottom.x, mullionBottom.y);
+        ctx.stroke();
+        const middleLeft = iso({ x: position, y: north }, camera, 100);
+        const middleRight = iso({ x: position + 1.2, y: north }, camera, 100);
+        ctx.beginPath();
+        ctx.moveTo(middleLeft.x, middleLeft.y);
+        ctx.lineTo(middleRight.x, middleRight.y);
+        ctx.stroke();
+        ctx.strokeStyle = "#F9E2BE";
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.lineTo(c.x, c.y);
+        ctx.lineTo(d.x, d.y);
+        ctx.closePath();
+        ctx.stroke();
+    }
+    ctx.restore();
+}
 export class SceneRenderer {
     ctx;
     heroHitbox = { x: 0, y: 0, width: 0, height: 0 };
@@ -703,47 +746,19 @@ export class SceneRenderer {
     }
     /** Glass tint per simulated hour: sky by day, amber at sunset, dark at night.
      * Mullions and the diagonal sheen are repainted on top each frame. */
+    /** The glass only changes with the simulated minute, so it is rasterized once per light state and zoom
+     * instead of being repainted (gradients, reflections, mullions) on every frame. */
     windowPanes(camera, bounds, light) {
-        const ctx = this.ctx, north = bounds.minY, w = bounds.maxX, glass = windowGlass(light);
-        ctx.save();
-        for (const position of WINDOW_POSITIONS) {
-            if (position + 1.2 > w)
-                continue;
-            const a = iso({ x: position, y: north }, camera, 127), b = iso({ x: position + 1.2, y: north }, camera, 127), c = iso({ x: position + 1.2, y: north }, camera, 73), d = iso({ x: position, y: north }, camera, 73);
-            const g = ctx.createLinearGradient(0, a.y, 0, d.y);
-            g.addColorStop(0, glass.top);
-            g.addColorStop(1, glass.bottom);
-            polygon(ctx, [a, b, c, d], g);
-            // Interior reflection of the lamps grows as the street darkens.
-            polygon(ctx, [iso({ x: position + 0.62, y: north }, camera, 127), iso({ x: position + 0.62, y: north }, camera, 73), c, b], "rgba(255,246,222," + (glass.sheen * .45).toFixed(3) + ")");
-            polygon(ctx, [iso({ x: position + .08, y: north }, camera, 124), iso({ x: position + .42, y: north }, camera, 124),
-                iso({ x: position + .26, y: north }, camera, 78), iso({ x: position + .08, y: north }, camera, 78)], "rgba(255,255,255," + (glass.sheen * .5).toFixed(3) + ")");
-            // Montante e travessa dividem a janela, sem renderizar qualquer exterior.
-            const mullionTop = iso({ x: position + 0.6, y: north }, camera, 127);
-            const mullionBottom = iso({ x: position + 0.6, y: north }, camera, 73);
-            ctx.strokeStyle = "#C5B49B";
-            ctx.lineWidth = 2.3 * camera.zoom;
-            ctx.beginPath();
-            ctx.moveTo(mullionTop.x, mullionTop.y);
-            ctx.lineTo(mullionBottom.x, mullionBottom.y);
-            ctx.stroke();
-            const middleLeft = iso({ x: position, y: north }, camera, 100);
-            const middleRight = iso({ x: position + 1.2, y: north }, camera, 100);
-            ctx.beginPath();
-            ctx.moveTo(middleLeft.x, middleLeft.y);
-            ctx.lineTo(middleRight.x, middleRight.y);
-            ctx.stroke();
-            ctx.strokeStyle = "#F9E2BE";
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
-            ctx.lineTo(c.x, c.y);
-            ctx.lineTo(d.x, d.y);
-            ctx.closePath();
-            ctx.stroke();
+        const glass = windowGlass(light), north = bounds.minY, w = bounds.maxX, z = camera.zoom;
+        if (!rasterCacheUsable(this.ctx)) {
+            paintWindowPanes(this.ctx, camera, north, w, glass);
+            return;
         }
-        ctx.restore();
+        const anchor = iso({ x: WINDOW_POSITIONS[0], y: north }, camera, 0);
+        drawRasterCached(this.ctx, "window-panes", {
+            key: [z, w, north, glass.top, glass.bottom, glass.sheen.toFixed(3)].join(":"), anchorX: anchor.x, anchorY: anchor.y, snap: "round", limit: 6,
+            padX: Math.ceil(10 * z) + 4, padY: Math.ceil(135 * z) + 4, width: Math.ceil(250 * z) + 12, height: Math.ceil(190 * z) + 8
+        }, target => paintWindowPanes(target, camera, north, w, glass));
     }
     decor(camera, bounds, s) {
         const ctx = this.ctx, minX = bounds.minX, w = bounds.maxX, south = bounds.maxY, north = bounds.minY;

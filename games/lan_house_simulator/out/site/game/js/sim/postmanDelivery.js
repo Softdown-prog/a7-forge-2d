@@ -1,11 +1,11 @@
-import { linuxDay, linuxNextMagazineDueDay, LINUX_MAGAZINE_ISSUE_COST, LINUX_MAGAZINE_TITLES, nextLinuxLetter, recordLinuxMail } from "./linuxQuest.js?v=02e5c3e2bfd0";
-import { entrance } from "./simulationState.js?v=02e5c3e2bfd0";
-import { TOP_GAMES_ISSUES, dueTopGamesIssue, nextTopGamesDeliveryDay, topGamesIssuePrice, receiveTopGamesIssue } from "./topGamesMagazines.js?v=02e5c3e2bfd0";
-import { counterQueue } from "./route.js?v=02e5c3e2bfd0";
-import { workerRoute } from "./workerNavigation.js?v=02e5c3e2bfd0";
-import { canTraverseLocalStep } from "./navigation.js?v=02e5c3e2bfd0";
-import { directionFromDelta } from "./direction.js?v=02e5c3e2bfd0";
-import { deliverLinuxMagazineNotice, deliverTopGamesMagazineNotice } from "./notices.js?v=02e5c3e2bfd0";
+import { linuxDay, linuxNextMagazineDueDay, LINUX_MAGAZINE_ISSUE_COST, LINUX_MAGAZINE_TITLES, nextLinuxLetter, recordLinuxMail } from "./linuxQuest.js?v=a5cbdbc30563";
+import { entrance } from "./simulationState.js?v=a5cbdbc30563";
+import { TOP_GAMES_ISSUES, dueTopGamesIssue, nextTopGamesDeliveryDay, topGamesIssuePrice, receiveTopGamesIssue } from "./topGamesMagazines.js?v=a5cbdbc30563";
+import { counterQueue } from "./route.js?v=a5cbdbc30563";
+import { workerRoute } from "./workerNavigation.js?v=a5cbdbc30563";
+import { canTraverseLocalStep } from "./navigation.js?v=a5cbdbc30563";
+import { directionFromDelta } from "./direction.js?v=a5cbdbc30563";
+import { deliverLinuxMagazineNotice, deliverTopGamesMagazineNotice } from "./notices.js?v=a5cbdbc30563";
 export const POSTMAN_HANDOFF_MINUTES = 5;
 export const postmanDoor = (s) => entrance(s);
 export const postmanCounter = (s) => {

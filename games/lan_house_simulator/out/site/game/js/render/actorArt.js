@@ -1,7 +1,10 @@
-import { iso } from "./isometric.js?v=02e5c3e2bfd0";
-import { walkPhase, walkingLeg, walkAxis } from "./walkCycle.js?v=02e5c3e2bfd0";
-import { workerMotion } from "./workerMotion.js?v=02e5c3e2bfd0";
-import { lerpHex, shadeHex, mixHex, parseHex } from "./color.js?v=02e5c3e2bfd0";
+import { iso } from "./isometric.js?v=a5cbdbc30563";
+import { walkPhase, walkingLeg, walkAxis } from "./walkCycle.js?v=a5cbdbc30563";
+import { workerMotion } from "./workerMotion.js?v=a5cbdbc30563";
+import { lerpHex, shadeHex, mixHex, parseHex } from "./color.js?v=a5cbdbc30563";
+/** Rate (rad/s) of the owner's idle breathing and service gesture. They share one rate so the idle
+ * animation is a single loop, which is what lets the sprite cache hold it as 32 frames. */
+export const OWNER_IDLE_RATE = 1.4;
 const casual = [
     { shirt: "#358C94", dark: "#225D73", highlight: "#7FC5BA", pants: "#374A69", hair: "#4A342D", skin: "#EFB68F", trim: "#F2D08D" },
     { shirt: "#BE6B57", dark: "#8B4455", highlight: "#E49C7A", pants: "#3D5368", hair: "#6B493A", skin: "#BD8467", trim: "#E8CF8C" },
@@ -564,7 +567,7 @@ export function drawActor(ctx, camera, a) {
     const consoleSeat = !!a.consoleSeat && (pose === "sitting" || pose === "standing-up");
     const phase = a.walkDistance === undefined ? a.time * 7.7 + a.id * .27 : walkPhase(a.walkDistance);
     const step = walking ? Math.sin(phase) : 0;
-    const ownerBreath = a.kind === "owner" && (pose === "idle" || pose === "printing" || pose === "copying") ? Math.sin(a.time * 1.4) * .6 : 0;
+    const ownerBreath = a.kind === "owner" && (pose === "idle" || pose === "printing" || pose === "copying") ? Math.sin(a.time * OWNER_IDLE_RATE) * .6 : 0;
     const bob = walking ? (1 - Math.cos(phase * 2)) * .45 :
         celebrating ? (1 + Math.sin(a.time * 6)) * .9 : 0;
     // O quadril acompanha o assento elevado (25px); a cabeça baixa só levemente.
@@ -678,7 +681,7 @@ export function drawActor(ctx, camera, a) {
         const receiving = a.kind === "owner" && pose === "receiving";
         const serving = a.kind === "owner" && (pose === "idle" || printing || copying || receiving);
         const handing = a.kind === "postman" && pose === "delivering";
-        const gesture = copying ? Math.sin(a.time * 7.5 + side) * 1.8 : printing ? Math.sin(a.time * 10 + side) * 2.7 : serving ? Math.sin(a.time * 1.6) * .45 : 0;
+        const gesture = copying ? Math.sin(a.time * 7.5 + side) * 1.8 : printing ? Math.sin(a.time * 10 + side) * 2.7 : serving ? Math.sin(a.time * OWNER_IDLE_RATE) * .45 : 0;
         const angledWalk = profileWalk || screenRig;
         const shoulderX = side * (sideways ? 8 : quarter ? 10 : 15);
         const axis = screenRig ? walkAxis(screenView) : { x: 1, y: 0 };

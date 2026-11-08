@@ -603,7 +603,7 @@ progress{accent-color:#63804b;max-width:100%;grid-column:1/-1;width:100%;height:
 @media(max-width:700px){#pc-maintenance .pc-operation{grid-template-columns:repeat(2,minmax(0,1fr))}#pc-maintenance .pc-operation>span{grid-column:1/-1}#pc-maintenance .pc-power-toggle{min-width:0}}
 
 /* Backup visual leve: se o Canvas do menu falhar, não mostrar um CRT vazio. */
-#menu-scene{background-image:url("./assets/ui/salon-preview.webp?v=02e5c3e2bfd0");background-size:cover;background-position:center}
+#menu-scene{background-image:url("./assets/ui/salon-preview.webp?v=a5cbdbc30563");background-size:cover;background-position:center}
 
 /* Downloads: resumo persistente acima do catálogo, sem empurrar a tela no celular. */
 .gpu-download-overview{display:grid;gap:10px;padding:12px;margin:8px 0 14px;

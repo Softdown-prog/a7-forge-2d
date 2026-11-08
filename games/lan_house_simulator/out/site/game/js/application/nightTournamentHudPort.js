@@ -1,6 +1,6 @@
-import { knockoutCurrentMatch } from "../sim/nightKnockout.js?v=02e5c3e2bfd0";
-import { tournamentStandings } from "../sim/nightTournament.js?v=02e5c3e2bfd0";
-import { nightPrizePresentation, nightReopeningPresentation, prizeAmountText } from "./nightPresentation.js?v=02e5c3e2bfd0";
+import { knockoutCurrentMatch } from "../sim/nightKnockout.js?v=a5cbdbc30563";
+import { tournamentStandings } from "../sim/nightTournament.js?v=a5cbdbc30563";
+import { nightPrizePresentation, nightReopeningPresentation, prizeAmountText } from "./nightPresentation.js?v=a5cbdbc30563";
 export function createNightTournamentHudPort(getState) {
     return { snapshot() {
             const state = getState(), transition = nightReopeningPresentation(state), payment = nightPrizePresentation(state), n = state.nightMeetup, t = n?.tournament;

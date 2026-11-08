@@ -110,6 +110,23 @@ Verificação: `tests/actor-art-polish.test.mjs` (contornos, 13 tipos × 10 pose
 - **Correção pós-merge (vista diagonal):** ao andar, o cliente aparece de três quartos. O olho distante tinha só 0,85 unidade de largura e, com esclera, íris e pupila, virava uma bolinha escura ao lado do olho próximo, que mostrava a íris azul. Agora o olho distante tem 1,2 de largura (mais estreito que o próximo, por causa do ângulo, mas com esclera e íris visíveis). Coelho e rato continuam com olho de conta preta por desenho. Teste: em `front-left` e `front-right` as duas íris têm largura mínima de 1 unidade e proporção parecida.
 - **Sem custo novo:** nada depende do relógio de parede nem de aleatoriedade; âncoras, poses, hitbox e paletas ficam iguais. Os testes novos cobrem a repetição a cada quatro `id`, a ausência de variação nas outras fantasias, as orelhas de costas e o nariz curvo. `verify_actor_sprites`: erro médio máximo de 9,9 contra o artista vetorial (limite 14) e nenhum pixel opaco faltando.
 
+### Balcão do Tony: computador, impressora, copiadora e balcão
+
+![Balcão do Tony, antes e depois, nas quatro orientações, parado e em uso](../../../docs/quality/lhs_counter_equipment_before_after.png)
+
+![Balcão na cena real, antes e depois (tela de densidade 2)](../../../docs/quality/lhs_counter_scene_before_after.png)
+
+Só arte procedural; o espaço do balcão (1,75 × 0,72), a posição de cada equipamento, a hitbox, a rota do Tony e os preços não mudaram.
+
+- **Balcão:** portas da frente com relevo (luz em cima, sombra embaixo), placa de latão chanfrada com o "CAIXA" gravado, puxadores de latão, rodapé escuro e sombra do tampo sobre as portas, recortada no contorno do painel. As laterais e a traseira ganharam gradiente, moldura e a mesma sombra. O tampo tem brilho de verniz e desgaste na borda onde o cliente apoia as mãos.
+- **Computador do caixa:** pad de couro sob o teclado, teclado com fileiras e barra de espaço, mouse com fio, base e sombra de contato. O CRT tem moldura, vidro com linhas de varredura e reflexo diagonal, LED de energia, ventilação lateral e traseira com o selo e a porta de cabo. A tela mostra uma barra de título e linhas de terminal.
+- **Registradora e acessórios:** visor com brilho, rolo de papel, bloco de pedidos com caneta, sino de balcão de latão, porta-canetas com três canetas e um cartão de preços (menor que o da primeira versão, para não cobrir o monitor).
+- **Impressora:** carcaça em duas tonalidades sobre uma base escura, tampa do scanner com vidro e reflexo, puxador, bandeja de papel traseira com folhas, bandeja de saída com folhas impressas, painel com visor verde e botões, ventilação e sombra de contato. Em uso, a folha sai pela fenda, o LED pisca em âmbar e uma linha de luz percorre o vidro do scanner.
+- **Copiadora de discos:** torre com base, visor com barra de progresso, quatro gavetas com botão de ejetar e LED, grelha de entrada de ar, ventilação lateral, ventoinha na traseira e, no topo, um pino com pilha de discos. Em uso, a gaveta sai com um disco desenhado no plano (brilho de arco-íris, aro e furo central). O disco anterior era uma elipse com anel e miolo escuro, que parecia um olho.
+- **Cache:** impressora e copiadora passaram a usar o mesmo cache de raster do balcão (corpo estático em bitmap; LED, folha, barra, gaveta e disco ao vivo). A comparação cache contra desenho direto, em 128 combinações (escala 1 e 2, quatro zooms, quatro rotações, parado e em uso, duas posições), não tem nenhum pixel com diferença forte (acima de 48); impressora e copiadora ficam praticamente idênticas (até 16 pixels). As diferenças pequenas ficam na sombra em gradiente sob o tampo, onde o navegador dispersa o gradiente conforme a posição em pixels. O cache da torre e o da impressora reservam 160 unidades para cada lado, porque a medição mostrou que a torre chega a 140 unidades em rotação de 90°.
+- **Verificação:** `tests/counter-equipment-art.test.mjs` (coordenadas finitas em todas as rotações, zooms e estados, determinismo, o quadro "em uso" pinta formas a mais sobre o mesmo corpo, impressora e copiadora cabem no próprio raster, sem imagens, aleatoriedade, relógio de parede, modos de mistura ou desfoque) e `scripts/verify_counter_equipment.mjs`.
+- **Fora desta rodada:** as ilustrações da loja (`drawPrinterShop` e `drawDiscCopier`) continuam como estavam.
+
 ## 6. Desempenho
 
 Medido em Chromium headless **sem aceleração por GPU** (pior caso: toda a composição é por software), cena de teste com dono, um cliente sentado e um andando às 17:30 simuladas, ms por quadro de `SceneRenderer.draw`:
@@ -126,6 +143,32 @@ A primeira versão custava muito por dois motivos, medidos por decomposição (d
 - **`shadowBlur` na placa e no contador** repintados todo quadro, contra uma convenção já registrada no projeto (aquário RGB: "sem shadowBlur, custo baixo no Android"). Trocado por sombras em camadas translúcidas.
 
 O custo em 1× continua cerca de 1,6 ms acima do original (janelas dinâmicas, brilho dos monitores, capacho, gradientes) e cresce com a área em pixels. Em navegadores com canvas acelerado por GPU a diferença tende a ser bem menor, mas isso **não foi medido em aparelho físico**. Os limites de escala (3×, 2× em toque, 6 Mpx), o cache do fundo e dos móveis e o teto de 30 desenhos/s em toque seguem valendo. `tests/scene-lighting.test.mjs` impede a volta de modos de mistura e `shadowBlur` nesse caminho.
+
+### Auditoria de desempenho em celular emulado (novembro de 2026)
+
+Medição do jogo real em Chromium headless (sem GPU) com **perfil de toque, CPU 4 vezes mais lenta**, cenário de capacidade com 14 clientes (o limite de produção). É emulação: **não substitui aparelho físico**, e a máquina varia entre lotes, então só se comparam códigos medidos no mesmo lote, intercalados.
+
+**O que a medição mostrou**
+
+- Todas as mudanças em `src/` desde `c8930cf` (antes da refatoração) são desta série de PRs, então a diferença é atribuível a ela. O desenho médio por quadro subiu de 6,3 ms para 10 a 12 ms no benchmark de 7 s de `benchmark_capacity.mjs`; o salto grande foi o primeiro PR (6,3 para 10,4 ms) e os seguintes somaram pouco cada.
+- Esse benchmark exagera, porque mede os primeiros 7 s, durante o aquecimento do cache de sprites (o Worker rasteriza quadros mais detalhados, então os primeiros sprites chegam depois de uns 4 s em vez de 1 s, e nesse intervalo os atores caem no desenhista vetorial). **Em regime estável** (16 s de aquecimento) o jogo desenha os mesmos 30 quadros por segundo nos dois códigos, e a diferença é de folga de CPU: **40,6% ociosa antes, 27,9% depois dos seis PRs**.
+- Em regime estável os clientes acertam o cache de sprites em 97% das chamadas. **O único ator desenhado em vetor a cada quadro era o Tony** (1,3 a 1,45 ms por quadro no cenário emulado, cerca de 30% do desenho). O custo restante do desenho aparece como trabalho nativo de rasterização do navegador ("(program)"), porque as operações de Canvas 2D são gravadas e rasterizadas depois; por isso cronometrar métodos em JavaScript subestima o custo de gradientes e traços, e o medidor confiável é a folga de CPU ou a cadência de quadros.
+- Contagem de operações por quadro (regime estável): traços 113 para 186, preenchimentos 54 para 96, `save` 31 para 67. Os gradientes radiais por quadro eram 9 (e já caíram para 3).
+
+**O que foi feito** (só desenho; simulação, save e RNG intocados)
+
+1. **Tony em repouso vem do cache de sprites.** `actorSpriteEligible` (função pura, testada) libera o dono apenas na pose `idle`, sem fantasia cyber, sem reação e sem fone. Imprimindo, copiando e recebendo o carteiro continuam no desenhista contínuo, porque têm gestos rápidos. Para o ciclo de 32 quadros fechar exatamente, a respiração e o gesto leve de atendimento passaram a usar a mesma frequência (`OWNER_IDLE_RATE`, 1,4 rad/s; o gesto era 1,6 rad/s, com amplitude de 0,45 pixel).
+2. **Janelas em cache de raster.** O vidro só muda a cada minuto simulado; `paintWindowPanes` é rasterizado uma vez por estado de luz e zoom (família `window-panes`).
+3. **Brilho dos monitores com textura de gradiente em cache.** Cada par (cor, opacidade em passos de 1/64) é renderizado uma vez numa textura de 64 px e escalado na cena (`glowEllipse`).
+
+**Resultado** (mesmo lote, intercalado, 3 rodadas, folga de CPU em regime estável): antes da refatoração 40,6%, depois dos seis PRs 27,9%, com estas três mudanças **38,7%**. A imagem da cena inteira (quatro horários, escalas 1 e 2) difere do código anterior em no máximo 4 de 255 por canal nas janelas e nos brilhos; com o Tony em sprite, 37 a 210 pixels (menos de 0,01%) chegam a 26 a 48 de diferença na borda suavizada, dentro da tolerância do `verify_actor_sprites` (agora com o Tony: 336 casos, erro médio máximo 9,9 de 14, nenhum pixel opaco faltando).
+
+**O que não foi resolvido**
+
+- **Aquecimento do cache de sprites** continua mais lento que antes (os primeiros sprites levam uns 4 s com CPU 4 vezes mais lenta). Caminhos possíveis: pré-aquecer os quadros mais comuns em tempo ocioso ao abrir o jogo e priorizar os atores visíveis na fila do Worker (hoje limitada a 64 pedidos).
+- **Tony com a fantasia cyber** (e enquanto imprime ou copia) continua em vetor.
+- **Trabalho nativo de rasterização** ainda é maior que antes (traços e preenchimentos por quadro); o próximo ganho grande exigiria simplificar o desenho vetorial dos atores que ainda não vêm do cache ou reduzir o detalhe por zoom.
+- Nada disso foi medido em aparelho físico.
 
 ## 7. Verificação
 

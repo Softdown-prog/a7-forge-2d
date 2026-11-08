@@ -1,7 +1,7 @@
-import { gameYear } from "../sim/era.js?v=02e5c3e2bfd0";
-import { quotePrinter } from "../sim/printService.js?v=02e5c3e2bfd0";
-import { quoteDiscCopier, DISC_COPIER_YEAR } from "../sim/discCopy.js?v=02e5c3e2bfd0";
-import { shopPrice } from "../sim/shop.js?v=02e5c3e2bfd0";
+import { gameYear } from "../sim/era.js?v=a5cbdbc30563";
+import { quotePrinter } from "../sim/printService.js?v=a5cbdbc30563";
+import { quoteDiscCopier, DISC_COPIER_YEAR } from "../sim/discCopy.js?v=a5cbdbc30563";
+import { shopPrice } from "../sim/shop.js?v=a5cbdbc30563";
 export function createShopServiceOffersPort(getState) {
     return { snapshot(id) {
             const s = getState(), price = shopPrice(s, id);

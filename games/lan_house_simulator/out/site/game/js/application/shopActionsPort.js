@@ -1,12 +1,12 @@
-import { buyComputer, availablePlacementSlots } from "../sim/shop.js?v=02e5c3e2bfd0";
-import { linuxMachineSpec } from "../sim/linuxMachines.js?v=02e5c3e2bfd0";
-import { buyPrinter } from "../sim/printService.js?v=02e5c3e2bfd0";
-import { buyDiscCopier } from "../sim/discCopy.js?v=02e5c3e2bfd0";
-import { expandShop } from "../sim/economy.js?v=02e5c3e2bfd0";
-import { expandDirection } from "../sim/room.js?v=02e5c3e2bfd0";
-import { buyPs2Station } from "../sim/ps2.js?v=02e5c3e2bfd0";
-import { buyPs1Station } from "../sim/ps1.js?v=02e5c3e2bfd0";
-import { subscribeTopGames, cancelTopGames } from "../sim/topGamesMagazines.js?v=02e5c3e2bfd0";
+import { buyComputer, availablePlacementSlots } from "../sim/shop.js?v=a5cbdbc30563";
+import { linuxMachineSpec } from "../sim/linuxMachines.js?v=a5cbdbc30563";
+import { buyPrinter } from "../sim/printService.js?v=a5cbdbc30563";
+import { buyDiscCopier } from "../sim/discCopy.js?v=a5cbdbc30563";
+import { expandShop } from "../sim/economy.js?v=a5cbdbc30563";
+import { expandDirection } from "../sim/room.js?v=a5cbdbc30563";
+import { buyPs2Station } from "../sim/ps2.js?v=a5cbdbc30563";
+import { buyPs1Station } from "../sim/ps1.js?v=a5cbdbc30563";
+import { subscribeTopGames, cancelTopGames } from "../sim/topGamesMagazines.js?v=a5cbdbc30563";
 const furniture = (s) => s === "poster" || s === "plant" || s === "table";
 const extension = (s) => s === "west" || s === "east" || s === "north";
 export function createShopActionsPort(getState) {
