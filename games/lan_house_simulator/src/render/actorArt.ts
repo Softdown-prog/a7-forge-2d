@@ -382,7 +382,11 @@ export function drawActor(ctx:ActorContext,camera:Projection,a:ActorRender):void
   // Ground anchor: o corpo oscila na caminhada, a sombra permanece no piso.
   // A escala de câmera é aplicada depois; bob é em unidades locais do ator.
   ctx.save();ctx.translate(0,bob);
-  ell(ctx,0,0,15.5,5.1,"rgba(25,31,46,0.25)");
+  // Soft contact shadow: dense under the feet, feathered at the rim.
+  ctx.save();ctx.scale(15.5,5.1);
+  const shade=ctx.createRadialGradient(0,0,0,0,0,1);
+  shade.addColorStop(0,"rgba(25,31,46,0.36)");shade.addColorStop(.55,"rgba(25,31,46,0.22)");shade.addColorStop(1,"rgba(25,31,46,0)");
+  ctx.fillStyle=shade;ctx.beginPath();ctx.arc(0,0,1,0,Math.PI*2);ctx.fill();ctx.restore();
   ell(ctx,0,1.2,9.4,2.5,"rgba(24,31,45,0.12)");
   ctx.restore();
   // Respiração quase imperceptível; pés e sombra permanecem ancorados.
