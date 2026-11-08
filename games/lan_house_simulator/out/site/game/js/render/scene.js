@@ -1,49 +1,49 @@
-import { merchandiseDisplay } from "./merchandiseDisplay.js?v=7d5a5079cdfa";
-import { editableObjects, objectCorners, layoutPlacementIssue, builtPosters } from "../sim/editableObjects.js?v=7d5a5079cdfa";
-import { computerSeat } from "../sim/route.js?v=7d5a5079cdfa";
-import { pcCount, pcPosition, roomWidth, online } from "../sim/engine.js?v=7d5a5079cdfa";
-import { roomBounds } from "../sim/room.js?v=7d5a5079cdfa";
-import { cameraForGame, cuboid, iso, polygon, objectCamera } from "./isometric.js?v=7d5a5079cdfa";
-import { drawRetroComputer, drawSeatedKeyboardOverlay } from "./retroComputer.js?v=7d5a5079cdfa";
-import { cosmeticAvailable, headsetOnSession } from "../sim/premiumCosmetics.js?v=7d5a5079cdfa";
-import { drawNeonOpenSign, neonOpenLit } from "./neonOpenArt.js?v=7d5a5079cdfa";
-import { drawVipAquarium } from "./aquariumArt.js?v=7d5a5079cdfa";
-import { drawPixelClock } from "./pixelClockArt.js?v=7d5a5079cdfa";
-import { yearFromMinutes } from "../sim/historicalEconomy.js?v=7d5a5079cdfa";
-import { actorHitbox, actorStyleFor } from "./actorArt.js?v=7d5a5079cdfa";
-import { drawActorSprite as drawActor } from "./actorSprites.js?v=7d5a5079cdfa";
-import { movementDirection, screenViewForMotion } from "./direction.js?v=7d5a5079cdfa";
-import { furnitureSlots, occupiedFurnitureSlots, availablePlacementSlots, furnitureLocations } from "../sim/shop.js?v=7d5a5079cdfa";
-import { vendingMachines, placedObject, counterPoint } from "../sim/layout.js?v=7d5a5079cdfa";
-import { drawVendingMachine, drawSnackShelf } from "./retailArt.js?v=7d5a5079cdfa";
-import { wallEndpoints, canBuildWall } from "../sim/walls.js?v=7d5a5079cdfa";
-import { annexComputerSlots, availableAnnexComputers } from "../sim/stations.js?v=7d5a5079cdfa";
-import { BIN_SPOTS, binSpots, binStatus } from "../sim/services.js?v=7d5a5079cdfa";
-import { workPhaseLabel } from "../sim/staffPresentation.js?v=7d5a5079cdfa";
-import { workerMotion } from "./workerMotion.js?v=7d5a5079cdfa";
-import { drawWorkContact } from "./workEffects.js?v=7d5a5079cdfa";
-import { technicianContactPoint } from "../sim/staffWorksites.js?v=7d5a5079cdfa";
-import { SCENE_THEME as theme } from "./theme.js?v=7d5a5079cdfa";
-import { gpuGameInstallPausedReason } from "../sim/gpuGames.js?v=7d5a5079cdfa";
-import { ps1StationPoint, ps1PlayableDisc } from "../sim/ps1.js?v=7d5a5079cdfa";
-import { ps2StationPoint, ps2PlayableGame } from "../sim/ps2.js?v=7d5a5079cdfa";
-import { customerConsole, customerConsoleSeat } from "../sim/consoleLayout.js?v=7d5a5079cdfa";
-import { drawPs2Station, drawPs2Controller, ps2ActorGrip } from "./ps2Art.js?v=7d5a5079cdfa";
-import { drawPs1Station, drawPs1Controller } from "./ps1Art.js?v=7d5a5079cdfa";
-import { drawWallPoster, purchasedPosterKind } from "./posterArt.js?v=7d5a5079cdfa";
-import { premiumCheckerPatch, drawPremiumWallPoster } from "./premiumRoomArt.js?v=7d5a5079cdfa";
-import { drawCounter } from "./counterArt.js?v=7d5a5079cdfa";
-import { drawCounterPrinter } from "./printerArt.js?v=7d5a5079cdfa";
-import { printingAnimationActive } from "../sim/printService.js?v=7d5a5079cdfa";
-import { copyingAnimationActive } from "../sim/discCopy.js?v=7d5a5079cdfa";
-import { drawCounterDiscCopier } from "./discCopierArt.js?v=7d5a5079cdfa";
-import { drawNightMatchMarkers, drawNightMatchReactions, nightMatchReactions } from "./nightMatchMarkers.js?v=7d5a5079cdfa";
-import { drawNightPrizePresentation } from "./nightPrizePresentation.js?v=7d5a5079cdfa";
-import { drawNightReopening } from "./nightReopening.js?v=7d5a5079cdfa";
-import { SCENE_WIDTH, SCENE_HEIGHT, contextScale } from "./sceneSurface.js?v=7d5a5079cdfa";
-import { daylightAt, drawSceneLighting, drawScreenGlow, drawVignette, drawLampHalo, lampPositions, windowGlass, WINDOW_POSITIONS } from "./lighting.js?v=7d5a5079cdfa";
-import { computerAppearance, screenGlow } from "./retroComputer.js?v=7d5a5079cdfa";
-import { shadeHex, withAlpha, cellNoise } from "./color.js?v=7d5a5079cdfa";
+import { merchandiseDisplay } from "./merchandiseDisplay.js?v=c416c21ccd84";
+import { editableObjects, objectCorners, layoutPlacementIssue, builtPosters } from "../sim/editableObjects.js?v=c416c21ccd84";
+import { computerSeat } from "../sim/route.js?v=c416c21ccd84";
+import { pcCount, pcPosition, roomWidth, online } from "../sim/engine.js?v=c416c21ccd84";
+import { roomBounds } from "../sim/room.js?v=c416c21ccd84";
+import { cameraForGame, cuboid, iso, polygon, objectCamera } from "./isometric.js?v=c416c21ccd84";
+import { drawRetroComputer, drawSeatedKeyboardOverlay } from "./retroComputer.js?v=c416c21ccd84";
+import { cosmeticAvailable, headsetOnSession } from "../sim/premiumCosmetics.js?v=c416c21ccd84";
+import { drawNeonOpenSign, neonOpenLit } from "./neonOpenArt.js?v=c416c21ccd84";
+import { drawVipAquarium } from "./aquariumArt.js?v=c416c21ccd84";
+import { drawPixelClock } from "./pixelClockArt.js?v=c416c21ccd84";
+import { yearFromMinutes } from "../sim/historicalEconomy.js?v=c416c21ccd84";
+import { actorHitbox, actorStyleFor } from "./actorArt.js?v=c416c21ccd84";
+import { drawActorSprite as drawActor } from "./actorSprites.js?v=c416c21ccd84";
+import { movementDirection, screenViewForMotion } from "./direction.js?v=c416c21ccd84";
+import { furnitureSlots, occupiedFurnitureSlots, availablePlacementSlots, furnitureLocations } from "../sim/shop.js?v=c416c21ccd84";
+import { vendingMachines, placedObject, counterPoint } from "../sim/layout.js?v=c416c21ccd84";
+import { drawVendingMachine, drawSnackShelf } from "./retailArt.js?v=c416c21ccd84";
+import { wallEndpoints, canBuildWall } from "../sim/walls.js?v=c416c21ccd84";
+import { annexComputerSlots, availableAnnexComputers } from "../sim/stations.js?v=c416c21ccd84";
+import { BIN_SPOTS, binSpots, binStatus } from "../sim/services.js?v=c416c21ccd84";
+import { workPhaseLabel } from "../sim/staffPresentation.js?v=c416c21ccd84";
+import { workerMotion } from "./workerMotion.js?v=c416c21ccd84";
+import { drawWorkContact } from "./workEffects.js?v=c416c21ccd84";
+import { technicianContactPoint } from "../sim/staffWorksites.js?v=c416c21ccd84";
+import { SCENE_THEME as theme } from "./theme.js?v=c416c21ccd84";
+import { gpuGameInstallPausedReason } from "../sim/gpuGames.js?v=c416c21ccd84";
+import { ps1StationPoint, ps1PlayableDisc } from "../sim/ps1.js?v=c416c21ccd84";
+import { ps2StationPoint, ps2PlayableGame } from "../sim/ps2.js?v=c416c21ccd84";
+import { customerConsole, customerConsoleSeat } from "../sim/consoleLayout.js?v=c416c21ccd84";
+import { drawPs2Station, drawPs2Controller, ps2ActorGrip } from "./ps2Art.js?v=c416c21ccd84";
+import { drawPs1Station, drawPs1Controller } from "./ps1Art.js?v=c416c21ccd84";
+import { drawWallPoster, purchasedPosterKind } from "./posterArt.js?v=c416c21ccd84";
+import { premiumCheckerPatch, drawPremiumWallPoster } from "./premiumRoomArt.js?v=c416c21ccd84";
+import { drawCounter } from "./counterArt.js?v=c416c21ccd84";
+import { drawCounterPrinter } from "./printerArt.js?v=c416c21ccd84";
+import { printingAnimationActive } from "../sim/printService.js?v=c416c21ccd84";
+import { copyingAnimationActive } from "../sim/discCopy.js?v=c416c21ccd84";
+import { drawCounterDiscCopier } from "./discCopierArt.js?v=c416c21ccd84";
+import { drawNightMatchMarkers, drawNightMatchReactions, nightMatchReactions } from "./nightMatchMarkers.js?v=c416c21ccd84";
+import { drawNightPrizePresentation } from "./nightPrizePresentation.js?v=c416c21ccd84";
+import { drawNightReopening } from "./nightReopening.js?v=c416c21ccd84";
+import { SCENE_WIDTH, SCENE_HEIGHT, contextScale } from "./sceneSurface.js?v=c416c21ccd84";
+import { daylightAt, drawSceneLighting, drawScreenGlow, drawMonitorEmission, monitorEmission, drawVignette, drawLampHalo, lampPositions, windowGlass, WINDOW_POSITIONS } from "./lighting.js?v=c416c21ccd84";
+import { computerAppearance, screenGlow, monitorScreenQuad } from "./retroComputer.js?v=c416c21ccd84";
+import { shadeHex, withAlpha, cellNoise } from "./color.js?v=c416c21ccd84";
 export class SceneRenderer {
     ctx;
     heroHitbox = { x: 0, y: 0, width: 0, height: 0 };
@@ -1067,10 +1067,14 @@ export class SceneRenderer {
         drawRetroComputer(this.ctx, cam, p, i, t, isOnline, s);
         // Screen light spills over the desk, keyboard and bezel; stronger after dusk.
         // Additive and painted after the cached sprite, so the raster stays reusable.
-        const glow = screenGlow(computerAppearance(s, i, t, isOnline));
+        const appearance = computerAppearance(s, i, t, isOnline), glow = screenGlow(appearance);
         if (glow && this.ctx.globalAlpha === 1) {
-            const light = daylightAt(s.totalMinutes);
-            drawScreenGlow(this.ctx, cam, p.x + .45, p.y + .47, 38, glow.color, glow.strength * (.6 + 1.1 * light.night));
+            const light = daylightAt(s.totalMinutes), emission = monitorEmission(light.night, glow.strength);
+            drawScreenGlow(this.ctx, cam, p.x + .45, p.y + .47, 38, glow.color, emission.spill);
+            // As the evening comes in the glass itself brightens against the darker room.
+            const quad = monitorScreenQuad(cam, p, appearance.lcd);
+            if (quad)
+                drawMonitorEmission(this.ctx, quad, glow.color, light.night, glow.strength);
         }
     }
     owner(camera, t, s) {

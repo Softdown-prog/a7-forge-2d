@@ -1,6 +1,6 @@
-import { canTraverseLocalStep, localStepValidator } from "../sim/navigation.js?v=7d5a5079cdfa";
-import { directionFromDelta, screenViewForMotion } from "./direction.js?v=7d5a5079cdfa";
-import { entrance } from "../sim/engine.js?v=7d5a5079cdfa";
+import { canTraverseLocalStep, localStepValidator } from "../sim/navigation.js?v=c416c21ccd84";
+import { directionFromDelta, screenViewForMotion } from "./direction.js?v=c416c21ccd84";
+import { entrance } from "../sim/engine.js?v=c416c21ccd84";
 const groundDistance = (dx, dy) => Math.hypot((dx - dy) * 64, (dx + dy) * 32);
 const lerp = (a, b, t) => a + (b - a) * t;
 /** Presentation between fixed simulation minutes. Never writes to a save or

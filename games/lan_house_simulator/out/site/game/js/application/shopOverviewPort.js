@@ -1,6 +1,6 @@
-import { roomBounds } from "../sim/room.js?v=7d5a5079cdfa";
-import { wallZoneCount } from "../sim/walls.js?v=7d5a5079cdfa";
-import { pcCount } from "../sim/engine.js?v=7d5a5079cdfa";
+import { roomBounds } from "../sim/room.js?v=c416c21ccd84";
+import { wallZoneCount } from "../sim/walls.js?v=c416c21ccd84";
+import { pcCount } from "../sim/engine.js?v=c416c21ccd84";
 export function createShopOverviewPort(getState, getObjectCount, getAnnexSlotCount) {
     return { snapshot() {
             const game = getState();

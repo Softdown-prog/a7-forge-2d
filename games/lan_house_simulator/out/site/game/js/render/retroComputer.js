@@ -1,14 +1,14 @@
-import { iso, polygon, cuboid, raisedCuboid } from "./isometric.js?v=7d5a5079cdfa";
-import { pcBroken } from "../sim/engine.js?v=7d5a5079cdfa";
-import { stationPoweredOn } from "../sim/stationPower.js?v=7d5a5079cdfa";
-import { installedGpu } from "../sim/gpu.js?v=7d5a5079cdfa";
-import { installedLcd } from "../sim/computerModels.js?v=7d5a5079cdfa";
-import { cosmeticAvailable } from "../sim/premiumCosmetics.js?v=7d5a5079cdfa";
-import { yearFromMinutes } from "../sim/historicalEconomy.js?v=7d5a5079cdfa";
-import { isLinuxPc } from "../sim/linuxQuest.js?v=7d5a5079cdfa";
-import { linuxMachineFor } from "../sim/linuxMachines.js?v=7d5a5079cdfa";
-import { drawPcScreenActivity, pcActivityForStation, pcScreenFrame } from "./pcScreenActivities.js?v=7d5a5079cdfa";
-import { drawRasterCached, rasterCacheUsable } from "./rasterCache.js?v=7d5a5079cdfa";
+import { iso, polygon, cuboid, raisedCuboid } from "./isometric.js?v=c416c21ccd84";
+import { pcBroken } from "../sim/engine.js?v=c416c21ccd84";
+import { stationPoweredOn } from "../sim/stationPower.js?v=c416c21ccd84";
+import { installedGpu } from "../sim/gpu.js?v=c416c21ccd84";
+import { installedLcd } from "../sim/computerModels.js?v=c416c21ccd84";
+import { cosmeticAvailable } from "../sim/premiumCosmetics.js?v=c416c21ccd84";
+import { yearFromMinutes } from "../sim/historicalEconomy.js?v=c416c21ccd84";
+import { isLinuxPc } from "../sim/linuxQuest.js?v=c416c21ccd84";
+import { linuxMachineFor } from "../sim/linuxMachines.js?v=c416c21ccd84";
+import { drawPcScreenActivity, pcActivityForStation, pcScreenFrame } from "./pcScreenActivities.js?v=c416c21ccd84";
+import { drawRasterCached, rasterCacheUsable } from "./rasterCache.js?v=c416c21ccd84";
 const lcdMaterials = {
     lcd05: { top: "#d4dcd9", front: "#a5b6b5", side: "#71888a", accent: "#75a5a8" },
     lcd08: { top: "#535d60", front: "#39474b", side: "#26383d", accent: "#98b9b7" },
@@ -694,6 +694,46 @@ export function computerAppearance(s, index, t, isOnline) {
         pulse: mode === "busy" || premiumChair ? Math.floor(t * 1.7 + index) % 2 : 0,
         gpu: installedGpu(s, index), lcd: installedLcd(s, index), premiumChair, premiumKeyboard, keyboardPhase,
         activity, activityFrame };
+}
+/** Screen glass of each monitor as a quad in scene coordinates, from the same plane
+ * mapping the monitor painters use. Null when the glass faces away from the camera
+ * (rotations 1 and 2) or the geometry is degenerate. */
+export function monitorScreenQuad(cam, p, lcd) {
+    if (cam.rotation === 1 || cam.rotation === 2)
+        return null;
+    let x, y, w, z, h, x0, y0, x1, y1;
+    if (lcd) {
+        const n = ["lcd05", "lcd08", "lcd12", "lcd17", "lcd24"].indexOf(lcd);
+        if (n < 0)
+            return null;
+        const width = [.52, .62, .67, .70, .74][n], depth = [.095, .075, .045, .035, .04][n];
+        const edge = [8, 6, 4, 2.5, 2.5][n], foot = [12, 10, 7, 6, 6][n];
+        x = p.x + .44 - width / 2;
+        y = p.y + .12 + depth + .003;
+        w = width;
+        z = 43;
+        h = [28, 25, 27, 28, 30][n];
+        x0 = edge;
+        y0 = edge;
+        x1 = 96 - edge;
+        y1 = 100 - foot;
+    }
+    else {
+        // CRT: monitor box at (.22,-.05) sized .46 x .36, glass inset 15..82 by 16..76.
+        x = p.x + .22;
+        y = p.y - .05 + .36 + .005;
+        w = .46;
+        z = 36;
+        h = 39;
+        x0 = 15;
+        y0 = 16;
+        x1 = 82;
+        y1 = 76;
+    }
+    const a = iso({ x, y }, cam, z + h), b = iso({ x: x + w, y }, cam, z + h), d = iso({ x, y }, cam, z);
+    const at = (u, v) => ({ x: a.x + (b.x - a.x) * u / 96, y: a.y + (b.y - a.y) * u / 96 + (d.y - a.y) * v / 100 });
+    const quad = [at(x0, y0), at(x1, y0), at(x1, y1), at(x0, y1)];
+    return quad.every(q => Number.isFinite(q.x) && Number.isFinite(q.y)) ? quad : null;
 }
 /** Colour and strength of the light a monitor throws on its desk; null when dark. */
 export function screenGlow(a) {

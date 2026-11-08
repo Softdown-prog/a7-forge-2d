@@ -1,9 +1,9 @@
-import { pcCount } from "../sim/engine.js?v=7d5a5079cdfa";
-import { gameYear } from "../sim/era.js?v=7d5a5079cdfa";
-import { GPU_CATALOG, installedGpu, gpuSpec } from "../sim/gpu.js?v=7d5a5079cdfa";
-import { hardwareFor, buildParts, requiredPsuWatts } from "../sim/hardware.js?v=7d5a5079cdfa";
-import { stationOccupied } from "../sim/computerModels.js?v=7d5a5079cdfa";
-import { stationPoweredOn } from "../sim/stationPower.js?v=7d5a5079cdfa";
+import { pcCount } from "../sim/engine.js?v=c416c21ccd84";
+import { gameYear } from "../sim/era.js?v=c416c21ccd84";
+import { GPU_CATALOG, installedGpu, gpuSpec } from "../sim/gpu.js?v=c416c21ccd84";
+import { hardwareFor, buildParts, requiredPsuWatts } from "../sim/hardware.js?v=c416c21ccd84";
+import { stationOccupied } from "../sim/computerModels.js?v=c416c21ccd84";
+import { stationPoweredOn } from "../sim/stationPower.js?v=c416c21ccd84";
 export function createGpuCatalogPort(getState) {
     return { snapshot(selectedPc) {
             const s = getState(), count = pcCount(s), index = Math.max(0, Math.min(count - 1, selectedPc));

@@ -1,7 +1,7 @@
-import { stockItem, contractSupplier, licenseGames, upgradeInternet, repairInternet } from "../sim/economy.js?v=7d5a5079cdfa";
-import { launchPromotion } from "../sim/promotion.js?v=7d5a5079cdfa";
-import { requestCleaning } from "../sim/services.js?v=7d5a5079cdfa";
-import { employeeHired, hireEmployee, dismissEmployee } from "../sim/staff.js?v=7d5a5079cdfa";
+import { stockItem, contractSupplier, licenseGames, upgradeInternet, repairInternet } from "../sim/economy.js?v=c416c21ccd84";
+import { launchPromotion } from "../sim/promotion.js?v=c416c21ccd84";
+import { requestCleaning } from "../sim/services.js?v=c416c21ccd84";
+import { employeeHired, hireEmployee, dismissEmployee } from "../sim/staff.js?v=c416c21ccd84";
 const invalidItem = { ok: false, message: "Mercadoria inválida." };
 const invalidRole = { ok: false, message: "Função de funcionário inválida." };
 const isItem = (item) => item === "soda" || item === "candy" || item === "snacks";
