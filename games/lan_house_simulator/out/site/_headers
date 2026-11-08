@@ -9,6 +9,82 @@
   Cache-Control: no-cache, must-revalidate
 /sobre-o-jogo/
   Cache-Control: no-cache, must-revalidate
+/sobre-o-jogo/guias/001-primeiros-passos-na-lan-house/
+  Cache-Control: no-cache, must-revalidate
+/sobre-o-jogo/guias/002-expediente-horario-e-ritmo-do-dia/
+  Cache-Control: no-cache, must-revalidate
+/sobre-o-jogo/guias/003-atendimento-no-balcao-e-fluxo-de-caixa/
+  Cache-Control: no-cache, must-revalidate
+/sobre-o-jogo/guias/004-paineis-de-gestao-compras-e-atalhos/
+  Cache-Control: no-cache, must-revalidate
+/sobre-o-jogo/guias/005-compra-de-computadores-e-vagas-do-salao/
+  Cache-Control: no-cache, must-revalidate
+/sobre-o-jogo/guias/006-kits-de-plataforma-e-geracoes-de-hardware/
+  Cache-Control: no-cache, must-revalidate
+/sobre-o-jogo/guias/007-pecas-individuais-processador-memoria-disco-e-placa-mae/
+  Cache-Control: no-cache, must-revalidate
+/sobre-o-jogo/guias/008-fontes-de-alimentacao-consumo-e-seguranca-eletrica/
+  Cache-Control: no-cache, must-revalidate
+/sobre-o-jogo/guias/009-monitores-crt-lcd-led-ips-e-arena/
+  Cache-Control: no-cache, must-revalidate
+/sobre-o-jogo/guias/010-operacao-desgaste-reparos-e-receita-por-pc/
+  Cache-Control: no-cache, must-revalidate
+/sobre-o-jogo/guias/011-licenciamento-do-windows-e-versoes-por-epoca/
+  Cache-Control: no-cache, must-revalidate
+/sobre-o-jogo/guias/012-instalacao-do-windows-em-tempo-real/
+  Cache-Control: no-cache, must-revalidate
+/sobre-o-jogo/guias/013-missao-linux-1999-e-revistas-informatica-livre/
+  Cache-Control: no-cache, must-revalidate
+/sobre-o-jogo/guias/014-estacoes-linux-operacao-e-dual-boot/
+  Cache-Control: no-cache, must-revalidate
+/sobre-o-jogo/guias/015-placas-de-video-catalogo-e-compatibilidade/
+  Cache-Control: no-cache, must-revalidate
+/sobre-o-jogo/guias/016-jogos-com-gpu-downloads-e-adicional-por-hora/
+  Cache-Control: no-cache, must-revalidate
+/sobre-o-jogo/guias/017-regularizacao-basica-e-jogos-classicos-de-pc/
+  Cache-Control: no-cache, must-revalidate
+/sobre-o-jogo/guias/018-setor-zero-e-partidas-multiplayer-em-rede/
+  Cache-Control: no-cache, must-revalidate
+/sobre-o-jogo/guias/019-planos-de-internet-quedas-de-conexao-e-velocidade/
+  Cache-Control: no-cache, must-revalidate
+/sobre-o-jogo/guias/020-playstation-1-bancadas-precos-e-catalogo-de-cds/
+  Cache-Control: no-cache, must-revalidate
+/sobre-o-jogo/guias/021-playstation-2-bancadas-e-catalogo-de-dvds/
+  Cache-Control: no-cache, must-revalidate
+/sobre-o-jogo/guias/022-revistas-top-games-carteiro-e-desbloqueio-de-jogos/
+  Cache-Control: no-cache, must-revalidate
+/sobre-o-jogo/guias/023-estoque-fornecedores-pedidos-e-entregas/
+  Cache-Control: no-cache, must-revalidate
+/sobre-o-jogo/guias/024-mercadorias-precos-de-varejo-e-consumo-dos-clientes/
+  Cache-Control: no-cache, must-revalidate
+/sobre-o-jogo/guias/025-limpeza-lixeiras-faxineiro-e-tecnico/
+  Cache-Control: no-cache, must-revalidate
+/sobre-o-jogo/guias/026-impressora-precos-por-pagina-e-manutencao/
+  Cache-Control: no-cache, must-revalidate
+/sobre-o-jogo/guias/027-copiadora-de-cd-e-dvd-precos-e-operacao/
+  Cache-Control: no-cache, must-revalidate
+/sobre-o-jogo/guias/028-precos-por-hora-inflacao-historica-e-teto-de-tarifa/
+  Cache-Control: no-cache, must-revalidate
+/sobre-o-jogo/guias/029-caixa-contas-mensais-ocupacao-e-clareza-financeira/
+  Cache-Control: no-cache, must-revalidate
+/sobre-o-jogo/guias/030-divulgacao-reputacao-e-opinioes-dos-clientes/
+  Cache-Control: no-cache, must-revalidate
+/sobre-o-jogo/guias/031-perfis-de-clientes-escolhas-e-paciencia-na-fila/
+  Cache-Control: no-cache, must-revalidate
+/sobre-o-jogo/guias/032-clientes-vip-requisitos-e-bonus-de-receita/
+  Cache-Control: no-cache, must-revalidate
+/sobre-o-jogo/guias/033-ampliacoes-do-salao-paredes-portas-e-decoracao/
+  Cache-Control: no-cache, must-revalidate
+/sobre-o-jogo/guias/034-organizar-salao-e-diagnostico-de-passagens/
+  Cache-Control: no-cache, must-revalidate
+/sobre-o-jogo/guias/035-correio-avisos-fiscais-e-historias-do-bairro/
+  Cache-Control: no-cache, must-revalidate
+/sobre-o-jogo/guias/036-corujao-de-sexta-feira-formatos-e-galeria-de-trofeus/
+  Cache-Control: no-cache, must-revalidate
+/sobre-o-jogo/guias/037-salvamento-automatico-backup-e-arquivos-json/
+  Cache-Control: no-cache, must-revalidate
+/sobre-o-jogo/guias/038-minha-conta-salvamento-na-nuvem-cookies-e-donate/
+  Cache-Control: no-cache, must-revalidate
 /sobre-nos/
   Cache-Control: no-cache, must-revalidate
 /ajuda/
@@ -39,7 +115,7 @@
   Cache-Control: no-cache, must-revalidate
 /game/*
   Cache-Control: no-cache, must-revalidate
-/assets/site/main-I6UTJPHL.js
+/assets/site/main-NT7CX7ZS.js
   Cache-Control: public, max-age=31536000, immutable
-/assets/site/styles-IMR5JLYT.css
+/assets/site/styles-FMAOZKQP.css
   Cache-Control: public, max-age=31536000, immutable
