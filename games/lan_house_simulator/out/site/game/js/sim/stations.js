@@ -1,9 +1,9 @@
-export { ANNEX_PC_COST, annexComputerPosition, annexComputerSlots, availableAnnexComputers, validAnnexComputers } from "./stationLayout.js?v=345c7fc7b8be";
-import { fixedLayoutObjects, layoutPlacementIssue, objectTouchesCustomer } from "./layoutGeometry.js?v=345c7fc7b8be";
-import { navigableRoute } from "./navigation.js?v=345c7fc7b8be";
-import { computerSeat, counterQueue } from "./route.js?v=345c7fc7b8be";
-import { emptyStationAccount } from "./stationAccounting.js?v=345c7fc7b8be";
-import { ANNEX_PC_COST, annexComputerSlots, availableAnnexComputers } from "./stationLayout.js?v=345c7fc7b8be";
+export { ANNEX_PC_COST, annexComputerPosition, annexComputerSlots, availableAnnexComputers, validAnnexComputers } from "./stationLayout.js?v=229a76357973";
+import { fixedLayoutObjects, layoutPlacementIssue, objectTouchesCustomer } from "./layoutGeometry.js?v=229a76357973";
+import { navigableRoute } from "./navigation.js?v=229a76357973";
+import { computerSeat, counterQueue } from "./route.js?v=229a76357973";
+import { emptyStationAccount } from "./stationAccounting.js?v=229a76357973";
+import { ANNEX_PC_COST, annexComputerSlots, availableAnnexComputers } from "./stationLayout.js?v=229a76357973";
 export function installAnnexComputer(s, slotId) {
     if (!availableAnnexComputers(s).some(slot => slot.id === slotId))
         return { ok: false, message: "Posição de PC indisponível nesta ampliação." };

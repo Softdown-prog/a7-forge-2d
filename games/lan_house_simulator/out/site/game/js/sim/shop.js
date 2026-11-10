@@ -1,20 +1,20 @@
-export { FURNITURE_SLOTS, furnitureLimit, furnitureLocations, furnitureSlots, occupiedFurnitureSlots } from "./furnitureLayout.js?v=345c7fc7b8be";
-import { installedLcd } from "./computerModels.js?v=345c7fc7b8be";
-import { installedWindows } from "./eraCatalog.js?v=345c7fc7b8be";
-import { linuxMachineSpec, linuxMachineFor } from "./linuxMachines.js?v=345c7fc7b8be";
-import { linuxUnlocked } from "./linuxQuest.js?v=345c7fc7b8be";
-import { DISC_COPIER_COST } from "./discCopy.js?v=345c7fc7b8be";
-import { furnitureLimit, furnitureLocations, furnitureSlots, occupiedFurnitureSlots } from "./furnitureLayout.js?v=345c7fc7b8be";
-import { builtPosters, fixedLayoutObjects, layoutGoals, layoutPlacementIssue, objectTouchesCustomer, pointInsideObject } from "./layoutGeometry.js?v=345c7fc7b8be";
-import { navigableRoute, routesForCurrentCustomers } from "./navigation.js?v=345c7fc7b8be";
-import { PRINTER_COST } from "./printService.js?v=345c7fc7b8be";
-import { activeRetailQueuesReachable, refreshRetailQueues } from "./retailQueue.js?v=345c7fc7b8be";
-import { expansionPrice } from "./room.js?v=345c7fc7b8be";
-import { entrance } from "./simulationState.js?v=345c7fc7b8be";
-import { emptyStationAccount } from "./stationAccounting.js?v=345c7fc7b8be";
-import { stationPoweredOn } from "./stationPower.js?v=345c7fc7b8be";
-import { ANNEX_PC_COST } from "./stations.js?v=345c7fc7b8be";
-import { WALL_COST } from "./walls.js?v=345c7fc7b8be";
+export { FURNITURE_SLOTS, furnitureLimit, furnitureLocations, furnitureSlots, occupiedFurnitureSlots } from "./furnitureLayout.js?v=229a76357973";
+import { installedLcd } from "./computerModels.js?v=229a76357973";
+import { installedWindows } from "./eraCatalog.js?v=229a76357973";
+import { linuxMachineSpec, linuxMachineFor } from "./linuxMachines.js?v=229a76357973";
+import { linuxUnlocked } from "./linuxQuest.js?v=229a76357973";
+import { DISC_COPIER_COST } from "./discCopy.js?v=229a76357973";
+import { furnitureLimit, furnitureLocations, furnitureSlots, occupiedFurnitureSlots } from "./furnitureLayout.js?v=229a76357973";
+import { builtPosters, fixedLayoutObjects, layoutGoals, layoutPlacementIssue, objectTouchesCustomer, pointInsideObject } from "./layoutGeometry.js?v=229a76357973";
+import { navigableRoute, routesForCurrentCustomers } from "./navigation.js?v=229a76357973";
+import { PRINTER_COST } from "./printService.js?v=229a76357973";
+import { activeRetailQueuesReachable, refreshRetailQueues } from "./retailQueue.js?v=229a76357973";
+import { expansionPrice } from "./room.js?v=229a76357973";
+import { entrance } from "./simulationState.js?v=229a76357973";
+import { emptyStationAccount } from "./stationAccounting.js?v=229a76357973";
+import { stationPoweredOn } from "./stationPower.js?v=229a76357973";
+import { ANNEX_PC_COST } from "./stations.js?v=229a76357973";
+import { WALL_COST } from "./walls.js?v=229a76357973";
 export const SHOP_CATALOG = [
     { id: "expand", label: "Ampliar área principal", category: "Expansão", description: "Aumenta em duas faixas a largura da área principal, sempre no mesmo sentido (sem sorteio). Libera duas vagas de PC e aumenta os custos fixos mensais." },
     { id: "computer", label: "Instalar PC na área principal", category: "Computadores", description: "Computador completo com mesa e cadeira, instalado automaticamente na próxima vaga da área principal. Para abrir duas vagas, use Ampliar área principal." },

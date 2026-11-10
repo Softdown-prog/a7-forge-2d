@@ -1,7 +1,7 @@
-import { pcCount } from "../sim/engine.js?v=345c7fc7b8be";
-import { gameYear } from "../sim/era.js?v=345c7fc7b8be";
-import { LCD_CATALOG, installedLcd, lcdSpec, stationModelName, stationOccupied } from "../sim/computerModels.js?v=345c7fc7b8be";
-import { stationPoweredOn } from "../sim/stationPower.js?v=345c7fc7b8be";
+import { pcCount } from "../sim/engine.js?v=229a76357973";
+import { gameYear } from "../sim/era.js?v=229a76357973";
+import { LCD_CATALOG, installedLcd, lcdSpec, stationModelName, stationOccupied } from "../sim/computerModels.js?v=229a76357973";
+import { stationPoweredOn } from "../sim/stationPower.js?v=229a76357973";
 export function createLcdMonitorsPort(getState) {
     return { snapshot(selectedPc) {
             const game = getState(), year = gameYear(game), count = pcCount(game);

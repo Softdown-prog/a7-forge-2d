@@ -1,9 +1,13 @@
-import { availablePlacementSlots, furnitureSlots, shopPrice } from "./shop.js?v=345c7fc7b8be";
-import { validateObjectPlacements } from "./editableObjects.js?v=345c7fc7b8be";
-import { annualHourlyCeiling, isHistorical, yearFromMinutes, priceIndex } from "./historicalEconomy.js?v=345c7fc7b8be";
-import { consolePoint, consoleSeat, consoleApproach } from "./consoleLayout.js?v=345c7fc7b8be";
-import { roomBounds } from "./room.js?v=345c7fc7b8be";
-import { topGamesCanBuy } from "./topGamesUnlockGate.js?v=345c7fc7b8be";
+import { availablePlacementSlots, furnitureSlots, shopPrice } from "./shop.js?v=229a76357973";
+import { validateObjectPlacements } from "./editableObjects.js?v=229a76357973";
+import { layoutGoals } from "./layoutGeometry.js?v=229a76357973";
+import { navigableRoute } from "./navigation.js?v=229a76357973";
+import { entrance } from "./simulationState.js?v=229a76357973";
+import { validPs2State } from "./ps2.js?v=229a76357973";
+import { annualHourlyCeiling, isHistorical, yearFromMinutes, priceIndex } from "./historicalEconomy.js?v=229a76357973";
+import { consolePoint, consoleSeat, consoleApproach } from "./consoleLayout.js?v=229a76357973";
+import { roomBounds } from "./room.js?v=229a76357973";
+import { topGamesCanBuy } from "./topGamesUnlockGate.js?v=229a76357973";
 /** Marco de design: mistura das antigas locadoras de console com lan houses. */
 export const PS1_UNLOCK_YEAR = 2002;
 export const PS1_MAX_STATIONS = 3;
@@ -105,17 +109,22 @@ export function setPs1StationDisc(s, index, id) {
 }
 const in2002 = (s) => isHistorical(s) && yearFromMinutes(s.totalMinutes) >= PS1_UNLOCK_YEAR;
 const coin = (v) => Math.round(v * 100) / 100;
-/** Bancadas usam os pontos largos do salão, não as casas miúdas da decoração. */
+/** O salão com a bancada nova continua gravável: cada PS2 instalado mantém seu corredor,
+ * os equipamentos reposicionados não são cobertos e toda cadeira segue alcançável pela porta.
+ * É a mesma regra que valida o salvamento; uma compra aceita aqui nunca pode torná-lo inválido. */
+function ps1LayoutHolds(candidate) {
+    if (!validPs2State(candidate) || !validateObjectPlacements(candidate))
+        return false;
+    return layoutGoals(candidate).every(goal => navigableRoute(candidate, entrance(candidate), goal));
+}
+/** Bancadas usam os pontos largos do salão, não as casas miúdas da decoração.
+ * O encaixe é medido como uma mesinha, mas a bancada com TV e cadeira é bem maior:
+ * por isso cada encaixe é validado também com a geometria completa. */
 export function ps1PlacementSlots(s) {
     const free = new Set(availablePlacementSlots(s, "table").map(p => p.id));
-    const slots = furnitureSlots(s).filter(p => p.surface === "floor" &&
-        p.id.startsWith("floor-") && !p.id.startsWith("floor-grid-") && free.has(p.id));
-    // O encaixe é medido como uma mesinha, mas a bancada com TV e cadeira é bem
-    // maior: com equipamentos reposicionados pelo editor ela podia cobrir um PC
-    // ou fechar um corredor, e a partida deixava de gravar.
-    if (!s.objectPlacements?.length)
-        return slots;
-    return slots.filter(p => validateObjectPlacements({ ...s, ps1Stations: [...(s.ps1Stations ?? []), { slotId: p.id, wear: 0 }] }));
+    return furnitureSlots(s).filter(p => p.surface === "floor" &&
+        p.id.startsWith("floor-") && !p.id.startsWith("floor-grid-") && free.has(p.id) &&
+        ps1LayoutHolds({ ...s, ps1Stations: [...(s.ps1Stations ?? []), { slotId: p.id, wear: 0 }] }));
 }
 /** Nome amigável para a escolha da bancada. Mantém o ID original do
  * encaixe no <select> (saves e pathfinding permanecem iguais).
@@ -185,7 +194,7 @@ export function buyPs1SecondSeat(s, index) {
     const bounds = roomBounds(s), p = ps1StationPoint(s, index);
     if (!p || p.x - .35 <= bounds.minX + .22 || p.x + 1.36 >= bounds.maxX - .22)
         return { ok: false, message: "Esta bancada não tem corredor lateral para a segunda cadeira." };
-    if (s.objectPlacements?.length && !validateObjectPlacements({ ...s, ps1Stations: s.ps1Stations.map((v, i) => i === index ? { ...v, secondSeat: true } : v) }))
+    if (!ps1LayoutHolds({ ...s, ps1Stations: s.ps1Stations.map((v, i) => i === index ? { ...v, secondSeat: true } : v) }))
         return { ok: false, message: "A segunda cadeira ficaria sem corredor livre. Reorganize os equipamentos próximos." };
     const cost = ps1SecondSeatPrice(s);
     if (s.cash < cost)

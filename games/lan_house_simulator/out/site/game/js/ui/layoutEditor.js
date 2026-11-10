@@ -1,5 +1,5 @@
-import { iso } from "../render/isometric.js?v=345c7fc7b8be";
-import { scenePointFromClient, sceneUnitsPerCssPixel } from "../render/sceneSurface.js?v=345c7fc7b8be";
+import { iso } from "../render/isometric.js?v=229a76357973";
+import { scenePointFromClient, sceneUnitsPerCssPixel } from "../render/sceneSurface.js?v=229a76357973";
 export function createLayoutEditor(canvas, port, onOpen, onChange) {
     const panel = document.querySelector("#layout-editor"), select = document.querySelector("#layout-object"), message = document.querySelector("#layout-message"), confirm = document.querySelector("#layout-confirm");
     const remove = document.querySelector("#layout-remove"), removalPanel = document.querySelector("#layout-removal"), removalMessage = document.querySelector("#layout-removal-message");

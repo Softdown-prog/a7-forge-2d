@@ -1,9 +1,9 @@
-import { gameYear, WINDOWS_ERAS } from "../sim/era.js?v=345c7fc7b8be";
-import { GPU_CATALOG } from "../sim/gpu.js?v=345c7fc7b8be";
-import { GPU_GAME_CATALOG, quoteGpuGame, gpuGameHourlyRate, gpuGameInstalledOnPc, gpuGameAttraction, gpuGameInstallJob } from "../sim/gpuGames.js?v=345c7fc7b8be";
-import { gpuDemandReport, gpuLicenseCoverage } from "../sim/gpuDemand.js?v=345c7fc7b8be";
-import { gamePopularityPercent } from "../sim/gamePopularity.js?v=345c7fc7b8be";
-import { stationPoweredOn, stationHasCustomer } from "../sim/stationPower.js?v=345c7fc7b8be";
+import { gameYear, WINDOWS_ERAS } from "../sim/era.js?v=229a76357973";
+import { GPU_CATALOG } from "../sim/gpu.js?v=229a76357973";
+import { GPU_GAME_CATALOG, quoteGpuGame, gpuGameHourlyRate, gpuGameInstalledOnPc, gpuGameAttraction, gpuGameInstallJob } from "../sim/gpuGames.js?v=229a76357973";
+import { gpuDemandReport, gpuLicenseCoverage } from "../sim/gpuDemand.js?v=229a76357973";
+import { gamePopularityPercent } from "../sim/gamePopularity.js?v=229a76357973";
+import { stationPoweredOn, stationHasCustomer } from "../sim/stationPower.js?v=229a76357973";
 export function createGpuGamesCatalogPort(getState) {
     return { snapshot() {
             const game = getState(), year = gameYear(game);

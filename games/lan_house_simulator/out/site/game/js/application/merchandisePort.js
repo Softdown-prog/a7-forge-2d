@@ -1,5 +1,5 @@
-import { PRODUCTS, SUPPLIERS, availableProducts, merchandiseStock, merchandisePrice, averageProductCost, orderMerchandise, setMerchandisePrice, quoteOrder, productSpec, productQuality } from "../sim/merchandise.js?v=345c7fc7b8be";
-import { yearFromMinutes } from "../sim/historicalEconomy.js?v=345c7fc7b8be";
+import { PRODUCTS, SUPPLIERS, availableProducts, merchandiseStock, merchandisePrice, averageProductCost, orderMerchandise, setMerchandisePrice, quoteOrder, productSpec, productQuality } from "../sim/merchandise.js?v=229a76357973";
+import { yearFromMinutes } from "../sim/historicalEconomy.js?v=229a76357973";
 const suppliers = SUPPLIERS.map(({ id, name, description, minPacks }) => ({ id, name, description, minPacks }));
 export function createMerchandisePort(getState) {
     return {
