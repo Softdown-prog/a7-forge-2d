@@ -1,4 +1,4 @@
-import { syncPanelChildren } from "./panelChildren.js?v=a5cbdbc30563";
+import { syncPanelChildren } from "./panelChildren.js?v=345c7fc7b8be";
 export function renderStationLedgerRows(host, port) {
     const currency = (value) => value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
     const next = document.createElement("tbody");

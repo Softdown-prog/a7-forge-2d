@@ -1,5 +1,5 @@
-import { DAY_MINUTES } from "./types.js?v=a5cbdbc30563";
-import { isHistorical, priceIndex, yearFromMinutes } from "./historicalEconomy.js?v=a5cbdbc30563";
+import { DAY_MINUTES } from "./types.js?v=345c7fc7b8be";
+import { isHistorical, priceIndex, yearFromMinutes } from "./historicalEconomy.js?v=345c7fc7b8be";
 const ROLES = ["cleaner", "technician"];
 /** Valores fictícios de balanceamento de 1998, não salários históricos. */
 export const EMPLOYEE_MONTHLY_WAGE_1998 = { cleaner: 210, technician: 330 };
@@ -31,12 +31,17 @@ export function accrueEmployeeDay(s) {
     }
 }
 export function hireEmployee(s, role) {
+    // Um cargo desconhecido gravaria uma chave inválida e inutilizaria o salvamento.
+    if (!ROLES.includes(role))
+        return { ok: false, message: "Cargo inexistente." };
     if (employeeHired(s, role))
         return { ok: false, message: "Esse profissional já está contratado." };
     s.employees = { ...(s.employees ?? {}), [role]: true };
     return { ok: true, message: (role === "cleaner" ? "Faxineiro" : "Técnico") + " contratado por mês. R$ " + employeeDailyWage(s, role).toFixed(2) + "/dia efetivamente trabalhado; sem taxa por dia ocioso. Cobrança no fechamento mensal." };
 }
 export function dismissEmployee(s, role) {
+    if (!ROLES.includes(role))
+        return { ok: false, message: "Cargo inexistente." };
     if (!employeeHired(s, role))
         return { ok: false, message: "Esse profissional não está contratado." };
     s.employees = { ...(s.employees ?? {}), [role]: false };

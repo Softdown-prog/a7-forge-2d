@@ -1,12 +1,12 @@
-import { validateObjectPlacements } from "./editableObjects.js?v=a5cbdbc30563";
-import { DAY_MINUTES } from "./types.js?v=a5cbdbc30563";
-import { GAME_LAST_MINUTE } from "./mailCalendar.js?v=a5cbdbc30563";
-import { isValidSave } from "./engine.js?v=a5cbdbc30563";
-import { validFurniturePlacements } from "./shop.js?v=a5cbdbc30563";
-import { validRoomExtensions } from "./room.js?v=a5cbdbc30563";
-import { validInteriorWalls, validInteriorDoors } from "./walls.js?v=a5cbdbc30563";
-import { validAnnexComputers } from "./stations.js?v=a5cbdbc30563";
-import { MIN_HOURLY_PRICE } from "./historicalEconomy.js?v=a5cbdbc30563";
+import { validateObjectPlacements } from "./editableObjects.js?v=345c7fc7b8be";
+import { DAY_MINUTES } from "./types.js?v=345c7fc7b8be";
+import { GAME_LAST_MINUTE } from "./mailCalendar.js?v=345c7fc7b8be";
+import { isValidSave } from "./engine.js?v=345c7fc7b8be";
+import { validFurniturePlacements } from "./shop.js?v=345c7fc7b8be";
+import { validRoomExtensions } from "./room.js?v=345c7fc7b8be";
+import { validInteriorWalls, validInteriorDoors } from "./walls.js?v=345c7fc7b8be";
+import { validAnnexComputers } from "./stations.js?v=345c7fc7b8be";
+import { MIN_HOURLY_PRICE } from "./historicalEconomy.js?v=345c7fc7b8be";
 export const SAVE_EXPORT_FORMAT = "softdown-lan-house-save";
 /** Exclui filas visuais efêmeras. O estado econômico e das estações
  * permanece idêntico, inclusive em saves antigos importados. */

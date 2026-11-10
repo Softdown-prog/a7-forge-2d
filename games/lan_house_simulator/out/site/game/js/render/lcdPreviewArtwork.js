@@ -1,5 +1,5 @@
 /** Draw one LCD catalog model using the same art as playable stations. */
-import { drawRetroComputer } from "./retroComputer.js?v=a5cbdbc30563";
+import { drawRetroComputer } from "./retroComputer.js?v=345c7fc7b8be";
 export function drawLcdPreviewArtwork(context, sample) {
     context.fillStyle = "#dce5cf";
     context.fillRect(0, 0, 320, 190);

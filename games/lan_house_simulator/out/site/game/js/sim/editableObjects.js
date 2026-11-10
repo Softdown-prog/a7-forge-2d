@@ -1,12 +1,12 @@
-export { builtPosters, editableObjects, fixedLayoutObjects, layoutGoals, layoutPlacementIssue, objectCorners, objectRect, objectTouchesCustomer, pointInsideObject, wallCutsObject } from "./layoutGeometry.js?v=a5cbdbc30563";
-import { counterQueueCustomers, counterQueueSlot } from "./checkoutQueue.js?v=a5cbdbc30563";
-import { furnitureLocations, furnitureSlots } from "./furnitureLayout.js?v=a5cbdbc30563";
-import { purchaseApproach } from "./layout.js?v=a5cbdbc30563";
-import { builtPosters, editableObjects, fixedLayoutObjects, layoutGoals, layoutPlacementIssue, objectTouchesCustomer } from "./layoutGeometry.js?v=a5cbdbc30563";
-import { navigableRoute, routesForCurrentCustomers } from "./navigation.js?v=a5cbdbc30563";
-import { activeRetailQueuesReachable, refreshRetailQueues } from "./retailQueue.js?v=a5cbdbc30563";
-import { removeFurniture } from "./shop.js?v=a5cbdbc30563";
-import { entrance } from "./simulationState.js?v=a5cbdbc30563";
+export { builtPosters, editableObjects, fixedLayoutObjects, layoutGoals, layoutPlacementIssue, objectCorners, objectRect, objectTouchesCustomer, pointInsideObject, wallCutsObject } from "./layoutGeometry.js?v=345c7fc7b8be";
+import { counterQueueCustomers, counterQueueSlot } from "./checkoutQueue.js?v=345c7fc7b8be";
+import { furnitureLocations, furnitureSlots } from "./furnitureLayout.js?v=345c7fc7b8be";
+import { purchaseApproach } from "./layout.js?v=345c7fc7b8be";
+import { builtPosters, editableObjects, fixedLayoutObjects, layoutGoals, layoutPlacementIssue, objectTouchesCustomer } from "./layoutGeometry.js?v=345c7fc7b8be";
+import { navigableRoute, routesForCurrentCustomers } from "./navigation.js?v=345c7fc7b8be";
+import { activeRetailQueuesReachable, refreshRetailQueues } from "./retailQueue.js?v=345c7fc7b8be";
+import { removeFurniture } from "./shop.js?v=345c7fc7b8be";
+import { entrance } from "./simulationState.js?v=345c7fc7b8be";
 export function validateObjectPlacements(s) {
     if (s.removedBuiltPosters !== undefined && (!Array.isArray(s.removedBuiltPosters) || s.removedBuiltPosters.length > 7 || new Set(s.removedBuiltPosters).size !== s.removedBuiltPosters.length || !s.removedBuiltPosters.every(i => Number.isInteger(i) && i >= 0 && i < 7)))
         return false;
@@ -76,6 +76,19 @@ export function moveLayoutObject(s, id, destination, rotation) {
         for (const [i, c] of counterQueueCustomers(candidate).entries())
             if (!navigableRoute(candidate, c, counterQueueSlot(i, candidate)))
                 return { ok: false, message: "A fila atual não cabe aqui. Escolha outra posição ou aguarde o atendimento." };
+    // O destino é validado no salão antigo; a cadeira ou o ponto de atendimento
+    // do objeto movido pode cair dentro de OUTRO equipamento já reposicionado.
+    // Conferir todos no salão novo, pela mesma regra que valida o salvamento:
+    // uma mudança aceita aqui nunca pode produzir uma partida que não grava.
+    if (!id.startsWith("decor:")) {
+        const moved = editableObjects(candidate);
+        for (const p of candidate.objectPlacements ?? []) {
+            const placed = moved.find(o => o.id === p.id);
+            const conflict = placed ? layoutPlacementIssue(candidate, placed) : "Posição inválida.";
+            if (conflict)
+                return { ok: false, message: p.id === id ? conflict : "Mantenha os assentos e pontos de atendimento livres." };
+        }
+    }
     for (const goal of layoutGoals(candidate))
         if (!navigableRoute(candidate, entrance(candidate), goal))
             return { ok: false, message: "Deixe uma passagem para todos os PCs, balcão e máquinas." };

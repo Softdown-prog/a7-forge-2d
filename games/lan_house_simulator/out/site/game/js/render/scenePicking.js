@@ -1,5 +1,5 @@
-import { iso } from "./isometric.js?v=a5cbdbc30563";
-import { scenePointFromClient, sceneUnitsPerCssPixel } from "./sceneSurface.js?v=a5cbdbc30563";
+import { iso } from "./isometric.js?v=345c7fc7b8be";
+import { scenePointFromClient, sceneUnitsPerCssPixel } from "./sceneSurface.js?v=345c7fc7b8be";
 export function createScenePicker(canvas, placementActions, getCamera, selection, coarsePointer) {
     function getCanvasPoint(e) {
         // Scene units are fixed; the backing store may hold more device pixels.
