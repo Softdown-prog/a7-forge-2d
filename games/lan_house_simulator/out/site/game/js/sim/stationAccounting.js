@@ -1,4 +1,4 @@
-import { stationPoweredOn } from "./stationPower.js?v=5a84ef5bc1ea";
+import { stationPoweredOn } from "./stationPower.js?v=1507cb2cfb2d";
 /** A contabilidade segue a estação, independente das peças instaladas. */
 export function emptyStationAccount() {
     return { sessions: 0, vipSessions: 0, sessionRevenue: 0, vipRevenue: 0,

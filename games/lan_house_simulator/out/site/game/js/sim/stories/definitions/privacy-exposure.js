@@ -1,4 +1,4 @@
-import { choice, story } from "../builders.js?v=5a84ef5bc1ea";
+import { choice, story } from "../builders.js?v=1507cb2cfb2d";
 /** Independent story catalogue entry: privacy-exposure. */
 export const definition = story("Dados pessoais ficaram no computador", "Uma pessoa encontrou arquivos pessoais do cliente anterior. A configuração das estações precisa de revisão.", "problem", [
     choice("privacy-specialist", "Contratar revisão profissional", 185, "Limpa perfis e configura proteção das estações", "good", { reputation: 2 }),

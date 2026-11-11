@@ -1,7 +1,7 @@
-import { iso, polygon } from "../isometric.js?v=5a84ef5bc1ea";
-import { cosmeticAvailable } from "../../sim/premiumCosmetics.js?v=5a84ef5bc1ea";
-import { yearFromMinutes } from "../../sim/historicalEconomy.js?v=5a84ef5bc1ea";
-import { drawNeonOpenSign, neonOpenLit } from "../neonOpenArt.js?v=5a84ef5bc1ea";
+import { iso, polygon } from "../isometric.js?v=1507cb2cfb2d";
+import { cosmeticAvailable } from "../../sim/premiumCosmetics.js?v=1507cb2cfb2d";
+import { yearFromMinutes } from "../../sim/historicalEconomy.js?v=1507cb2cfb2d";
+import { drawNeonOpenSign, neonOpenLit } from "../neonOpenArt.js?v=1507cb2cfb2d";
 /** Physical entrance threshold and optional illuminated welcome sign. */
 export function drawEntryMarker(ctx, camera, s) {
     // Somente limiar de entrada dentro do salão; não há rua, fachada externa ou chuva.

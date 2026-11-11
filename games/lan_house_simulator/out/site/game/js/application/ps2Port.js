@@ -1,7 +1,7 @@
-import { PS2_GAME_CATALOG, ps2ReleasedGames, ps2Unlocked, ps2BenchPrice, ps2GamePrice, ps2GameCopies, ps2ActiveCopies, ps2HourPrice, ps2AllowedHourlyCeiling, ps2PlacementSlots, ps2OpenSeat, ps2StationBusy, ps2SecondSeatPrice, ps2RepairPrice, buyPs2Station, buyPs2Game, setPs2StationGame, buyPs2SecondSeat, repairPs2, setPs2Power, setPs2HourlyPrice } from "../sim/ps2.js?v=5a84ef5bc1ea";
-import { ps1PlacementLabel } from "../sim/ps1.js?v=5a84ef5bc1ea";
-import { yearFromMinutes } from "../sim/historicalEconomy.js?v=5a84ef5bc1ea";
-import { topGamesCanBuy } from "../sim/topGamesUnlockGate.js?v=5a84ef5bc1ea";
+import { PS2_GAME_CATALOG, ps2ReleasedGames, ps2Unlocked, ps2BenchPrice, ps2GamePrice, ps2GameCopies, ps2ActiveCopies, ps2HourPrice, ps2AllowedHourlyCeiling, ps2PlacementSlots, ps2OpenSeat, ps2StationBusy, ps2SecondSeatPrice, ps2RepairPrice, buyPs2Station, buyPs2Game, setPs2StationGame, buyPs2SecondSeat, repairPs2, setPs2Power, setPs2HourlyPrice } from "../sim/ps2.js?v=1507cb2cfb2d";
+import { ps1PlacementLabel } from "../sim/ps1.js?v=1507cb2cfb2d";
+import { yearFromMinutes } from "../sim/historicalEconomy.js?v=1507cb2cfb2d";
+import { topGamesCanBuy } from "../sim/topGamesUnlockGate.js?v=1507cb2cfb2d";
 const invalid = { ok: false, message: "Ação de PS2 inválida." };
 const known = (id) => PS2_GAME_CATALOG.some(g => g.id === id);
 export function createPs2Port(getState) {

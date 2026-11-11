@@ -1,4 +1,4 @@
-import { choice, story } from "../builders.js?v=5a84ef5bc1ea";
+import { choice, story } from "../builders.js?v=1507cb2cfb2d";
 /** Independent story catalogue entry: school-uniform-policy. */
 export const definition = story("2004: alunos de uniforme durante as aulas", "A escola do bairro procurou Tony: estudantes estão frequentando a lan house de uniforme durante o horário de aula. A direção pede colaboração para orientar os jovens. É um acordo local, não uma proibição nacional. Como sua lan house vai lidar com a situação?", "problem", [
     choice("uniform-post-rule", "Estabelecer regra e avisar famílias", 65, "Explica os horários, orienta os estudantes e registra um acordo com a escola", "good", { reputation: 2, visitors: .98, visitorDays: 6 }),

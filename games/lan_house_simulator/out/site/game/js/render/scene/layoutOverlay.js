@@ -1,13 +1,13 @@
-import { merchandiseDisplay } from "../merchandiseDisplay.js?v=5a84ef5bc1ea";
-import { editableObjects, objectCorners, layoutPlacementIssue } from "../../sim/editableObjects.js?v=5a84ef5bc1ea";
-import { online } from "../../sim/simulationState.js?v=5a84ef5bc1ea";
-import { cameraForGame, iso, polygon, objectCamera } from "../isometric.js?v=5a84ef5bc1ea";
-import { drawComputerDesk } from "./stations/computer.js?v=5a84ef5bc1ea";
-import { drawCounterSurface } from "./stations/counter.js?v=5a84ef5bc1ea";
-import { drawSnackShelf, drawVendingMachine } from "../retailArt.js?v=5a84ef5bc1ea";
-import { drawTrashBin } from "./trashBin.js?v=5a84ef5bc1ea";
-import { drawWallPoster } from "../posterArt.js?v=5a84ef5bc1ea";
-import { drawPurchasedFurniture } from "./furnitureArt.js?v=5a84ef5bc1ea";
+import { merchandiseDisplay } from "../merchandiseDisplay.js?v=1507cb2cfb2d";
+import { editableObjects, objectCorners, layoutPlacementIssue } from "../../sim/editableObjects.js?v=1507cb2cfb2d";
+import { online } from "../../sim/simulationState.js?v=1507cb2cfb2d";
+import { cameraForGame, iso, polygon, objectCamera } from "../isometric.js?v=1507cb2cfb2d";
+import { drawComputerDesk } from "./stations/computer.js?v=1507cb2cfb2d";
+import { drawCounterSurface } from "./stations/counter.js?v=1507cb2cfb2d";
+import { drawSnackShelf, drawVendingMachine } from "../retailArt.js?v=1507cb2cfb2d";
+import { drawTrashBin } from "./trashBin.js?v=1507cb2cfb2d";
+import { drawWallPoster } from "../posterArt.js?v=1507cb2cfb2d";
+import { drawPurchasedFurniture } from "./furnitureArt.js?v=1507cb2cfb2d";
 /** Edit-mode interaction overlay. Drawing and placement validation remain separate. */
 export function drawLayoutOverlay(ctx, s, selected, draft, time) {
     const cam = cameraForGame(s);

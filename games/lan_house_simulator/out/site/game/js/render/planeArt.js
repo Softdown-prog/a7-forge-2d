@@ -1,4 +1,4 @@
-import { iso } from "./isometric.js?v=5a84ef5bc1ea";
+import { iso } from "./isometric.js?v=1507cb2cfb2d";
 const FACES = { front: [0, 3], back: [1, 2], right: [0, 1], left: [2, 3] };
 /** True when the given side of a counter-aligned object faces the camera. */
 export function faceVisible(cam, face) {

@@ -1,5 +1,5 @@
-import { walkingLeg, walkAxis } from "../walkCycle.js?v=5a84ef5bc1ea";
-import { profileWalkingStep, limb, ell, segment } from "./rigPrimitives.js?v=5a84ef5bc1ea";
+import { walkingLeg, walkAxis } from "../walkCycle.js?v=1507cb2cfb2d";
+import { profileWalkingStep, limb, ell, segment } from "./rigPrimitives.js?v=1507cb2cfb2d";
 /** Lower-body pose pass: independent from faces and upper-body accessories. */
 export function drawActorLegs(ctx, a, rig) {
     const { style, phase, step, seated, headShift, bob, consoleSeat, screenRig, profileWalk, nearSide, sideways, screenView, walking, quarter, back } = rig;

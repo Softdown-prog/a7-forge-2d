@@ -1,5 +1,5 @@
-import { hairSheen } from "./rigPrimitives.js?v=5a84ef5bc1ea";
-import { femaleHairBehind, femaleTorso, femaleHairFront, femaleHairBack } from "./femaleRig.js?v=5a84ef5bc1ea";
+import { hairSheen } from "./rigPrimitives.js?v=1507cb2cfb2d";
+import { femaleHairBehind, femaleTorso, femaleHairFront, femaleHairBack } from "./femaleRig.js?v=1507cb2cfb2d";
 export const appearance = {
     style: { shirt: "#4F9189", dark: "#285A62", highlight: "#9AD3C1",
         pants: "#4B536A", hair: "#9E6745", skin: "#EDB596", trim: "#F5D7A1" },

@@ -1,6 +1,6 @@
-import { chooseDecision } from "../sim/decisions.js?v=5a84ef5bc1ea";
-import { readNotice, hireContentProgrammer, reviewNotices } from "../sim/notices.js?v=5a84ef5bc1ea";
-import { startLinuxResearch } from "../sim/linuxQuest.js?v=5a84ef5bc1ea";
+import { chooseDecision } from "../sim/decisions.js?v=1507cb2cfb2d";
+import { readNotice, hireContentProgrammer, reviewNotices } from "../sim/notices.js?v=1507cb2cfb2d";
+import { startLinuxResearch } from "../sim/linuxQuest.js?v=1507cb2cfb2d";
 export function createNoticeActionsPort(getState) {
     return {
         review() { reviewNotices(getState()); },

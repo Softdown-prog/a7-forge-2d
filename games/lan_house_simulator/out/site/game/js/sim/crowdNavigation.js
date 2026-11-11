@@ -1,10 +1,10 @@
-import { editableObjects, objectRect } from "./layoutGeometry.js?v=5a84ef5bc1ea";
-import { roomBounds } from "./room.js?v=5a84ef5bc1ea";
-import { localStepValidator } from "./navigation.js?v=5a84ef5bc1ea";
-import { CUSTOMER_COLLISION_RADIUS } from "./checkoutQueue.js?v=5a84ef5bc1ea";
-import { pcCount, pcPosition } from "./simulationState.js?v=5a84ef5bc1ea";
-import { vendingMachines, VENDING_WIDTH, VENDING_DEPTH } from "./layout.js?v=5a84ef5bc1ea";
-import { furnitureLocations, furnitureSlots } from "./furnitureLayout.js?v=5a84ef5bc1ea";
+import { editableObjects, objectRect } from "./layoutGeometry.js?v=1507cb2cfb2d";
+import { roomBounds } from "./room.js?v=1507cb2cfb2d";
+import { localStepValidator } from "./navigation.js?v=1507cb2cfb2d";
+import { CUSTOMER_COLLISION_RADIUS } from "./checkoutQueue.js?v=1507cb2cfb2d";
+import { pcCount, pcPosition } from "./simulationState.js?v=1507cb2cfb2d";
+import { vendingMachines, VENDING_WIDTH, VENDING_DEPTH } from "./layout.js?v=1507cb2cfb2d";
+import { furnitureLocations, furnitureSlots } from "./furnitureLayout.js?v=1507cb2cfb2d";
 const NEIGHBOR_STEPS = [[1, 0], [-1, 0], [0, 1], [0, -1]];
 /** Desvio temporário quando o corredor fica congestionado. Os corpos atuais
  * entram como obstáculos; os passos continuam sendo executados pelo motor. */

@@ -1,6 +1,6 @@
-import { gameYear } from "../sim/era.js?v=5a84ef5bc1ea";
-import { ERA_GAME_CATALOG, quoteEraGame, eraGameVisitorMultiplier, ERIC_MULTIPLAYER_GAME_ID, multiplayerGameKnown, multiplayerEligiblePcs } from "../sim/eraGames.js?v=5a84ef5bc1ea";
-import { gamePopularityPercent } from "../sim/gamePopularity.js?v=5a84ef5bc1ea";
+import { gameYear } from "../sim/era.js?v=1507cb2cfb2d";
+import { ERA_GAME_CATALOG, quoteEraGame, eraGameVisitorMultiplier, ERIC_MULTIPLAYER_GAME_ID, multiplayerGameKnown, multiplayerEligiblePcs } from "../sim/eraGames.js?v=1507cb2cfb2d";
+import { gamePopularityPercent } from "../sim/gamePopularity.js?v=1507cb2cfb2d";
 export function createClassicGamesCatalogPort(getState) {
     return { snapshot() {
             const game = getState(), year = gameYear(game), owned = game.licensedEraGames ?? [];

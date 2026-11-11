@@ -1,8 +1,8 @@
-import { createMenuScreens, installMenuControls } from "./gameMenuControls.js?v=5a84ef5bc1ea";
-import { installPageSaveLifecycle } from "./pageSaveLifecycle.js?v=5a84ef5bc1ea";
-import { syncWindowChrome } from "./presentation.js?v=5a84ef5bc1ea";
-import { resetPlacementUi } from "./runtimeUiState.js?v=5a84ef5bc1ea";
-import { installSaveFileControls } from "./saveFileControls.js?v=5a84ef5bc1ea";
+import { createMenuScreens, installMenuControls } from "./gameMenuControls.js?v=1507cb2cfb2d";
+import { installPageSaveLifecycle } from "./pageSaveLifecycle.js?v=1507cb2cfb2d";
+import { syncWindowChrome } from "./presentation.js?v=1507cb2cfb2d";
+import { resetPlacementUi } from "./runtimeUiState.js?v=1507cb2cfb2d";
+import { installSaveFileControls } from "./saveFileControls.js?v=1507cb2cfb2d";
 export function createRuntimeSessionController(options) {
     const { elements: e, state, port, editor, renderUI, resetScene, stopKeyboard } = options, document = e.document;
     const menuElements = { startScreen: e.startScreen, gameApp: e.gameApp, continueButton: e.continueButton, exportButton: e.exportButton, settingsPanel: e.settingsPanel, soundToggle: e.soundToggle,

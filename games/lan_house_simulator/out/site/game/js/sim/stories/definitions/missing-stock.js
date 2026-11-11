@@ -1,4 +1,4 @@
-import { choice, story } from "../builders.js?v=5a84ef5bc1ea";
+import { choice, story } from "../builders.js?v=1507cb2cfb2d";
 /** Independent story catalogue entry: missing-stock. */
 export const definition = story("Diferença no estoque de mercadorias", "A contagem de refrigerantes, doces e salgadinhos não bate com as entradas. Pode ser erro de controle ou perda.", "problem", [
     choice("stock-control", "Implantar conferência e controle", 95, "Reorganiza registros e inventário", "good", { reputation: 1 }),

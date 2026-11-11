@@ -1,6 +1,6 @@
-import { DAY_MINUTES, LAST_ADMISSION_MINUTE } from "./types.js?v=5a84ef5bc1ea";
-import { GAME_LAST_MINUTE } from "./mailCalendar.js?v=5a84ef5bc1ea";
-import { isHistorical, priceIndex, yearFromMinutes } from "./historicalEconomy.js?v=5a84ef5bc1ea";
+import { DAY_MINUTES, LAST_ADMISSION_MINUTE } from "./types.js?v=1507cb2cfb2d";
+import { GAME_LAST_MINUTE } from "./mailCalendar.js?v=1507cb2cfb2d";
+import { isHistorical, priceIndex, yearFromMinutes } from "./historicalEconomy.js?v=1507cb2cfb2d";
 /** A campanha utiliza o relógio do jogo, sem timers de navegador ou renda artificial. */
 /** Mantido para compatibilidade com saves clássicos e auditorias anteriores. */
 export const PROMOTION_COST = 120;

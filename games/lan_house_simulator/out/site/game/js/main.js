@@ -1,2 +1,2 @@
-import { bootstrapGame } from "./bootstrap/bootstrapGame.js?v=5a84ef5bc1ea";
+import { bootstrapGame } from "./bootstrap/bootstrapGame.js?v=1507cb2cfb2d";
 bootstrapGame();

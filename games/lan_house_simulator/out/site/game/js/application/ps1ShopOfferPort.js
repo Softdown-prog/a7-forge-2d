@@ -1,6 +1,6 @@
-import { gameYear } from "../sim/era.js?v=5a84ef5bc1ea";
-import { PS1_UNLOCK_YEAR, PS1_MAX_STATIONS, ps1PlacementSlots } from "../sim/ps1.js?v=5a84ef5bc1ea";
-import { shopPrice } from "../sim/shop.js?v=5a84ef5bc1ea";
+import { gameYear } from "../sim/era.js?v=1507cb2cfb2d";
+import { PS1_UNLOCK_YEAR, PS1_MAX_STATIONS, ps1PlacementSlots } from "../sim/ps1.js?v=1507cb2cfb2d";
+import { shopPrice } from "../sim/shop.js?v=1507cb2cfb2d";
 export function createPs1ShopOfferPort(getState) {
     return { snapshot() {
             const s = getState();
