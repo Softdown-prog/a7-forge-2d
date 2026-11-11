@@ -1,5 +1,5 @@
 /** Read-only bin geometry/status, shared by navigation and service commands. */
-import { placedObject } from "./layout.js?v=229a76357973";
+import { placedObject } from "./layout.js?v=5a84ef5bc1ea";
 export const BIN_SPOTS = [{ x: 1.1, y: 3.1 }, { x: 5.65, y: 4.65 }];
 export function binSpots(s) { return BIN_SPOTS.map((p, i) => placedObject(s, "bin:" + i, p)); }
 export function binStatus(fill) {

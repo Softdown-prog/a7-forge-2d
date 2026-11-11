@@ -1,51 +1,38 @@
 /** engine.ts: módulo do runtime LHS; lógica executada por minuto do jogo. */
-export { chooseAvailablePc } from "./customerFlow.js?v=229a76357973";
-export { canCustomerOccupy, EXIT_REACH_DISTANCE } from "./customerMotion.js?v=229a76357973";
-export { addLog, applyResult, CLOSING_START_MINUTE, createGame, dayNumber, displayTime, entrance, LAST_ADMISSION_MINUTE, legacyPcCount, online, pcBroken, pcCount, pcPosition, pcWear, roomWidth } from "./simulationState.js?v=229a76357973";
-import { validLcdModels } from "./computerModels.js?v=229a76357973";
-import { spawn, spawnDiscWalkIn, spawnPrintWalkIn } from "./customerArrival.js?v=229a76357973";
-import { validCustomerFeedback } from "./customerFeedback.js?v=229a76357973";
-import { refreshCounterQueue, sendHome, startStanding } from "./customerFlow.js?v=229a76357973";
-import { advanceCustomer } from "./customerLifecycle.js?v=229a76357973";
-import { EXIT_REACH_DISTANCE } from "./customerMotion.js?v=229a76357973";
-import { scheduleDecisions } from "./decisions.js?v=229a76357973";
-import { DISC_COPIES_PER_DAY, discCopiesToday, discWalkInDue, validDiscCopier } from "./discCopy.js?v=229a76357973";
-import { demandFactor, energyCostPerMinute, monthlyBills } from "./economy.js?v=229a76357973";
-import { validateObjectPlacements } from "./editableObjects.js?v=229a76357973";
-import { WINDOWS_ERAS } from "./eraCatalog.js?v=229a76357973";
-import { eraGameVisitorMultiplier, validEraGameLicenses } from "./eraGames.js?v=229a76357973";
-import { paidMonthlyBillReceipt, validPaidMonthlyBill } from "./financialClarity.js?v=229a76357973";
-import { closeFinancialMonth, recordComputerUtilization } from "./financialReview.js?v=229a76357973";
-import { validFridayMeetupDraft } from "./fridayMeetup.js?v=229a76357973";
-import { validGpuGameDemand } from "./gpuDemand.js?v=229a76357973";
-import { gpuGameSpec, gpuGameVisitorMultiplier, tickGpuGameInstallations, validGpuGameInstallJobs, validGpuGameInstalls, validGpuGameLicenses } from "./gpuGames.js?v=229a76357973";
-import { validHardwareState } from "./hardware.js?v=229a76357973";
-import { validWindowsInstallJobs } from "./windowsInstallation.js?v=229a76357973";
-import { validGpuIds } from "./gpuCatalog.js?v=229a76357973";
-import { clampPriceToEra, normalizedHourlyPrice } from "./historicalEconomy.js?v=229a76357973";
-import { GAME_END_DAY, GAME_LAST_MINUTE, isSporadicMailId } from "./mailCalendar.js?v=229a76357973";
-import { productSpec, receiveDueOrders, validMerchandise } from "./merchandise.js?v=229a76357973";
-import { tickMultiplayerVisitors, validMultiplayerVisit } from "./multiplayerVisitors.js?v=229a76357973";
-import { tickNeeds } from "./needs.js?v=229a76357973";
-import { advanceNightMeetup, beginNightMeetup, nightScheduledForClosing, validNightMeetup } from "./nightMeetup.js?v=229a76357973";
-import { reviewNotices } from "./notices.js?v=229a76357973";
-import { validLinuxState } from "./linuxQuest.js?v=229a76357973";
-import { validTopGamesState } from "./topGamesMagazines.js?v=229a76357973";
-import { validTopGamesUnlockMode } from "./topGamesUnlockGate.js?v=229a76357973";
-import { tickPostman, validPostmanDelivery } from "./postmanDelivery.js?v=229a76357973";
-import { pagesPrintedToday, PRINT_PAGES_PER_DAY, printWalkInDue, validPrinterService } from "./printService.js?v=229a76357973";
-import { promotionVisitorMultiplier } from "./promotion.js?v=229a76357973";
-import { ps2EnergyCostPerMinute, ps2HourPrice, ps2StationAvailable, validPs2State } from "./ps2.js?v=229a76357973";
-import { validPs2ReleaseMailHistory } from "./ps2ReleaseMail.js?v=229a76357973";
-import { ps1EnergyCostPerMinute, ps1HourPrice, ps1StationAvailable, validPs1State } from "./ps1.js?v=229a76357973";
-import { refreshRetailQueues } from "./retailQueue.js?v=229a76357973";
-import { addWaste, dispatchHiredStaff, tickServices } from "./services.js?v=229a76357973";
-import { addLog, CLOSING_START_MINUTE, dayNumber, entrance, LAST_ADMISSION_MINUTE, localMinute, online, pcCount, random, SESSION_FINISH_MINUTE } from "./simulationState.js?v=229a76357973";
-import { accrueEmployeeDay, validEmployeeState } from "./staff.js?v=229a76357973";
-import { recordStationMinute, validStationLedger } from "./stationAccounting.js?v=229a76357973";
-import { stationReadyForSessions, validStationPower } from "./stationPower.js?v=229a76357973";
-import { CHAIN_IDS, STORY_IDS, storyVisitorMultiplier } from "./storyEvents.js?v=229a76357973";
-import { DAY_MINUTES, SESSION_MINUTES } from "./types.js?v=229a76357973";
+export { chooseAvailablePc } from "./customerFlow.js?v=5a84ef5bc1ea";
+export { canCustomerOccupy, EXIT_REACH_DISTANCE } from "./customerMotion.js?v=5a84ef5bc1ea";
+export { addLog, applyResult, CLOSING_START_MINUTE, createGame, dayNumber, displayTime, entrance, LAST_ADMISSION_MINUTE, legacyPcCount, online, pcBroken, pcCount, pcPosition, pcWear, roomWidth } from "./simulationState.js?v=5a84ef5bc1ea";
+import { spawn, spawnDiscWalkIn, spawnPrintWalkIn } from "./customerArrival.js?v=5a84ef5bc1ea";
+import { refreshCounterQueue, sendHome, startStanding } from "./customerFlow.js?v=5a84ef5bc1ea";
+import { advanceCustomer } from "./customerLifecycle.js?v=5a84ef5bc1ea";
+import { EXIT_REACH_DISTANCE } from "./customerMotion.js?v=5a84ef5bc1ea";
+import { scheduleDecisions } from "./decisions.js?v=5a84ef5bc1ea";
+import { DISC_COPIES_PER_DAY, discCopiesToday, discWalkInDue } from "./discCopy.js?v=5a84ef5bc1ea";
+import { demandFactor, energyCostPerMinute, monthlyBills } from "./economy.js?v=5a84ef5bc1ea";
+import { eraGameVisitorMultiplier } from "./eraGames.js?v=5a84ef5bc1ea";
+import { paidMonthlyBillReceipt } from "./financialClarity.js?v=5a84ef5bc1ea";
+import { closeFinancialMonth, recordComputerUtilization } from "./financialReview.js?v=5a84ef5bc1ea";
+import { gpuGameSpec, gpuGameVisitorMultiplier, tickGpuGameInstallations } from "./gpuGames.js?v=5a84ef5bc1ea";
+import { clampPriceToEra, normalizedHourlyPrice } from "./historicalEconomy.js?v=5a84ef5bc1ea";
+import { GAME_LAST_MINUTE } from "./mailCalendar.js?v=5a84ef5bc1ea";
+import { receiveDueOrders } from "./merchandise.js?v=5a84ef5bc1ea";
+import { tickMultiplayerVisitors } from "./multiplayerVisitors.js?v=5a84ef5bc1ea";
+import { tickNeeds } from "./needs.js?v=5a84ef5bc1ea";
+import { advanceNightMeetup, beginNightMeetup, nightScheduledForClosing } from "./nightMeetup.js?v=5a84ef5bc1ea";
+import { reviewNotices } from "./notices.js?v=5a84ef5bc1ea";
+import { tickPostman } from "./postmanDelivery.js?v=5a84ef5bc1ea";
+import { pagesPrintedToday, PRINT_PAGES_PER_DAY, printWalkInDue } from "./printService.js?v=5a84ef5bc1ea";
+import { promotionVisitorMultiplier } from "./promotion.js?v=5a84ef5bc1ea";
+import { ps2EnergyCostPerMinute, ps2HourPrice, ps2StationAvailable } from "./ps2.js?v=5a84ef5bc1ea";
+import { ps1EnergyCostPerMinute, ps1HourPrice, ps1StationAvailable } from "./ps1.js?v=5a84ef5bc1ea";
+import { refreshRetailQueues } from "./retailQueue.js?v=5a84ef5bc1ea";
+import { addWaste, dispatchHiredStaff, tickServices } from "./services.js?v=5a84ef5bc1ea";
+import { addLog, CLOSING_START_MINUTE, dayNumber, entrance, LAST_ADMISSION_MINUTE, localMinute, online, pcCount, random, SESSION_FINISH_MINUTE } from "./simulationState.js?v=5a84ef5bc1ea";
+import { accrueEmployeeDay } from "./staff.js?v=5a84ef5bc1ea";
+import { recordStationMinute } from "./stationAccounting.js?v=5a84ef5bc1ea";
+import { stationReadyForSessions } from "./stationPower.js?v=5a84ef5bc1ea";
+import { storyVisitorMultiplier } from "./storyEvents.js?v=5a84ef5bc1ea";
+import { DAY_MINUTES, SESSION_MINUTES } from "./types.js?v=5a84ef5bc1ea";
 function nextDay(s) {
     for (const c of s.customers)
         if (c.stage !== "leaving")
@@ -238,68 +225,4 @@ export function stepGame(s, deltaMinutes) {
     if (s.totalMinutes >= GAME_LAST_MINUTE)
         s.leftoverMinutes = 0;
 }
-export function isValidSave(value) {
-    if (!value || typeof value !== "object")
-        return false;
-    const v = value;
-    const metrics = [v.monthPcUsedMinutes, v.monthPcCapacityMinutes, v.lastMonthPcUsedMinutes,
-        v.lastMonthPcCapacityMinutes, v.monthRevenueBase, v.monthExpensesBase, v.lastMonthRevenue, v.lastMonthExpenses];
-    return validPostmanDelivery(v) && validLinuxState(v) && validTopGamesState(v) && validTopGamesUnlockMode(v) && validMultiplayerVisit(v) && validFridayMeetupDraft(v) && validNightMeetup(v) && validMerchandise(v) && validCustomerFeedback(v.customerFeedback, v.totalMinutes ?? 0) && validEmployeeState(v) && validStationPower(v) && validWindowsInstallJobs(v) && validPs1State(v) && validPs2State(v) && validPs2ReleaseMailHistory(v) && validPaidMonthlyBill(v.lastPaidMonthlyBill, v) && (v.economyVersion === undefined || v.economyVersion === 2) && validDiscCopier(v) && validPrinterService(v) && validHardwareState(v) && validGpuIds(v.pcGpus) && validGpuGameLicenses(v.licensedGpuGames, v) && validGpuGameInstalls(v.gpuGameInstalls, v) && validGpuGameInstallJobs(v.gpuGameInstallJobs, v) && validGpuGameDemand(v.gpuGameDemand) && validEraGameLicenses(v.licensedEraGames, v) && validLcdModels(v.pcLcdModels) && validStationLedger(v.stationLedger) &&
-        (v.stationLedger === undefined || v.stationLedger.length <= pcCount(v)) &&
-        (v.pcWindows === undefined || (Array.isArray(v.pcWindows) && v.pcWindows.length <= 200 && v.pcWindows.every(id => id === null || WINDOWS_ERAS.some(w => w.id === id)))) &&
-        metrics.every(n => n === undefined || (Number.isFinite(n) && n >= 0 && n <= 1e9)) &&
-        v.version === 1 && Number.isFinite(v.totalMinutes) && Number.isFinite(v.cash) &&
-        Number.isFinite(v.rng) && Number.isFinite(v.pricePerHour) &&
-        v.inventory !== undefined && ["soda", "candy", "snacks"].every(k => Number.isFinite(v.inventory?.[k])) &&
-        Array.isArray(v.customers) && v.customers.every(c => !!c &&
-        (c.retailConsumption === undefined || (!!c.retailConsumption && !!productSpec(c.retailConsumption.product) && Number.isInteger(c.retailConsumption.untilMinute) && c.retailConsumption.untilMinute >= 0 && c.retailConsumption.untilMinute <= 1e9)) &&
-        (c.desiredProduct === undefined || (!!productSpec(c.desiredProduct) && productSpec(c.desiredProduct).category === c.desiredItem)) &&
-        [c.purchasedDrink, c.purchasedFood, c.gpuGamer, c.linuxEnthusiast, c.gpuGameCharged, c.discCopyChecked, c.printChecked, c.doorwayYielding, c.budgetAware].every(flag => flag === undefined || typeof flag === "boolean") &&
-        (c.preference === undefined || ["economy", "comfort", "gaming", "quick"].includes(c.preference)) &&
-        (c.preferredGpuGame === undefined || (c.gpuGamer === true && gpuGameSpec(c.preferredGpuGame) !== undefined)) &&
-        (c.serviceRequest === undefined || c.serviceRequest === "printing" || c.serviceRequest === "disc-copy") &&
-        (c.multiplayerVisitId === undefined || (Number.isInteger(c.multiplayerVisitId) && c.multiplayerVisitId > 0 && c.multiplayerVisitId <= v.nextCustomerId)) &&
-        (c.nightMeetupDay === undefined || (v.nightMeetup !== undefined && c.nightMeetupDay === v.nightMeetup.fridayDay)) &&
-        (c.multiplayerAssignedPc === undefined || (Number.isInteger(c.multiplayerAssignedPc) && c.multiplayerAssignedPc >= 0 && c.multiplayerAssignedPc < pcCount(v))) &&
-        (c.ps1StationIndex === undefined || (Number.isInteger(c.ps1StationIndex) && c.ps1StationIndex >= 0 &&
-            c.ps1StationIndex < (v.ps1Stations?.length ?? 0) && c.pcIndex === null)) &&
-        (c.ps1SeatIndex === undefined || (c.ps1StationIndex !== undefined &&
-            (c.ps1SeatIndex === 0 || (c.ps1SeatIndex === 1 && v.ps1Stations?.[c.ps1StationIndex]?.secondSeat === true)))) &&
-        (c.nextCrowdRetryMinute === undefined || (Number.isInteger(c.nextCrowdRetryMinute) && c.nextCrowdRetryMinute >= 0 && c.nextCrowdRetryMinute <= 1e9)) &&
-        (c.stalledMinutes === undefined || (Number.isInteger(c.stalledMinutes) && c.stalledMinutes >= 0 && c.stalledMinutes <= 120)) &&
-        (c.retailQueueItem === undefined || ["soda", "candy", "snacks"].includes(c.retailQueueItem)) &&
-        (c.retailQueueIndex === undefined || (Number.isInteger(c.retailQueueIndex) && c.retailQueueIndex >= 0 && c.retailQueueIndex < 14))) && Array.isArray(v.eventLog) &&
-        Number.isInteger(v.internetTier) && Number.isInteger(v.expansionLevel) &&
-        (v.energyAccrued === undefined || (Number.isFinite(v.energyAccrued) && v.energyAccrued >= 0)) &&
-        (v.binFill === undefined || (Array.isArray(v.binFill) && v.binFill.length === 2 && v.binFill.every(n => Number.isFinite(n) && n >= 0 && n <= 100))) &&
-        (v.overflowWaste === undefined || (Number.isFinite(v.overflowWaste) && v.overflowWaste >= 0 && v.overflowWaste <= 1000)) &&
-        (v.mailScheduleSeed === undefined || (Number.isInteger(v.mailScheduleSeed) && v.mailScheduleSeed >= 0 && v.mailScheduleSeed <= 0xffffffff)) &&
-        (v.mailStartDay === undefined || (Number.isInteger(v.mailStartDay) && v.mailStartDay >= 1 && v.mailStartDay <= GAME_END_DAY)) &&
-        (v.y2kNoticeDelivered === undefined || typeof v.y2kNoticeDelivered === "boolean") &&
-        (v.ericFirstMailDelivered === undefined || typeof v.ericFirstMailDelivered === "boolean") &&
-        (v.ericSecondMailDelivered === undefined || typeof v.ericSecondMailDelivered === "boolean") &&
-        (v.mailSeenIds === undefined || (Array.isArray(v.mailSeenIds) && v.mailSeenIds.length <= 8 &&
-            new Set(v.mailSeenIds).size === v.mailSeenIds.length && v.mailSeenIds.every(id => isSporadicMailId(id)))) &&
-        (v.storySeenIds === undefined || (Array.isArray(v.storySeenIds) && v.storySeenIds.length <= STORY_IDS.length &&
-            new Set(v.storySeenIds).size === v.storySeenIds.length &&
-            v.storySeenIds.every(id => STORY_IDS.some(key => key === id)))) &&
-        (v.storyRecords === undefined || (Array.isArray(v.storyRecords) && v.storyRecords.length <= STORY_IDS.length + 4 &&
-            new Set(v.storyRecords.map(r => r.id)).size === v.storyRecords.length &&
-            v.storyRecords.every(r => !!r && CHAIN_IDS.some(id => id === r.id) &&
-                typeof r.choice === "string" && r.choice.length <= 80 &&
-                (r.choiceLabel === undefined || (typeof r.choiceLabel === "string" && r.choiceLabel.length <= 200)) &&
-                ["good", "mixed", "bad"].includes(r.outcome) && ["pending", "awaiting", "ending", "done"].includes(r.stage) &&
-                Number.isInteger(r.dueDay) && r.dueDay >= 1 && r.dueDay <= 1e7 &&
-                (r.followupChoice === undefined || (typeof r.followupChoice === "string" && r.followupChoice.length <= 80)) &&
-                (r.followupLabel === undefined || (typeof r.followupLabel === "string" && r.followupLabel.length <= 200)) &&
-                (r.finalOutcome === undefined || ["good", "mixed", "bad"].includes(r.finalOutcome))))) &&
-        (v.storyVisitorEffects === undefined || (Array.isArray(v.storyVisitorEffects) && v.storyVisitorEffects.length <= 32 &&
-            v.storyVisitorEffects.every(e => !!e && typeof e.id === "string" && e.id.length <= 100 &&
-                Number.isFinite(e.factor) && e.factor >= 0.5 && e.factor <= 1.5 &&
-                Number.isInteger(e.untilDay) && e.untilDay >= 1 && e.untilDay <= 1e7))) &&
-        (v.notices === undefined || (Array.isArray(v.notices) && v.notices.every(n => typeof n.id === "string" && typeof n.title === "string" && typeof n.body === "string" && typeof n.read === "boolean"))) &&
-        [v.electricalInspectionSeen, v.electricalWiringRegularized, v.electricalExtensionUsed, v.electricalInspectionFineApplied]
-            .every(flag => flag === undefined || typeof flag === "boolean") &&
-        (v.electricalDeadlineDay === undefined || (Number.isInteger(v.electricalDeadlineDay) && v.electricalDeadlineDay >= 1 && v.electricalDeadlineDay <= 1e7)) &&
-        (v.promotionDay === undefined || (Number.isInteger(v.promotionDay) && v.promotionDay >= 1 && v.promotionDay <= Math.floor(v.totalMinutes / DAY_MINUTES) + 1)) && validateObjectPlacements(v);
-}
+export { isValidSave } from "./saveValidation.js?v=5a84ef5bc1ea";

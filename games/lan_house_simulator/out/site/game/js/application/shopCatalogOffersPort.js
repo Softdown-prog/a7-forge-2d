@@ -1,8 +1,8 @@
-import { shopPrice, furnitureLimit, availablePlacementSlots, nextComputerPlacementIssue } from "../sim/shop.js?v=229a76357973";
-import { linuxMachineSpec } from "../sim/linuxMachines.js?v=229a76357973";
-import { linuxUnlocked } from "../sim/linuxQuest.js?v=229a76357973";
-import { MAX_EXTENSION_LEVEL } from "../sim/room.js?v=229a76357973";
-import { shopPlacementStatus, shopPurchaseButtonText } from "./shopCatalogGuidance.js?v=229a76357973";
+import { shopPrice, furnitureLimit, availablePlacementSlots, nextComputerPlacementIssue } from "../sim/shop.js?v=5a84ef5bc1ea";
+import { linuxMachineSpec } from "../sim/linuxMachines.js?v=5a84ef5bc1ea";
+import { linuxUnlocked } from "../sim/linuxQuest.js?v=5a84ef5bc1ea";
+import { MAX_EXTENSION_LEVEL } from "../sim/room.js?v=5a84ef5bc1ea";
+import { shopPlacementStatus, shopPurchaseButtonText } from "./shopCatalogGuidance.js?v=5a84ef5bc1ea";
 export function createShopCatalogOffersPort(getState, getAvailableAnnexCount) {
     return { snapshot(id) {
             const s = getState();

@@ -1,4 +1,4 @@
-import { employeeHired } from "./staff.js?v=229a76357973";
+import { employeeHired } from "./staff.js?v=5a84ef5bc1ea";
 /** Presentação pura dos serviços: não modifica chamados, economia nem saves. */
 export function workProgress(job) {
     if (job.phase !== "working")

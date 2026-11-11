@@ -1,6 +1,6 @@
-import { renderPs1AdminPanel } from "./ps1AdminPanel.js?v=229a76357973";
-import { renderStaffStatusPanel } from "./staffStatusPanel.js?v=229a76357973";
-import { renderServiceAccessStatus } from "./serviceAccessStatusPanel.js?v=229a76357973";
+import { renderPs1AdminPanel } from "./ps1AdminPanel.js?v=5a84ef5bc1ea";
+import { renderStaffStatusPanel } from "./staffStatusPanel.js?v=5a84ef5bc1ea";
+import { renderServiceAccessStatus } from "./serviceAccessStatusPanel.js?v=5a84ef5bc1ea";
 export function renderAdminServicesConsoles(options) {
     if (options.consolesTab)
         renderPs1AdminPanel(options.ps1, {

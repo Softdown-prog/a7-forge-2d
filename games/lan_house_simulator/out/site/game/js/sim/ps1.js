@@ -1,13 +1,13 @@
-import { availablePlacementSlots, furnitureSlots, shopPrice } from "./shop.js?v=229a76357973";
-import { validateObjectPlacements } from "./editableObjects.js?v=229a76357973";
-import { layoutGoals } from "./layoutGeometry.js?v=229a76357973";
-import { navigableRoute } from "./navigation.js?v=229a76357973";
-import { entrance } from "./simulationState.js?v=229a76357973";
-import { validPs2State } from "./ps2.js?v=229a76357973";
-import { annualHourlyCeiling, isHistorical, yearFromMinutes, priceIndex } from "./historicalEconomy.js?v=229a76357973";
-import { consolePoint, consoleSeat, consoleApproach } from "./consoleLayout.js?v=229a76357973";
-import { roomBounds } from "./room.js?v=229a76357973";
-import { topGamesCanBuy } from "./topGamesUnlockGate.js?v=229a76357973";
+import { availablePlacementSlots, furnitureSlots, shopPrice } from "./shop.js?v=5a84ef5bc1ea";
+import { validateObjectPlacements } from "./editableObjects.js?v=5a84ef5bc1ea";
+import { layoutGoals } from "./layoutGeometry.js?v=5a84ef5bc1ea";
+import { navigableRoute } from "./navigation.js?v=5a84ef5bc1ea";
+import { entrance } from "./simulationState.js?v=5a84ef5bc1ea";
+import { validPs2State } from "./ps2.js?v=5a84ef5bc1ea";
+import { annualHourlyCeiling, isHistorical, yearFromMinutes, priceIndex } from "./historicalEconomy.js?v=5a84ef5bc1ea";
+import { consolePoint, consoleSeat, consoleApproach } from "./consoleLayout.js?v=5a84ef5bc1ea";
+import { roomBounds } from "./room.js?v=5a84ef5bc1ea";
+import { topGamesCanBuy } from "./topGamesUnlockGate.js?v=5a84ef5bc1ea";
 /** Marco de design: mistura das antigas locadoras de console com lan houses. */
 export const PS1_UNLOCK_YEAR = 2002;
 export const PS1_MAX_STATIONS = 3;

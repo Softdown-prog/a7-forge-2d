@@ -1,11 +1,12 @@
-import { DAY_MINUTES, OPEN_HOUR } from "./types.js?v=229a76357973";
-import { INITIAL_CASH } from "./gameDefaults.js?v=229a76357973";
-import { futureNightClock } from "./futureNightClock.js?v=229a76357973";
-import { annexComputerPosition } from "./stationLayout.js?v=229a76357973";
-import { pcUnderRepair } from "./stationPower.js?v=229a76357973";
-export const COSTUMES = ["regular", "regular", "female", "female-bob", "female-ponytail", "regular", "clown", "vampire", "stitched-monster", "rabbit", "mouse-mascot"];
+import { DAY_MINUTES, OPEN_HOUR } from "./types.js?v=5a84ef5bc1ea";
+import { INITIAL_CASH } from "./gameDefaults.js?v=5a84ef5bc1ea";
+import { futureNightClock } from "./futureNightClock.js?v=5a84ef5bc1ea";
+import { annexComputerPosition } from "./stationLayout.js?v=5a84ef5bc1ea";
+import { pcUnderRepair } from "./stationPower.js?v=5a84ef5bc1ea";
+import { COSTUMES } from "./characters/index.js?v=5a84ef5bc1ea";
+export { COSTUMES };
 /** Encerrar de forma gradual: últimos visitantes até 20h30, início da saída às 21h. */
-export { LAST_ADMISSION_MINUTE } from "./types.js?v=229a76357973";
+export { LAST_ADMISSION_MINUTE } from "./types.js?v=5a84ef5bc1ea";
 export const CLOSING_START_MINUTE = DAY_MINUTES - 60;
 export const SESSION_FINISH_MINUTE = DAY_MINUTES - 30; // Últimas sessões terminam até 21h30.
 export const localMinute = (s) => s.totalMinutes % DAY_MINUTES;

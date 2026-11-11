@@ -1,7 +1,7 @@
 /** An isolated, disposable sample state for LCD catalog illustrations.
  * It must never share the active campaign or advance the simulation.
  */
-import { createGame } from "../sim/engine.js?v=229a76357973";
+import { createGame } from "../sim/engine.js?v=5a84ef5bc1ea";
 export function createLcdPreviewSample(id) {
     const sample = createGame();
     sample.pcTiers = [3, 3, 3];

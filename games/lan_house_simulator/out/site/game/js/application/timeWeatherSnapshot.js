@@ -1,10 +1,10 @@
 /** Read-only time/weather projection for any UI framework. No DOM dependencies. */
-import { dayNumber, displayTime } from "../sim/engine.js?v=229a76357973";
-import { gameYear } from "../sim/era.js?v=229a76357973";
-import { DAY_MINUTES } from "../sim/types.js?v=229a76357973";
-import { GAME_LAST_MINUTE } from "../sim/mailCalendar.js?v=229a76357973";
-import { weekdayName } from "../sim/campaignWeek.js?v=229a76357973";
-import { futureNightClock } from "../sim/futureNightClock.js?v=229a76357973";
+import { dayNumber, displayTime } from "../sim/engine.js?v=5a84ef5bc1ea";
+import { gameYear } from "../sim/era.js?v=5a84ef5bc1ea";
+import { DAY_MINUTES } from "../sim/types.js?v=5a84ef5bc1ea";
+import { GAME_LAST_MINUTE } from "../sim/mailCalendar.js?v=5a84ef5bc1ea";
+import { weekdayName } from "../sim/campaignWeek.js?v=5a84ef5bc1ea";
+import { futureNightClock } from "../sim/futureNightClock.js?v=5a84ef5bc1ea";
 export function timeWeatherSnapshot(s) {
     const day = Math.max(0, Math.floor(s.totalMinutes / DAY_MINUTES));
     const night = s.nightMeetup ? futureNightClock(s.nightMeetup.fridayDay, s.nightMeetup.elapsed) : null;

@@ -1,5 +1,5 @@
-import { yearFromMinutes, isHistorical } from "../sim/historicalEconomy.js?v=229a76357973";
-import { TOP_GAMES_FIRST_YEAR, TOP_GAMES_TITLE, TOP_GAMES_ISSUES, topGamesSubscribed, topGamesIssuePrice, nextTopGamesIssue, nextTopGamesDeliveryDay } from "../sim/topGamesMagazines.js?v=229a76357973";
+import { yearFromMinutes, isHistorical } from "../sim/historicalEconomy.js?v=5a84ef5bc1ea";
+import { TOP_GAMES_FIRST_YEAR, TOP_GAMES_TITLE, TOP_GAMES_ISSUES, topGamesSubscribed, topGamesIssuePrice, nextTopGamesIssue, nextTopGamesDeliveryDay } from "../sim/topGamesMagazines.js?v=5a84ef5bc1ea";
 const currency = (n) => n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 export function createTopGamesShopPort(getState) {
     return { snapshot() {

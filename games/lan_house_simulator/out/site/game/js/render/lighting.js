@@ -1,11 +1,11 @@
 /** Time-of-day lighting for the salon. Derived only from the simulation clock
  * (10:00 opens, 22:00 closes); never from the wall clock, weather or RNG.
  * Weather stays a HUD/economy matter, per the room visualisation contract. */
-import { DAY_MINUTES } from "../sim/types.js?v=229a76357973";
-import { roomBounds } from "../sim/room.js?v=229a76357973";
-import { iso } from "./isometric.js?v=229a76357973";
-import { contextScale } from "./sceneSurface.js?v=229a76357973";
-import { lerpHex, withAlpha } from "./color.js?v=229a76357973";
+import { DAY_MINUTES } from "../sim/types.js?v=5a84ef5bc1ea";
+import { roomBounds } from "../sim/room.js?v=5a84ef5bc1ea";
+import { iso } from "./isometric.js?v=5a84ef5bc1ea";
+import { contextScale } from "./sceneSurface.js?v=5a84ef5bc1ea";
+import { lerpHex, withAlpha } from "./color.js?v=5a84ef5bc1ea";
 const smooth = (t) => { const k = Math.max(0, Math.min(1, t)); return k * k * (3 - 2 * k); };
 /** Lighting curve for a simulation minute. Deterministic and cheap. */
 export function daylightAt(totalMinutes) {

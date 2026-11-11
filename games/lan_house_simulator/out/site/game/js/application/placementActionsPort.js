@@ -1,6 +1,6 @@
-import { placeFurniture, relocateFurniture, rotateFurniture, furnitureLocations, furnitureSlots } from "../sim/shop.js?v=229a76357973";
-import { buildWall, canBuildWall, removeWall, installInteriorDoor, removeInteriorDoor, wallCandidates, wallEndpoints } from "../sim/walls.js?v=229a76357973";
-import { annexComputerSlots, availableAnnexComputers, installAnnexComputer } from "../sim/stations.js?v=229a76357973";
+import { placeFurniture, relocateFurniture, rotateFurniture, furnitureLocations, furnitureSlots } from "../sim/shop.js?v=5a84ef5bc1ea";
+import { buildWall, canBuildWall, removeWall, installInteriorDoor, removeInteriorDoor, wallCandidates, wallEndpoints } from "../sim/walls.js?v=5a84ef5bc1ea";
+import { annexComputerSlots, availableAnnexComputers, installAnnexComputer } from "../sim/stations.js?v=5a84ef5bc1ea";
 const invalid = { ok: false, message: "Posição de construção inválida." };
 const validWall = (w) => !!w && (w.axis === "x" || w.axis === "y") && Number.isFinite(w.x) && Number.isFinite(w.y);
 const validKind = (kind) => kind === "poster" || kind === "plant" || kind === "table";
