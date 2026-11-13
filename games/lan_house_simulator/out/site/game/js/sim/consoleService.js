@@ -1,8 +1,8 @@
-import { ps1OpenSeat, ps1SessionPrice, ps1HourPrice } from "./ps1.js?v=0bd19d58dac2";
-import { ps2OpenSeat, ps2SessionPrice, ps2HourPrice } from "./ps2.js?v=0bd19d58dac2";
-import { consoleSeat, consoleApproach, consoleStations } from "./consoleLayout.js?v=0bd19d58dac2";
-import { sessionPlan, shouldConsiderConsole } from "./customerChoices.js?v=0bd19d58dac2";
-import { navigableRoute, canTraverseLocalStep } from "./navigation.js?v=0bd19d58dac2";
+import { ps1OpenSeat, ps1SessionPrice, ps1HourPrice } from "./ps1.js?v=c12101473308";
+import { ps2OpenSeat, ps2SessionPrice, ps2HourPrice } from "./ps2.js?v=c12101473308";
+import { consoleSeat, consoleApproach, consoleStations } from "./consoleLayout.js?v=c12101473308";
+import { sessionPlan, shouldConsiderConsole } from "./customerChoices.js?v=c12101473308";
+import { navigableRoute, canTraverseLocalStep } from "./navigation.js?v=c12101473308";
 export function chooseConsoleSession(s, c, wanted, remaining, pc) {
     if (c.multiplayerVisitId !== undefined || !shouldConsiderConsole(c, pc))
         return null;

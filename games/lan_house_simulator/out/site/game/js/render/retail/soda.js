@@ -1,4 +1,4 @@
-import { line, rounded } from "./primitives.js?v=0bd19d58dac2";
+import { line, rounded } from "./primitives.js?v=c12101473308";
 export const SODA_COLORS = ["#bf6560", "#79a69e", "#d5b366"];
 export function drawSodaCan(c, x, y, color) {
     const shade = c.createLinearGradient(x, 0, x + 12, 0);

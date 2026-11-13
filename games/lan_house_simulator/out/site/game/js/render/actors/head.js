@@ -1,7 +1,7 @@
-import { shadeHex, parseHex } from "../color.js?v=0bd19d58dac2";
-import { isFemaleCostume } from "./femaleRig.js?v=0bd19d58dac2";
-import { ell, eye, shape, segment, edgeFor, hairSheen, blush, noseBump, casualHairExtras } from "./rigPrimitives.js?v=0bd19d58dac2";
-import { drawNeonHeadset } from "./headset.js?v=0bd19d58dac2";
+import { shadeHex, parseHex } from "../color.js?v=c12101473308";
+import { isFemaleCostume } from "./femaleRig.js?v=c12101473308";
+import { ell, eye, shape, segment, edgeFor, hairSheen, blush, noseBump, casualHairExtras } from "./rigPrimitives.js?v=c12101473308";
+import { drawNeonHeadset } from "./headset.js?v=c12101473308";
 /** Shared head paint pass; individual appearances retain control of hair, marks and accessories. */
 export function drawActorHead(ctx, a, detail, seated, consoleSeat, variant, appearance) {
     const { style, headShift, lean, back, sideways, quarter, pose } = detail;

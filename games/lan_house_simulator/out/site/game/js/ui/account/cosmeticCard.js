@@ -1,4 +1,4 @@
-import { vipProductThumbnail } from "../vipProductArt.js?v=0bd19d58dac2";
+import { vipProductThumbnail } from "../vipProductArt.js?v=c12101473308";
 const brl = (cents) => (cents / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 const priceToBrl = (cookies) => brl(cookies * 10);
 function button(text, className = "slice") {

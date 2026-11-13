@@ -1,7 +1,7 @@
-import { cameraForGame, iso } from "../isometric.js?v=0bd19d58dac2";
-import { furnitureSlots, occupiedFurnitureSlots } from "../../sim/furnitureLayout.js?v=0bd19d58dac2";
-import { availablePlacementSlots, furnitureLocations } from "../../sim/shop.js?v=0bd19d58dac2";
-import { drawPurchasedFurniture } from "./furnitureArt.js?v=0bd19d58dac2";
+import { cameraForGame, iso } from "../isometric.js?v=c12101473308";
+import { furnitureSlots, occupiedFurnitureSlots } from "../../sim/furnitureLayout.js?v=c12101473308";
+import { availablePlacementSlots, furnitureLocations } from "../../sim/shop.js?v=c12101473308";
+import { drawPurchasedFurniture } from "./furnitureArt.js?v=c12101473308";
 /** Edit-mode previews draw the same geometry as purchased furniture. */
 /** The ghost shares the exact geometry with purchased furniture. */
 export function drawPlacementCandidates(ctx, s, kind, hoveredId, rotation = 0) {

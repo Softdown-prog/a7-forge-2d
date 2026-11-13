@@ -1,4 +1,4 @@
-import { drawRetroComputer } from "./retroComputer.js?v=0bd19d58dac2";
+import { drawRetroComputer } from "./retroComputer.js?v=c12101473308";
 export function drawLinuxWorkstationPreview(ctx, id) {
     const { width, height } = ctx.canvas;
     ctx.save();

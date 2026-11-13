@@ -1,4 +1,4 @@
-import { poly, disk, line } from "./primitives.js?v=0bd19d58dac2";
+import { poly, disk, line } from "./primitives.js?v=c12101473308";
 /** Individually owned procedural artwork for the city poster. */
 export const cityPoster = {
     palette: ["#215852", "#e6b778", "#fff0c7"],

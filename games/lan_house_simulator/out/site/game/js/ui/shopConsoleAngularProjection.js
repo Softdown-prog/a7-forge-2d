@@ -1,8 +1,8 @@
 /** Read-only PS1/PS2 projections; all purchase rules remain in the game ports. */
-import { nextPs1DiscReleaseYear } from "../application/ps1ShopDiscPort.js?v=0bd19d58dac2";
-import { ps1ProceduralCover } from "./ps1CoverArt.js?v=0bd19d58dac2";
-import { ps2ProceduralCover } from "./ps2CoverArt.js?v=0bd19d58dac2";
-import { UNKNOWN_TOP_GAMES_TITLE, UNKNOWN_TOP_GAMES_GENRE } from "./topGamesConcealment.js?v=0bd19d58dac2";
+import { nextPs1DiscReleaseYear } from "../application/ps1ShopDiscPort.js?v=c12101473308";
+import { ps1ProceduralCover } from "./ps1CoverArt.js?v=c12101473308";
+import { ps2ProceduralCover } from "./ps2CoverArt.js?v=c12101473308";
+import { UNKNOWN_TOP_GAMES_TITLE, UNKNOWN_TOP_GAMES_GENRE } from "./topGamesConcealment.js?v=c12101473308";
 const money = (v) => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 export function projectPs1Disc(row) {
     const price = money(row.price);

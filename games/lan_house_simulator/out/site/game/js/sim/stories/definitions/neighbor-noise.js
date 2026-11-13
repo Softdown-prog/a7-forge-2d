@@ -1,4 +1,4 @@
-import { choice, story } from "../builders.js?v=0bd19d58dac2";
+import { choice, story } from "../builders.js?v=c12101473308";
 /** Independent story catalogue entry: neighbor-noise. */
 export const definition = story("Reclamação de barulho dos vizinhos", "Moradores reclamam das comemorações e gritos dos clientes nas partidas. A relação com a vizinhança ficou delicada.", "problem", [
     choice("noise-insulate", "Instalar isolamento acústico", 220, "Obra reduz o barulho e protege a convivência", "good", { reputation: 2, visitors: 1.03, visitorDays: 8 }),

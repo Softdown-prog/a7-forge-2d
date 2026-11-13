@@ -1,5 +1,5 @@
-import { wallEndpoints } from "../../sim/walls.js?v=0bd19d58dac2";
-import { iso, polygon } from "../isometric.js?v=0bd19d58dac2";
+import { wallEndpoints } from "../../sim/walls.js?v=c12101473308";
+import { iso, polygon } from "../isometric.js?v=c12101473308";
 export function drawInteriorWall(ctx, camera, wall, preview = false, allowed = true) {
     const [a, b] = wallEndpoints(wall), height = 78;
     const footA = iso(a, camera), footB = iso(b, camera), topA = iso(a, camera, height), topB = iso(b, camera, height);

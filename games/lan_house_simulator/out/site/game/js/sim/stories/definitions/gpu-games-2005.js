@@ -1,4 +1,4 @@
-import { choice, story } from "../builders.js?v=0bd19d58dac2";
+import { choice, story } from "../builders.js?v=c12101473308";
 /** Independent story catalogue entry: gpu-games-2005. */
 export const definition = story("2005: jogos avançados pedem placa de vídeo", "Alguns lançamentos já exigem placa de vídeo dedicada e um Windows compatível e licenciado. Tony percebeu que pode atrair um novo público, mas anunciar esses jogos não os instala: para licenciar um título avançado, a lan house precisa ter ao menos um computador com GPU e Windows adequados. Como se preparar?", "opportunity", [
     choice("gpu-plan", "Preparar divulgação para a nova geração", 90, "Divulgação só atrai público se houver jogo licenciado e PC compatível; não compra equipamentos", "good", { reputation: 1, visitors: 1.06, visitorDays: 8 }),
