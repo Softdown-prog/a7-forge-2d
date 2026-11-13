@@ -1,4 +1,4 @@
-import { resetPlacementUi } from "./runtimeUiState.js?v=1507cb2cfb2d";
+import { resetPlacementUi } from "./runtimeUiState.js?v=0bd19d58dac2";
 export function createPlacementController(options) {
     const { canvas, state, ports, picker, hitOwner, renderUI, save, stopKeyboard } = options, placementActions = ports.placementActions;
     const placementNames = { poster: "pôster", plant: "planta", table: "mesinha" };

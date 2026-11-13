@@ -1,13 +1,13 @@
-import { installedLcd } from "../computerModels.js?v=1507cb2cfb2d";
-import { installedWindows } from "../eraCatalog.js?v=1507cb2cfb2d";
-import { linuxMachineSpec, linuxMachineFor } from "../linuxMachines.js?v=1507cb2cfb2d";
-import { linuxUnlocked } from "../linuxQuest.js?v=1507cb2cfb2d";
-import { fixedLayoutObjects, layoutGoals, layoutPlacementIssue, objectTouchesCustomer } from "../layoutGeometry.js?v=1507cb2cfb2d";
-import { navigableRoute } from "../navigation.js?v=1507cb2cfb2d";
-import { entrance } from "../simulationState.js?v=1507cb2cfb2d";
-import { emptyStationAccount } from "../stationAccounting.js?v=1507cb2cfb2d";
-import { stationPoweredOn } from "../stationPower.js?v=1507cb2cfb2d";
-import { shopPrice } from "./pricing.js?v=1507cb2cfb2d";
+import { installedLcd } from "../computerModels.js?v=0bd19d58dac2";
+import { installedWindows } from "../eraCatalog.js?v=0bd19d58dac2";
+import { linuxMachineSpec, linuxMachineFor } from "../linuxMachines.js?v=0bd19d58dac2";
+import { linuxUnlocked } from "../linuxQuest.js?v=0bd19d58dac2";
+import { fixedLayoutObjects, layoutGoals, layoutPlacementIssue, objectTouchesCustomer } from "../layoutGeometry.js?v=0bd19d58dac2";
+import { navigableRoute } from "../navigation.js?v=0bd19d58dac2";
+import { entrance } from "../simulationState.js?v=0bd19d58dac2";
+import { emptyStationAccount } from "../stationAccounting.js?v=0bd19d58dac2";
+import { stationPoweredOn } from "../stationPower.js?v=0bd19d58dac2";
+import { shopPrice } from "./pricing.js?v=0bd19d58dac2";
 /** Previews the same candidate and shifted annex station IDs as a real purchase.
  * Never mutates the active save, changes RNG or charges money.
  */

@@ -1,4 +1,4 @@
-import { ell, shape, segment } from "./rigPrimitives.js?v=1507cb2cfb2d";
+import { ell, shape, segment } from "./rigPrimitives.js?v=0bd19d58dac2";
 export const FEMALE_COSTUMES = ["female", "female-bob", "female-ponytail"];
 export function isFemaleCostume(kind) {
     return kind === "female" || kind === "female-bob" || kind === "female-ponytail";

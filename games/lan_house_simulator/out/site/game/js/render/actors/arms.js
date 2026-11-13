@@ -1,5 +1,5 @@
-import { walkAxis } from "../walkCycle.js?v=1507cb2cfb2d";
-import { limb, ell, segment } from "./rigPrimitives.js?v=1507cb2cfb2d";
+import { walkAxis } from "../walkCycle.js?v=0bd19d58dac2";
+import { limb, ell, segment } from "./rigPrimitives.js?v=0bd19d58dac2";
 /** Shared arm-and-hand pose pass, preserving depth order controlled by actorArt. */
 export function drawActorArm(ctx, a, side, rig) {
     const { style, pose, profileWalk, screenRig, sideways, quarter, walking, phase, headShift, step, seated, celebrating, disappointed, work, gamepadActive, typing, screenView, ownerIdleRate } = rig;

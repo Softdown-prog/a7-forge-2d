@@ -1,4 +1,4 @@
-import { choice, story } from "../builders.js?v=1507cb2cfb2d";
+import { choice, story } from "../builders.js?v=0bd19d58dac2";
 /** Independent story catalogue entry: unexpected-power-bill. */
 export const definition = story("Conta de luz acima do esperado", "A cobrança de energia veio muito acima do padrão. Pode haver leitura incorreta ou desperdício no salão.", "problem", [
     choice("bill-electrician", "Solicitar auditoria de consumo", 135, "Profissional revisa medição e uso elétrico", "good", { reputation: 1 }),

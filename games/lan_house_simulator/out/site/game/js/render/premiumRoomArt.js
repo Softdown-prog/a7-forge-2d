@@ -1,4 +1,4 @@
-import { iso, polygon } from "./isometric.js?v=1507cb2cfb2d";
+import { iso, polygon } from "./isometric.js?v=0bd19d58dac2";
 export const EXCLUSIVE_POSTER_TITLES = ["NOITE PIXEL", "CORRIDA LUNAR", "CASTELO DIGITAL"];
 /** Desenho puro: nenhuma modificação da planta ou da geometria usada pela IA. */
 export function premiumCheckerPatch(ctx, cam, x, y) {

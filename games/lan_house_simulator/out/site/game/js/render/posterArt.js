@@ -1,26 +1,11 @@
-import { iso } from "./isometric.js?v=1507cb2cfb2d";
-import { line } from "./posters/primitives.js?v=1507cb2cfb2d";
-import { coasterPoster } from "./posters/coaster.js?v=1507cb2cfb2d";
-import { tacticalPoster } from "./posters/tactical.js?v=1507cb2cfb2d";
-import { golfPoster } from "./posters/golf.js?v=1507cb2cfb2d";
-import { artilleryPoster } from "./posters/artillery.js?v=1507cb2cfb2d";
-import { cityPoster } from "./posters/city.js?v=1507cb2cfb2d";
-import { terminalPoster } from "./posters/terminal.js?v=1507cb2cfb2d";
-import { arcadePoster } from "./posters/arcade.js?v=1507cb2cfb2d";
-export const POSTER_KINDS = ["coaster", "tactical", "golf", "artillery", "city", "terminal", "arcade"];
+import { iso } from "./isometric.js?v=0bd19d58dac2";
+import { line } from "./posters/primitives.js?v=0bd19d58dac2";
+import { posterFor } from "./posters/registry.js?v=0bd19d58dac2";
+export { POSTER_KINDS } from "./posters/registry.js?v=0bd19d58dac2";
 export const POSTER_WIDTH = 96, POSTER_HEIGHT = 112;
-const posterDefinitions = {
-    coaster: coasterPoster,
-    tactical: tacticalPoster,
-    golf: golfPoster,
-    artillery: artilleryPoster,
-    city: cityPoster,
-    terminal: terminalPoster,
-    arcade: arcadePoster
-};
 /** Original vector illustrations and lettering, painted by the game itself. */
 export function drawPosterPlate(c, kind) {
-    const poster = posterDefinitions[kind];
+    const poster = posterFor(kind);
     const [base, accent, paper] = poster.palette;
     c.save();
     c.lineJoin = "round";

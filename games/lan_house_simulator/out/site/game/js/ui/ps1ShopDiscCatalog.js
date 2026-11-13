@@ -1,7 +1,7 @@
 /** PS1 CD cards; clicks continue to use the existing delegated shop handler. */
-import { nextPs1DiscReleaseYear } from "../application/ps1ShopDiscPort.js?v=1507cb2cfb2d";
-import { ps1ProceduralCover } from "./ps1CoverArt.js?v=1507cb2cfb2d";
-import { UNKNOWN_TOP_GAMES_TITLE, UNKNOWN_TOP_GAMES_GENRE, UNKNOWN_TOP_GAMES_HINT } from "./topGamesConcealment.js?v=1507cb2cfb2d";
+import { nextPs1DiscReleaseYear } from "../application/ps1ShopDiscPort.js?v=0bd19d58dac2";
+import { ps1ProceduralCover } from "./ps1CoverArt.js?v=0bd19d58dac2";
+import { UNKNOWN_TOP_GAMES_TITLE, UNKNOWN_TOP_GAMES_GENRE, UNKNOWN_TOP_GAMES_HINT } from "./topGamesConcealment.js?v=0bd19d58dac2";
 export function renderPs1ShopDiscCatalog(host, port, inConsoleTab, doc) {
     if (!inConsoleTab)
         return;

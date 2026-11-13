@@ -1,6 +1,6 @@
-import { iso, polygon, raisedCuboid } from "./isometric.js?v=1507cb2cfb2d";
-import { drawRasterCached, rasterCacheUsable } from "./rasterCache.js?v=1507cb2cfb2d";
-import { contactShadow, faceVisible as visible, flatEllipse } from "./planeArt.js?v=1507cb2cfb2d";
+import { iso, polygon, raisedCuboid } from "./isometric.js?v=0bd19d58dac2";
+import { drawRasterCached, rasterCacheUsable } from "./rasterCache.js?v=0bd19d58dac2";
+import { contactShadow, faceVisible as visible, flatEllipse } from "./planeArt.js?v=0bd19d58dac2";
 const COPIER = { x: 1.48, y: .065, w: .22, d: .31, base: 55.3, height: 46 };
 const BAYS = 4;
 const bayTop = (i) => COPIER.base + COPIER.height - 14 - i * 8;

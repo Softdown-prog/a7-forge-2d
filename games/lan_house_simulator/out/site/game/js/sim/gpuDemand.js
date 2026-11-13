@@ -1,4 +1,4 @@
-import { GPU_GAME_CATALOG, gpuGameSpec } from "./gpuGames.js?v=1507cb2cfb2d";
+import { GPU_GAME_CATALOG, gpuGameSpec } from "./gpuGames.js?v=0bd19d58dac2";
 const MAX_COUNT = 10_000_000, MAX_CENTS = 1_000_000_000_000;
 const empty = () => ({ requested: 0, played: 0, basic: 0, premiumCents: 0 });
 export function validGpuGameDemand(value) {

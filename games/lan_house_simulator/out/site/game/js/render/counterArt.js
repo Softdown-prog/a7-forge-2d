@@ -1,6 +1,6 @@
-import { iso, polygon, raisedCuboid } from "./isometric.js?v=1507cb2cfb2d";
-import { drawRasterCached, rasterCacheUsable } from "./rasterCache.js?v=1507cb2cfb2d";
-import { contactShadow, faceVisible as visible, flatEllipse, panel, round, top, vertical, wire } from "./planeArt.js?v=1507cb2cfb2d";
+import { iso, polygon, raisedCuboid } from "./isometric.js?v=0bd19d58dac2";
+import { drawRasterCached, rasterCacheUsable } from "./rasterCache.js?v=0bd19d58dac2";
+import { contactShadow, faceVisible as visible, flatEllipse, panel, round, top, vertical, wire } from "./planeArt.js?v=0bd19d58dac2";
 const BRASS_LIGHT = "#e9cf8e", BRASS = "#caa66a", BRASS_DARK = "#8f6f3e";
 function line(c, points, color, width) { c.strokeStyle = color; c.lineWidth = width; c.beginPath(); points.forEach((p, i) => i ? c.lineTo(p.x, p.y) : c.moveTo(p.x, p.y)); c.stroke(); }
 function brassGradient(c, y0, y1) {

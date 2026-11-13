@@ -1,44 +1,41 @@
-import { merchandiseDisplay } from "./merchandiseDisplay.js?v=1507cb2cfb2d";
-import { pcCount, pcPosition, roomWidth, online } from "../sim/engine.js?v=1507cb2cfb2d";
-import { roomBounds } from "../sim/room.js?v=1507cb2cfb2d";
-import { cameraForGame, objectCamera } from "./isometric.js?v=1507cb2cfb2d";
-import { cosmeticAvailable } from "../sim/premiumCosmetics.js?v=1507cb2cfb2d";
-import { drawVipAquarium } from "./aquariumArt.js?v=1507cb2cfb2d";
-import { drawPixelClock } from "./pixelClockArt.js?v=1507cb2cfb2d";
-import { yearFromMinutes } from "../sim/historicalEconomy.js?v=1507cb2cfb2d";
-import { vendingMachines, placedObject, counterPoint } from "../sim/layout.js?v=1507cb2cfb2d";
-import { drawVendingMachine, drawSnackShelf } from "./retailArt.js?v=1507cb2cfb2d";
-import { BIN_SPOTS, binSpots } from "../sim/services.js?v=1507cb2cfb2d";
-import { drawRoomWindows } from "./scene/windows.js?v=1507cb2cfb2d";
-import { RoomBackgroundCache } from "./scene/background.js?v=1507cb2cfb2d";
-import { drawLayoutOverlay } from "./scene/layoutOverlay.js?v=1507cb2cfb2d";
-import { drawComputerDesk } from "./scene/stations/computer.js?v=1507cb2cfb2d";
-import { drawSceneCounter } from "./scene/stations/counter.js?v=1507cb2cfb2d";
-import { drawAnnexPcCandidates } from "./scene/annexPcOverlay.js?v=1507cb2cfb2d";
-import { drawDoorCandidates, drawWallPreview } from "./scene/wallOverlay.js?v=1507cb2cfb2d";
-import { drawEntryMarker } from "./scene/entryMarker.js?v=1507cb2cfb2d";
-import { drawRoomSign } from "./scene/roomSign.js?v=1507cb2cfb2d";
-import { drawRoomStatus } from "./scene/roomStatus.js?v=1507cb2cfb2d";
-import { drawExtraFurniture } from "./scene/furnitureArt.js?v=1507cb2cfb2d";
-import { drawPlacementCandidates, drawRelocationCandidates } from "./scene/furnitureOverlay.js?v=1507cb2cfb2d";
-import { drawInteriorWall, drawInteriorDoor } from "./scene/partitions.js?v=1507cb2cfb2d";
-import { drawGpuInstallMarkers } from "./scene/gpuInstallOverlay.js?v=1507cb2cfb2d";
-import { drawServiceAccessOverlay } from "./scene/serviceOverlay.js?v=1507cb2cfb2d";
-import { drawTrashBin } from "./scene/trashBin.js?v=1507cb2cfb2d";
-import { drawScenePostman } from "./scene/characters/postman.js?v=1507cb2cfb2d";
-import { drawSceneWorker } from "./scene/characters/worker.js?v=1507cb2cfb2d";
-import { drawSceneOwner } from "./scene/characters/owner.js?v=1507cb2cfb2d";
-import { drawSceneCustomer } from "./scene/characters/customer.js?v=1507cb2cfb2d";
-import { ps1StationPoint, ps1PlayableDisc } from "../sim/ps1.js?v=1507cb2cfb2d";
-import { ps2StationPoint, ps2PlayableGame } from "../sim/ps2.js?v=1507cb2cfb2d";
-import { customerConsole, customerConsoleSeat } from "../sim/consoleLayout.js?v=1507cb2cfb2d";
-import { drawPs2Station } from "./ps2Art.js?v=1507cb2cfb2d";
-import { drawPs1Station } from "./ps1Art.js?v=1507cb2cfb2d";
-import { drawNightMatchMarkers, drawNightMatchReactions, nightMatchReactions } from "./nightMatchMarkers.js?v=1507cb2cfb2d";
-import { drawNightPrizePresentation } from "./nightPrizePresentation.js?v=1507cb2cfb2d";
-import { drawNightReopening } from "./nightReopening.js?v=1507cb2cfb2d";
-import { SCENE_WIDTH, SCENE_HEIGHT } from "./sceneSurface.js?v=1507cb2cfb2d";
-import { daylightAt, drawSceneLighting } from "./lighting.js?v=1507cb2cfb2d";
+import { merchandiseDisplay } from "./merchandiseDisplay.js?v=0bd19d58dac2";
+import { pcCount, pcPosition, roomWidth, online } from "../sim/engine.js?v=0bd19d58dac2";
+import { roomBounds } from "../sim/room.js?v=0bd19d58dac2";
+import { cameraForGame, objectCamera } from "./isometric.js?v=0bd19d58dac2";
+import { cosmeticAvailable } from "../sim/premiumCosmetics.js?v=0bd19d58dac2";
+import { drawVipAquarium } from "./aquariumArt.js?v=0bd19d58dac2";
+import { drawPixelClock } from "./pixelClockArt.js?v=0bd19d58dac2";
+import { yearFromMinutes } from "../sim/historicalEconomy.js?v=0bd19d58dac2";
+import { vendingMachines, placedObject, counterPoint } from "../sim/layout.js?v=0bd19d58dac2";
+import { drawVendingMachine, drawSnackShelf } from "./retailArt.js?v=0bd19d58dac2";
+import { BIN_SPOTS, binSpots } from "../sim/services.js?v=0bd19d58dac2";
+import { drawRoomWindows } from "./scene/windows.js?v=0bd19d58dac2";
+import { RoomBackgroundCache } from "./scene/background.js?v=0bd19d58dac2";
+import { drawLayoutOverlay } from "./scene/layoutOverlay.js?v=0bd19d58dac2";
+import { drawComputerDesk } from "./scene/stations/computer.js?v=0bd19d58dac2";
+import { collectConsoleEntries } from "./scene/stations/registry.js?v=0bd19d58dac2";
+import { drawSceneCounter } from "./scene/stations/counter.js?v=0bd19d58dac2";
+import { drawAnnexPcCandidates } from "./scene/annexPcOverlay.js?v=0bd19d58dac2";
+import { drawDoorCandidates, drawWallPreview } from "./scene/wallOverlay.js?v=0bd19d58dac2";
+import { drawEntryMarker } from "./scene/entryMarker.js?v=0bd19d58dac2";
+import { drawRoomSign } from "./scene/roomSign.js?v=0bd19d58dac2";
+import { drawRoomStatus } from "./scene/roomStatus.js?v=0bd19d58dac2";
+import { drawExtraFurniture } from "./scene/furnitureArt.js?v=0bd19d58dac2";
+import { drawPlacementCandidates, drawRelocationCandidates } from "./scene/furnitureOverlay.js?v=0bd19d58dac2";
+import { drawInteriorWall, drawInteriorDoor } from "./scene/partitions.js?v=0bd19d58dac2";
+import { drawGpuInstallMarkers } from "./scene/gpuInstallOverlay.js?v=0bd19d58dac2";
+import { drawServiceAccessOverlay } from "./scene/serviceOverlay.js?v=0bd19d58dac2";
+import { drawTrashBin } from "./scene/trashBin.js?v=0bd19d58dac2";
+import { drawScenePostman } from "./scene/characters/postman.js?v=0bd19d58dac2";
+import { drawSceneWorker } from "./scene/characters/worker.js?v=0bd19d58dac2";
+import { drawSceneOwner } from "./scene/characters/owner.js?v=0bd19d58dac2";
+import { drawSceneCustomer } from "./scene/characters/customer.js?v=0bd19d58dac2";
+import { customerConsole, customerConsoleSeat } from "../sim/consoleLayout.js?v=0bd19d58dac2";
+import { drawNightMatchMarkers, drawNightMatchReactions, nightMatchReactions } from "./nightMatchMarkers.js?v=0bd19d58dac2";
+import { drawNightPrizePresentation } from "./nightPrizePresentation.js?v=0bd19d58dac2";
+import { drawNightReopening } from "./nightReopening.js?v=0bd19d58dac2";
+import { SCENE_WIDTH, SCENE_HEIGHT } from "./sceneSurface.js?v=0bd19d58dac2";
+import { daylightAt, drawSceneLighting } from "./lighting.js?v=0bd19d58dac2";
 export class SceneRenderer {
     ctx;
     heroHitbox = { x: 0, y: 0, width: 0, height: 0 };
@@ -90,20 +87,7 @@ export class SceneRenderer {
             const p = pcPosition(i, s);
             entries.push({ depth: p.x + p.y, paint: () => drawComputerDesk(ctx, camera, p, i, elapsedSeconds, online(s), s) });
         }
-        for (let i = 0; i < (s.ps1Stations?.length ?? 0); i++) {
-            const point = ps1StationPoint(s, i);
-            if (point) {
-                const inUse = s.customers.some(c => c.ps1StationIndex === i && c.stage === "using");
-                entries.push({ depth: point.x + point.y + .3, paint: () => drawPs1Station(ctx, camera, point, s.ps1Stations[i].wear, inUse, elapsedSeconds, ps1PlayableDisc(s, i), s.ps1Stations[i].secondSeat === true) });
-            }
-        }
-        for (let i = 0; i < (s.ps2Stations?.length ?? 0); i++) {
-            const point = ps2StationPoint(s, i);
-            if (!point)
-                continue;
-            const st = s.ps2Stations[i], active = s.customers.some(c => c.ps2StationIndex === i && c.stage === "using");
-            entries.push({ depth: point.x + point.y + .3, paint: () => drawPs2Station(ctx, camera, point, st.wear, active, elapsedSeconds, ps2PlayableGame(s, i), !!st.secondSeat, !!st.poweredOff) });
-        }
+        entries.push(...collectConsoleEntries(ctx, camera, s, elapsedSeconds));
         for (let i = 0; i < BIN_SPOTS.length; i++) {
             const p = binSpots(s)[i];
             entries.push({ depth: p.x + p.y + .1, paint: () => this.trashBin(camera, p, s.binFill?.[i] ?? 0) });

@@ -1,4 +1,4 @@
-import { choice, story } from "../builders.js?v=1507cb2cfb2d";
+import { choice, story } from "../builders.js?v=0bd19d58dac2";
 /** Independent story catalogue entry: late-supplier. */
 export const definition = story("Entrega atrasada do fornecedor", "O distribuidor não entregou as bebidas e os salgadinhos combinados. O balcão pode ficar desabastecido.", "problem", [
     choice("supplier-backup", "Comprar lote de emergência", 140, "Mercadorias repostas de imediato", "good", { stock: { soda: 10, snacks: 8 } }),

@@ -1,4 +1,4 @@
-import { ell, edgeFor, segment, shape } from "./geometry.js?v=1507cb2cfb2d";
+import { ell, edgeFor, segment, shape } from "./geometry.js?v=0bd19d58dac2";
 /** Torso silhouettes and four regular-customer shirt variants. */
 export function torso(ctx, style, shift, profile, quarter = false) {
     ctx.save();

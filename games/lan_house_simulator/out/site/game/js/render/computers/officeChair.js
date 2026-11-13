@@ -1,5 +1,5 @@
-import { iso } from "../isometric.js?v=1507cb2cfb2d";
-import { path, plane, round } from "./primitives.js?v=1507cb2cfb2d";
+import { iso } from "../isometric.js?v=0bd19d58dac2";
+import { path, plane, round } from "./primitives.js?v=0bd19d58dac2";
 export function drawOfficeChair(c, cam, p, occupied) {
     const z = cam.zoom, at = (x, y, h) => iso({ x: p.x + x, y: p.y + y }, cam, h);
     const cx = .35, cy = .87, base = at(cx, cy, 4), seat = at(cx, cy, 25);

@@ -1,11 +1,11 @@
-import { gameYear } from "./eraCatalog.js?v=1507cb2cfb2d";
-import { GAME_END_DAY } from "./mailCalendar.js?v=1507cb2cfb2d";
-import { ERIC_MULTIPLAYER_GAME_ID, multiplayerEligiblePcs } from "./eraGames.js?v=1507cb2cfb2d";
-import { entrance, pcPosition } from "./simulationState.js?v=1507cb2cfb2d";
-import { computerSeat } from "./route.js?v=1507cb2cfb2d";
-import { navigableRoute } from "./navigation.js?v=1507cb2cfb2d";
-import { isReserved } from "./customerFlow.js?v=1507cb2cfb2d";
-import { campaignDate, currentCampaignDay, nextFridayDay, weekdayIndex } from "./campaignWeek.js?v=1507cb2cfb2d";
+import { gameYear } from "./eraCatalog.js?v=0bd19d58dac2";
+import { GAME_END_DAY } from "./mailCalendar.js?v=0bd19d58dac2";
+import { ERIC_MULTIPLAYER_GAME_ID, multiplayerEligiblePcs } from "./eraGames.js?v=0bd19d58dac2";
+import { entrance, pcPosition } from "./simulationState.js?v=0bd19d58dac2";
+import { computerSeat } from "./route.js?v=0bd19d58dac2";
+import { navigableRoute } from "./navigation.js?v=0bd19d58dac2";
+import { isReserved } from "./customerFlow.js?v=0bd19d58dac2";
+import { campaignDate, currentCampaignDay, nextFridayDay, weekdayIndex } from "./campaignWeek.js?v=0bd19d58dac2";
 export function firstFridayEligibility(s) {
     const friday = nextFridayDay(currentCampaignDay(s));
     const pcs = multiplayerEligiblePcs(s).filter(pc => !isReserved(s, pc) &&
