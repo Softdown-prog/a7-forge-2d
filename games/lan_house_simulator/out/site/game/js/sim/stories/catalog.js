@@ -1,17 +1,17 @@
-import { definition as roofLeak } from "./definitions/roof-leak.js?v=c12101473308";
-import { definition as neighborNoise } from "./definitions/neighbor-noise.js?v=c12101473308";
-import { definition as damagedKeyboard } from "./definitions/damaged-keyboard.js?v=c12101473308";
-import { definition as malwareIncident } from "./definitions/malware-incident.js?v=c12101473308";
-import { definition as missingStock } from "./definitions/missing-stock.js?v=c12101473308";
-import { definition as unexpectedPowerBill } from "./definitions/unexpected-power-bill.js?v=c12101473308";
-import { definition as lateSupplier } from "./definitions/late-supplier.js?v=c12101473308";
-import { definition as lostDocument } from "./definitions/lost-document.js?v=c12101473308";
-import { definition as localNetwork } from "./definitions/local-network.js?v=c12101473308";
-import { definition as neighborhoodPaper } from "./definitions/neighborhood-paper.js?v=c12101473308";
-import { definition as privacyExposure } from "./definitions/privacy-exposure.js?v=c12101473308";
-import { definition as schoolUniformPolicy } from "./definitions/school-uniform-policy.js?v=c12101473308";
-import { definition as gpuGames2005 } from "./definitions/gpu-games-2005.js?v=c12101473308";
-import { definition as communityDrive } from "./definitions/community-drive.js?v=c12101473308";
+import { definition as roofLeak } from "./definitions/roof-leak.js?v=e74c7026ec87";
+import { definition as neighborNoise } from "./definitions/neighbor-noise.js?v=e74c7026ec87";
+import { definition as damagedKeyboard } from "./definitions/damaged-keyboard.js?v=e74c7026ec87";
+import { definition as malwareIncident } from "./definitions/malware-incident.js?v=e74c7026ec87";
+import { definition as missingStock } from "./definitions/missing-stock.js?v=e74c7026ec87";
+import { definition as unexpectedPowerBill } from "./definitions/unexpected-power-bill.js?v=e74c7026ec87";
+import { definition as lateSupplier } from "./definitions/late-supplier.js?v=e74c7026ec87";
+import { definition as lostDocument } from "./definitions/lost-document.js?v=e74c7026ec87";
+import { definition as localNetwork } from "./definitions/local-network.js?v=e74c7026ec87";
+import { definition as neighborhoodPaper } from "./definitions/neighborhood-paper.js?v=e74c7026ec87";
+import { definition as privacyExposure } from "./definitions/privacy-exposure.js?v=e74c7026ec87";
+import { definition as schoolUniformPolicy } from "./definitions/school-uniform-policy.js?v=e74c7026ec87";
+import { definition as gpuGames2005 } from "./definitions/gpu-games-2005.js?v=e74c7026ec87";
+import { definition as communityDrive } from "./definitions/community-drive.js?v=e74c7026ec87";
 /** Stable ID order retained for deterministic story scheduling and saved games. */
 export const STORIES = {
     "roof-leak": roofLeak,

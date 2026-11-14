@@ -1,10 +1,10 @@
 /** Insígnias de confronto sobre PCs ocupados de verdade.
  * Dados derivados do bracket e dos clientes: nunca são persistidos no save.
  */
-import { SCENE_WIDTH, SCENE_HEIGHT } from "./sceneSurface.js?v=c12101473308";
-import { knockoutCurrentMatch } from "../sim/nightKnockout.js?v=c12101473308";
-import { pcPosition } from "../sim/engine.js?v=c12101473308";
-import { iso } from "./isometric.js?v=c12101473308";
+import { SCENE_WIDTH, SCENE_HEIGHT } from "./sceneSurface.js?v=e74c7026ec87";
+import { knockoutCurrentMatch } from "../sim/nightKnockout.js?v=e74c7026ec87";
+import { pcPosition } from "../sim/engine.js?v=e74c7026ec87";
+import { iso } from "./isometric.js?v=e74c7026ec87";
 /** Reações apenas para uma vitória marcada pelo motor, com 8 minutos de duração. */
 export function nightMatchReactions(s) {
     const n = s.nightMeetup, t = n?.tournament;

@@ -1,5 +1,5 @@
-import { collectPs1Entries } from "./ps1.js?v=c12101473308";
-import { collectPs2Entries } from "./ps2.js?v=c12101473308";
+import { collectPs1Entries } from "./ps1.js?v=e74c7026ec87";
+import { collectPs2Entries } from "./ps2.js?v=e74c7026ec87";
 export function createConsoleRegistry(entries) {
     const handlers = new Map();
     for (const [generation, collect] of entries) {

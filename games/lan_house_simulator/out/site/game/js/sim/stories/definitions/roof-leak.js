@@ -1,4 +1,4 @@
-import { choice, story } from "../builders.js?v=c12101473308";
+import { choice, story } from "../builders.js?v=e74c7026ec87";
 /** Independent story catalogue entry: roof-leak. */
 export const definition = story("Goteira perto dos computadores", "Depois de uma chuva, surgiram manchas e pingos perto das estações. O teto precisa de atenção antes de afetar os equipamentos.", "problem", [
     choice("roof-professional", "Contratar reparo do telhado", 260, "Elimina a infiltração", "good", { reputation: 1 }),

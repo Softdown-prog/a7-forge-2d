@@ -1,4 +1,4 @@
-import { PS1_CD_CATALOG, buyPs1Disc, buyPs1Station, setPs1StationDisc, buyPs1SecondSeat, repairPs1Controls } from "../sim/ps1.js?v=c12101473308";
+import { PS1_CD_CATALOG, buyPs1Disc, buyPs1Station, setPs1StationDisc, buyPs1SecondSeat, repairPs1Controls } from "../sim/ps1.js?v=e74c7026ec87";
 const invalid = { ok: false, message: "CD ou bancada de PlayStation inválido." };
 const knownDisc = (id) => PS1_CD_CATALOG.some(x => x.id === id);
 const valid = (s, i) => Number.isInteger(i) && i >= 0 && i < (s.ps1Stations?.length ?? 0);

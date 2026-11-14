@@ -1,6 +1,6 @@
-import { DAY_MINUTES } from "./types.js?v=c12101473308";
-import { linuxMachineFor, validLinuxMachines } from "./linuxMachines.js?v=c12101473308";
-import { stationUpgradeIssue, stationPowerCount, stationReadyForSessions } from "./stationPower.js?v=c12101473308";
+import { DAY_MINUTES } from "./types.js?v=e74c7026ec87";
+import { linuxMachineFor, validLinuxMachines } from "./linuxMachines.js?v=e74c7026ec87";
+import { stationUpgradeIssue, stationPowerCount, stationReadyForSessions } from "./stationPower.js?v=e74c7026ec87";
 export const LINUX_CONTACT_DAY = 421;
 export const LINUX_AUGUST_DAY = 571;
 export const LINUX_OCTOBER_DAY = 631;

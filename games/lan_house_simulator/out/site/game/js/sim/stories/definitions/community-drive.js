@@ -1,4 +1,4 @@
-import { choice, story } from "../builders.js?v=c12101473308";
+import { choice, story } from "../builders.js?v=e74c7026ec87";
 /** Independent story catalogue entry: community-drive. */
 export const definition = story("Associação pede computadores para uma ação social", "Uma associação do bairro quer utilizar algumas horas de computador para ajudar moradores.", "opportunity", [
     choice("community-donate", "Ceder horas gratuitas", 65, "Apoio comunitário fortalece os laços do bairro", "good", { reputation: 3, visitors: 1.07, visitorDays: 10 }),

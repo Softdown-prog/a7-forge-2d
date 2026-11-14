@@ -1,7 +1,7 @@
-export { nightPrizePresentation, prizeAmountText } from "../application/nightPresentation.js?v=c12101473308";
-import { SCENE_WIDTH, SCENE_HEIGHT } from "./sceneSurface.js?v=c12101473308";
-import { nightPrizePresentation, prizeAmountText } from "../application/nightPresentation.js?v=c12101473308";
-import { iso } from "./isometric.js?v=c12101473308";
+export { nightPrizePresentation, prizeAmountText } from "../application/nightPresentation.js?v=e74c7026ec87";
+import { SCENE_WIDTH, SCENE_HEIGHT } from "./sceneSurface.js?v=e74c7026ec87";
+import { nightPrizePresentation, prizeAmountText } from "../application/nightPresentation.js?v=e74c7026ec87";
+import { iso } from "./isometric.js?v=e74c7026ec87";
 /** Medalha e comprovante presos à posição do verdadeiro vencedor no Canvas.
  * A posição acompanha o cliente enquanto ele deixa o estabelecimento.
  */

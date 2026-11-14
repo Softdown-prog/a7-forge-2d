@@ -1,23 +1,23 @@
-import { SESSION_MINUTES } from "./types.js?v=c12101473308";
-import { customerSatisfactionDelta, hardwareSatisfactionBonus } from "./economy.js?v=c12101473308";
-import { vendingApproach, purchaseApproach } from "./layout.js?v=c12101473308";
-import { selectPurchase } from "./needs.js?v=c12101473308";
-import { preferenceSatisfactionAdjustment, preferenceSessionComment } from "./customerChoices.js?v=c12101473308";
-import { firstRetailCustomer } from "./retailQueue.js?v=c12101473308";
-import { praiseLine, complaintLine } from "./customerDialogue.js?v=c12101473308";
-import { vipReputationAdjustment, serviceReputationImpact } from "./vip.js?v=c12101473308";
-import { recordCustomerFeedback, sessionFeedbackReason } from "./customerFeedback.js?v=c12101473308";
-import { normalizedHourlyPrice } from "./historicalEconomy.js?v=c12101473308";
-import { ps2SessionWear, ps2HourPrice } from "./ps2.js?v=c12101473308";
-import { customerConsole } from "./consoleLayout.js?v=c12101473308";
-import { isLinuxPc } from "./linuxQuest.js?v=c12101473308";
-import { ps1SessionWear, ps1HourPrice } from "./ps1.js?v=c12101473308";
-import { online, pcWear, pcBroken, addLog, CLOSING_START_MINUTE, localMinute } from "./simulationState.js?v=c12101473308";
-import { setTravel, moveRoute } from "./customerMotion.js?v=c12101473308";
-import { navigableRoute } from "./navigation.js?v=c12101473308";
-import { startStanding, customerSays, sendHome, yieldDoorway, queueVisualEvent } from "./customerFlow.js?v=c12101473308";
-import { tryServe, resolvePurchase } from "./customerDecisions.js?v=c12101473308";
-import { startMultiplayerRound, multiplayerRoundActive } from "./multiplayerVisitors.js?v=c12101473308";
+import { SESSION_MINUTES } from "./types.js?v=e74c7026ec87";
+import { customerSatisfactionDelta, hardwareSatisfactionBonus } from "./economy.js?v=e74c7026ec87";
+import { vendingApproach, purchaseApproach } from "./layout.js?v=e74c7026ec87";
+import { selectPurchase } from "./needs.js?v=e74c7026ec87";
+import { preferenceSatisfactionAdjustment, preferenceSessionComment } from "./customerChoices.js?v=e74c7026ec87";
+import { firstRetailCustomer } from "./retailQueue.js?v=e74c7026ec87";
+import { praiseLine, complaintLine } from "./customerDialogue.js?v=e74c7026ec87";
+import { vipReputationAdjustment, serviceReputationImpact } from "./vip.js?v=e74c7026ec87";
+import { recordCustomerFeedback, sessionFeedbackReason } from "./customerFeedback.js?v=e74c7026ec87";
+import { normalizedHourlyPrice } from "./historicalEconomy.js?v=e74c7026ec87";
+import { ps2SessionWear, ps2HourPrice } from "./ps2.js?v=e74c7026ec87";
+import { customerConsole } from "./consoleLayout.js?v=e74c7026ec87";
+import { isLinuxPc } from "./linuxQuest.js?v=e74c7026ec87";
+import { ps1SessionWear, ps1HourPrice } from "./ps1.js?v=e74c7026ec87";
+import { online, pcWear, pcBroken, addLog, CLOSING_START_MINUTE, localMinute } from "./simulationState.js?v=e74c7026ec87";
+import { setTravel, moveRoute } from "./customerMotion.js?v=e74c7026ec87";
+import { navigableRoute } from "./navigation.js?v=e74c7026ec87";
+import { startStanding, customerSays, sendHome, yieldDoorway, queueVisualEvent } from "./customerFlow.js?v=e74c7026ec87";
+import { tryServe, resolvePurchase } from "./customerDecisions.js?v=e74c7026ec87";
+import { startMultiplayerRound, multiplayerRoundActive } from "./multiplayerVisitors.js?v=e74c7026ec87";
 export function advanceCustomer(s, c) {
     switch (c.stage) {
         case "arriving": {

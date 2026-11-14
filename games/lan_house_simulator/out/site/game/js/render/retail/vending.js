@@ -1,9 +1,9 @@
-import { productSpec } from "../../sim/merchandise.js?v=c12101473308";
-import { iso, polygon } from "../isometric.js?v=c12101473308";
-import { VENDING_WIDTH, VENDING_DEPTH } from "../../sim/layout.js?v=c12101473308";
-import { RETAIL_DISPLAY_CAPACITY, visibleRetailStock, line, rounded, box, face, caption, drawCached } from "./primitives.js?v=c12101473308";
-import { drawSodaCan, SODA_COLORS } from "./soda.js?v=c12101473308";
-import { drawCandy, CANDY_COLORS } from "./candy.js?v=c12101473308";
+import { productSpec } from "../../sim/merchandise.js?v=e74c7026ec87";
+import { iso, polygon } from "../isometric.js?v=e74c7026ec87";
+import { VENDING_WIDTH, VENDING_DEPTH } from "../../sim/layout.js?v=e74c7026ec87";
+import { RETAIL_DISPLAY_CAPACITY, visibleRetailStock, line, rounded, box, face, caption, drawCached } from "./primitives.js?v=e74c7026ec87";
+import { drawSodaCan, SODA_COLORS } from "./soda.js?v=e74c7026ec87";
+import { drawCandy, CANDY_COLORS } from "./candy.js?v=e74c7026ec87";
 function paintMachine(c, cam, p, kind, quantity, pulse, display) {
     const soda = kind === "soda", h = soda ? 106 : 94, w = VENDING_WIDTH, d = VENDING_DEPTH, z = cam.zoom;
     const top = soda ? "#ce7771" : "#dbbc78", front = soda ? "#a4484b" : "#b38a4e", side = soda ? "#72383d" : "#806943";

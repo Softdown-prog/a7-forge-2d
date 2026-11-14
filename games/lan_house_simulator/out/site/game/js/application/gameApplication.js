@@ -1,10 +1,10 @@
-import { finishWindowsInstallations } from "../sim/windowsInstallation.js?v=c12101473308";
-import { addLog } from "../sim/simulationState.js?v=c12101473308";
-import { WINDOWS_ERAS } from "../sim/eraCatalog.js?v=c12101473308";
-import { createAccountGamePort } from "./accountGamePort.js?v=c12101473308";
-import { createGameFramePort } from "./gameFramePort.js?v=c12101473308";
-import { createGamePorts } from "./gamePorts.js?v=c12101473308";
-import { createGameSessionPort } from "./gameSessionPort.js?v=c12101473308";
+import { finishWindowsInstallations } from "../sim/windowsInstallation.js?v=e74c7026ec87";
+import { addLog } from "../sim/simulationState.js?v=e74c7026ec87";
+import { WINDOWS_ERAS } from "../sim/eraCatalog.js?v=e74c7026ec87";
+import { createAccountGamePort } from "./accountGamePort.js?v=e74c7026ec87";
+import { createGameFramePort } from "./gameFramePort.js?v=e74c7026ec87";
+import { createGamePorts } from "./gamePorts.js?v=e74c7026ec87";
+import { createGameSessionPort } from "./gameSessionPort.js?v=e74c7026ec87";
 export function createGameApplication(options) {
     let game;
     const sessionPort = createGameSessionPort(options.store, () => game);
