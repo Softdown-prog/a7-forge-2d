@@ -1,4 +1,4 @@
-import { paintCrtScene } from "./crtScene.js?v=b0980822919c";
+import { paintCrtScene } from "./crtScene.js?v=b715623ba9fb";
 /** Individually owned procedural artwork for the terminal poster. */
 export const terminalPoster = {
     palette: ["#244c40", "#bdd48d", "#fff0c9"],

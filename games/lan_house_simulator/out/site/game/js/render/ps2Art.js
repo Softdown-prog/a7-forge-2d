@@ -1,5 +1,5 @@
-import { iso, polygon, raisedCuboid } from "./isometric.js?v=b0980822919c";
-import { drawPs2MiniGame } from "./ps2MiniGames.js?v=b0980822919c";
+import { iso, polygon, raisedCuboid } from "./isometric.js?v=b715623ba9fb";
+import { drawPs2MiniGame } from "./ps2MiniGames.js?v=b715623ba9fb";
 /** Viewport coordinates of the actual PS2 TV face, inside its procedural cabinet.
  * Wider + taller pixels stay legible at the normal 0.86 salon zoom.
  * Not an overlay: the games still paint directly into the isometric screen.

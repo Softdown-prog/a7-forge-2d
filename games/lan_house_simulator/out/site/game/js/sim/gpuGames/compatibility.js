@@ -1,9 +1,9 @@
-import { GPU_CATALOG, installedGpu } from "../gpu.js?v=b0980822919c";
-import { WINDOWS_ERAS, installedWindows } from "../eraCatalog.js?v=b0980822919c";
-import { isLinuxPc } from "../linuxQuest.js?v=b0980822919c";
-import { isHistorical, yearFromMinutes } from "../historicalEconomy.js?v=b0980822919c";
-import { stationPowerCount } from "../stationPower.js?v=b0980822919c";
-import { GPU_GAME_CATALOG, gpuGameSpec } from "./catalog.js?v=b0980822919c";
+import { GPU_CATALOG, installedGpu } from "../gpu.js?v=b715623ba9fb";
+import { WINDOWS_ERAS, installedWindows } from "../eraCatalog.js?v=b715623ba9fb";
+import { isLinuxPc } from "../linuxQuest.js?v=b715623ba9fb";
+import { isHistorical, yearFromMinutes } from "../historicalEconomy.js?v=b715623ba9fb";
+import { stationPowerCount } from "../stationPower.js?v=b715623ba9fb";
+import { GPU_GAME_CATALOG, gpuGameSpec } from "./catalog.js?v=b715623ba9fb";
 /** Saved installations, station hardware and executable game entitlement. */
 /** Jogos implicitamente instalados em saves antigos até a primeira edição. */
 export function gpuGameInstalledOnPc(s, index, id) {

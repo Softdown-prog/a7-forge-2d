@@ -1,8 +1,8 @@
-import { annualHourlyCeiling, isHistorical, sessionPrice, yearFromMinutes } from "../historicalEconomy.js?v=b0980822919c";
-import { stationReadyForSessions } from "../stationPower.js?v=b0980822919c";
-import { gamePopularityWeight } from "../gamePopularity.js?v=b0980822919c";
-import { GPU_GAME_CATALOG, gpuGameSpec } from "./catalog.js?v=b0980822919c";
-import { gpuGameEligiblePcs, gpuGamePlayableOnPc } from "./compatibility.js?v=b0980822919c";
+import { annualHourlyCeiling, isHistorical, sessionPrice, yearFromMinutes } from "../historicalEconomy.js?v=b715623ba9fb";
+import { stationReadyForSessions } from "../stationPower.js?v=b715623ba9fb";
+import { gamePopularityWeight } from "../gamePopularity.js?v=b715623ba9fb";
+import { GPU_GAME_CATALOG, gpuGameSpec } from "./catalog.js?v=b715623ba9fb";
+import { gpuGameEligiblePcs, gpuGamePlayableOnPc } from "./compatibility.js?v=b715623ba9fb";
 /** Deterministic visitor choice, demand and permitted session surcharge. */
 /** Procura adicional por um jogo GPU efetivamente ofertado hoje.
  * Uma licença sem instalação, PC ligado e compatível não anuncia algo que

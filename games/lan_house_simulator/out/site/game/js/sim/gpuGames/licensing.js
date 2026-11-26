@@ -1,7 +1,7 @@
-import { isHistorical, yearFromMinutes } from "../historicalEconomy.js?v=b0980822919c";
-import { stationPowerCount } from "../stationPower.js?v=b0980822919c";
-import { GPU_GAME_CATALOG, gpuGameSpec } from "./catalog.js?v=b0980822919c";
-import { gpuGameEligiblePcs } from "./compatibility.js?v=b0980822919c";
+import { isHistorical, yearFromMinutes } from "../historicalEconomy.js?v=b715623ba9fb";
+import { stationPowerCount } from "../stationPower.js?v=b715623ba9fb";
+import { GPU_GAME_CATALOG, gpuGameSpec } from "./catalog.js?v=b715623ba9fb";
+import { gpuGameEligiblePcs } from "./compatibility.js?v=b715623ba9fb";
 /** License purchases and save checks are independent of background downloads. */
 export function validGpuGameLicenses(value, s) {
     if (value === undefined)

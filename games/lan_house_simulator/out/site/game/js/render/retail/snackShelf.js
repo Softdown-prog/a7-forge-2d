@@ -1,6 +1,6 @@
-import { iso, polygon } from "../isometric.js?v=b0980822919c";
-import { mixHex } from "../color.js?v=b0980822919c";
-import { RETAIL_DISPLAY_CAPACITY, visibleRetailStock, line, rounded, box, face, caption, drawCached } from "./primitives.js?v=b0980822919c";
+import { iso, polygon } from "../isometric.js?v=b715623ba9fb";
+import { mixHex } from "../color.js?v=b715623ba9fb";
+import { RETAIL_DISPLAY_CAPACITY, visibleRetailStock, line, rounded, box, face, caption, drawCached } from "./primitives.js?v=b715623ba9fb";
 /** Expositor retrô inspirado nos pacotes coloridos, sem reproduzir marcas registradas.
  * Cada posição corresponde a UM item já disponível no estoque real. */
 const SNACK_COLORWAYS = [

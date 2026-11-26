@@ -1,9 +1,9 @@
-import { furnitureLimit, furnitureLocations, furnitureSlots, occupiedFurnitureSlots } from "../furnitureLayout.js?v=b0980822919c";
-import { builtPosters, fixedLayoutObjects, layoutGoals, layoutPlacementIssue, objectTouchesCustomer, pointInsideObject } from "../layoutGeometry.js?v=b0980822919c";
-import { navigableRoute, routesForCurrentCustomers } from "../navigation.js?v=b0980822919c";
-import { activeRetailQueuesReachable, refreshRetailQueues } from "../retailQueue.js?v=b0980822919c";
-import { entrance } from "../simulationState.js?v=b0980822919c";
-import { shopPrice } from "./pricing.js?v=b0980822919c";
+import { furnitureLimit, furnitureLocations, furnitureSlots, occupiedFurnitureSlots } from "../furnitureLayout.js?v=b715623ba9fb";
+import { builtPosters, fixedLayoutObjects, layoutGoals, layoutPlacementIssue, objectTouchesCustomer, pointInsideObject } from "../layoutGeometry.js?v=b715623ba9fb";
+import { navigableRoute, routesForCurrentCustomers } from "../navigation.js?v=b715623ba9fb";
+import { activeRetailQueuesReachable, refreshRetailQueues } from "../retailQueue.js?v=b715623ba9fb";
+import { entrance } from "../simulationState.js?v=b715623ba9fb";
+import { shopPrice } from "./pricing.js?v=b715623ba9fb";
 function decorationIssue(s, candidate, kind, slot, rotation = 0, editingSlotId) {
     if (kind !== "poster") {
         const object = { id: editingSlotId ? "decor:" + editingSlotId : "new-decoration", label: "Decoração", kind, x: slot.x, y: slot.y, rotation, w: kind === "table" ? .55 : .32, d: kind === "table" ? .4 : .32, surface: "floor" };

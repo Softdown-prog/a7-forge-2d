@@ -1,18 +1,20 @@
-import { annexComputerSlots, availableAnnexComputers } from "../sim/stations.js?v=b0980822919c";
-import { linuxMachineSpec } from "../sim/linuxMachines.js?v=b0980822919c";
-import { linuxUnlocked } from "../sim/linuxQuest.js?v=b0980822919c";
-import { MAX_EXTENSION_LEVEL } from "../sim/room.js?v=b0980822919c";
+import { annexComputerSlots, availableAnnexComputers } from "../sim/stations.js?v=b715623ba9fb";
+import { linuxMachineSpec } from "../sim/linuxMachines.js?v=b715623ba9fb";
+import { linuxUnlocked } from "../sim/linuxQuest.js?v=b715623ba9fb";
+import { MAX_EXTENSION_LEVEL } from "../sim/room.js?v=b715623ba9fb";
 /** Explica as compras sem alterar o estado da partida. */
-export function shopPlacementStatus(s, id) {
+export function shopPlacementStatus(s, id, placementIssue = null) {
     const cap = 3 + s.expansionLevel * 2;
     const installed = Math.max(3, Math.min(cap, s.installedPcs ?? cap));
     if (id === "computer" || linuxMachineSpec(id)) {
         const intro = linuxMachineSpec(id) ?
             (linuxUnlocked(s) ? "Linux pronto para uso. Modelo físico próprio; não substitui computadores Windows. " : "Assine a revista do Fórum Linux, receba seis edições e estude até outubro de 1999. ") : "";
-        const free = cap - installed;
-        return intro + "Área principal: " + installed + "/" + cap + " PCs · " + free +
-            (free === 1 ? " vaga livre." : " vagas livres.") +
-            (free === 0 ? " Amplie a área principal para liberar mais duas." : " A posição é definida automaticamente.");
+        const capacity = `${intro}Área principal: ${installed}/${cap} PCs.`;
+        if (installed === cap)
+            return capacity + (s.expansionLevel >= 2
+                ? " Limite da área principal atingido."
+                : " Amplie a área principal em Construção para liberar mais duas vagas.");
+        return capacity + " " + (placementIssue ?? "Posição do próximo PC disponível. Instalação automática.");
     }
     if (id === "computer-annex") {
         const total = annexComputerSlots(s).length, free = availableAnnexComputers(s).length;

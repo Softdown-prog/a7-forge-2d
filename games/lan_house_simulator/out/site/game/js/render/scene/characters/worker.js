@@ -1,13 +1,13 @@
-import { pcPosition } from "../../../sim/engine.js?v=b0980822919c";
-import { binSpots } from "../../../sim/services.js?v=b0980822919c";
-import { workPhaseLabel } from "../../../sim/staffPresentation.js?v=b0980822919c";
-import { technicianContactPoint } from "../../../sim/staffWorksites.js?v=b0980822919c";
-import { iso } from "../../isometric.js?v=b0980822919c";
-import { drawActorSprite as drawActor } from "../../actorSprites.js?v=b0980822919c";
-import { workerMotion } from "../../workerMotion.js?v=b0980822919c";
-import { drawWorkContact } from "../../workEffects.js?v=b0980822919c";
-import { drawCleanerTool } from "./cleanerTool.js?v=b0980822919c";
-import { drawTechnicianTool } from "./technicianTool.js?v=b0980822919c";
+import { pcPosition } from "../../../sim/engine.js?v=b715623ba9fb";
+import { binSpots } from "../../../sim/services.js?v=b715623ba9fb";
+import { workPhaseLabel } from "../../../sim/staffPresentation.js?v=b715623ba9fb";
+import { technicianContactPoint } from "../../../sim/staffWorksites.js?v=b715623ba9fb";
+import { iso } from "../../isometric.js?v=b715623ba9fb";
+import { drawActorSprite as drawActor } from "../../actorSprites.js?v=b715623ba9fb";
+import { workerMotion } from "../../workerMotion.js?v=b715623ba9fb";
+import { drawWorkContact } from "../../workEffects.js?v=b715623ba9fb";
+import { drawCleanerTool } from "./cleanerTool.js?v=b715623ba9fb";
+import { drawTechnicianTool } from "./technicianTool.js?v=b715623ba9fb";
 export function drawSceneWorker(ctx, camera, job, time, kind, progress, s) {
     const z = camera.zoom, working = job.phase === "working";
     // Vincula visualmente o funcionário ao equipamento. As linhas e os círculos

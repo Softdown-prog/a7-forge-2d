@@ -1,5 +1,5 @@
-import { iso } from "../../isometric.js?v=b0980822919c";
-import { drawActorSprite as drawActor } from "../../actorSprites.js?v=b0980822919c";
+import { iso } from "../../isometric.js?v=b715623ba9fb";
+import { drawActorSprite as drawActor } from "../../actorSprites.js?v=b715623ba9fb";
 export function drawScenePostman(ctx, camera, job, t) {
     const motion = job.renderMotion;
     const moving = motion?.moving ?? job.moving;

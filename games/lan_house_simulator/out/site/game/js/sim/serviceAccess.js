@@ -1,8 +1,8 @@
-import { entrance, pcCount, pcPosition } from "./simulationState.js?v=b0980822919c";
-import { binSpots } from "./services.js?v=b0980822919c";
-import { canTraverseLocalStep } from "./navigation.js?v=b0980822919c";
-import { technicianWorkPoint, technicianContactPoint, cleanerWorkPoint } from "./staffWorksites.js?v=b0980822919c";
-import { workerRoute } from "./workerNavigation.js?v=b0980822919c";
+import { entrance, pcCount, pcPosition } from "./simulationState.js?v=b715623ba9fb";
+import { binSpots } from "./services.js?v=b715623ba9fb";
+import { canTraverseLocalStep } from "./navigation.js?v=b715623ba9fb";
+import { technicianWorkPoint, technicianContactPoint, cleanerWorkPoint } from "./staffWorksites.js?v=b715623ba9fb";
+import { workerRoute } from "./workerNavigation.js?v=b715623ba9fb";
 /** Verifica apenas destinos com demanda real; é uma consulta pura.
  * Uma posição sem rota não prova qual parede específica causou o bloqueio. */
 export function serviceAccessIssues(s) {

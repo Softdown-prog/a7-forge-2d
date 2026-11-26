@@ -1,7 +1,7 @@
-import { isHistorical } from "../historicalEconomy.js?v=b0980822919c";
-import { stationPowerCount, stationPoweredOn, stationHasCustomer } from "../stationPower.js?v=b0980822919c";
-import { gpuGameSpec } from "./catalog.js?v=b0980822919c";
-import { gpuGameCompatible, gpuGameEligiblePcs, gpuGameInstalledOnPc } from "./compatibility.js?v=b0980822919c";
+import { isHistorical } from "../historicalEconomy.js?v=b715623ba9fb";
+import { stationPowerCount, stationPoweredOn, stationHasCustomer } from "../stationPower.js?v=b715623ba9fb";
+import { gpuGameSpec } from "./catalog.js?v=b715623ba9fb";
+import { gpuGameCompatible, gpuGameEligiblePcs, gpuGameInstalledOnPc } from "./compatibility.js?v=b715623ba9fb";
 /** Duração fixa no começo; upgrades de internet afetam apenas os próximos. */
 export function gpuGameInstallDuration(s, id) {
     const base = id === "neon-rush" ? 18 : id === "circuito-competitivo" ? 28 : 40;

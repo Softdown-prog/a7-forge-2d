@@ -1,4 +1,4 @@
-import { ell, shape } from "./rigPrimitives.js?v=b0980822919c";
+import { ell, shape } from "./rigPrimitives.js?v=b715623ba9fb";
 export const appearance = {
     style: { shirt: "#604A78", dark: "#352C51", highlight: "#B88DAF", pants: "#282E4D", hair: "#252535", skin: "#E9B9B7", trim: "#B64E64" },
     drawBack(detail) {

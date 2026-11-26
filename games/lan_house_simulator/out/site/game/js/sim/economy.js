@@ -1,14 +1,14 @@
-import { ps2EnergyCostPerMinute } from "./consoleEnergy.js?v=b0980822919c";
-import { merchandisePrice, setMerchandisePrice, orderMerchandise, sellMerchandise, quoteOrder, CLASSIC_PRICES, CLASSIC_WHOLESALE, PRODUCTS } from "./merchandise.js?v=b0980822919c";
-import { SESSION_MINUTES } from "./types.js?v=b0980822919c";
-import { gameYear, INTERNET_ERAS, internetUnlockYear } from "./eraCatalog.js?v=b0980822919c";
-import { gpuBonus, gpuSpec, installedGpu } from "./gpu.js?v=b0980822919c";
-import { startRepair } from "./services.js?v=b0980822919c";
-import { lcdSpec, installedLcd } from "./computerModels.js?v=b0980822919c";
-import { buyPlatform, componentSatisfactionBonus, hardwareFor, hardwareLoadWatts } from "./hardware.js?v=b0980822919c";
-import { linuxMachineSpec, linuxMachineFor } from "./linuxMachines.js?v=b0980822919c";
-import { stationUpgradeIssue, stationPoweredOn } from "./stationPower.js?v=b0980822919c";
-import { allowableHourlyPrice, annualHourlyCeiling, priceIndex, yearFromMinutes, sessionPrice, MIN_HOURLY_PRICE, isHistorical } from "./historicalEconomy.js?v=b0980822919c";
+import { ps2EnergyCostPerMinute } from "./consoleEnergy.js?v=b715623ba9fb";
+import { merchandisePrice, setMerchandisePrice, orderMerchandise, sellMerchandise, quoteOrder, CLASSIC_PRICES, CLASSIC_WHOLESALE, PRODUCTS } from "./merchandise.js?v=b715623ba9fb";
+import { SESSION_MINUTES } from "./types.js?v=b715623ba9fb";
+import { gameYear, INTERNET_ERAS, internetUnlockYear } from "./eraCatalog.js?v=b715623ba9fb";
+import { gpuBonus, gpuSpec, installedGpu } from "./gpu.js?v=b715623ba9fb";
+import { startRepair } from "./services.js?v=b715623ba9fb";
+import { lcdSpec, installedLcd } from "./computerModels.js?v=b715623ba9fb";
+import { buyPlatform, componentSatisfactionBonus, hardwareFor, hardwareLoadWatts } from "./hardware.js?v=b715623ba9fb";
+import { linuxMachineSpec, linuxMachineFor } from "./linuxMachines.js?v=b715623ba9fb";
+import { stationUpgradeIssue, stationPoweredOn } from "./stationPower.js?v=b715623ba9fb";
+import { allowableHourlyPrice, annualHourlyCeiling, priceIndex, yearFromMinutes, sessionPrice, MIN_HOURLY_PRICE, isHistorical } from "./historicalEconomy.js?v=b715623ba9fb";
 /** Valores iniciais de 1998 no universo do jogo; inflação vem do IPCA. */
 export const ITEM_PRICES = CLASSIC_PRICES;
 export const HISTORICAL_ITEM_PRICES = Object.fromEntries(PRODUCTS.slice(0, 3).map(p => [p.id, p.price]));

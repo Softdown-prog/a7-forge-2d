@@ -1,6 +1,6 @@
-import { objectCamera } from "../../isometric.js?v=b0980822919c";
-import { drawRetroComputer, computerAppearance, screenGlow, monitorScreenQuad } from "../../retroComputer.js?v=b0980822919c";
-import { daylightAt, drawScreenGlow, drawMonitorEmission, monitorEmission } from "../../lighting.js?v=b0980822919c";
+import { objectCamera } from "../../isometric.js?v=b715623ba9fb";
+import { drawRetroComputer, computerAppearance, screenGlow, monitorScreenQuad } from "../../retroComputer.js?v=b715623ba9fb";
+import { daylightAt, drawScreenGlow, drawMonitorEmission, monitorEmission } from "../../lighting.js?v=b715623ba9fb";
 /** One PC workstation, including its dynamic monitor light. */
 export function drawComputerDesk(ctx, camera, p, i, t, isOnline, s) {
     const cam = objectCamera(camera, p, 1.1, .7, p.rotation);

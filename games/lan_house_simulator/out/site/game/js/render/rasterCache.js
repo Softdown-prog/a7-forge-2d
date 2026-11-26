@@ -2,7 +2,7 @@
  * A raster is keyed by its art key, the device scale and the sub-pixel phase
  * of its anchor, so a blit reproduces the exact live rasterization (text
  * included). Nothing here touches simulation state. */
-import { contextScale } from "./sceneSurface.js?v=b0980822919c";
+import { contextScale } from "./sceneSurface.js?v=b715623ba9fb";
 const stores = new WeakMap();
 function storeFor(ctx, family) {
     let families = stores.get(ctx);

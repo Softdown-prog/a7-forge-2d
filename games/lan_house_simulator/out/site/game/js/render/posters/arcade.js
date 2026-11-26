@@ -1,4 +1,4 @@
-import { paintCrtScene } from "./crtScene.js?v=b0980822919c";
+import { paintCrtScene } from "./crtScene.js?v=b715623ba9fb";
 /** Individually owned procedural artwork for the arcade poster. */
 export const arcadePoster = {
     palette: ["#433e68", "#df967b", "#fff0c7"],

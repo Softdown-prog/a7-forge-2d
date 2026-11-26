@@ -1,7 +1,7 @@
-import { editableObjects, layoutPlacementIssue, layoutRemovalIssue, moveLayoutObject, removeLayoutObject } from "../sim/editableObjects.js?v=b0980822919c";
-import { removablePartitions, removePartition, wallEndpoints } from "../sim/walls.js?v=b0980822919c";
-import { furnitureSlots } from "../sim/shop.js?v=b0980822919c";
-import { roomBounds } from "../sim/room.js?v=b0980822919c";
+import { editableObjects, layoutPlacementIssue, layoutRemovalIssue, moveLayoutObject, removeLayoutObject } from "../sim/editableObjects.js?v=b715623ba9fb";
+import { removablePartitions, removePartition, wallEndpoints } from "../sim/walls.js?v=b715623ba9fb";
+import { furnitureSlots } from "../sim/shop.js?v=b715623ba9fb";
+import { roomBounds } from "../sim/room.js?v=b715623ba9fb";
 export function createLayoutEditorPort(getState, cameraForState) {
     return {
         objects: () => editableObjects(getState()),
