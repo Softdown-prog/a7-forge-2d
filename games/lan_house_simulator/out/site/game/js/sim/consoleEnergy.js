@@ -1,4 +1,4 @@
-import { priceIndex, yearFromMinutes } from "./historicalEconomy.js?v=88374e228e86";
+import { priceIndex, yearFromMinutes } from "./historicalEconomy.js?v=b0ac0402a753";
 export function ps2EnergyCostPerMinute(s) {
     const factor = priceIndex(yearFromMinutes(s.totalMinutes ?? 0)) / priceIndex(2006);
     return (s.ps2Stations ?? []).reduce((sum, st, i) => sum + (st.poweredOff ? 0 :

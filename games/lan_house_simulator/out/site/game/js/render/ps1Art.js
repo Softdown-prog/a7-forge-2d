@@ -1,5 +1,5 @@
-import { drawPs1MiniGame } from "./ps1MiniGames.js?v=88374e228e86";
-import { iso, polygon, raisedCuboid } from "./isometric.js?v=88374e228e86";
+import { drawPs1MiniGame } from "./ps1MiniGames.js?v=b0ac0402a753";
+import { iso, polygon, raisedCuboid } from "./isometric.js?v=b0ac0402a753";
 /** Movimento determinístico para a telinha minúscula do CRT.
  * Os valores são normalizados e não dependem de FPS ou da partida. */
 export function ps1ScreenFrame(seconds) {

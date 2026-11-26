@@ -1,12 +1,12 @@
-import { SCENE_THEME as theme } from "../theme.js?v=88374e228e86";
-import { contextScale } from "../sceneSurface.js?v=88374e228e86";
-import { cosmeticAvailable } from "../../sim/premiumCosmetics.js?v=88374e228e86";
-import { yearFromMinutes } from "../../sim/historicalEconomy.js?v=88374e228e86";
-import { drawVignette } from "../lighting.js?v=88374e228e86";
-import { drawRoomFloor } from "./floor.js?v=88374e228e86";
-import { drawRoomWalls } from "./walls.js?v=88374e228e86";
-import { drawRoomDecor } from "./decor.js?v=88374e228e86";
-import { drawExtraPosters } from "./furnitureArt.js?v=88374e228e86";
+import { SCENE_THEME as theme } from "../theme.js?v=b0ac0402a753";
+import { contextScale } from "../sceneSurface.js?v=b0ac0402a753";
+import { cosmeticAvailable } from "../../sim/premiumCosmetics.js?v=b0ac0402a753";
+import { yearFromMinutes } from "../../sim/historicalEconomy.js?v=b0ac0402a753";
+import { drawVignette } from "../lighting.js?v=b0ac0402a753";
+import { drawRoomFloor } from "./floor.js?v=b0ac0402a753";
+import { drawRoomWalls } from "./walls.js?v=b0ac0402a753";
+import { drawRoomDecor } from "./decor.js?v=b0ac0402a753";
+import { drawExtraPosters } from "./furnitureArt.js?v=b0ac0402a753";
 /** Paint only the static room layer, in the same order as the uncached renderer. */
 export function paintRoomBackground(ctx, s, camera, bounds, w, h) {
     const sky = ctx.createLinearGradient(0, 0, 0, h);

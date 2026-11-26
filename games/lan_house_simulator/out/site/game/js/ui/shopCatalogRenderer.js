@@ -2,17 +2,17 @@
  * Inventory, prices, licensing and placement availability are supplied
  * through live read models, never taken from the game simulation here.
  */
-import { createShopCatalogCard, appendStandardShopCatalogCard, appendShopCatalogOwned } from "./shopCatalogCard.js?v=88374e228e86";
-import { renderShopCatalogOfferButton } from "./shopCatalogOfferButton.js?v=88374e228e86";
-import { renderShopServiceOffer } from "./shopServiceOfferButton.js?v=88374e228e86";
-import { renderPs1ShopOfferButton } from "./ps1ShopOfferButton.js?v=88374e228e86";
-import { renderPs1ShopPlacement } from "./ps1ShopPlacementPicker.js?v=88374e228e86";
-import { renderPs1ShopDiscCatalog } from "./ps1ShopDiscCatalog.js?v=88374e228e86";
-import { renderPs2ShopCatalog } from "./ps2Panels.js?v=88374e228e86";
-import { renderTopGamesSubscription } from "./topGamesShopPanel.js?v=88374e228e86";
-import { regularShopCardView, publishAngularShopCatalog } from "./shopCatalogAngularProjection.js?v=88374e228e86";
-import { projectConsoleShop, publishAngularConsoleShop } from "./shopConsoleAngularProjection.js?v=88374e228e86";
-import { shopCategory } from "./shopPanels.js?v=88374e228e86";
+import { createShopCatalogCard, appendStandardShopCatalogCard, appendShopCatalogOwned } from "./shopCatalogCard.js?v=b0ac0402a753";
+import { renderShopCatalogOfferButton } from "./shopCatalogOfferButton.js?v=b0ac0402a753";
+import { renderShopServiceOffer } from "./shopServiceOfferButton.js?v=b0ac0402a753";
+import { renderPs1ShopOfferButton } from "./ps1ShopOfferButton.js?v=b0ac0402a753";
+import { renderPs1ShopPlacement } from "./ps1ShopPlacementPicker.js?v=b0ac0402a753";
+import { renderPs1ShopDiscCatalog } from "./ps1ShopDiscCatalog.js?v=b0ac0402a753";
+import { renderPs2ShopCatalog } from "./ps2Panels.js?v=b0ac0402a753";
+import { renderTopGamesSubscription } from "./topGamesShopPanel.js?v=b0ac0402a753";
+import { regularShopCardView, publishAngularShopCatalog } from "./shopCatalogAngularProjection.js?v=b0ac0402a753";
+import { projectConsoleShop, publishAngularConsoleShop } from "./shopConsoleAngularProjection.js?v=b0ac0402a753";
+import { shopCategory } from "./shopPanels.js?v=b0ac0402a753";
 export function renderShopCatalog(options) {
     options.renderOverview();
     options.host.replaceChildren();

@@ -1,7 +1,7 @@
 /** Read-only night notifications shared by Canvas and DOM adapters. */
-import { currentCampaignDay, weekdayIndex } from "../sim/campaignWeek.js?v=88374e228e86";
-import { NIGHT_MAX_EXIT_OFFSET, NIGHT_MORNING_EXIT_OFFSET } from "../sim/futureNightClock.js?v=88374e228e86";
-import { DAY_MINUTES } from "../sim/types.js?v=88374e228e86";
+import { currentCampaignDay, weekdayIndex } from "../sim/campaignWeek.js?v=b0ac0402a753";
+import { NIGHT_MAX_EXIT_OFFSET, NIGHT_MORNING_EXIT_OFFSET } from "../sim/futureNightClock.js?v=b0ac0402a753";
+import { DAY_MINUTES } from "../sim/types.js?v=b0ac0402a753";
 export function nightPrizePresentation(s) {
     const n = s.nightMeetup, t = n?.tournament;
     if (!n || !t || !t.settled || n.phase !== "leaving" ||

@@ -1,4 +1,4 @@
-import { poly, disk, line } from "./primitives.js?v=88374e228e86";
+import { poly, disk, line } from "./primitives.js?v=b0ac0402a753";
 /** Individually owned procedural artwork for the tactical poster. */
 export const tacticalPoster = {
     palette: ["#203344", "#db954b", "#fff0d1"],

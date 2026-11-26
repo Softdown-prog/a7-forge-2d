@@ -1,9 +1,9 @@
-import { DAY_MINUTES } from "./types.js?v=88374e228e86";
-import { ERIC_FIRST_MAIL_ID, ERIC_FIRST_MAIL_TITLE, ERIC_FIRST_MAIL_BODY, ericFirstMailDue, ERIC_SECOND_MAIL_ID, ERIC_SECOND_MAIL_TITLE, ERIC_SECOND_MAIL_BODY, ericSecondMailDue } from "./ericStory.js?v=88374e228e86";
-import { isHistorical, priceIndex, yearFromMinutes } from "./historicalEconomy.js?v=88374e228e86";
-import { duePs2ReleaseAnnouncement, recordPs2ReleaseMail } from "./ps2ReleaseMail.js?v=88374e228e86";
-import { nextLinuxLetter, recordLinuxMail, isLinuxPc } from "./linuxQuest.js?v=88374e228e86";
-import { isSporadicMailId, sporadicMailDue, recordMailDelivery, fixedYearMailWindowDue } from "./mailCalendar.js?v=88374e228e86";
+import { DAY_MINUTES } from "./types.js?v=b0ac0402a753";
+import { ERIC_FIRST_MAIL_ID, ERIC_FIRST_MAIL_TITLE, ERIC_FIRST_MAIL_BODY, ericFirstMailDue, ERIC_SECOND_MAIL_ID, ERIC_SECOND_MAIL_TITLE, ERIC_SECOND_MAIL_BODY, ericSecondMailDue } from "./ericStory.js?v=b0ac0402a753";
+import { isHistorical, priceIndex, yearFromMinutes } from "./historicalEconomy.js?v=b0ac0402a753";
+import { duePs2ReleaseAnnouncement, recordPs2ReleaseMail } from "./ps2ReleaseMail.js?v=b0ac0402a753";
+import { nextLinuxLetter, recordLinuxMail, isLinuxPc } from "./linuxQuest.js?v=b0ac0402a753";
+import { isSporadicMailId, sporadicMailDue, recordMailDelivery, fixedYearMailWindowDue } from "./mailCalendar.js?v=b0ac0402a753";
 const day = (s) => Math.floor(s.totalMinutes / DAY_MINUTES) + 1;
 const computerCount = (s) => Math.max(3, Math.min(3 + s.expansionLevel * 2, s.installedPcs ?? (3 + s.expansionLevel * 2))) + (s.annexPcs?.length ?? 0);
 export function missingWindowsLicenses(s) {

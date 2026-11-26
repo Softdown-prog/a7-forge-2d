@@ -1,5 +1,5 @@
-import { promotionCost, isPromotionActive, promotionCanAttractVisitors, promotionAdmissionMinutesRemaining } from "../sim/promotion.js?v=88374e228e86";
-import { GAME_LAST_MINUTE } from "../sim/mailCalendar.js?v=88374e228e86";
+import { promotionCost, isPromotionActive, promotionCanAttractVisitors, promotionAdmissionMinutesRemaining } from "../sim/promotion.js?v=b0ac0402a753";
+import { GAME_LAST_MINUTE } from "../sim/mailCalendar.js?v=b0ac0402a753";
 export function createPromotionStatusPort(getState) {
     return { snapshot() {
             const state = getState();

@@ -1,6 +1,6 @@
-import { iso, polygon } from "../isometric.js?v=88374e228e86";
-import { drawPcScreenActivity } from "../pcScreenActivities.js?v=88374e228e86";
-import { raisedBox, path, plane, round } from "./primitives.js?v=88374e228e86";
+import { iso, polygon } from "../isometric.js?v=b0ac0402a753";
+import { drawPcScreenActivity } from "../pcScreenActivities.js?v=b0ac0402a753";
+import { raisedBox, path, plane, round } from "./primitives.js?v=b0ac0402a753";
 export const lcdMaterials = {
     lcd05: { top: "#d4dcd9", front: "#a5b6b5", side: "#71888a", accent: "#75a5a8" },
     lcd08: { top: "#535d60", front: "#39474b", side: "#26383d", accent: "#98b9b7" },

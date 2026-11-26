@@ -1,4 +1,4 @@
-import { DAY_MINUTES } from "./types.js?v=88374e228e86";
+import { DAY_MINUTES } from "./types.js?v=b0ac0402a753";
 export const CUSTOMER_FEEDBACK_LIMIT = 24;
 export const FEEDBACK_REASONS = {
     preco: "Preço", equipamentos: "Equipamentos", jogos: "Jogos",

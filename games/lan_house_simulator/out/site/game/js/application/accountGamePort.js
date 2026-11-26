@@ -1,7 +1,7 @@
 /** The account UI transports opaque saves and cosmetic commands, never a GameState. */
-import { yearFromMinutes } from "../sim/historicalEconomy.js?v=88374e228e86";
-import { COOKIE_COSMETICS, setVerifiedCosmetics, toggleVerifiedCosmetic } from "../sim/premiumCosmetics.js?v=88374e228e86";
-import { parseImportedSave, serializeSave } from "../sim/saveTransfer.js?v=88374e228e86";
+import { yearFromMinutes } from "../sim/historicalEconomy.js?v=b0ac0402a753";
+import { COOKIE_COSMETICS, setVerifiedCosmetics, toggleVerifiedCosmetic } from "../sim/premiumCosmetics.js?v=b0ac0402a753";
+import { parseImportedSave, serializeSave } from "../sim/saveTransfer.js?v=b0ac0402a753";
 export function createAccountGamePort(getState, restore) {
     return { catalog: COOKIE_COSMETICS, year: () => yearFromMinutes(getState().totalMinutes),
         verifyCosmetics: ids => setVerifiedCosmetics([...ids]), toggleCosmetic: toggleVerifiedCosmetic,

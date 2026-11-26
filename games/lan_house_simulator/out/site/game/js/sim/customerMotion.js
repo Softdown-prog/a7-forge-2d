@@ -1,9 +1,9 @@
-import { CUSTOMER_COLLISION_RADIUS } from "./checkoutQueue.js?v=88374e228e86";
-import { directionFromDelta } from "./direction.js?v=88374e228e86";
-import { navigableRoute, canTraverseLocalStep } from "./navigation.js?v=88374e228e86";
-import { roomBounds } from "./room.js?v=88374e228e86";
-import { crowdRoute, crowdSideStep } from "./crowdNavigation.js?v=88374e228e86";
-import { customerConsoleSeat } from "./consoleLayout.js?v=88374e228e86";
+import { CUSTOMER_COLLISION_RADIUS } from "./checkoutQueue.js?v=b0ac0402a753";
+import { directionFromDelta } from "./direction.js?v=b0ac0402a753";
+import { navigableRoute, canTraverseLocalStep } from "./navigation.js?v=b0ac0402a753";
+import { roomBounds } from "./room.js?v=b0ac0402a753";
+import { crowdRoute, crowdSideStep } from "./crowdNavigation.js?v=b0ac0402a753";
+import { customerConsoleSeat } from "./consoleLayout.js?v=b0ac0402a753";
 export function canCustomerOccupy(s, c, at) {
     return s.customers.every(other => {
         if (other === c || other.id === c.id)
@@ -85,7 +85,10 @@ export const EXIT_REACH_DISTANCE = .32;
 export function moveRoute(s, c) {
     // A temporary crowd detour can outlive the obstacle that caused it. Keep
     // departures from following a long stale loop after the aisle opens again.
-    if (c.stage === "leaving" && (c.route?.length ?? 0) > 3 && s.totalMinutes >= (c.nextCrowdRetryMinute ?? 0)) {
+    // A stalled visitor needs the recovery below, even if the new path is
+    // only slightly shorter. Leave its retry interval to that recovery.
+    if (c.stage === "leaving" && (c.stalledMinutes ?? 0) === 0 && (c.route?.length ?? 0) > 3 &&
+        s.totalMinutes >= (c.nextCrowdRetryMinute ?? 0)) {
         c.nextCrowdRetryMinute = s.totalMinutes + 4;
         const destination = c.route.at(-1), path = crowdRoute(s, c, destination) ?? crowdRoute(s, c, destination, .25);
         const length = (points) => points.reduce((sum, p, i) => sum + Math.hypot(p.x - (i ? points[i - 1].x : c.x), p.y - (i ? points[i - 1].y : c.y)), 0);

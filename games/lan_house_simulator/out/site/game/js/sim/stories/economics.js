@@ -1,5 +1,5 @@
-import { DAY_MINUTES } from "../types.js?v=88374e228e86";
-import { isHistorical, priceIndex, yearFromMinutes } from "../historicalEconomy.js?v=88374e228e86";
+import { DAY_MINUTES } from "../types.js?v=b0ac0402a753";
+import { isHistorical, priceIndex, yearFromMinutes } from "../historicalEconomy.js?v=b0ac0402a753";
 const DAY = (s) => Math.floor(s.totalMinutes / DAY_MINUTES) + 1;
 export const storyCost = (s, base) => isHistorical(s) ? Math.round(base / 10 * priceIndex(yearFromMinutes(s.totalMinutes)) * 100) / 100 : base;
 export function applyStoryImpact(s, id, impact) {
