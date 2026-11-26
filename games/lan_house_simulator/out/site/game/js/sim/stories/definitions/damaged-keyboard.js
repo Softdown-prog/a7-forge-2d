@@ -1,4 +1,4 @@
-import { choice, story } from "../builders.js?v=b0ac0402a753";
+import { choice, story } from "../builders.js?v=b0980822919c";
 /** Independent story catalogue entry: damaged-keyboard. */
 export const definition = story("Teclado quebrado depois de uma partida", "Um cliente irritado bateu no teclado de uma estação e várias teclas pararam de responder.", "problem", [
     choice("keyboard-replace", "Substituir o teclado", 75, "Estação volta a funcionar sem improvisos", "good", { reputation: 1 }),

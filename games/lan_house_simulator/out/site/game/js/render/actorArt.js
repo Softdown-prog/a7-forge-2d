@@ -1,14 +1,14 @@
-import { iso } from "./isometric.js?v=b0ac0402a753";
-import { walkPhase } from "./walkCycle.js?v=b0ac0402a753";
-import { workerMotion } from "./workerMotion.js?v=b0ac0402a753";
-import { actorAppearanceFor, resolvedActorStyle } from "./actors/registry.js?v=b0ac0402a753";
-import { ell, shape, segment, clamp01, torso, casualChestExtras, seatTransitionWeight } from "./actors/rigPrimitives.js?v=b0ac0402a753";
-import { isFemaleCostume } from "./actors/femaleRig.js?v=b0ac0402a753";
-import { drawActorHead } from "./actors/head.js?v=b0ac0402a753";
-import { drawActorLegs } from "./actors/legs.js?v=b0ac0402a753";
-import { drawActorArm } from "./actors/arms.js?v=b0ac0402a753";
-export { edgeFor, seatTransitionWeight, profileWalkingStep } from "./actors/rigPrimitives.js?v=b0ac0402a753";
-export { FEMALE_COSTUMES } from "./actors/femaleRig.js?v=b0ac0402a753";
+import { iso } from "./isometric.js?v=b0980822919c";
+import { walkPhase } from "./walkCycle.js?v=b0980822919c";
+import { workerMotion } from "./workerMotion.js?v=b0980822919c";
+import { actorAppearanceFor, resolvedActorStyle } from "./actors/registry.js?v=b0980822919c";
+import { ell, shape, segment, clamp01, torso, casualChestExtras, seatTransitionWeight } from "./actors/rigPrimitives.js?v=b0980822919c";
+import { isFemaleCostume } from "./actors/femaleRig.js?v=b0980822919c";
+import { drawActorHead } from "./actors/head.js?v=b0980822919c";
+import { drawActorLegs } from "./actors/legs.js?v=b0980822919c";
+import { drawActorArm } from "./actors/arms.js?v=b0980822919c";
+export { edgeFor, seatTransitionWeight, profileWalkingStep } from "./actors/rigPrimitives.js?v=b0980822919c";
+export { FEMALE_COSTUMES } from "./actors/femaleRig.js?v=b0980822919c";
 /** Rate (rad/s) of the owner's idle breathing and service gesture. They share one rate so the idle
  * animation is a single loop, which is what lets the sprite cache hold it as 32 frames. */
 export const OWNER_IDLE_RATE = 1.4;

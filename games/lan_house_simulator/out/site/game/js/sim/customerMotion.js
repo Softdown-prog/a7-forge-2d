@@ -1,9 +1,9 @@
-import { CUSTOMER_COLLISION_RADIUS } from "./checkoutQueue.js?v=b0ac0402a753";
-import { directionFromDelta } from "./direction.js?v=b0ac0402a753";
-import { navigableRoute, canTraverseLocalStep } from "./navigation.js?v=b0ac0402a753";
-import { roomBounds } from "./room.js?v=b0ac0402a753";
-import { crowdRoute, crowdSideStep } from "./crowdNavigation.js?v=b0ac0402a753";
-import { customerConsoleSeat } from "./consoleLayout.js?v=b0ac0402a753";
+import { CUSTOMER_COLLISION_RADIUS } from "./checkoutQueue.js?v=b0980822919c";
+import { directionFromDelta } from "./direction.js?v=b0980822919c";
+import { navigableRoute, canTraverseLocalStep } from "./navigation.js?v=b0980822919c";
+import { roomBounds } from "./room.js?v=b0980822919c";
+import { crowdRoute, crowdSideStep } from "./crowdNavigation.js?v=b0980822919c";
+import { customerConsoleSeat } from "./consoleLayout.js?v=b0980822919c";
 export function canCustomerOccupy(s, c, at) {
     return s.customers.every(other => {
         if (other === c || other.id === c.id)

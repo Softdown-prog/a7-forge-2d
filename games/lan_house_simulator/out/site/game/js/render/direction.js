@@ -1,4 +1,4 @@
-export { directionFromDelta, movementDirection } from "../sim/direction.js?v=b0ac0402a753";
+export { directionFromDelta, movementDirection } from "../sim/direction.js?v=b0980822919c";
 const AT_REST = {
     north: "back-right", south: "front-left", east: "front-right", west: "back-left"
 };

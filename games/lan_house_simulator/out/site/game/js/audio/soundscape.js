@@ -4,8 +4,8 @@
  * Teclado: três gravações autorais tratadas alternadas, com fallback procedural.
  * Uma única frase por início de sessão, sem loop ou sons por frame.
  */
-import { playCandyDispense } from "./vendingSfx.js?v=b0ac0402a753";
-import { createPrinterBuffer } from "./printerSfx.js?v=b0ac0402a753";
+import { playCandyDispense } from "./vendingSfx.js?v=b0980822919c";
+import { createPrinterBuffer } from "./printerSfx.js?v=b0980822919c";
 export const AUDIO_LEVELS = Object.freeze({
     mouse: 0.105,
     income: 0.24,

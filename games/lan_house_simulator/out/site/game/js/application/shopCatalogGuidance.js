@@ -1,7 +1,7 @@
-import { annexComputerSlots, availableAnnexComputers } from "../sim/stations.js?v=b0ac0402a753";
-import { linuxMachineSpec } from "../sim/linuxMachines.js?v=b0ac0402a753";
-import { linuxUnlocked } from "../sim/linuxQuest.js?v=b0ac0402a753";
-import { MAX_EXTENSION_LEVEL } from "../sim/room.js?v=b0ac0402a753";
+import { annexComputerSlots, availableAnnexComputers } from "../sim/stations.js?v=b0980822919c";
+import { linuxMachineSpec } from "../sim/linuxMachines.js?v=b0980822919c";
+import { linuxUnlocked } from "../sim/linuxQuest.js?v=b0980822919c";
+import { MAX_EXTENSION_LEVEL } from "../sim/room.js?v=b0980822919c";
 /** Explica as compras sem alterar o estado da partida. */
 export function shopPlacementStatus(s, id) {
     const cap = 3 + s.expansionLevel * 2;

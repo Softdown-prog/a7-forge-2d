@@ -1,5 +1,5 @@
-import { addLog } from "./simulationState.js?v=b0ac0402a753";
-import { scoreKnockoutMinute, validKnockoutBracket, awardNightKnockoutTrophy } from "./nightKnockout.js?v=b0ac0402a753";
+import { addLog } from "./simulationState.js?v=b0980822919c";
+import { scoreKnockoutMinute, validKnockoutBracket, awardNightKnockoutTrophy } from "./nightKnockout.js?v=b0980822919c";
 const cents = (v) => Math.round(v * 100) / 100;
 export function selectNightTournament(s, format) {
     const d = s.fridayMeetupDraft;

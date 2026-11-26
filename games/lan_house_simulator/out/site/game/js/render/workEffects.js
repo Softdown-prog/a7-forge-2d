@@ -1,4 +1,4 @@
-import { iso } from "./isometric.js?v=b0ac0402a753";
+import { iso } from "./isometric.js?v=b0980822919c";
 export function workEffectFrame(kind, time) {
     const t = Number.isFinite(time) ? time : 0;
     if (kind === "cleaner") {

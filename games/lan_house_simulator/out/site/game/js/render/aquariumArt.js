@@ -1,4 +1,4 @@
-import { iso, polygon } from "./isometric.js?v=b0ac0402a753";
+import { iso, polygon } from "./isometric.js?v=b0980822919c";
 /** Aquário mural VIP: não possui colisão, slot nem custo operacional.
  * Posição é relativa à parede do salão e toda a animação deriva do tempo
  * de render; nenhum RNG, alocação de sprite ou estado de save por frame. */

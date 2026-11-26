@@ -1,4 +1,4 @@
-import { basicGamesLicenseCost } from "../sim/economy.js?v=b0ac0402a753";
+import { basicGamesLicenseCost } from "../sim/economy.js?v=b0980822919c";
 export function createBasicGamesLicenseStatusPort(getState) {
     return { snapshot() {
             const game = getState(), fee = basicGamesLicenseCost(game);

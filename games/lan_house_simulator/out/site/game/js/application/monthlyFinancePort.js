@@ -1,4 +1,4 @@
-import { computerOccupancyPercent, expansionAdvice } from "../sim/financialReview.js?v=b0ac0402a753";
+import { computerOccupancyPercent, expansionAdvice } from "../sim/financialReview.js?v=b0980822919c";
 export function createMonthlyFinancePort(getState) {
     const money = (value) => "R$ " + value.toLocaleString("pt-BR");
     const currency = (value) => value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });

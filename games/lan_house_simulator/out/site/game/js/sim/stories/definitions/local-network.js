@@ -1,4 +1,4 @@
-import { choice, story } from "../builders.js?v=b0ac0402a753";
+import { choice, story } from "../builders.js?v=b0980822919c";
 /** Independent story catalogue entry: local-network. */
 export const definition = story("Rede local dos PCs instável", "Computadores deixaram de se comunicar direito; jogos e serviços em rede começaram a falhar.", "problem", [
     choice("lan-technician", "Contratar técnico de redes", 145, "Reorganiza cabos e testa conectividade", "good", { reputation: 1 }),

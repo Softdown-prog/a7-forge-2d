@@ -1,5 +1,5 @@
-import { walkAxis } from "../walkCycle.js?v=b0ac0402a753";
-import { limb, ell, segment } from "./rigPrimitives.js?v=b0ac0402a753";
+import { walkAxis } from "../walkCycle.js?v=b0980822919c";
+import { limb, ell, segment } from "./rigPrimitives.js?v=b0980822919c";
 /** Shared arm-and-hand pose pass, preserving depth order controlled by actorArt. */
 export function drawActorArm(ctx, a, side, rig) {
     const { style, pose, profileWalk, screenRig, sideways, quarter, walking, phase, headShift, step, seated, celebrating, disappointed, work, gamepadActive, typing, screenView, ownerIdleRate } = rig;
@@ -24,10 +24,11 @@ export function drawActorArm(ctx, a, side, rig) {
         angledWalk ? -36 + headShift + armSwing * axis.y * .5 :
             work ? (side === 1 ? -38 : -34) : ((serving ? -39 : handing && side === 1 ? -44 : -36) + headShift + seated * 3);
     const movingHand = work ? (side === 1 ? work.nearHand : work.farHand) : null;
-    const handX = gamepadActive && a.modernGamepad ? (a.gamepadGrip?.x ?? 12.8) + side * 11.05 : celebrating ? side * 22 :
+    const positionedPad = gamepadActive && (a.gamepadGrip !== undefined || a.modernGamepad);
+    const handX = positionedPad ? (a.gamepadGrip?.x ?? 12.8) + side * 11.05 : celebrating ? side * 22 :
         angledWalk ? shoulderX + side * 2 + armSwing * axis.x :
             movingHand ? movingHand.x : receiving && side === 1 ? 19 + Math.sin(a.time * 4) * .9 : handing && side === 1 ? 25 + Math.sin(a.time * 6) * 1.3 : copying ? side * (14 + Math.sin(a.time * 7) * 2) : printing ? side * (4 + Math.sin(a.time * 9) * 3) : serving ? side * 8 : side * (19 - seated * 15) + wave * .5 + seated * 12;
-    const handY = gamepadActive && a.modernGamepad ? (a.gamepadGrip?.y ?? -22.72) + 2.72 + Math.sin(a.time * 7) * .4 : celebrating ? -72 + headShift + Math.sin(a.time * 6 + side) * 2 :
+    const handY = positionedPad ? (a.gamepadGrip?.y ?? -22.72) + 2.72 + Math.sin(a.time * 7) * .4 : celebrating ? -72 + headShift + Math.sin(a.time * 6 + side) * 2 :
         disappointed ? -17 + headShift :
             angledWalk ? -25 + headShift + armSwing * axis.y :
                 movingHand ? movingHand.y : receiving && side === 1 ? -43 + headShift + Math.sin(a.time * 4) * 1.0 :

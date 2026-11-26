@@ -1,7 +1,7 @@
-import { drawActor, OWNER_IDLE_RATE } from "./actorArt.js?v=b0ac0402a753";
-import { walkPhase, WALK_CYCLE_DISTANCE } from "./walkCycle.js?v=b0ac0402a753";
-import { iso } from "./isometric.js?v=b0ac0402a753";
-import { contextScale } from "./sceneSurface.js?v=b0ac0402a753";
+import { drawActor, OWNER_IDLE_RATE } from "./actorArt.js?v=b0980822919c";
+import { walkPhase, WALK_CYCLE_DISTANCE } from "./walkCycle.js?v=b0980822919c";
+import { iso } from "./isometric.js?v=b0980822919c";
+import { contextScale } from "./sceneSurface.js?v=b0980822919c";
 const FRAMES = 32, TAU = Math.PI * 2;
 export const ACTOR_SPRITE_WIDTH = 72, ACTOR_SPRITE_HEIGHT = 120;
 export const ACTOR_SPRITE_LEFT = 36, ACTOR_SPRITE_TOP = 110;
@@ -44,12 +44,10 @@ function createCache() {
     catch { /* Original vector renderer remains available without worker support. */ }
     return cache;
 }
-/** The PS2 grip is positioned per station and seat. It cannot share an
- * asynchronous bitmap key with another PS2 seat (or with the PS1).
- * Only these active PS2 rigs bypass the cache; walking and PS1 stay cached.
- */
+/** An active seat-specific grip needs the live arm pose. It cannot share
+ * a rasterized frame with another seat that faces the screen differently. */
 export function actorRequiresLiveGamepadRig(a) {
-    return !!(a.gamepad && a.modernGamepad && a.gamepadGrip);
+    return !!(a.gamepad && a.gamepadGrip);
 }
 /** Reuse the vector artist's frames, while keeping world movement continuous.
  * Rasterization runs outside the animation/input thread. A pending frame uses

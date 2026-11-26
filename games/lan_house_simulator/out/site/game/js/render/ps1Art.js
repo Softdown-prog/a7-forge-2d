@@ -1,5 +1,8 @@
-import { drawPs1MiniGame } from "./ps1MiniGames.js?v=b0ac0402a753";
-import { iso, polygon, raisedCuboid } from "./isometric.js?v=b0ac0402a753";
+import { drawPs1MiniGame } from "./ps1MiniGames.js?v=b0980822919c";
+import { screenViewForMotion } from "./direction.js?v=b0980822919c";
+import { iso, polygon, raisedCuboid, WORLD_TILE_WIDTH, WORLD_TILE_HEIGHT } from "./isometric.js?v=b0980822919c";
+const CONSOLE_FRONT = .41;
+const SCREEN_CENTER = { x: .40, y: .355 };
 /** Movimento determinístico para a telinha minúscula do CRT.
  * Os valores são normalizados e não dependem de FPS ou da partida. */
 export function ps1ScreenFrame(seconds) {
@@ -52,6 +55,14 @@ export function drawPs1Station(ctx, cam, p, wear, active, t, discId = null, twoS
     ctx.beginPath();
     ctx.ellipse(disc.x, disc.y, 10 * z, 4 * z, 0, 0, 2 * Math.PI);
     ctx.fill();
+    ctx.fillStyle = "#31383d";
+    for (const number of [0, 1]) {
+        const port = ps1ControllerPort(p, number);
+        const socket = iso(port.point, cam, port.height);
+        ctx.beginPath();
+        ctx.ellipse(socket.x, socket.y, 2.4 * z, 1.4 * z, .32, 0, Math.PI * 2);
+        ctx.fill();
+    }
     ctx.fillStyle = "#d8d5c9";
     ctx.font = "bold " + Math.max(8, 9 * z) + "px system-ui";
     const badge = iso({ x: x + .91, y: y + .43 }, cam, 30);
@@ -76,17 +87,27 @@ export function drawPs1Station(ctx, cam, p, wear, active, t, discId = null, twoS
 /** Âncora compartilhada com o Scene Forge: o controle deve ficar à frente
  * do tronco, na altura do colo, e não flutuar atrás da cabeça.
  * Deslocamento em direção à TV (norte) respeita a projeção isométrica. */
-export function ps1ControllerAnchor(seat) {
-    return { point: { x: seat.x + .12, y: seat.y - .08 }, height: 24 };
+export function ps1ControllerAnchor(seat, station) {
+    const dx = station.x + SCREEN_CENTER.x - seat.x, dy = station.y + SCREEN_CENTER.y - seat.y;
+    const distance = Math.hypot(dx, dy) || 1;
+    return { point: { x: seat.x + dx / distance * .22, y: seat.y + dy / distance * .22 }, height: 24 };
 }
 /** Ponto onde o cabo encontra a frente do console, na bancada. */
-export function ps1ControllerPort(seat, number = 0) {
-    return { point: { x: seat.x + (number === 1 ? .16 : .40), y: seat.y - .35 }, height: 35 };
+export function ps1ControllerPort(station, number = 0) {
+    return { point: { x: station.x + (number === 0 ? .82 : .96), y: station.y + CONSOLE_FRONT }, height: 35 };
+}
+export function ps1PlayerRig(seat, station) {
+    const screenView = screenViewForMotion(station.x + SCREEN_CENTER.x - seat.x, station.y + SCREEN_CENTER.y - seat.y, "north");
+    const { point, height } = ps1ControllerAnchor(seat, station);
+    const x = point.x - seat.x, y = point.y - seat.y;
+    return { screenView, padBehind: screenView.startsWith("back"),
+        gamepadGrip: { x: (x - y) * WORLD_TILE_WIDTH / 2 * (screenView.endsWith("-left") ? -1 : 1),
+            y: (x + y) * WORLD_TILE_HEIGHT / 2 - height } };
 }
 /** Gamepad com cabo, duas empunhaduras, direcional e botões de ação.
  * Desenhado pelo renderer oficial apenas durante a sessão do console. */
-export function drawPs1Controller(ctx, cam, seat, t, number = 0) {
-    const anchor = ps1ControllerAnchor(seat), port = ps1ControllerPort(seat, number);
+export function drawPs1Controller(ctx, cam, seat, station, t, number = 0, skin = "#dab18c") {
+    const anchor = ps1ControllerAnchor(seat, station), port = ps1ControllerPort(station, number);
     const p = iso(anchor.point, cam, anchor.height);
     const plug = iso(port.point, cam, port.height), z = cam.zoom * .85;
     ctx.save();
@@ -129,7 +150,7 @@ export function drawPs1Controller(ctx, cam, seat, t, number = 0) {
         ctx.fill();
     }
     // Mãos seguram as extremidades na altura da cintura.
-    ctx.fillStyle = "#dab18c";
+    ctx.fillStyle = skin;
     for (const side of [-1, 1]) {
         ctx.beginPath();
         ctx.ellipse(side * 13 * z, 3.2 * z, 4.1 * z, 3.2 * z, side * .18, 0, Math.PI * 2);

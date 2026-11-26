@@ -1,7 +1,7 @@
-import { cameraForGame, iso } from "../isometric.js?v=b0ac0402a753";
-import { annexComputerSlots, availableAnnexComputers } from "../../sim/stations.js?v=b0ac0402a753";
-import { pcCount } from "../../sim/simulationState.js?v=b0ac0402a753";
-import { drawRetroComputer } from "../retroComputer.js?v=b0ac0402a753";
+import { cameraForGame, iso } from "../isometric.js?v=b0980822919c";
+import { annexComputerSlots, availableAnnexComputers } from "../../sim/stations.js?v=b0980822919c";
+import { pcCount } from "../../sim/simulationState.js?v=b0980822919c";
+import { drawRetroComputer } from "../retroComputer.js?v=b0980822919c";
 /** Annex purchase ghost and vacancy markers, with no edits to GameState. */
 export function drawAnnexPcCandidates(ctx, s, hovered) {
     const cam = cameraForGame(s), available = new Set(availableAnnexComputers(s).map(x => x.id));

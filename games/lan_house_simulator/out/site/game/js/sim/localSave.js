@@ -1,6 +1,6 @@
-import { isValidSave } from "./engine.js?v=b0ac0402a753";
-import { snapshotGameState } from "./saveTransfer.js?v=b0ac0402a753";
-import { DAY_MINUTES, GAME_SAVE_KEY } from "./types.js?v=b0ac0402a753";
+import { isValidSave } from "./engine.js?v=b0980822919c";
+import { snapshotGameState } from "./saveTransfer.js?v=b0980822919c";
+import { DAY_MINUTES, GAME_SAVE_KEY } from "./types.js?v=b0980822919c";
 export const GAME_SAVE_BACKUP_KEY = GAME_SAVE_KEY + "-backup";
 function decode(raw) {
     if (!raw || raw.length > 2_000_000)

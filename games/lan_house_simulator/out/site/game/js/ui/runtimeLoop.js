@@ -1,9 +1,9 @@
 /** Browser frame adapter: simulation, events, presentation, HUD, then the next RAF. */
-import { createFrameSchedule } from "../application/frameSchedule.js?v=b0ac0402a753";
-import { createFrameSimulationCoordinator } from "../application/frameSimulationCoordinator.js?v=b0ac0402a753";
-import { installFrameInteractionTracker } from "./frameInteractionTracker.js?v=b0ac0402a753";
-import { createFramePresentationCoordinator } from "./framePresentationCoordinator.js?v=b0ac0402a753";
-import { createFrameViewportState } from "./frameViewportState.js?v=b0ac0402a753";
+import { createFrameSchedule } from "../application/frameSchedule.js?v=b0980822919c";
+import { createFrameSimulationCoordinator } from "../application/frameSimulationCoordinator.js?v=b0980822919c";
+import { installFrameInteractionTracker } from "./frameInteractionTracker.js?v=b0980822919c";
+import { createFramePresentationCoordinator } from "./framePresentationCoordinator.js?v=b0980822919c";
+import { createFrameViewportState } from "./frameViewportState.js?v=b0980822919c";
 export function createRuntimeLoop(options) {
     const { document, window: win, canvas, state, framePort, scene, editor: layoutEditor } = options;
     const frameSchedule = createFrameSchedule(), framePresentation = createFramePresentationCoordinator(frameSchedule);

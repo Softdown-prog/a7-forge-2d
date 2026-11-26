@@ -1,6 +1,6 @@
-import { drawActor } from "../render/actorArt.js?v=b0ac0402a753";
-import { drawVipAquarium } from "../render/aquariumArt.js?v=b0ac0402a753";
-import { drawPixelClock } from "../render/pixelClockArt.js?v=b0ac0402a753";
+import { drawActor } from "../render/actorArt.js?v=b0980822919c";
+import { drawVipAquarium } from "../render/aquariumArt.js?v=b0980822919c";
+import { drawPixelClock } from "../render/pixelClockArt.js?v=b0980822919c";
 /** Miniaturas reais, feitas uma vez com o renderizador procedural.
  * São bitmaps pequenos e não iniciam animações nem repintura da UI a cada frame. */
 const thumbnails = new Map();

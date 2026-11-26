@@ -1,9 +1,9 @@
-import { DAY_MINUTES } from "./types.js?v=b0ac0402a753";
-import { isHistorical, priceIndex, yearFromMinutes } from "./historicalEconomy.js?v=b0ac0402a753";
+import { DAY_MINUTES } from "./types.js?v=b0980822919c";
+import { isHistorical, priceIndex, yearFromMinutes } from "./historicalEconomy.js?v=b0980822919c";
 const ROLES = ["cleaner", "technician"];
 /** Valores fictícios de balanceamento de 1998, não salários históricos. */
-import { monthlyWage1998 as cleanerWage } from "./characters/cleaner.js?v=b0ac0402a753";
-import { monthlyWage1998 as technicianWage } from "./characters/technician.js?v=b0ac0402a753";
+import { monthlyWage1998 as cleanerWage } from "./characters/cleaner.js?v=b0980822919c";
+import { monthlyWage1998 as technicianWage } from "./characters/technician.js?v=b0980822919c";
 export const EMPLOYEE_MONTHLY_WAGE_1998 = { cleaner: cleanerWage, technician: technicianWage };
 const cents = (n) => Math.round(n * 100) / 100;
 const dayNumber = (s) => Math.floor(s.totalMinutes / DAY_MINUTES) + 1;

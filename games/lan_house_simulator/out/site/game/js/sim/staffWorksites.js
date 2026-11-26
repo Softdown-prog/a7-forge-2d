@@ -1,4 +1,4 @@
-import { stationPoint } from "./layout.js?v=b0ac0402a753";
+import { stationPoint } from "./layout.js?v=b0980822919c";
 /** Âncoras no piso, fora das mesas e do volume da lixeira.
  * A direção do PC é respeitada mesmo após o jogador girar a estação. */
 export function technicianWorkPoint(pc) {
