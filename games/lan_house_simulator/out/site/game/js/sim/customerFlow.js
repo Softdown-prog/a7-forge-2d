@@ -1,15 +1,15 @@
-import { hardwareSatisfactionBonus } from "./economy.js?v=e74c7026ec87";
-import { AISLE_Y, COUNTER_QUEUE, computerSeat } from "./route.js?v=e74c7026ec87";
-import { counterQueueCustomers, counterQueueSlot, CUSTOMER_COLLISION_RADIUS } from "./checkoutQueue.js?v=e74c7026ec87";
-import { navigableRoute, canTraverseLocalStep } from "./navigation.js?v=e74c7026ec87";
-import { roomBounds } from "./room.js?v=e74c7026ec87";
-import { shouldShowCustomerSpeech, SPEECH_COOLDOWN_MINUTES } from "./customerDialogue.js?v=e74c7026ec87";
-import { crowdRoute } from "./crowdNavigation.js?v=e74c7026ec87";
-import { stationReadyForSessions } from "./stationPower.js?v=e74c7026ec87";
-import { isLinuxPc } from "./linuxQuest.js?v=e74c7026ec87";
-import { gpuGamePlayableOnPc, gpuGameHourlyRate } from "./gpuGames.js?v=e74c7026ec87";
-import { pcCount, entrance, pcPosition } from "./simulationState.js?v=e74c7026ec87";
-import { setTravel, moveRoute } from "./customerMotion.js?v=e74c7026ec87";
+import { hardwareSatisfactionBonus } from "./economy.js?v=88374e228e86";
+import { AISLE_Y, COUNTER_QUEUE, computerSeat } from "./route.js?v=88374e228e86";
+import { counterQueueCustomers, counterQueueSlot, CUSTOMER_COLLISION_RADIUS } from "./checkoutQueue.js?v=88374e228e86";
+import { navigableRoute, canTraverseLocalStep } from "./navigation.js?v=88374e228e86";
+import { roomBounds } from "./room.js?v=88374e228e86";
+import { shouldShowCustomerSpeech, SPEECH_COOLDOWN_MINUTES } from "./customerDialogue.js?v=88374e228e86";
+import { crowdRoute } from "./crowdNavigation.js?v=88374e228e86";
+import { stationReadyForSessions } from "./stationPower.js?v=88374e228e86";
+import { isLinuxPc } from "./linuxQuest.js?v=88374e228e86";
+import { gpuGamePlayableOnPc, gpuGameHourlyRate } from "./gpuGames.js?v=88374e228e86";
+import { pcCount, entrance, pcPosition } from "./simulationState.js?v=88374e228e86";
+import { setTravel, moveRoute } from "./customerMotion.js?v=88374e228e86";
 export function startStanding(c, wantsSnack) {
     c.stage = "standing";
     c.poseMinutes = 0;

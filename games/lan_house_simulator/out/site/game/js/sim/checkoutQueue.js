@@ -1,5 +1,5 @@
-import { counterPoint } from "./layout.js?v=e74c7026ec87";
-import { COUNTER_QUEUE } from "./route.js?v=e74c7026ec87";
+import { counterPoint } from "./layout.js?v=88374e228e86";
+import { COUNTER_QUEUE } from "./route.js?v=88374e228e86";
 /** A fila dobra no corredor frontal; seus lugares nunca se sobrepõem. */
 export const COUNTER_QUEUE_GAP = 0.66;
 export const MAX_COUNTER_QUEUE = 10;

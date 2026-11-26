@@ -1,7 +1,7 @@
-import { iso } from "./isometric.js?v=e74c7026ec87";
-import { line } from "./posters/primitives.js?v=e74c7026ec87";
-import { posterFor } from "./posters/registry.js?v=e74c7026ec87";
-export { POSTER_KINDS } from "./posters/registry.js?v=e74c7026ec87";
+import { iso } from "./isometric.js?v=88374e228e86";
+import { line } from "./posters/primitives.js?v=88374e228e86";
+import { posterFor } from "./posters/registry.js?v=88374e228e86";
+export { POSTER_KINDS } from "./posters/registry.js?v=88374e228e86";
 export const POSTER_WIDTH = 96, POSTER_HEIGHT = 112;
 /** Original vector illustrations and lettering, painted by the game itself. */
 export function drawPosterPlate(c, kind) {

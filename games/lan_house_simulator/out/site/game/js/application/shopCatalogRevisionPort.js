@@ -1,4 +1,4 @@
-import { gameYear } from "../sim/era.js?v=e74c7026ec87";
+import { gameYear } from "../sim/era.js?v=88374e228e86";
 export function createShopCatalogRevisionPort(getState) {
     return { snapshot(category) {
             const s = getState();

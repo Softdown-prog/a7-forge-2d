@@ -1,11 +1,11 @@
 /** Complete hardware presentation model; all quotes and eligibility stay in simulation. */
-import { stationModelName, stationOccupied } from "../sim/computerModels.js?v=e74c7026ec87";
-import { WINDOWS_ERAS, gameYear, installedWindows } from "../sim/eraCatalog.js?v=e74c7026ec87";
-import { gpuSpec, installedGpu } from "../sim/gpu.js?v=e74c7026ec87";
-import { HARDWARE_CATALOG, HARDWARE_LABELS, PLATFORM_KITS, buildParts, describePart, hardwareFor, quotePart, quotePlatform, requiredPsuWatts, windowsHardwareIssues } from "../sim/hardware.js?v=e74c7026ec87";
-import { pcCount } from "../sim/simulationState.js?v=e74c7026ec87";
-import { stationPoweredOn } from "../sim/stationPower.js?v=e74c7026ec87";
-import { windowsInstallDurationMs, windowsInstallProgress } from "../sim/windowsInstallation.js?v=e74c7026ec87";
+import { stationModelName, stationOccupied } from "../sim/computerModels.js?v=88374e228e86";
+import { WINDOWS_ERAS, gameYear, installedWindows } from "../sim/eraCatalog.js?v=88374e228e86";
+import { gpuSpec, installedGpu } from "../sim/gpu.js?v=88374e228e86";
+import { HARDWARE_CATALOG, HARDWARE_LABELS, PLATFORM_KITS, buildParts, describePart, hardwareFor, quotePart, quotePlatform, requiredPsuWatts, windowsHardwareIssues } from "../sim/hardware.js?v=88374e228e86";
+import { pcCount } from "../sim/simulationState.js?v=88374e228e86";
+import { stationPoweredOn } from "../sim/stationPower.js?v=88374e228e86";
+import { windowsInstallDurationMs, windowsInstallProgress } from "../sim/windowsInstallation.js?v=88374e228e86";
 export function createHardwarePanelPort(getState) {
     return { snapshot(requested, tab, page = "hardware") {
             const s = getState(), count = pcCount(s), index = Number.isInteger(requested) ? Math.max(0, Math.min(requested, count - 1)) : 0, year = gameYear(s);

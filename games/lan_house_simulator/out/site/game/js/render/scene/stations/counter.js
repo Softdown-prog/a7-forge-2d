@@ -1,9 +1,9 @@
-import { objectCamera } from "../../isometric.js?v=e74c7026ec87";
-import { drawCounter } from "../../counterArt.js?v=e74c7026ec87";
-import { drawCounterPrinter } from "../../printerArt.js?v=e74c7026ec87";
-import { printingAnimationActive } from "../../../sim/printService.js?v=e74c7026ec87";
-import { copyingAnimationActive } from "../../../sim/discCopy.js?v=e74c7026ec87";
-import { drawCounterDiscCopier } from "../../discCopierArt.js?v=e74c7026ec87";
+import { objectCamera } from "../../isometric.js?v=88374e228e86";
+import { drawCounter } from "../../counterArt.js?v=88374e228e86";
+import { drawCounterPrinter } from "../../printerArt.js?v=88374e228e86";
+import { printingAnimationActive } from "../../../sim/printService.js?v=88374e228e86";
+import { copyingAnimationActive } from "../../../sim/discCopy.js?v=88374e228e86";
+import { drawCounterDiscCopier } from "../../discCopierArt.js?v=88374e228e86";
 /** The counter alone is reused for edit-mode previews without paid peripherals. */
 export function drawCounterSurface(ctx, camera, p = { x: .9, y: 1.42 }) {
     drawCounter(ctx, objectCamera(camera, p, 1.75, .72, p.rotation), p);

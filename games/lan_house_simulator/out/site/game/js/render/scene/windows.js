@@ -1,6 +1,6 @@
-import { iso, polygon } from "../isometric.js?v=e74c7026ec87";
-import { windowGlass, WINDOW_POSITIONS } from "../lighting.js?v=e74c7026ec87";
-import { drawRasterCached, rasterCacheUsable } from "../rasterCache.js?v=e74c7026ec87";
+import { iso, polygon } from "../isometric.js?v=88374e228e86";
+import { windowGlass, WINDOW_POSITIONS } from "../lighting.js?v=88374e228e86";
+import { drawRasterCached, rasterCacheUsable } from "../rasterCache.js?v=88374e228e86";
 /** Window glass, reflections and frame for every window on the north wall (pure function of its arguments). */
 function paintWindowPanes(ctx, camera, north, w, glass) {
     ctx.save();

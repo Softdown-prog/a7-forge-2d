@@ -1,5 +1,5 @@
-import { pcCount } from "../../sim/simulationState.js?v=e74c7026ec87";
-import { SCENE_THEME as theme } from "../theme.js?v=e74c7026ec87";
+import { pcCount } from "../../sim/simulationState.js?v=88374e228e86";
+import { SCENE_THEME as theme } from "../theme.js?v=88374e228e86";
 /** Internal room status plate (not part of the global HUD). */
 export function drawRoomStatus(ctx, s) {
     ctx.save();

@@ -1,6 +1,6 @@
-import { DAY_MINUTES } from "./types.js?v=e74c7026ec87";
-import { PRINTER_COST, printWalkInDemand } from "./printService.js?v=e74c7026ec87";
-import { DISC_COPIER_COST, discWalkInDemand } from "./discCopy.js?v=e74c7026ec87";
+import { DAY_MINUTES } from "./types.js?v=88374e228e86";
+import { PRINTER_COST, printWalkInDemand } from "./printService.js?v=88374e228e86";
+import { DISC_COPIER_COST, discWalkInDemand } from "./discCopy.js?v=88374e228e86";
 const money = (n) => Math.round(n * 100) / 100;
 /** O caixa fecha admissão de novos clientes nos últimos 90 minutos do dia. */
 export const SERVICE_ADMISSION_MINUTES = DAY_MINUTES - 90;

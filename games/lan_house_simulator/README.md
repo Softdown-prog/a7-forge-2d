@@ -3,7 +3,8 @@
 `npm run build:site` compila exclusivamente `frontend-angular/src/site-rewrite/`
 e produz o site completo em **`out/site`**, incluindo oito páginas públicas e 404
 pré-renderizadas. Conta, confirmação, Donate e dados permanecem privados/CSR.
-O jogo mantém o motor Canvas e o HUD Angular em `/game/`.
+O jogo mantém o motor Canvas e o HUD Angular em `/game/`. O build local usa
+Node 24.15 ou uma versão compatível com o workspace Angular.
 
 ```sh
 npm ci
@@ -21,21 +22,20 @@ docker run --rm --read-only -p 127.0.0.1:8080:8080 lhs-frontend
 docker build -f backend/Dockerfile -t lhs-backend .
 ```
 
-`build:site:legacy` e `check:site:legacy` existem somente para regressões e
-rollback em `out/site-legacy`; não sobrescrevem o artefato canônico. `npm run build`
-ainda gera a fixture React isolada em `dist/` usada pelos testes existentes.
+`build:site:legacy` e `check:site:legacy` empacotam o site institucional
+estático em `out/site-legacy/` para regressões e rollback. Ambos usam a mesma
+build do jogo em Angular e Canvas. `npm run build` gera o jogo independente
+em `dist/` para `npm run serve` e para os testes. O compilador Angular é
+instalado pelo lockfile de `frontend-angular` quando necessário.
 
-A publicação Pages é manual e exige SHA já mesclado na main e autorização
-explícita. O espelho recebe o artefato testado com hashes da fonte e dos arquivos;
-o comando padrão confere esses hashes e reutiliza os mesmos bytes no Cloudflare,
-sem recompilar. Nenhum merge ou deploy é executado pelo build/container.
+A publicação Pages é disparada pelo workflow da `main` ou por execução manual
+autorizada. O espelho recebe o mesmo artefato validado, com hashes da fonte e dos
+arquivos.
 
 [Validação, aprovação e rollback](docs/ANGULAR_CANONICAL_DELIVERY.md).
 
-Antes de remover definitivamente as dependências React ou reescrever o
-documento-base, eliminar as referências legadas nos testes e ferramentas de
-diagnóstico. Angular é somente camada visual: economia, compras, saves,
-rotas de personagens e Canvas continuam no motor TypeScript.
+O HUD roda em Angular. Economia, compras, saves, rotas de personagens e
+Canvas continuam no motor TypeScript.
 
 ---
 
@@ -58,7 +58,7 @@ A personalidade do jogo mistura gestão séria com acontecimentos cômicos: clie
 
 ## Executar localmente
 
-Requer Node.js 22+.
+Requer Node.js 22.22.3+, 24.15.0+ ou 26, conforme o suporte do Angular 22.
 
 ```bash
 cd games/lan_house_simulator

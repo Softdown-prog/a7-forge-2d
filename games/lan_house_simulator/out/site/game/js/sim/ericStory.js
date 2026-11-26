@@ -1,4 +1,4 @@
-import { ensureMailCalendar, fixedYearMailWindowDue, mailDay, DAYS_PER_YEAR } from "./mailCalendar.js?v=e74c7026ec87";
+import { ensureMailCalendar, fixedYearMailWindowDue, mailDay, DAYS_PER_YEAR } from "./mailCalendar.js?v=88374e228e86";
 /** Primeira etapa da história de Eric (2000). Este módulo é somente narrativo:
  * não concede licença, não altera RNG de visitantes ou movimenta dinheiro.
  * A continuação da história terá estado próprio quando suas regras forem definidas.

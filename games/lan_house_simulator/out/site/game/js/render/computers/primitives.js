@@ -1,4 +1,4 @@
-import { iso, polygon, raisedCuboid } from "../isometric.js?v=e74c7026ec87";
+import { iso, polygon, raisedCuboid } from "../isometric.js?v=88374e228e86";
 export function raisedBox(c, cam, x, y, w, d, z, h, top, front, side) {
     if (cam.rotation) {
         raisedCuboid(c, cam, x, y, w, d, z, h, [top, front, side]);

@@ -1,6 +1,6 @@
-import { gameYear } from "../sim/era.js?v=e74c7026ec87";
-import { priceIndex } from "../sim/historicalEconomy.js?v=e74c7026ec87";
-import { monthlyBills, energyMonthlyEstimate } from "../sim/economy.js?v=e74c7026ec87";
+import { gameYear } from "../sim/era.js?v=88374e228e86";
+import { priceIndex } from "../sim/historicalEconomy.js?v=88374e228e86";
+import { monthlyBills, energyMonthlyEstimate } from "../sim/economy.js?v=88374e228e86";
 export function createFinancialAdminOverviewPort(getState) {
     const money = (n) => "R$ " + n.toLocaleString("pt-BR");
     return { snapshot() {

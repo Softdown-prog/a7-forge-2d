@@ -1,10 +1,10 @@
-import { coasterPoster } from "./coaster.js?v=e74c7026ec87";
-import { tacticalPoster } from "./tactical.js?v=e74c7026ec87";
-import { golfPoster } from "./golf.js?v=e74c7026ec87";
-import { artilleryPoster } from "./artillery.js?v=e74c7026ec87";
-import { cityPoster } from "./city.js?v=e74c7026ec87";
-import { terminalPoster } from "./terminal.js?v=e74c7026ec87";
-import { arcadePoster } from "./arcade.js?v=e74c7026ec87";
+import { coasterPoster } from "./coaster.js?v=88374e228e86";
+import { tacticalPoster } from "./tactical.js?v=88374e228e86";
+import { golfPoster } from "./golf.js?v=88374e228e86";
+import { artilleryPoster } from "./artillery.js?v=88374e228e86";
+import { cityPoster } from "./city.js?v=88374e228e86";
+import { terminalPoster } from "./terminal.js?v=88374e228e86";
+import { arcadePoster } from "./arcade.js?v=88374e228e86";
 /** Reject duplicate IDs rather than silently replacing another module's artwork. */
 export function createPosterRegistry(entries) {
     const registered = new Map();

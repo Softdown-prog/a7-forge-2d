@@ -1,10 +1,10 @@
 /** Night planning and report projections. Queries and commands always use the active campaign. */
-import { campaignDate, currentCampaignDay } from "../sim/campaignWeek.js?v=e74c7026ec87";
-import { cancelFridayMeetupDraft, draftFridayMeetup, firstFridayEligibility } from "../sim/fridayMeetup.js?v=e74c7026ec87";
-import { knockoutCurrentMatch } from "../sim/nightKnockout.js?v=e74c7026ec87";
-import { confirmFridayMeetup } from "../sim/nightMeetup.js?v=e74c7026ec87";
-import { selectNightTournament, tournamentStandings } from "../sim/nightTournament.js?v=e74c7026ec87";
-import { summarizeNightTrophies } from "../sim/nightTrophyStats.js?v=e74c7026ec87";
+import { campaignDate, currentCampaignDay } from "../sim/campaignWeek.js?v=88374e228e86";
+import { cancelFridayMeetupDraft, draftFridayMeetup, firstFridayEligibility } from "../sim/fridayMeetup.js?v=88374e228e86";
+import { knockoutCurrentMatch } from "../sim/nightKnockout.js?v=88374e228e86";
+import { confirmFridayMeetup } from "../sim/nightMeetup.js?v=88374e228e86";
+import { selectNightTournament, tournamentStandings } from "../sim/nightTournament.js?v=88374e228e86";
+import { summarizeNightTrophies } from "../sim/nightTrophyStats.js?v=88374e228e86";
 function trophySnapshot(state) {
     const trophies = state.nightTournamentTrophies ?? [], stats = summarizeNightTrophies(trophies);
     return { signature: trophies.map(t => t.fridayDay + ":" + t.winnerId + ":" + t.participants).join("|"), total: trophies.length,

@@ -1,5 +1,5 @@
-import { addLog } from "./simulationState.js?v=e74c7026ec87";
-import { weekdayIndex, currentCampaignDay } from "./campaignWeek.js?v=e74c7026ec87";
+import { addLog } from "./simulationState.js?v=88374e228e86";
+import { weekdayIndex, currentCampaignDay } from "./campaignWeek.js?v=88374e228e86";
 const target = (stage) => stage === "qualifier" ? 8 : 12;
 export function knockoutCurrentMatch(t) {
     return t.bracket?.matches.find(m => m.winnerId === undefined);

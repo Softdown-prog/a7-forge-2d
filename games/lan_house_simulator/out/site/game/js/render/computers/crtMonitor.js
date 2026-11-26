@@ -1,6 +1,6 @@
-import { iso, polygon } from "../isometric.js?v=e74c7026ec87";
-import { drawPcScreenActivity } from "../pcScreenActivities.js?v=e74c7026ec87";
-import { raisedBox, path, plane, round } from "./primitives.js?v=e74c7026ec87";
+import { iso, polygon } from "../isometric.js?v=88374e228e86";
+import { drawPcScreenActivity } from "../pcScreenActivities.js?v=88374e228e86";
+import { raisedBox, path, plane, round } from "./primitives.js?v=88374e228e86";
 export function drawCrtMonitor(c, cam, p, a) {
     const { tier, mode, pulse } = a, z = cam.zoom;
     const mx = p.x + .22, my = p.y - .05, mw = .46, md = .36, mz = 36, mh = 39;

@@ -7,10 +7,11 @@
   <meta name="description" content="Abra as portas, ligue os computadores e transforme sua pequena lan house em um grande negócio."/>
   <meta name="robots" content="noindex,nofollow"><title>Lan House Simulator · Softdown</title>
   <link rel="icon" type="image/svg+xml" href="./assets/ui/brand.svg"/>
-  <link rel="stylesheet" href="./style.css?v=e74c7026ec87"/>
-  <script type="module" src="./js/privacyConsent.js?v=e74c7026ec87"></script>
-  <script type="module" src="./__angular/main.js?v=e74c7026ec87"></script>
-<link rel="stylesheet" href="./__angular/styles.css?v=e74c7026ec87"/><link rel="stylesheet" href="./__angular/compatibility.css?v=e74c7026ec87"></head>
+  <link rel="stylesheet" href="./style.css?v=88374e228e86"/>
+  <script type="module" src="./js/privacyConsent.js?v=88374e228e86"></script>
+  <script type="module" src="./__angular/main.js?v=88374e228e86"></script>
+  <link rel="stylesheet" href="./__angular/styles.css?v=88374e228e86"/>
+</head>
 <body>
   <section id="start-screen" class="start-screen" aria-label="Menu principal">
     <header class="menu-topline"><a class="studio-mark" href="#start-screen" aria-label="Softdown · Lan House Simulator"><img src="./assets/ui/brand.svg" alt="" width="38" height="38"/><span>SOFTDOWN<span class="studio-label">JOGOS FEITOS DE IDEIAS</span></span></a><a class="edition-label game-site-return" href="/">← Voltar ao site</a><span class="edition-label"><i></i> UM NOVO NEGÓCIO. UMA NOVA HISTÓRIA.</span></header>
@@ -18,8 +19,8 @@
       <span class="menu-eyebrow"><span class="tiny-pixel"></span> SEU SONHO COMEÇA EM 1998</span>
       <h2>LAN HOUSE<span>SIMULATOR<span class="title-cursor" aria-hidden="true">_</span></span></h2>
       <p>Três computadores. Um pequeno salão.<br/>E um bairro inteiro para conquistar.</p>
-      <div class="menu-actions" id="react-menu-actions" aria-label="Ações de início"></div>
-      <div id="react-menu-tour" class="react-menu-tour" aria-label="Recursos do simulador"></div>
+      <div class="menu-actions" id="lhs-menu-actions" aria-label="Ações de início"></div>
+      <div id="lhs-menu-tour" class="lhs-menu-tour" aria-label="Recursos do simulador"></div>
       <div id="angular-save-transfer"></div>
       <div id="angular-menu-preferences"></div>
       <div class="menu-feature-row"><span data-icon="computer">Cuide dos PCs</span><span data-icon="users">Conquiste clientes</span><span data-icon="expand">Cresça no bairro</span></div>
@@ -34,7 +35,7 @@
   <div class="app" id="game-app" hidden>
     <header class="topbar">
       <div class="brand"><img class="logo" src="./assets/ui/brand.svg" alt="" width="44" height="44"/><div><h1>LAN HOUSE<span>SIMULATOR</span></h1><p>Seu bairro. Seu negócio. Sua história.</p></div></div>
-      <div class="topbar-actions" id="react-topbar-actions" aria-label="Ações da partida"></div>
+      <div class="topbar-actions" id="lhs-topbar-actions" aria-label="Ações da partida"></div>
     </header>
     <div class="hud-line">
       <div id="angular-time-weather"></div>
@@ -42,7 +43,7 @@
       <span class="hud-autosave" data-icon="save"><span id="autosave-state" role="status" aria-live="polite">Salvamento automático</span></span>
     </div>
     <div id="status" class="status" aria-live="polite">Abrindo o salão...</div>
-    <nav id="react-quick-deck" class="react-quick-deck" aria-label="Acesso rápido ao negócio"></nav>
+    <nav id="lhs-quick-deck" class="lhs-quick-deck" aria-label="Acesso rápido ao negócio"></nav>
     <main class="layout">
       <section class="stage" aria-label="Salão isométrico da lan house">
         <div class="stage-titlebar"><div><span class="stage-pixel" aria-hidden="true"></span><strong>SEU SALÃO</strong><span class="stage-subtitle">Onde tudo acontece.</span></div><span class="stage-live"><i></i> AO VIVO</span></div>
@@ -64,8 +65,8 @@
       <div class="admin-title"><div><span class="window-eyebrow">CATÁLOGO DO SALÃO</span><h2 id="shop-title">Monte o seu espaço</h2></div><button id="close-shop" type="button" class="slice" aria-label="Fechar painel" data-icon="close">Fechar</button></div>
       <p>Expanda o salão, instale computadores e decore seu estabelecimento.</p>
       <div id="angular-shop-overview"></div>
-      <nav id="react-shop-categories" class="shop-categories react-shop-categories" aria-label="Categorias da loja"></nav>
-      <div id="react-shop-search" aria-label="Busca no catálogo"></div>
+      <nav id="lhs-shop-categories" class="shop-categories lhs-shop-categories" aria-label="Categorias da loja"></nav>
+      <div id="lhs-shop-search" aria-label="Busca no catálogo"></div>
       <div id="angular-shop-catalog"></div><div id="shop-catalog" class="shop-grid"></div>
     </section>
     <div id="angular-notice-inbox"></div>
@@ -97,7 +98,7 @@
         <span id="bill-watch-status">Calculando a provisão atual.</span>
         <small>O valor pode aumentar com energia e salários. As contas são cobradas na virada de cada ciclo de 30 dias, não diariamente.</small>
       </aside>
-      <div id="react-admin-shortcuts" aria-label="Atalhos de administração"></div>
+      <div id="lhs-admin-shortcuts" aria-label="Atalhos de administração"></div>
       <div id="angular-admin-area-navigation" class="angular-admin-navigation-root"></div>
       <nav class="admin-tabs" role="tablist" aria-label="Seções da administração">
         <button type="button" class="admin-tab active" data-admin-tab="prices" role="tab" aria-controls="section-prices" aria-selected="true">Preços</button>
@@ -209,5 +210,6 @@
       <button id="privacy-accept" type="button">Aceitar opcionais</button>
     </div>
   </aside>
-<div id="angular-player-account"></div></body>
+  <div id="angular-player-account"></div>
+</body>
 </html>

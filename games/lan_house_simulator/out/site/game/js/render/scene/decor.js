@@ -1,10 +1,10 @@
-import { builtPosters } from "../../sim/editableObjects.js?v=e74c7026ec87";
-import { cosmeticAvailable } from "../../sim/premiumCosmetics.js?v=e74c7026ec87";
-import { yearFromMinutes } from "../../sim/historicalEconomy.js?v=e74c7026ec87";
-import { iso, polygon } from "../isometric.js?v=e74c7026ec87";
-import { drawLampHalo, lampPositions } from "../lighting.js?v=e74c7026ec87";
-import { drawPremiumWallPoster } from "../premiumRoomArt.js?v=e74c7026ec87";
-import { drawWallPoster } from "../posterArt.js?v=e74c7026ec87";
+import { builtPosters } from "../../sim/editableObjects.js?v=88374e228e86";
+import { cosmeticAvailable } from "../../sim/premiumCosmetics.js?v=88374e228e86";
+import { yearFromMinutes } from "../../sim/historicalEconomy.js?v=88374e228e86";
+import { iso, polygon } from "../isometric.js?v=88374e228e86";
+import { drawLampHalo, lampPositions } from "../lighting.js?v=88374e228e86";
+import { drawPremiumWallPoster } from "../premiumRoomArt.js?v=88374e228e86";
+import { drawWallPoster } from "../posterArt.js?v=88374e228e86";
 export function drawRoomDecor(ctx, camera, bounds, s) {
     const minX = bounds.minX, w = bounds.maxX, south = bounds.maxY, north = bounds.minY;
     // Light cones below each lamp belong to the static wall paint.

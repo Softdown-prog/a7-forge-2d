@@ -1,7 +1,7 @@
-import { drawActor, OWNER_IDLE_RATE } from "./actorArt.js?v=e74c7026ec87";
-import { walkPhase, WALK_CYCLE_DISTANCE } from "./walkCycle.js?v=e74c7026ec87";
-import { iso } from "./isometric.js?v=e74c7026ec87";
-import { contextScale } from "./sceneSurface.js?v=e74c7026ec87";
+import { drawActor, OWNER_IDLE_RATE } from "./actorArt.js?v=88374e228e86";
+import { walkPhase, WALK_CYCLE_DISTANCE } from "./walkCycle.js?v=88374e228e86";
+import { iso } from "./isometric.js?v=88374e228e86";
+import { contextScale } from "./sceneSurface.js?v=88374e228e86";
 const FRAMES = 32, TAU = Math.PI * 2;
 export const ACTOR_SPRITE_WIDTH = 72, ACTOR_SPRITE_HEIGHT = 120;
 export const ACTOR_SPRITE_LEFT = 36, ACTOR_SPRITE_TOP = 110;

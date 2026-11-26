@@ -1,5 +1,5 @@
-import { iso, polygon } from "../isometric.js?v=e74c7026ec87";
-import { path, plane } from "./primitives.js?v=e74c7026ec87";
+import { iso, polygon } from "../isometric.js?v=88374e228e86";
+import { path, plane } from "./primitives.js?v=88374e228e86";
 /**
  * Cadeira gaming premium procedural, no MESMO footprint da cadeira comum.
  * Projeção e material divididos em camadas: base metálica, fibra escura,

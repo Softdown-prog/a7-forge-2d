@@ -1,7 +1,7 @@
-import { iso, polygon } from "../isometric.js?v=e74c7026ec87";
-import { premiumCheckerPatch } from "../premiumRoomArt.js?v=e74c7026ec87";
-import { shadeHex, withAlpha, cellNoise } from "../color.js?v=e74c7026ec87";
-import { SCENE_THEME as theme } from "../theme.js?v=e74c7026ec87";
+import { iso, polygon } from "../isometric.js?v=88374e228e86";
+import { premiumCheckerPatch } from "../premiumRoomArt.js?v=88374e228e86";
+import { shadeHex, withAlpha, cellNoise } from "../color.js?v=88374e228e86";
+import { SCENE_THEME as theme } from "../theme.js?v=88374e228e86";
 export function drawRoomFloor(ctx, camera, bounds, premium = false) {
     const minX = bounds.minX, w = bounds.maxX, south = bounds.maxY, north = bounds.minY, z = camera.zoom;
     // O cenário é uma plataforma suspensa: sem exterior, sem base ligada a um terreno.

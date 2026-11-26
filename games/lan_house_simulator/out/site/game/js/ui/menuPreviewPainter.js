@@ -1,2 +1,2 @@
 /** Compatibility export; the Canvas preview painter belongs to rendering. */
-export { createMenuPreviewPainter } from "../render/menuPreviewPainter.js?v=e74c7026ec87";
+export { createMenuPreviewPainter } from "../render/menuPreviewPainter.js?v=88374e228e86";

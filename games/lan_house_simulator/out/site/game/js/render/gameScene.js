@@ -1,11 +1,11 @@
-import { createMenuScenePreview } from "../application/menuScenePreviewPort.js?v=e74c7026ec87";
-import { paintFeedbackPopups } from "./feedbackPopupPainter.js?v=e74c7026ec87";
-import { drawLayoutEditorOverlay, drawPlacementInteractionOverlays } from "./interactionOverlays.js?v=e74c7026ec87";
-import { cameraForGame } from "./isometric.js?v=e74c7026ec87";
-import { createMenuPreviewPainter } from "./menuPreviewPainter.js?v=e74c7026ec87";
-import { SceneMotion } from "./motion.js?v=e74c7026ec87";
-import { SceneRenderer } from "./scene.js?v=e74c7026ec87";
-import { fitSceneBackingStore, sceneBackingScale, SCENE_WIDTH } from "./sceneSurface.js?v=e74c7026ec87";
+import { createMenuScenePreview } from "../application/menuScenePreviewPort.js?v=88374e228e86";
+import { paintFeedbackPopups } from "./feedbackPopupPainter.js?v=88374e228e86";
+import { drawLayoutEditorOverlay, drawPlacementInteractionOverlays } from "./interactionOverlays.js?v=88374e228e86";
+import { cameraForGame } from "./isometric.js?v=88374e228e86";
+import { createMenuPreviewPainter } from "./menuPreviewPainter.js?v=88374e228e86";
+import { SceneMotion } from "./motion.js?v=88374e228e86";
+import { SceneRenderer } from "./scene.js?v=88374e228e86";
+import { fitSceneBackingStore, sceneBackingScale, SCENE_WIDTH } from "./sceneSurface.js?v=88374e228e86";
 /** Keep the bitmap at the display's resolution: CSS size × device pixel ratio,
  * quantized and capped by sceneBackingScale. Painters never see this scale. */
 function createSurfaceFitter(canvas, ctx) {
