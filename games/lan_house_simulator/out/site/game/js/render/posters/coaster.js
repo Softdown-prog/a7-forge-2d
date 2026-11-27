@@ -1,4 +1,4 @@
-import { poly, disk, line } from "./primitives.js?v=f36771daf749";
+import { poly, disk, line } from "./primitives.js?v=6833c3e7603d";
 /** Individually owned procedural artwork for the coaster poster. */
 export const coasterPoster = {
     palette: ["#204c49", "#efb75f", "#fff0c9"],

@@ -1,4 +1,4 @@
-import { choice, story } from "../builders.js?v=f36771daf749";
+import { choice, story } from "../builders.js?v=6833c3e7603d";
 /** Independent story catalogue entry: neighborhood-paper. */
 export const definition = story("O jornal do bairro quer uma entrevista", "Um jornalista ouviu falar da lan house e oferece uma matéria sobre o negócio.", "opportunity", [
     choice("paper-invest", "Preparar evento para a reportagem", 110, "Boa apresentação aumenta a visibilidade", "good", { reputation: 2, visitors: 1.13, visitorDays: 12 }),

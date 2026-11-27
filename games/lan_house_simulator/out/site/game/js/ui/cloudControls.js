@@ -1,9 +1,9 @@
-import { createAccountClient } from "./accountClient.js?v=f36771daf749";
-import { renderCosmeticCard } from "./account/cosmeticCard.js?v=f36771daf749";
-import { ensureAccountDialog } from "./account/dialog.js?v=f36771daf749";
-import { createCloudSaveController } from "./account/cloudSaves.js?v=f36771daf749";
-import { renderHistory } from "./account/history.js?v=f36771daf749";
-import { renderDonate } from "./account/donate.js?v=f36771daf749";
+import { createAccountClient } from "./accountClient.js?v=6833c3e7603d";
+import { renderCosmeticCard } from "./account/cosmeticCard.js?v=6833c3e7603d";
+import { ensureAccountDialog } from "./account/dialog.js?v=6833c3e7603d";
+import { createCloudSaveController } from "./account/cloudSaves.js?v=6833c3e7603d";
+import { renderHistory } from "./account/history.js?v=6833c3e7603d";
+import { renderDonate } from "./account/donate.js?v=6833c3e7603d";
 const cookiesText = (amount) => amount.toLocaleString("pt-BR") + " Cookies";
 function line(text, cls = "") {
     const node = document.createElement("p");

@@ -1,6 +1,6 @@
-import { drawPs2Station } from "../render/ps2Art.js?v=f36771daf749";
-import { ps2ProceduralCover } from "./ps2CoverArt.js?v=f36771daf749";
-import { UNKNOWN_TOP_GAMES_TITLE, UNKNOWN_TOP_GAMES_GENRE, UNKNOWN_TOP_GAMES_HINT } from "./topGamesConcealment.js?v=f36771daf749";
+import { drawPs2Station } from "../render/ps2Art.js?v=6833c3e7603d";
+import { ps2ProceduralCover } from "./ps2CoverArt.js?v=6833c3e7603d";
+import { UNKNOWN_TOP_GAMES_TITLE, UNKNOWN_TOP_GAMES_GENRE, UNKNOWN_TOP_GAMES_HINT } from "./topGamesConcealment.js?v=6833c3e7603d";
 const money = (n) => n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 function text(doc, tag, value) { const el = doc.createElement(tag); el.textContent = value; return el; }
 function button(doc, value, disabled, key, index) {

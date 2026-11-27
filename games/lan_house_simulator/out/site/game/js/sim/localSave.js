@@ -1,6 +1,6 @@
-import { isValidSave } from "./engine.js?v=f36771daf749";
-import { snapshotGameState } from "./saveTransfer.js?v=f36771daf749";
-import { DAY_MINUTES, GAME_SAVE_KEY } from "./types.js?v=f36771daf749";
+import { isValidSave } from "./engine.js?v=6833c3e7603d";
+import { snapshotGameState } from "./saveTransfer.js?v=6833c3e7603d";
+import { DAY_MINUTES, GAME_SAVE_KEY } from "./types.js?v=6833c3e7603d";
 export const GAME_SAVE_BACKUP_KEY = GAME_SAVE_KEY + "-backup";
 function decode(raw) {
     if (!raw || raw.length > 2_000_000)
@@ -47,7 +47,10 @@ function encode(state) {
 }
 /** Guarda uma versão válida anterior; renova a cópia por dia do jogo, não por frame. */
 export function writeLocalSave(store, state) {
-    const payload = encode(state), old = store.getItem(GAME_SAVE_KEY), existing = decode(old);
+    const payload = encode(state), old = store.getItem(GAME_SAVE_KEY);
+    // O checkpoint opcional não pode consumir a cota necessária para a partida atual.
+    store.setItem(GAME_SAVE_KEY, payload);
+    const existing = decode(old);
     if (existing) {
         // Falha de leitura do checkpoint não deve bloquear uma gravação principal válida.
         let last = null;
@@ -64,7 +67,6 @@ export function writeLocalSave(store, state) {
             catch { /* Backup opcional: a cópia principal tem prioridade. */ }
         }
     }
-    store.setItem(GAME_SAVE_KEY, payload);
 }
 /** Substituições explícitas nunca recuperam um backup de campanha anterior. */
 export function replaceLocalSave(store, state) {

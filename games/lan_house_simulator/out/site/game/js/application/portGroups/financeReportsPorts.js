@@ -1,7 +1,7 @@
-import { createStationLedgerPort } from "../stationLedgerPort.js?v=f36771daf749";
-import { createMonthlyFinancePort } from "../monthlyFinancePort.js?v=f36771daf749";
-import { createFinancialBalancePort } from "../financialBalancePort.js?v=f36771daf749";
-import { createFinancialAdminOverviewPort } from "../financialAdminOverviewPort.js?v=f36771daf749";
+import { createStationLedgerPort } from "../stationLedgerPort.js?v=6833c3e7603d";
+import { createMonthlyFinancePort } from "../monthlyFinancePort.js?v=6833c3e7603d";
+import { createFinancialBalancePort } from "../financialBalancePort.js?v=6833c3e7603d";
+import { createFinancialAdminOverviewPort } from "../financialAdminOverviewPort.js?v=6833c3e7603d";
 /** Only composes existing ports; all accounting continues to belong to sim/. */
 export function createFinanceReportsPorts(getState) {
     return {

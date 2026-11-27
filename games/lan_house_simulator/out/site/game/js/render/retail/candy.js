@@ -1,5 +1,5 @@
-import { polygon } from "../isometric.js?v=f36771daf749";
-import { line, rounded } from "./primitives.js?v=f36771daf749";
+import { polygon } from "../isometric.js?v=6833c3e7603d";
+import { line, rounded } from "./primitives.js?v=6833c3e7603d";
 export const CANDY_COLORS = ["#d7af74", "#ac8291", "#81a98b", "#719aaf"];
 export function drawCandy(c, x, y, color, index) {
     if (index % 3 === 0) {

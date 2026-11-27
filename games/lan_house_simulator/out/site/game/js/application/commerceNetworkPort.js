@@ -1,6 +1,6 @@
-import { supplierLevel, wholesaleCost } from "../sim/economy.js?v=f36771daf749";
-import { online } from "../sim/engine.js?v=f36771daf749";
-import { gameYear, INTERNET_ERAS } from "../sim/era.js?v=f36771daf749";
+import { supplierLevel, wholesaleCost } from "../sim/economy.js?v=6833c3e7603d";
+import { online } from "../sim/engine.js?v=6833c3e7603d";
+import { gameYear, INTERNET_ERAS } from "../sim/era.js?v=6833c3e7603d";
 export function createCommerceNetworkPort(getState) {
     return { snapshot() {
             const game = getState();

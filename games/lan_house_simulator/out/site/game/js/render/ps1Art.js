@@ -1,6 +1,6 @@
-import { drawPs1MiniGame } from "./ps1MiniGames.js?v=f36771daf749";
-import { screenViewForMotion } from "./direction.js?v=f36771daf749";
-import { iso, polygon, raisedCuboid, WORLD_TILE_WIDTH, WORLD_TILE_HEIGHT } from "./isometric.js?v=f36771daf749";
+import { drawPs1MiniGame } from "./ps1MiniGames.js?v=6833c3e7603d";
+import { screenViewForMotion } from "./direction.js?v=6833c3e7603d";
+import { iso, polygon, raisedCuboid, WORLD_TILE_WIDTH, WORLD_TILE_HEIGHT } from "./isometric.js?v=6833c3e7603d";
 const CONSOLE_FRONT = .41;
 const SCREEN_CENTER = { x: .40, y: .355 };
 /** Movimento determinístico para a telinha minúscula do CRT.

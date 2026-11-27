@@ -1,4 +1,4 @@
-import { poly, disk, line } from "./primitives.js?v=f36771daf749";
+import { poly, disk, line } from "./primitives.js?v=6833c3e7603d";
 /** The terminal and arcade posters share the original CRT scene geometry. */
 export function paintCrtScene(c, kind) {
     c.fillStyle = kind === "terminal" ? "#628778" : "#786488";

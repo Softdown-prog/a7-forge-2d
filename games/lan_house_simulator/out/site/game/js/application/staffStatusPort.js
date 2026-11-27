@@ -1,7 +1,7 @@
-import { employeeHired, employeeDailyWage } from "../sim/staff.js?v=f36771daf749";
-import { staffActivity, workPhaseLabel } from "../sim/staffPresentation.js?v=f36771daf749";
-import { binStatus } from "../sim/services.js?v=f36771daf749";
-import { serviceVisitCost } from "../sim/historicalEconomy.js?v=f36771daf749";
+import { employeeHired, employeeDailyWage } from "../sim/staff.js?v=6833c3e7603d";
+import { staffActivity, workPhaseLabel } from "../sim/staffPresentation.js?v=6833c3e7603d";
+import { binStatus } from "../sim/services.js?v=6833c3e7603d";
+import { serviceVisitCost } from "../sim/historicalEconomy.js?v=6833c3e7603d";
 export function createStaffStatusPort(getState) {
     const money = (n) => "R$ " + n.toLocaleString("pt-BR");
     return { snapshot() {

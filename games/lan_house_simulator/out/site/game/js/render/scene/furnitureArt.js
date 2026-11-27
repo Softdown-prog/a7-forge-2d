@@ -1,11 +1,11 @@
-import { furnitureSlots } from "../../sim/furnitureLayout.js?v=f36771daf749";
-import { roomBounds } from "../../sim/room.js?v=f36771daf749";
-import { roomWidth } from "../../sim/simulationState.js?v=f36771daf749";
-import { cosmeticAvailable } from "../../sim/premiumCosmetics.js?v=f36771daf749";
-import { yearFromMinutes } from "../../sim/historicalEconomy.js?v=f36771daf749";
-import { cuboid, iso } from "../isometric.js?v=f36771daf749";
-import { drawWallPoster, purchasedPosterKind } from "../posterArt.js?v=f36771daf749";
-import { drawPremiumWallPoster } from "../premiumRoomArt.js?v=f36771daf749";
+import { furnitureSlots } from "../../sim/furnitureLayout.js?v=6833c3e7603d";
+import { roomBounds } from "../../sim/room.js?v=6833c3e7603d";
+import { roomWidth } from "../../sim/simulationState.js?v=6833c3e7603d";
+import { cosmeticAvailable } from "../../sim/premiumCosmetics.js?v=6833c3e7603d";
+import { yearFromMinutes } from "../../sim/historicalEconomy.js?v=6833c3e7603d";
+import { cuboid, iso } from "../isometric.js?v=6833c3e7603d";
+import { drawWallPoster, purchasedPosterKind } from "../posterArt.js?v=6833c3e7603d";
+import { drawPremiumWallPoster } from "../premiumRoomArt.js?v=6833c3e7603d";
 /** Shared purchased furniture, legacy decorations and posters. */
 export function drawPurchasedFurniture(ctx, camera, kind, x, y, rotation = 0, posterKind = "city", axis = "x", premiumIndex) {
     if (kind === "poster") {

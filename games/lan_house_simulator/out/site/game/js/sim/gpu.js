@@ -1,8 +1,8 @@
-import { stationUpgradeIssue } from "./stationPower.js?v=f36771daf749";
-import { gameYear } from "./eraCatalog.js?v=f36771daf749";
-import { hardwareFor, buildParts, requiredPsuWatts } from "./hardware.js?v=f36771daf749";
-import { GPU_CATALOG } from "./gpuCatalog.js?v=f36771daf749";
-export { GPU_CATALOG } from "./gpuCatalog.js?v=f36771daf749";
+import { stationUpgradeIssue } from "./stationPower.js?v=6833c3e7603d";
+import { gameYear } from "./eraCatalog.js?v=6833c3e7603d";
+import { hardwareFor, buildParts, requiredPsuWatts } from "./hardware.js?v=6833c3e7603d";
+import { GPU_CATALOG } from "./gpuCatalog.js?v=6833c3e7603d";
+export { GPU_CATALOG } from "./gpuCatalog.js?v=6833c3e7603d";
 export function installedGpu(s, index) {
     const id = s.pcGpus?.[index];
     return GPU_CATALOG.some(x => x.id === id) ? id : null;

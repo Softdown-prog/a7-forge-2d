@@ -1,9 +1,9 @@
-import { createPs1ActionsPort } from "../ps1ActionsPort.js?v=f36771daf749";
-import { createPs2Port } from "../ps2Port.js?v=f36771daf749";
-import { createPs1AdminPort } from "../ps1AdminPort.js?v=f36771daf749";
-import { createPs1ShopDiscPort } from "../ps1ShopDiscPort.js?v=f36771daf749";
-import { createPs1ShopPlacementPort } from "../ps1ShopPlacementPort.js?v=f36771daf749";
-import { createPs1ShopOfferPort } from "../ps1ShopOfferPort.js?v=f36771daf749";
+import { createPs1ActionsPort } from "../ps1ActionsPort.js?v=6833c3e7603d";
+import { createPs2Port } from "../ps2Port.js?v=6833c3e7603d";
+import { createPs1AdminPort } from "../ps1AdminPort.js?v=6833c3e7603d";
+import { createPs1ShopDiscPort } from "../ps1ShopDiscPort.js?v=6833c3e7603d";
+import { createPs1ShopPlacementPort } from "../ps1ShopPlacementPort.js?v=6833c3e7603d";
+import { createPs1ShopOfferPort } from "../ps1ShopOfferPort.js?v=6833c3e7603d";
 /** Every adapter receives the same live getter: save replacements are immediately visible. */
 export function createConsolePorts(getState) {
     return {

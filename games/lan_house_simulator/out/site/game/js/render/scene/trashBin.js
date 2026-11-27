@@ -1,5 +1,5 @@
-import { binStatus } from "../../sim/services.js?v=f36771daf749";
-import { iso } from "../isometric.js?v=f36771daf749";
+import { binStatus } from "../../sim/services.js?v=6833c3e7603d";
+import { iso } from "../isometric.js?v=6833c3e7603d";
 export function drawTrashBin(ctx, camera, p, fill) {
     const loc = iso(p, camera), z = camera.zoom;
     const status = binStatus(fill);

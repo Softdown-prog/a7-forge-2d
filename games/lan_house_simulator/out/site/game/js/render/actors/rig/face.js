@@ -1,5 +1,5 @@
-import { shadeHex, mixHex } from "../../color.js?v=f36771daf749";
-import { ell, edgeFor, shape } from "./geometry.js?v=f36771daf749";
+import { shadeHex, mixHex } from "../../color.js?v=6833c3e7603d";
+import { ell, edgeFor, shape } from "./geometry.js?v=6833c3e7603d";
 /** Facial details and regular-customer hairstyles. Character-specific art lives in its own file. */
 /** Eye with sclera, iris, pupil, lid line and a fixed glint (never animated, so
  * cached frames stay interchangeable). `w`/`h` are the iris radii; animals keep

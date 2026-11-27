@@ -1,9 +1,9 @@
-import { linuxMachineSpec } from "../linuxMachines.js?v=f36771daf749";
-import { DISC_COPIER_COST } from "../discCopy.js?v=f36771daf749";
-import { PRINTER_COST } from "../printService.js?v=f36771daf749";
-import { ANNEX_PC_COST } from "../stations.js?v=f36771daf749";
-import { WALL_COST } from "../walls.js?v=f36771daf749";
-import { expansionPrice } from "../room.js?v=f36771daf749";
+import { linuxMachineSpec } from "../linuxMachines.js?v=6833c3e7603d";
+import { DISC_COPIER_COST } from "../discCopy.js?v=6833c3e7603d";
+import { PRINTER_COST } from "../printService.js?v=6833c3e7603d";
+import { ANNEX_PC_COST } from "../stations.js?v=6833c3e7603d";
+import { WALL_COST } from "../walls.js?v=6833c3e7603d";
+import { expansionPrice } from "../room.js?v=6833c3e7603d";
 export function shopPrice(s, id) {
     if (linuxMachineSpec(id))
         return linuxMachineSpec(id).cost;

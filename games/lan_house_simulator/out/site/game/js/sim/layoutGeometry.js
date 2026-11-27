@@ -1,11 +1,11 @@
-import { pcCount, pcPosition, entrance } from "./simulationState.js?v=f36771daf749";
-import { placedObject, turnPoint, vendingMachines, vendingApproach, purchaseApproach } from "./layout.js?v=f36771daf749";
-import { roomBounds } from "./room.js?v=f36771daf749";
-import { computerSeat, counterQueue } from "./route.js?v=f36771daf749";
-import { CUSTOMER_COLLISION_RADIUS } from "./checkoutQueue.js?v=f36771daf749";
-import { furnitureLocations, furnitureSlots } from "./furnitureLayout.js?v=f36771daf749";
-import { binSpots } from "./serviceLayout.js?v=f36771daf749";
-import { consoleFootprints, consoleApproaches } from "./consoleLayout.js?v=f36771daf749";
+import { pcCount, pcPosition, entrance } from "./simulationState.js?v=6833c3e7603d";
+import { placedObject, turnPoint, vendingMachines, vendingApproach, purchaseApproach } from "./layout.js?v=6833c3e7603d";
+import { roomBounds } from "./room.js?v=6833c3e7603d";
+import { computerSeat, counterQueue } from "./route.js?v=6833c3e7603d";
+import { CUSTOMER_COLLISION_RADIUS } from "./checkoutQueue.js?v=6833c3e7603d";
+import { furnitureLocations, furnitureSlots } from "./furnitureLayout.js?v=6833c3e7603d";
+import { binSpots } from "./serviceLayout.js?v=6833c3e7603d";
+import { consoleFootprints, consoleApproaches } from "./consoleLayout.js?v=6833c3e7603d";
 export function builtPosters(s) {
     const b = roomBounds(s), items = [
         [{ x: b.minX + .82, y: b.minY }, "x", "terminal"], [{ x: Math.max(b.minX + 3.25, b.maxX - 2.2), y: b.minY }, "x", "arcade"],

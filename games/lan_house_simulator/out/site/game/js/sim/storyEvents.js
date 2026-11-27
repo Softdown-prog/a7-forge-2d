@@ -1,14 +1,14 @@
-import { DAY_MINUTES } from "./types.js?v=f36771daf749";
-import { hasPlayableGpuGame } from "./gpuGames.js?v=f36771daf749";
-import { CHAIN_IDS, LEGACY_CHAIN_IDS } from "./stories/types.js?v=f36771daf749";
-import { STORIES } from "./stories/catalog.js?v=f36771daf749";
-import { applyStoryImpact, storyCost } from "./stories/economics.js?v=f36771daf749";
-import { LEGACY_STORIES } from "./stories/legacy.js?v=f36771daf749";
-import { FOLLOWUP_LABELS, FOLLOWUP_KEYS, PERSISTENT_ESCALATIONS } from "./stories/followups.js?v=f36771daf749";
+import { DAY_MINUTES } from "./types.js?v=6833c3e7603d";
+import { hasPlayableGpuGame } from "./gpuGames.js?v=6833c3e7603d";
+import { CHAIN_IDS, LEGACY_CHAIN_IDS } from "./stories/types.js?v=6833c3e7603d";
+import { STORIES } from "./stories/catalog.js?v=6833c3e7603d";
+import { applyStoryImpact, storyCost } from "./stories/economics.js?v=6833c3e7603d";
+import { LEGACY_STORIES } from "./stories/legacy.js?v=6833c3e7603d";
+import { FOLLOWUP_LABELS, FOLLOWUP_KEYS, PERSISTENT_ESCALATIONS } from "./stories/followups.js?v=6833c3e7603d";
 // Preserve the public API and the serialized IDs consumed by existing game saves.
-export { STORY_IDS, LEGACY_CHAIN_IDS, CHAIN_IDS } from "./stories/types.js?v=f36771daf749";
-export { STORIES } from "./stories/catalog.js?v=f36771daf749";
-export { storyVisitorMultiplier } from "./stories/economics.js?v=f36771daf749";
+export { STORY_IDS, LEGACY_CHAIN_IDS, CHAIN_IDS } from "./stories/types.js?v=6833c3e7603d";
+export { STORIES } from "./stories/catalog.js?v=6833c3e7603d";
+export { storyVisitorMultiplier } from "./stories/economics.js?v=6833c3e7603d";
 const chainDefinition = (id) => isStoryId(id) ? STORIES[id] : LEGACY_STORIES[id];
 export const isChainId = (id) => CHAIN_IDS.includes(id);
 export function registerLegacyStory(s, id, choiceId, choiceLabel) {
