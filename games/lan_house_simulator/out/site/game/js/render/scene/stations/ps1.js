@@ -1,6 +1,6 @@
 /** PS1 scene station: gameplay remains in sim/ps1.ts, procedural art in ps1Art.ts. */
-import { ps1StationPoint, ps1PlayableDisc } from "../../../sim/ps1.js?v=b715623ba9fb";
-import { drawPs1Station } from "../../ps1Art.js?v=b715623ba9fb";
+import { ps1StationPoint, ps1PlayableDisc } from "../../../sim/ps1.js?v=f36771daf749";
+import { drawPs1Station } from "../../ps1Art.js?v=f36771daf749";
 export function collectPs1Entries(ctx, camera, s, elapsedSeconds) {
     const entries = [];
     for (let i = 0; i < (s.ps1Stations?.length ?? 0); i++) {

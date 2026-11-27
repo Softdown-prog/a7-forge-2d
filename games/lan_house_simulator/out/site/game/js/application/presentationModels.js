@@ -1,11 +1,11 @@
-import { online, pcCount, pcWear, pcBroken } from "../sim/engine.js?v=b715623ba9fb";
-import { computerOccupancyPercent } from "../sim/financialReview.js?v=b715623ba9fb";
-import { isPromotionActive } from "../sim/promotion.js?v=b715623ba9fb";
-import { stationModelName } from "../sim/computerModels.js?v=b715623ba9fb";
-import { installedWindows, WINDOWS_ERAS } from "../sim/era.js?v=b715623ba9fb";
-import { isLinuxPc } from "../sim/linuxQuest.js?v=b715623ba9fb";
-import { hardwareFor, buildParts, formatMemory, describePart } from "../sim/hardware.js?v=b715623ba9fb";
-import { PRODUCTS, merchandiseStock } from "../sim/merchandise.js?v=b715623ba9fb";
+import { online, pcCount, pcWear, pcBroken } from "../sim/engine.js?v=f36771daf749";
+import { computerOccupancyPercent } from "../sim/financialReview.js?v=f36771daf749";
+import { isPromotionActive } from "../sim/promotion.js?v=f36771daf749";
+import { stationModelName } from "../sim/computerModels.js?v=f36771daf749";
+import { installedWindows, WINDOWS_ERAS } from "../sim/era.js?v=f36771daf749";
+import { isLinuxPc } from "../sim/linuxQuest.js?v=f36771daf749";
+import { hardwareFor, buildParts, formatMemory, describePart } from "../sim/hardware.js?v=f36771daf749";
+import { PRODUCTS, merchandiseStock } from "../sim/merchandise.js?v=f36771daf749";
 export function liveStatusSnapshot(s, internetName) {
     const stock = { soda: 0, candy: 0, snacks: 0 };
     for (const p of PRODUCTS)

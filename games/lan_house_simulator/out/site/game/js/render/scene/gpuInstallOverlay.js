@@ -1,6 +1,6 @@
-import { pcPosition } from "../../sim/engine.js?v=b715623ba9fb";
-import { gpuGameInstallPausedReason } from "../../sim/gpuGames.js?v=b715623ba9fb";
-import { iso } from "../isometric.js?v=b715623ba9fb";
+import { pcPosition } from "../../sim/engine.js?v=f36771daf749";
+import { gpuGameInstallPausedReason } from "../../sim/gpuGames.js?v=f36771daf749";
+import { iso } from "../isometric.js?v=f36771daf749";
 export function drawGpuInstallMarkers(ctx, s, camera, elapsedSeconds) {
     if (!s.gpuGameInstallJobs?.length)
         return;

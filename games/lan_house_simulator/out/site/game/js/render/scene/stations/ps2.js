@@ -1,6 +1,6 @@
 /** PS2 scene station: rules, render and registry are independent responsibilities. */
-import { ps2StationPoint, ps2PlayableGame } from "../../../sim/ps2.js?v=b715623ba9fb";
-import { drawPs2Station } from "../../ps2Art.js?v=b715623ba9fb";
+import { ps2StationPoint, ps2PlayableGame } from "../../../sim/ps2.js?v=f36771daf749";
+import { drawPs2Station } from "../../ps2Art.js?v=f36771daf749";
 export function collectPs2Entries(ctx, camera, s, elapsedSeconds) {
     const entries = [];
     for (let i = 0; i < (s.ps2Stations?.length ?? 0); i++) {

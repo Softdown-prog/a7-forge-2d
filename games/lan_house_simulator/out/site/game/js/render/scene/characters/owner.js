@@ -1,10 +1,10 @@
-import { counterPoint, placedObject } from "../../../sim/layout.js?v=b715623ba9fb";
-import { copyingAnimationActive } from "../../../sim/discCopy.js?v=b715623ba9fb";
-import { printingAnimationActive } from "../../../sim/printService.js?v=b715623ba9fb";
-import { cosmeticAvailable } from "../../../sim/premiumCosmetics.js?v=b715623ba9fb";
-import { yearFromMinutes } from "../../../sim/historicalEconomy.js?v=b715623ba9fb";
-import { actorHitbox } from "../../actorArt.js?v=b715623ba9fb";
-import { drawActorSprite as drawActor } from "../../actorSprites.js?v=b715623ba9fb";
+import { counterPoint, placedObject } from "../../../sim/layout.js?v=f36771daf749";
+import { copyingAnimationActive } from "../../../sim/discCopy.js?v=f36771daf749";
+import { printingAnimationActive } from "../../../sim/printService.js?v=f36771daf749";
+import { cosmeticAvailable } from "../../../sim/premiumCosmetics.js?v=f36771daf749";
+import { yearFromMinutes } from "../../../sim/historicalEconomy.js?v=f36771daf749";
+import { actorHitbox } from "../../actorArt.js?v=f36771daf749";
+import { drawActorSprite as drawActor } from "../../actorSprites.js?v=f36771daf749";
 export function drawSceneOwner(ctx, camera, t, s) {
     const position = counterPoint(s, { x: 1.45, y: 1.05 }), r = placedObject(s, "counter", { x: .9, y: 1.42 }).rotation ?? 0;
     // Mesmo rosto e uniforme em todos os quadros; o balcão oclui parcialmente o corpo.

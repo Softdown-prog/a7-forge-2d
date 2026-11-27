@@ -1,4 +1,4 @@
-import { cameraForGame, iso } from "../isometric.js?v=b715623ba9fb";
+import { cameraForGame, iso } from "../isometric.js?v=f36771daf749";
 export function drawServiceAccessOverlay(ctx, s, issues, time) {
     const cam = cameraForGame(s), z = cam.zoom;
     ctx.save();

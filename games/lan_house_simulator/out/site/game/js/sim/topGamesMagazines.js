@@ -1,8 +1,8 @@
-import { DAY_MINUTES } from "./types.js?v=b715623ba9fb";
-import { isHistorical, priceIndex, yearFromMinutes } from "./historicalEconomy.js?v=b715623ba9fb";
-import { PS1_CD_CATALOG } from "./ps1.js?v=b715623ba9fb";
-import { PS2_GAME_CATALOG } from "./ps2.js?v=b715623ba9fb";
-export { topGamesKnowsGame } from "./topGamesUnlockGate.js?v=b715623ba9fb";
+import { DAY_MINUTES } from "./types.js?v=f36771daf749";
+import { isHistorical, priceIndex, yearFromMinutes } from "./historicalEconomy.js?v=f36771daf749";
+import { PS1_CD_CATALOG } from "./ps1.js?v=f36771daf749";
+import { PS2_GAME_CATALOG } from "./ps2.js?v=f36771daf749";
+export { topGamesKnowsGame } from "./topGamesUnlockGate.js?v=f36771daf749";
 export const TOP_GAMES_FIRST_YEAR = 2002;
 export const TOP_GAMES_MONTHLY_BASE_PRICE = 12;
 /** Original PS1/PS2 artwork and game titles; never copyrighted brand magazine art. */

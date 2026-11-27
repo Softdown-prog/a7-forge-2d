@@ -1,6 +1,6 @@
-import { cameraForGame, iso } from "../isometric.js?v=b715623ba9fb";
-import { wallEndpoints, canBuildWall } from "../../sim/walls.js?v=b715623ba9fb";
-import { drawInteriorWall, drawInteriorDoor } from "./partitions.js?v=b715623ba9fb";
+import { cameraForGame, iso } from "../isometric.js?v=f36771daf749";
+import { wallEndpoints, canBuildWall } from "../../sim/walls.js?v=f36771daf749";
+import { drawInteriorWall, drawInteriorDoor } from "./partitions.js?v=f36771daf749";
 /** Building overlays stay separate from wall collision and navigation policy. */
 export function drawDoorCandidates(ctx, s, hovered) {
     const cam = cameraForGame(s);

@@ -1,4 +1,4 @@
-import { choice, story } from "../builders.js?v=b715623ba9fb";
+import { choice, story } from "../builders.js?v=f36771daf749";
 /** Independent story catalogue entry: lost-document. */
 export const definition = story("Cliente perdeu um trabalho importante", "Uma máquina travou durante uma atividade e o cliente diz ter perdido horas de trabalho.", "problem", [
     choice("document-refund", "Devolver o valor e oferecer ajuda", 45, "Acolhe a reclamação e revisa a máquina", "good", { reputation: 2 }),

@@ -1,4 +1,4 @@
-import { SCENE_THEME as theme } from "../theme.js?v=b715623ba9fb";
+import { SCENE_THEME as theme } from "../theme.js?v=f36771daf749";
 /** Branding plate painted after scene lighting, above depth-sorted furniture. */
 export function drawRoomSign(ctx, camera, w) {
     // Plaqueta de marca na área vazia do fundo: não cobre quadros nem clientes.

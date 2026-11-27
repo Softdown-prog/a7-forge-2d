@@ -1,6 +1,6 @@
-import { gameYear } from "../sim/era.js?v=b715623ba9fb";
-import { topGamesCanBuy } from "../sim/topGamesUnlockGate.js?v=b715623ba9fb";
-import { PS1_MAX_STATIONS, PS1_UNLOCK_YEAR, PS1_CD_CATALOG, ps1ReleasedDiscs, ps1DiscCopies, ps1DiscPrice } from "../sim/ps1.js?v=b715623ba9fb";
+import { gameYear } from "../sim/era.js?v=f36771daf749";
+import { topGamesCanBuy } from "../sim/topGamesUnlockGate.js?v=f36771daf749";
+import { PS1_MAX_STATIONS, PS1_UNLOCK_YEAR, PS1_CD_CATALOG, ps1ReleasedDiscs, ps1DiscCopies, ps1DiscPrice } from "../sim/ps1.js?v=f36771daf749";
 /** Shows the next yearly milestone without exposing unreleased titles or changing saves. */
 export function nextPs1DiscReleaseYear(rows) {
     if (!rows?.length)

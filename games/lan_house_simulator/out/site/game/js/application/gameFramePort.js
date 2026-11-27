@@ -1,9 +1,9 @@
 /** Domain-facing frame operations and transient feedback, without browser or Canvas. */
-import { stepGame } from "../sim/engine.js?v=b715623ba9fb";
-import { GAME_LAST_MINUTE } from "../sim/mailCalendar.js?v=b715623ba9fb";
-import { dispatchFrameEvents } from "./frameEventDispatch.js?v=b715623ba9fb";
-import { createFrameFeedbackPort } from "./frameFeedbackPort.js?v=b715623ba9fb";
-import { consumeNewMail, mailBaseline } from "./mailNotifications.js?v=b715623ba9fb";
+import { stepGame } from "../sim/engine.js?v=f36771daf749";
+import { GAME_LAST_MINUTE } from "../sim/mailCalendar.js?v=f36771daf749";
+import { dispatchFrameEvents } from "./frameEventDispatch.js?v=f36771daf749";
+import { createFrameFeedbackPort } from "./frameFeedbackPort.js?v=f36771daf749";
+import { consumeNewMail, mailBaseline } from "./mailNotifications.js?v=f36771daf749";
 export function createGameFramePort(getState, audio) {
     const popupQueues = { payments: [], sales: [], speech: [] };
     const feedback = createFrameFeedbackPort(getState, audio, popupQueues);

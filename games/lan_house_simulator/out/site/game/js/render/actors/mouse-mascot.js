@@ -1,4 +1,4 @@
-import { ell } from "./rigPrimitives.js?v=b715623ba9fb";
+import { ell } from "./rigPrimitives.js?v=f36771daf749";
 export const appearance = {
     style: { shirt: "#949FB5", dark: "#5D6F88", highlight: "#CFD7DE", pants: "#556079", hair: "#8C97A8", skin: "#D1B8B0", trim: "#E9BC92" },
     drawHair(detail) {

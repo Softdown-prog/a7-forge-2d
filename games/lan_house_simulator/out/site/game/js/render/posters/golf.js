@@ -1,4 +1,4 @@
-import { poly, disk, line } from "./primitives.js?v=b715623ba9fb";
+import { poly, disk, line } from "./primitives.js?v=f36771daf749";
 /** Individually owned procedural artwork for the golf poster. */
 export const golfPoster = {
     palette: ["#42879a", "#f3d77b", "#fff7db"],

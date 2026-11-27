@@ -1,11 +1,11 @@
-import { annualHourlyCeiling, isHistorical, priceIndex, sessionPrice, yearFromMinutes } from "./historicalEconomy.js?v=b715623ba9fb";
-import { furnitureSlots } from "./furnitureLayout.js?v=b715623ba9fb";
-import { consolePoint, consoleSeat, consoleApproach, consoleBusy, consoleFootprints } from "./consoleLayout.js?v=b715623ba9fb";
-import { layoutGoals, layoutPlacementIssue, objectTouchesCustomer } from "./layoutGeometry.js?v=b715623ba9fb";
-import { navigableRoute, canTraverseLocalStep, routesForCurrentCustomers } from "./navigation.js?v=b715623ba9fb";
-import { entrance } from "./simulationState.js?v=b715623ba9fb";
-import { topGamesCanBuy } from "./topGamesUnlockGate.js?v=b715623ba9fb";
-import { activeRetailQueuesReachable } from "./retailQueue.js?v=b715623ba9fb";
+import { annualHourlyCeiling, isHistorical, priceIndex, sessionPrice, yearFromMinutes } from "./historicalEconomy.js?v=f36771daf749";
+import { furnitureSlots } from "./furnitureLayout.js?v=f36771daf749";
+import { consolePoint, consoleSeat, consoleApproach, consoleBusy, consoleFootprints } from "./consoleLayout.js?v=f36771daf749";
+import { layoutGoals, layoutPlacementIssue, objectTouchesCustomer } from "./layoutGeometry.js?v=f36771daf749";
+import { navigableRoute, canTraverseLocalStep, routesForCurrentCustomers } from "./navigation.js?v=f36771daf749";
+import { entrance } from "./simulationState.js?v=f36771daf749";
+import { topGamesCanBuy } from "./topGamesUnlockGate.js?v=f36771daf749";
+import { activeRetailQueuesReachable } from "./retailQueue.js?v=f36771daf749";
 export const PS2_UNLOCK_YEAR = 2006;
 export const PS2_MAX_STATIONS = 3;
 export const PS2_BASE_BENCH_PRICE = 980;
@@ -226,7 +226,7 @@ export function setPs2Power(s, index, on) {
     st.poweredOff = !on;
     return { ok: true, message: on ? "PS2 ligado." : "PS2 desligado. Atendimento pausado." };
 }
-export { ps2EnergyCostPerMinute } from "./consoleEnergy.js?v=b715623ba9fb";
+export { ps2EnergyCostPerMinute } from "./consoleEnergy.js?v=f36771daf749";
 export function ps2SessionWear(s, index) {
     const st = s.ps2Stations?.[index];
     if (st)

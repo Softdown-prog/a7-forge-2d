@@ -1,6 +1,6 @@
-import { iso, polygon, raisedCuboid } from "./isometric.js?v=b715623ba9fb";
-import { drawRasterCached, rasterCacheUsable } from "./rasterCache.js?v=b715623ba9fb";
-import { contactShadow, faceVisible as visible } from "./planeArt.js?v=b715623ba9fb";
+import { iso, polygon, raisedCuboid } from "./isometric.js?v=f36771daf749";
+import { drawRasterCached, rasterCacheUsable } from "./rasterCache.js?v=f36771daf749";
+import { contactShadow, faceVisible as visible } from "./planeArt.js?v=f36771daf749";
 const PRINTER = { x: .84, y: .075, w: .51, d: .28, base: 55.2 };
 /** Position of a point on the front face (u across, v up), just outside the body. */
 function frontPoint(cam, counter, u, z, out = .003) {

@@ -1,4 +1,4 @@
-import { iconMarkup } from "./presentation.js?v=b715623ba9fb";
+import { iconMarkup } from "./presentation.js?v=f36771daf749";
 export function renderHardwarePanel(view, doc = document) {
     const { index, year, tab, page } = view;
     const element = (tag, className = "", text = "") => {
